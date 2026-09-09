@@ -8,7 +8,6 @@ TF-IDF + one-vs-rest logistic regression baseline for multi-label clause classif
 Used one-vs-rest logistic regression to split 41 category problem into 41 binary classification tasks
 
 Notable Features:
-Initializes TF-IDF vectorizer and one-vs-rest logistic regression baseline
 max_features caps vocab to the x most informative words
 ngram_range allows for both single words and two-word phrases (e.g., termination clause or governing law)
 stop_words strips filler words (e.g., the, and, of, or)
