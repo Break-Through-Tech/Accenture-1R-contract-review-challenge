@@ -1,4 +1,4 @@
-from sklearn.feature_extraction import TfidfVectorizer
+from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn.multiclass import OneVsRestClassifier
 import numpy as np
