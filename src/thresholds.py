@@ -28,6 +28,6 @@ def apply_thresholds(y_proba, categories, thresholds):
 
     # Applies new threshold
     for i, cat in enumerate(categories):
-        preds[:, 1] = (y_proba[:, 1] >= thresholds[cat]).astype(int)
+        preds[:, i] = (y_proba[:, i] >= thresholds[cat]).astype(int)
         
     return preds
