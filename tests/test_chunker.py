@@ -1,6 +1,5 @@
 import json
 from pathlib import Path
-
 import pytest
 from src.chunking.chunker import chunk_contract
 

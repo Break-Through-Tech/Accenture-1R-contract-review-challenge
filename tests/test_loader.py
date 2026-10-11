@@ -1,8 +1,6 @@
 import json
 from pathlib import Path
-
 import pytest
-
 from src.labels.loader import AnswerSpan, load_cuad
 
 
