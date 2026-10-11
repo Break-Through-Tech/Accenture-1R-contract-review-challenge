@@ -1,6 +1,8 @@
-import pytest
 import json
 from pathlib import Path
+
+import pytest
+
 from src.labels.loader import AnswerSpan, load_cuad
 
 
@@ -64,7 +66,7 @@ def test_load_cuad_question_id_yields_category_name(tmp_path, qa_id, expected):
 # ----- Loader: ungrounded spans are rejected -----
 def test_load_cuad_misaligned_offset_raises_value_error(tmp_path):
     """Checks load_cuad raises ValueError when answer_start points at the wrong text."""
-    # "Beta" actually starts at 6, so claiming 0 makes the slice context[0:4] = "Alph"
+    # "Beta" starts at 6, so claiming 0 makes the slice context[0:4] = "Alph"
     context = "Alpha Beta"
     qas = [{"id": "T__Parties_0", "answers": [{"text": "Beta", "answer_start": 0}]}]
     path = write_cuad_json(tmp_path, context, qas)
