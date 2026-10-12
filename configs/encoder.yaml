@@ -1,0 +1,19 @@
+# Model & chunking
+model_name: distilbert/distilroberta-base
+max_length: 512
+window_chars: 1500
+overlap_chars: 200
+
+# Split & optimization
+val_fraction: 0.2
+seed: 42
+lr: 3.0e-5
+epochs: 4
+batch_size: 16
+grad_accum: 2
+fp16: true
+pos_weight_cap: 50.0 
+
+# Outputs
+output_dir: outputs/encoder
+mlflow_experiment: clausetriage-encoder
