@@ -1,5 +1,46 @@
 # AI Studio Challenge Project Title
 
+### PR #48 comparison on the saved development split
+
+`scripts/compare_gwen_chunking.py` evaluates Gwen's exact prototype from PR #48
+commit `94d6d3d8b332de91338625bde100259a1717728b` alongside the four existing
+strategies. `src/chunking/gwen_adapter.py` loads the reviewed Git source blob
+unchanged, verifies that both commits use the identical `Chunk` implementation,
+and records the source SHA-256. It does not merge, copy-edit, or repair her algorithm.
+
+Her explicit `window_tokens=480` counts **document content tokens**, excluding
+special tokens; `overlap_tokens=120` is also a document-token target. Our
+`max_tokens=512` includes special tokens, with overlap targeting 64 content tokens.
+Every final source slice is independently measured including special tokens,
+with truncation and padding disabled. Gwen's algorithm does not enforce that
+post-slice budget itself; observed overflow is reported rather than corrected.
+
+The saved `results/token_chunking_development/report.json` is the authoritative
+manifest. The runner verifies its dataset hash, package versions, tokenizer revision,
+category mapping, and evaluation settings. It selects the exact 326 saved development
+IDs in saved order, checking that the 82 validation IDs are distinct and excluded.
+No new split is generated. All five methods are rerun together so runtime uses
+the same loaded tokenizer and wall-clock policy: generation, source-coverage audit,
+any-overlap label projection, and scoring/token measurement are timed separately.
+The four existing methods' span/cost results must equal their saved results before
+the comparison is written. The original four-method artifacts are preserved.
+
+With the existing project environment and pinned tokenizer cache, run:
+
+```sh
+git fetch origin 94d6d3d8b332de91338625bde100259a1717728b
+PYTHONDONTWRITEBYTECODE=1 HF_HUB_OFFLINE=1 .venv/bin/python -B -m pytest -p no:cacheprovider
+PYTHONDONTWRITEBYTECODE=1 HF_HUB_OFFLINE=1 TOKENIZERS_PARALLELISM=false .venv/bin/python -B -m scripts.compare_gwen_chunking
+```
+
+No new dependencies are needed. Environment mismatches fail explicitly; consult
+the saved report's version manifest before reproducing on another machine.
+Compact reports and findings are under `results/token_chunking_comparison/`;
+the detailed `chunks.csv` remains generated locally and ignored. Source or coverage
+failures are written to `verification_failures.json` and stop the evaluation,
+without dropping contracts or repairing outputs. Model-budget failures remain
+visible as overflow counts. This comparison does not run validation or train a model.
+
 ### Issue #12: token-aware development experiment
 
 The shared `chunk_contract` remains unchanged. Two isolated functions in
@@ -38,8 +79,9 @@ reported separately. Section-heading heuristics are deferred; headings stay in
 the source and are never prepended. Sentence detection is imperfect, particularly
 on citations, abbreviations, numbering, and formatted legal text.
 
-The runner reuses `load_cuad`, `CATEGORIES`, `project_labels` (any character overlap),
-and `split_by_contract(seed=42, val_fraction=0.2)`. It evaluates only the **326
+The runner reuses `load_cuad`, `CATEGORIES`, and `project_labels` (any character overlap),
+and the saved IDs originally produced by `split_by_contract(seed=42, val_fraction=0.2)`.
+It evaluates only the **326
 development contracts**, records the 82 validation IDs, and has no validation-run
 option. Earlier exploration covered all 408 official training-file contracts, so
 validation is not a pristine holdout. Do not use `test.json` for this experiment.
