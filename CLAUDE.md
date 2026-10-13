@@ -16,10 +16,11 @@ Guidance for Claude Code in this repo. ARCHITECTURE.md is the source of truth fo
 
 ## Repo Layout
 
-- `src/`: `metrics.py` (per-category P/R/F1), `thresholds.py` (per-class F1-optimal thresholds), `models/naive/tfid_baseline.py` (TF-IDF + one-vs-rest logistic regression), `evidence/` (Pydantic `Evidence` schema), `chunking/` (`chunk.py` holds the `Chunk` model, `chunker.py` holds `chunk_contract`).
+- `src/`: `metrics.py` (per-category P/R/F1, AUPR and the Trainer's macro AUPR hook), `thresholds.py` (per-class F1-optimal thresholds), `labels/` (`loader.py` CUAD loader, `categories.py` fixed category order, `projection.py` spans to chunk labels, `splits.py` grouped train/val split), `chunking/` (`chunk.py` holds the `Chunk` model, `chunker.py` holds `chunk_contract`), `models/naive/tfid_baseline.py` (TF-IDF + one-vs-rest logistic regression), `models/encoder/` (`config.py` `TrainConfig`, `dataset.py` chunk labeling, tokenizing and collator, `loss.py` `pos_weight` and `WeightedBCETrainer`, `train.py`, `predict.py`, `evaluate.py`), `evidence/` (Pydantic `Evidence` schema, on `feature/22-evidence-extraction`).
 - `tests/`: pytest modules, one `test_<module>.py` per `src/` module. `pytest.ini` at the repo root sets `pythonpath = .`, so run `pytest` or `python -m pytest` from the root.
+- `configs/`: YAML run configs (`encoder.yaml`). `scripts/`: development utilities run as `python -m scripts.<name>` (for example `smoke_train.py`).
 - `notebooks/`: exploration and plots only. Pipeline logic belongs in `src/`, imported by the notebooks.
-- `data/cuad/`: dataset JSON, `category_descriptions.csv`, `eda.py`, `EDA_SUMMARY.md`. `results/` holds metric CSVs.
+- `data/cuad/`: dataset JSON, `category_descriptions.csv`, `eda.py`, `EDA_SUMMARY.md`. `results/` holds metric CSVs. `outputs/` holds training outputs (checkpoints, MLflow files) and is gitignored.
 
 ## Code Style
 
@@ -40,11 +41,11 @@ Guidance for Claude Code in this repo. ARCHITECTURE.md is the source of truth fo
 - **Risk scoring is rule-based,** with weights in a versioned config owned by the advisor. Every score records its `weight_version_id`, and edits create a new version.
 - **Respect scope tiers:** build core work (chunker, encoder, scoring, register export) before FastAPI/Gradio. React, Postgres and Alembic are deferred.
 
-## Planned Stack (not yet installed)
+## Planned Stack (partly installed)
 
-- Models: DistilRoBERTa through the Hugging Face Trainer (BCE with `pos_weight`), trained on a Colab T4 and run on CPU for inference. MLflow on SQLite for tracking and the model registry.
-- Storage and API: SQLite with SQLAlchemy, then FastAPI with Gradio mounted inside it.
-- Tooling: migrate to an installable `clausetriage/` package (`pyproject.toml`, `uv`), with pytest golden tests, ruff and GitHub Actions.
+- Models (installed, in `requirements.txt`): DistilRoBERTa through the Hugging Face Trainer (BCE with `pos_weight`), trained on a Colab T4 and run on CPU for inference. MLflow on SQLite for tracking and the model registry is installed but not yet wired in.
+- Storage and API (not yet in `requirements.txt`): SQLite with SQLAlchemy, then FastAPI with Gradio mounted inside it.
+- Tooling (not yet set up): migrate to an installable `clausetriage/` package (`pyproject.toml`, `uv`), with pytest golden tests, ruff and GitHub Actions.
 
 ## Workflow
 
@@ -55,24 +56,31 @@ Guidance for Claude Code in this repo. ARCHITECTURE.md is the source of truth fo
 
 # Current Status of Project
 
-Status reflects `main` plus two unmerged branches: `feature/22-evidence-extraction` and the chunker branch (`init-chunker-data-pipeline`).
+Status reflects `main` (through PR #45) plus unmerged branches: `init-transformer-encoder-training` (encoder), `feature/sentence-chunking-integration` (includes `feature/12-chunking-evaluation`), `feature/pipeline-integration`, `experiment/token-aware-chunking` and `feature/22-evidence-extraction`.
 
-**Done**
+**Done (on `main`)**
 - EDA: 408 training contracts, 41 categories, about 50% of questions answered. Category imbalance is documented in `EDA_SUMMARY.md`.
 - TF-IDF baseline with per-category metrics and per-class threshold tuning (`notebooks/baseline_test.ipynb`). The `apply_thresholds` indexing bug is fixed (PR #43) and `results/tfidf_baseline_metrics.csv` is regenerated.
-- `Evidence` Pydantic schema with span validation (`src/evidence/schema.py`, on `feature/22-evidence-extraction`, PR not yet merged). Its offsets are chunk-relative.
-- `Chunk` Pydantic schema (`src/chunking/chunk.py`) with span validation, and a naive fixed-window chunker stub `chunk_contract(contract_id, text, window_chars, overlap_chars)` (`src/chunking/chunker.py`), on the chunker branch, PR not yet merged. `Chunk.start`/`end` are absolute, end-exclusive offsets into the original contract text, so `text[start:end] == chunk.text`.
-- Golden and invariant tests for the chunker in `tests/test_chunker.py` (18 tests, including real CUAD contracts), with `pytest` and `pydantic` added to `requirements.txt`.
-- `__pycache__` files are untracked and covered by `.gitignore`.
+- `Chunk` schema with span validation and a naive fixed-window chunker stub `chunk_contract(contract_id, text, window_chars, overlap_chars)` (`src/chunking/`, PR #44), with golden and invariant tests. `Chunk.start`/`end` are absolute, end-exclusive offsets into the original contract text, so `text[start:end] == chunk.text`.
+- Label preparation (`src/labels/`, PR #45): CUAD loader with grounded answer spans, fixed alphabetical `CATEGORIES` order, any-overlap span-to-chunk projection (`LabeledChunk`) and a seeded train/val split grouped by contract, all with tests.
+
+**Done (unmerged branches)**
+- `init-transformer-encoder-training`: DistilRoBERTa training pipeline in `src/models/encoder/`, driven by `configs/encoder.yaml` (800/200 fixed windows, `pos_weight_cap` 50): `TrainConfig`, `ChunkDataset`/`ChunkCollator`, `compute_pos_weight`, `WeightedBCETrainer`, `fit`/`train` and a CLI (`python -m src.models.encoder.train`), with macro AUPR checkpoint selection (`compute_aupr`, `compute_transformer_metrics` in `src/metrics.py`). Inference and grading: `predict_proba` and checkpoint loaders (`predict.py`), and `evaluate.py` (per-class thresholds, per-category P/R/F1/AUPR, saved validation probabilities). `scripts/smoke_train.py` overfits a tiny subset on CPU (macro AUPR 1.0) and `notebooks/window_experiment.ipynb` records the window choice. 258 tests pass.
+- `feature/sentence-chunking-integration`: chunking evaluation on the 326 development contracts. A sentence-aware 512/64 token chunker (`src/chunking/token_chunker.py`) keeps 98.8% of annotated clauses whole with no chunk over 512 tokens, versus 81.2% (0.6% over) for fixed 800/200, plus a `src/pipeline.py` that prepares labeled chunks.
+- `feature/pipeline-integration`: an earlier fixed-window `src/pipeline.py`. `experiment/token-aware-chunking`: a token-window prototype, compared in the chunking evaluation.
+- `feature/22-evidence-extraction`: `Evidence` Pydantic schema with span validation (`src/evidence/schema.py`). Its offsets are chunk-relative.
 
 **In progress / known issues**
-- `evidence/extractor.py` is empty, so the heuristic sentence selection is still to be written.
-- The baseline uses a random 80/20 split with whole contracts as chunks. It needs a grouped-by-contract split and the chunker.
-- The chunker is a naive stub: it cuts every N characters and ignores sentence and clause boundaries, so it can split a clause. `chunk_contract` has no default window or overlap yet. The real chunker must keep the same signature and `Chunk` output and pass the same tests.
-- Converting `Evidence` offsets to contract coordinates (`chunk.start + evidence.start`) is not implemented yet.
+- The encoder is not yet trained on real data. The full run goes on a Colab T4 (the fp16 path is untested and local torch is CPU-only), then `evaluate.py`, MLflow logging, and the model registry on a separate branch.
+- The encoder trains on the fixed-window stub. Retrain on the sentence-aware chunker once it is merged. The chunk settings are saved with each checkpoint (`train_config.json`) and inference must reuse them.
+- Dependency conflict: the sentence branch pins `transformers==4.57.6` (plus `tokenizers` and `nupunkt`), while the encoder code was written and tested on transformers 5.19 (for example fractional `warmup_steps`). Settle one version before merging.
+- `feature/pipeline-integration` and `feature/sentence-chunking-integration` both add `src/pipeline.py` (and `scripts/`), so they will conflict.
+- `pos_weight_cap` 50 binds for 37 of 41 categories. Compare 50, 100 and square-root weights after the first full run.
+- The baseline still uses a random 80/20 split on whole contracts. Re-run it on the grouped split and the same chunks before comparing it with the encoder.
+- `evidence/extractor.py` is empty, so the heuristic sentence selection is still to be written. Converting `Evidence` offsets to contract coordinates (`chunk.start + evidence.start`) is not implemented.
 
 **Next**
-- CUAD loader that yields `(contract_id, text, answer_spans)`, then label projection (spans to multi-hot labels for each chunk), including how to treat spans that straddle chunks.
-- Choose default window and overlap sizes, then replace the stub with a boundary-aware chunker (paragraphs, numbered sections, sentences).
-- DistilRoBERTa fine-tuning script logged to MLflow.
+- Open the encoder PR, run the full Colab training and evaluation, and compare per-category results with the baseline on the same chunks.
+- Merge the sentence-aware chunker, resolve the dependency pins and retrain.
+- MLflow logging and model registry, then evidence extraction, rule-based scoring and register export, before FastAPI/Gradio.
 - Settle the 4 risk signals with the advisor ASAP. The scoring schema is blocked until then.
