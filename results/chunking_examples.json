@@ -1,0 +1,611 @@
+{
+  "dataset": "data/cuad/train_separate_questions.json",
+  "contract_records": 408,
+  "deduplication_key": [
+    "contract_id",
+    "category",
+    "start",
+    "end"
+  ],
+  "reports": [
+    {
+      "metrics": {
+        "window_chars": 800,
+        "overlap_chars": 200,
+        "raw_annotations": 11180,
+        "unique_annotations": 11180,
+        "duplicate_annotations": 0,
+        "cut_annotations": 6164,
+        "contained_annotations": 9133,
+        "cut_not_contained_annotations": 2047,
+        "longer_than_window_annotations": 474,
+        "cut_pct": 55.13416815742397,
+        "contained_pct": 81.69051878354205,
+        "cut_not_contained_pct": 18.30948121645796,
+        "longer_than_window_pct": 4.2397137745974955
+      },
+      "examples": [
+        {
+          "kind": "uncut_and_contained",
+          "contract_id": "LIMEENERGYCO_09_09_1999-EX-10-DISTRIBUTOR AGREEMENT",
+          "category": "Document Name",
+          "start": 44,
+          "end": 65,
+          "annotation_preview": "DISTRIBUTOR AGREEMENT",
+          "preview_truncated": false,
+          "cutting_chunks": [],
+          "containing_chunks": [
+            [
+              0,
+              800
+            ]
+          ],
+          "boundary_excerpts": []
+        },
+        {
+          "kind": "cut_and_contained",
+          "contract_id": "LIMEENERGYCO_09_09_1999-EX-10-DISTRIBUTOR AGREEMENT",
+          "category": "Effective Date",
+          "start": 31058,
+          "end": 31270,
+          "annotation_preview": "Unless  earlier   terminated   otherwise  provided                   therein,  this  Agreement,  subject to the  commencement  date                   established  in Section 1.3,  shall be effective  immediately.",
+          "preview_truncated": false,
+          "cutting_chunks": [
+            [
+              31200,
+              32000
+            ]
+          ],
+          "containing_chunks": [
+            [
+              30600,
+              31400
+            ]
+          ],
+          "boundary_excerpts": [
+            {
+              "boundary": 31200,
+              "start": 31140,
+              "end": 31260,
+              "text": "s  Agreement,  subject to the  commencement  date                   established  in Section 1.3,  shall be effective  im"
+            }
+          ]
+        },
+        {
+          "kind": "cut_not_contained",
+          "contract_id": "LIMEENERGYCO_09_09_1999-EX-10-DISTRIBUTOR AGREEMENT",
+          "category": "Exclusivity",
+          "start": 2112,
+          "end": 2611,
+          "annotation_preview": "Company  hereby   appoints                            Distributor as Company's exclusive distributor within                            the Market and grants to  Distributor  the  exclusive                            right  to sell and  dist",
+          "preview_truncated": true,
+          "cutting_chunks": [
+            [
+              1800,
+              2600
+            ],
+            [
+              2400,
+              3200
+            ]
+          ],
+          "containing_chunks": [],
+          "boundary_excerpts": [
+            {
+              "boundary": 2400,
+              "start": 2340,
+              "end": 2460,
+              "text": "ll and  distribute  Products  within  the                            Market,   and   Distributor   hereby   accepts   su"
+            },
+            {
+              "boundary": 2600,
+              "start": 2540,
+              "end": 2660,
+              "text": "the                            terms and conditions of this  Agreement.  Distributor                            acknowle"
+            }
+          ]
+        },
+        {
+          "kind": "longer_than_window",
+          "contract_id": "LIMEENERGYCO_09_09_1999-EX-10-DISTRIBUTOR AGREEMENT",
+          "category": "Price Restrictions",
+          "start": 17271,
+          "end": 18319,
+          "annotation_preview": "The Company  also  reserves  the right to                            increase  or  decrease  the price  per unit  based on                            Company   wide   changes   in  unit   prices  to  all                            distribut",
+          "preview_truncated": true,
+          "cutting_chunks": [
+            [
+              16800,
+              17600
+            ],
+            [
+              17400,
+              18200
+            ],
+            [
+              18000,
+              18800
+            ]
+          ],
+          "containing_chunks": [],
+          "boundary_excerpts": [
+            {
+              "boundary": 17400,
+              "start": 17340,
+              "end": 17460,
+              "text": "increase  or  decrease  the price  per unit  based on                            Company   wide   changes   in  unit   p"
+            },
+            {
+              "boundary": 17600,
+              "start": 17540,
+              "end": 17660,
+              "text": " however,  that                            any price changes, other than those based on the CPI,                        "
+            },
+            {
+              "boundary": 18000,
+              "start": 17940,
+              "end": 18060,
+              "text": "cturing the Products                            and/or  market  demand  for  the  Products,  provided                   "
+            },
+            {
+              "boundary": 18200,
+              "start": 18140,
+              "end": 18260,
+              "text": "          demand   shall   not  be  so  great  as  to   deprive                            Distributor  of  its  normal "
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "metrics": {
+        "window_chars": 1500,
+        "overlap_chars": 200,
+        "raw_annotations": 11180,
+        "unique_annotations": 11180,
+        "duplicate_annotations": 0,
+        "cut_annotations": 3365,
+        "contained_annotations": 10101,
+        "cut_not_contained_annotations": 1079,
+        "longer_than_window_annotations": 70,
+        "cut_pct": 30.098389982110913,
+        "contained_pct": 90.34883720930233,
+        "cut_not_contained_pct": 9.651162790697674,
+        "longer_than_window_pct": 0.6261180679785331
+      },
+      "examples": [
+        {
+          "kind": "uncut_and_contained",
+          "contract_id": "LIMEENERGYCO_09_09_1999-EX-10-DISTRIBUTOR AGREEMENT",
+          "category": "Document Name",
+          "start": 44,
+          "end": 65,
+          "annotation_preview": "DISTRIBUTOR AGREEMENT",
+          "preview_truncated": false,
+          "cutting_chunks": [],
+          "containing_chunks": [
+            [
+              0,
+              1500
+            ]
+          ],
+          "boundary_excerpts": []
+        },
+        {
+          "kind": "cut_and_contained",
+          "contract_id": "LIMEENERGYCO_09_09_1999-EX-10-DISTRIBUTOR AGREEMENT",
+          "category": "Parties",
+          "start": 49574,
+          "end": 49606,
+          "annotation_preview": "Electric City of Illinois L.L.C.",
+          "preview_truncated": false,
+          "cutting_chunks": [
+            [
+              48100,
+              49600
+            ]
+          ],
+          "containing_chunks": [
+            [
+              49400,
+              50900
+            ]
+          ],
+          "boundary_excerpts": [
+            {
+              "boundary": 49600,
+              "start": 49540,
+              "end": 49660,
+              "text": "Distributor to:                   Electric City of Illinois L.L.C.                   8628 Oketo Avenue                  "
+            }
+          ]
+        },
+        {
+          "kind": "cut_not_contained",
+          "contract_id": "LIMEENERGYCO_09_09_1999-EX-10-DISTRIBUTOR AGREEMENT",
+          "category": "No-Solicit Of Employees",
+          "start": 43929,
+          "end": 44448,
+          "annotation_preview": "During the Term of this Agreement and for a period of                            twelve (12) months  thereafter,  the  Distributor (on                            behalf of itself,  each of its affiliates and each of                         ",
+          "preview_truncated": true,
+          "cutting_chunks": [
+            [
+              42900,
+              44400
+            ],
+            [
+              44200,
+              45700
+            ]
+          ],
+          "containing_chunks": [],
+          "boundary_excerpts": [
+            {
+              "boundary": 44200,
+              "start": 44140,
+              "end": 44260,
+              "text": "h of                            their respective representatives) agrees that it will                            not  di"
+            },
+            {
+              "boundary": 44400,
+              "start": 44340,
+              "end": 44460,
+              "text": "ive,  managerial  or technical  employee of the                            Company or any of its affiliates.\n\n          "
+            }
+          ]
+        },
+        {
+          "kind": "longer_than_window",
+          "contract_id": "ReynoldsConsumerProductsInc_20191115_S-1_EX-10.18_11896469_EX-10.18_Supply Agreement",
+          "category": "Insurance",
+          "start": 22606,
+          "end": 24281,
+          "annotation_preview": "An insuring Party must deliver the following written evidence of the required insurance coverage to the other Party (Attention: Risk Management), or its designated insurance monitoring service, within ten (10) of written request and at leas",
+          "preview_truncated": true,
+          "cutting_chunks": [
+            [
+              22100,
+              23600
+            ],
+            [
+              23400,
+              24900
+            ]
+          ],
+          "containing_chunks": [],
+          "boundary_excerpts": [
+            {
+              "boundary": 23400,
+              "start": 23340,
+              "end": 23460,
+              "text": "copy of the binder until the declaration pages are available) confirming that the required insurance coverage and minima"
+            },
+            {
+              "boundary": 23600,
+              "start": 23540,
+              "end": 23660,
+              "text": "es of additional insured endorsements required for applicable policies in the name and for the benefit of: \"[NAME OF OTH"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "metrics": {
+        "window_chars": 800,
+        "overlap_chars": 0,
+        "raw_annotations": 11180,
+        "unique_annotations": 11180,
+        "duplicate_annotations": 0,
+        "cut_annotations": 3416,
+        "contained_annotations": 7764,
+        "cut_not_contained_annotations": 3416,
+        "longer_than_window_annotations": 474,
+        "cut_pct": 30.554561717352414,
+        "contained_pct": 69.44543828264759,
+        "cut_not_contained_pct": 30.554561717352414,
+        "longer_than_window_pct": 4.2397137745974955
+      },
+      "examples": [
+        {
+          "kind": "uncut_and_contained",
+          "contract_id": "LIMEENERGYCO_09_09_1999-EX-10-DISTRIBUTOR AGREEMENT",
+          "category": "Document Name",
+          "start": 44,
+          "end": 65,
+          "annotation_preview": "DISTRIBUTOR AGREEMENT",
+          "preview_truncated": false,
+          "cutting_chunks": [],
+          "containing_chunks": [
+            [
+              0,
+              800
+            ]
+          ],
+          "boundary_excerpts": []
+        },
+        {
+          "kind": "cut_not_contained",
+          "contract_id": "LIMEENERGYCO_09_09_1999-EX-10-DISTRIBUTOR AGREEMENT",
+          "category": "Parties",
+          "start": 49574,
+          "end": 49606,
+          "annotation_preview": "Electric City of Illinois L.L.C.",
+          "preview_truncated": false,
+          "cutting_chunks": [
+            [
+              48800,
+              49600
+            ],
+            [
+              49600,
+              50400
+            ]
+          ],
+          "containing_chunks": [],
+          "boundary_excerpts": [
+            {
+              "boundary": 49600,
+              "start": 49540,
+              "end": 49660,
+              "text": "Distributor to:                   Electric City of Illinois L.L.C.                   8628 Oketo Avenue                  "
+            }
+          ]
+        },
+        {
+          "kind": "longer_than_window",
+          "contract_id": "LIMEENERGYCO_09_09_1999-EX-10-DISTRIBUTOR AGREEMENT",
+          "category": "Price Restrictions",
+          "start": 17271,
+          "end": 18319,
+          "annotation_preview": "The Company  also  reserves  the right to                            increase  or  decrease  the price  per unit  based on                            Company   wide   changes   in  unit   prices  to  all                            distribut",
+          "preview_truncated": true,
+          "cutting_chunks": [
+            [
+              16800,
+              17600
+            ],
+            [
+              17600,
+              18400
+            ]
+          ],
+          "containing_chunks": [],
+          "boundary_excerpts": [
+            {
+              "boundary": 17600,
+              "start": 17540,
+              "end": 17660,
+              "text": " however,  that                            any price changes, other than those based on the CPI,                        "
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "metrics": {
+        "window_chars": 1500,
+        "overlap_chars": 0,
+        "raw_annotations": 11180,
+        "unique_annotations": 11180,
+        "duplicate_annotations": 0,
+        "cut_annotations": 1975,
+        "contained_annotations": 9205,
+        "cut_not_contained_annotations": 1975,
+        "longer_than_window_annotations": 70,
+        "cut_pct": 17.6654740608229,
+        "contained_pct": 82.3345259391771,
+        "cut_not_contained_pct": 17.6654740608229,
+        "longer_than_window_pct": 0.6261180679785331
+      },
+      "examples": [
+        {
+          "kind": "uncut_and_contained",
+          "contract_id": "LIMEENERGYCO_09_09_1999-EX-10-DISTRIBUTOR AGREEMENT",
+          "category": "Document Name",
+          "start": 44,
+          "end": 65,
+          "annotation_preview": "DISTRIBUTOR AGREEMENT",
+          "preview_truncated": false,
+          "cutting_chunks": [],
+          "containing_chunks": [
+            [
+              0,
+              1500
+            ]
+          ],
+          "boundary_excerpts": []
+        },
+        {
+          "kind": "cut_not_contained",
+          "contract_id": "LIMEENERGYCO_09_09_1999-EX-10-DISTRIBUTOR AGREEMENT",
+          "category": "No-Solicit Of Customers",
+          "start": 44904,
+          "end": 45202,
+          "annotation_preview": "Term of the  Agreement  and for a period of  eighteen\n\n\n\n\n\n                           (18) months thereafter,  nor will Distributor solicit                            any  customer  or  potential  customer  of Company to                    ",
+          "preview_truncated": true,
+          "cutting_chunks": [
+            [
+              43500,
+              45000
+            ],
+            [
+              45000,
+              46500
+            ]
+          ],
+          "containing_chunks": [],
+          "boundary_excerpts": [
+            {
+              "boundary": 45000,
+              "start": 44940,
+              "end": 45060,
+              "text": "riod of  eighteen\n\n\n\n\n\n                           (18) months thereafter,  nor will Distributor solicit                 "
+            }
+          ]
+        },
+        {
+          "kind": "longer_than_window",
+          "contract_id": "ReynoldsConsumerProductsInc_20191115_S-1_EX-10.18_11896469_EX-10.18_Supply Agreement",
+          "category": "Insurance",
+          "start": 22606,
+          "end": 24281,
+          "annotation_preview": "An insuring Party must deliver the following written evidence of the required insurance coverage to the other Party (Attention: Risk Management), or its designated insurance monitoring service, within ten (10) of written request and at leas",
+          "preview_truncated": true,
+          "cutting_chunks": [
+            [
+              22500,
+              24000
+            ],
+            [
+              24000,
+              25500
+            ]
+          ],
+          "containing_chunks": [],
+          "boundary_excerpts": [
+            {
+              "boundary": 24000,
+              "start": 23940,
+              "end": 24060,
+              "text": "ver of subrogation endorsements required for applicable policies in the name and for the benefit of: \"\"[NAME OF OTHER PA"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "metrics": {
+        "window_chars": 3000,
+        "overlap_chars": 200,
+        "raw_annotations": 11180,
+        "unique_annotations": 11180,
+        "duplicate_annotations": 0,
+        "cut_annotations": 1445,
+        "contained_annotations": 10704,
+        "cut_not_contained_annotations": 476,
+        "longer_than_window_annotations": 4,
+        "cut_pct": 12.924865831842576,
+        "contained_pct": 95.74239713774597,
+        "cut_not_contained_pct": 4.257602862254025,
+        "longer_than_window_pct": 0.03577817531305903
+      },
+      "examples": [
+        {
+          "kind": "uncut_and_contained",
+          "contract_id": "LIMEENERGYCO_09_09_1999-EX-10-DISTRIBUTOR AGREEMENT",
+          "category": "Document Name",
+          "start": 44,
+          "end": 65,
+          "annotation_preview": "DISTRIBUTOR AGREEMENT",
+          "preview_truncated": false,
+          "cutting_chunks": [],
+          "containing_chunks": [
+            [
+              0,
+              3000
+            ]
+          ],
+          "boundary_excerpts": []
+        },
+        {
+          "kind": "cut_not_contained",
+          "contract_id": "LIMEENERGYCO_09_09_1999-EX-10-DISTRIBUTOR AGREEMENT",
+          "category": "Renewal Term",
+          "start": 5543,
+          "end": 5881,
+          "annotation_preview": "If Distributor                            complies with all of the terms of this Agreement, the                            Agreement  shall be  renewable on an annual basis for                            one (1) year terms for up to  anothe",
+          "preview_truncated": true,
+          "cutting_chunks": [
+            [
+              2800,
+              5800
+            ],
+            [
+              5600,
+              8600
+            ]
+          ],
+          "containing_chunks": [],
+          "boundary_excerpts": [
+            {
+              "boundary": 5600,
+              "start": 5540,
+              "end": 5660,
+              "text": ".  If Distributor                            complies with all of the terms of this Agreement, the                      "
+            },
+            {
+              "boundary": 5800,
+              "start": 5740,
+              "end": 5860,
+              "text": "       one (1) year terms for up to  another  ten (10) years                            on the same terms and conditions"
+            }
+          ]
+        },
+        {
+          "kind": "cut_and_contained",
+          "contract_id": "LIMEENERGYCO_09_09_1999-EX-10-DISTRIBUTOR AGREEMENT",
+          "category": "No-Solicit Of Customers",
+          "start": 44904,
+          "end": 45202,
+          "annotation_preview": "Term of the  Agreement  and for a period of  eighteen\n\n\n\n\n\n                           (18) months thereafter,  nor will Distributor solicit                            any  customer  or  potential  customer  of Company to                    ",
+          "preview_truncated": true,
+          "cutting_chunks": [
+            [
+              42000,
+              45000
+            ]
+          ],
+          "containing_chunks": [
+            [
+              44800,
+              47800
+            ]
+          ],
+          "boundary_excerpts": [
+            {
+              "boundary": 45000,
+              "start": 44940,
+              "end": 45060,
+              "text": "riod of  eighteen\n\n\n\n\n\n                           (18) months thereafter,  nor will Distributor solicit                 "
+            }
+          ]
+        },
+        {
+          "kind": "longer_than_window",
+          "contract_id": "SUMMAFOURINC_06_19_1998-EX-10.3-SOFTWARE LICENSE AND MAINTENANCE AGREEMENT",
+          "category": "Minimum Commitment",
+          "start": 54480,
+          "end": 57523,
+          "annotation_preview": "- --------------------------------------------------------------------------------------------------------------------                                                 Requirement - -----------------------------------------------------------",
+          "preview_truncated": true,
+          "cutting_chunks": [
+            [
+              53200,
+              56200
+            ],
+            [
+              56000,
+              59000
+            ]
+          ],
+          "containing_chunks": [],
+          "boundary_excerpts": [
+            {
+              "boundary": 56000,
+              "start": 55940,
+              "end": 56060,
+              "text": "                              +/-3.5% accept to +/-4.5%                                                                 "
+            },
+            {
+              "boundary": 56200,
+              "start": 56140,
+              "end": 56260,
+              "text": "------------------------------------------------------------------------ Minimum Tone                  40 ms must accept"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

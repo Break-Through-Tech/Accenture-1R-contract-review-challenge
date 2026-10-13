@@ -1,5 +1,119 @@
 # AI Studio Challenge Project Title
 
+### Issue #12: token-aware development experiment
+
+The shared `chunk_contract` remains unchanged. Two isolated functions in
+`src/chunking/token_chunker.py` accept explicit `tokenizer`, `max_tokens`, and
+`overlap_tokens` arguments and return the existing `Chunk` model. They compare
+plain token windows (A) and sentence-aware token windows (B) against the existing
+800/200 and 1500/200 **character** baselines. A and B use 512 total input tokens
+and a target of 64 overlapping **content** tokens. These are experimental settings.
+
+Use Python 3.12 and install `requirements.txt` in the project environment. Download
+only the pinned tokenizer once (no encoder weights or training dependencies):
+
+```sh
+.venv/bin/python -c 'from transformers import AutoTokenizer; from src.chunking.token_chunker import TOKENIZER_NAME, TOKENIZER_REVISION; AutoTokenizer.from_pretrained(TOKENIZER_NAME, revision=TOKENIZER_REVISION, use_fast=True, cache_dir=".venv/hf-cache")'
+HF_HUB_OFFLINE=1 .venv/bin/python -m pytest
+HF_HUB_OFFLINE=1 TOKENIZERS_PARALLELISM=false .venv/bin/python -m scripts.evaluate_token_chunking
+```
+
+The tokenizer is `distilbert/distilroberta-base` at revision
+`fb53ab8802853c8e4fbdbcd0529f21fc6f459b2b`. Its overhead is obtained from the
+tokenizer (two special tokens in this revision). Every final original-text slice
+is measured with special tokens, `truncation=False`, and `padding=False`;
+token offsets only estimate boundaries. Repeated or whitespace-trimmed offsets
+do not justify dropping source characters. Budget correction retreats to earlier
+character endpoints; overlap is reduced if necessary to guarantee progress.
+No text is decoded from token IDs, normalized, or reconstructed from sentences.
+
+A targets the final 64 content tokens, maps them to advancing source offsets,
+and reduces overlap if retokenizing the suffix exceeds 64 tokens. B uses NUPunkt
+0.8.0's nonadaptive, layout-free `sent_spans` to pack complete sentences. It keeps
+the longest advancing suffix of complete trailing sentences whose combined source
+slice fits 64 content tokens and allows at least one new sentence to fit. If its
+last sentence alone exceeds 64 tokens, overlap is zero. Oversized sentences use A
+internally, with zero overlap at entry/exit; their offsets and chunk indices are
+reported separately. Section-heading heuristics are deferred; headings stay in
+the source and are never prepended. Sentence detection is imperfect, particularly
+on citations, abbreviations, numbering, and formatted legal text.
+
+The runner reuses `load_cuad`, `CATEGORIES`, `project_labels` (any character overlap),
+and `split_by_contract(seed=42, val_fraction=0.2)`. It evaluates only the **326
+development contracts**, records the 82 validation IDs, and has no validation-run
+option. Earlier exploration covered all 408 official training-file contracts, so
+validation is not a pristine holdout. Do not use `test.json` for this experiment.
+Annotations enter evaluation and label projection only, after boundaries are fixed.
+
+Reports go to `results/token_chunking_development/`: `summary.csv`,
+`per_category.csv`, `chunks.csv`, and `report.json`. They include unique annotation
+containment/cut-without-containment, annotation counts, natural input-token
+distributions, overflow, chunk count, generation/scoring runtimes, actual overlap,
+zero-overlap adjacency percentages, and improved/worsened examples. Coverage and
+exact slices are checked before duplicated-character overhead is calculated as
+`100 * (emitted_chars - source_chars) / source_chars`. First chunks are excluded
+from adjacency denominators; zero overlap means no shared source characters.
+Overlap token counts exclude special tokens. Fallback-internal adjacency and
+fallback transitions have separate statistics. Percentiles use linear interpolation.
+Generation runtime includes sentence detection and internal budget checks, excludes
+loading/downloads, and is a single-process wall-clock observation, not a benchmark.
+The detailed `chunks.csv` is generated locally and excluded from version control;
+aggregate CSVs, the JSON report, and development findings are retained.
+
+Annotation counting deduplicates `(contract_id, category, start, end)`, retaining
+identical spans assigned to different categories; percentages divide by unique
+annotations. Missing categories have zero counts and undefined percentages.
+Standalone annotation lengths include special tokens and are diagnostics: their
+tokenization can differ when embedded in context. These are annotated answer spans,
+not necessarily complete legal clauses. Original-chunk containment is distinct
+from evidence retained after encoder truncation. Realized overlap differs between
+A and B, so this comparison tests the **complete strategies**, not sentence
+boundaries alone. Metadata fixes dataset hash, split IDs, tokenizer revision,
+package versions, detector behavior, settings, and counting policy.
+
+Research motivation: [CUAD's sliding-window processing](https://datasets-benchmarks-proceedings.neurips.cc/paper/2021/file/6ea9ab1baa0efb9e19094440c317e21b-Paper-round1.pdf),
+[LexGLUE's discussion of structure and mixed CUAD answer lengths](https://aclanthology.org/2022.acl-long.297/),
+[legal sentence segmentation challenges](https://arxiv.org/abs/2305.01211),
+[NUPunkt's span API](https://github.com/alea-institute/nupunkt), and
+[mixed retrieval evidence for embedding-based semantic chunking](https://aclanthology.org/2025.findings-naacl.114/).
+These motivate measurement; they do not establish an optimal CUAD strategy.
+
+### Fixed-window chunking evaluation
+
+From the repository root, run `python3 -m scripts.evaluate_chunking` after installing
+`requirements.txt`. This reuses `load_cuad` and the existing `chunk_contract`, reads
+only `data/cuad/train_separate_questions.json`, and writes
+`results/chunking_evaluation.csv` and `results/chunking_examples.json`.
+Run `python3 -m pytest tests/test_evaluation.py` for hand-calculated metric checks.
+
+The explicit `(window_chars, overlap_chars)` comparison is `(800, 200)` and
+`(1500, 200)` as references, plus `(800, 0)`, `(1500, 0)`, and `(3000, 200)` to
+explore overlap and window size. These are character settings, not token limits
+or agreed production defaults. Override the comparison with repeated options,
+for example `python3 -m scripts.evaluate_chunking --config 800 200 --config 1500 200`.
+
+For annotation `[a, b)` and chunk `[s, e)`, a cut means `a < s < b` or
+`a < e < b`; touching an endpoint is not a cut. Full containment means
+`s <= a` and `b <= e`. The third metric counts annotations cut without full
+containment in any chunk. Spans with `b - a > window_chars` cannot be contained;
+their count and percentage are reported separately. A cut span can still be
+contained by another overlapping chunk, so cut and containment percentages
+are not complementary.
+
+Each annotation counts at most once per metric. Primary metrics deduplicate by
+`(contract_id, category, start, end)` across all loaded annotations, preserving
+identical spans in different categories. The denominator is the unique annotation
+count; each percentage is `100 * matching_annotations / unique_annotations`.
+Raw counts, unique counts, and duplicates removed are included. With no
+annotations, percentages are undefined (`None`, or blank CSV cells).
+
+Examples retain the first annotation of each outcome in dataset order, with its
+contract ID, category, annotation offsets, cutting/containing chunk offsets, and
+original text around strictly interior boundaries. Annotation previews are
+limited to 240 characters and marked when truncated; boundary excerpts carry
+absolute source offsets. This evaluates annotated answer spans, not every
+sentence or legal clause, and does not measure label projection or model quality.
+
 > 💡 **Note for the team:** This is just a template. Update the above title with your AI Studio Challenge Project name. Remove all guidance notes and example text in this template and populate this README with your own content. You can work on this README throughout AI Studio, and get feedback from your AI Studio Coach and Challenge Advisor before finalizing it.  
 
 ---
