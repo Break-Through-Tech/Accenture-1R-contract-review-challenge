@@ -17,6 +17,6 @@ class Evidence(BaseModel):
             raise ValueError("End must be after start.")
         return end
 
-    # Returns true only if evidence's span exactly reproduces quote in the chunk text
-    def validate_against(self, chunk_text: str) -> bool:
-        return 0 <= self.start < self.end <= len(chunk_text) and chunk_text[self.start:self.end] == self.quote
+    # Returns true only if evidence's span exactly reproduces quote in the source text
+    def validate_against(self, source_text: str) -> bool:
+        return 0 <= self.start < self.end <= len(source_text) and source_text[self.start:self.end] == self.quote
