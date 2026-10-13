@@ -183,3 +183,114 @@ def test_to_model_inputs(tokenizer):
 
     # No other categories should be positive.
     assert labels.sum() == 1
+
+def test_multiple_categories_and_boundary_overlap(tokenizer):
+    """Verify labels when a contract has multiple categories and a span crosses chunks."""
+
+    text = " ".join(
+        f"Clause {i} confirms that the supplier must deliver "
+        "the agreed services under this contract."
+        for i in range(20)
+    )
+
+    # First generate chunks without labels to find a real chunk boundary.
+    contract = Contract(
+        contract_id="multi_label_contract",
+        text=text,
+        spans=[],
+    )
+
+    initial_chunks = prepare_contract(
+        contract,
+        tokenizer=tokenizer,
+        max_tokens=48,
+        overlap_tokens=0,
+    )
+
+    assert len(initial_chunks) >= 2
+
+    first = initial_chunks[0].chunk
+    second = initial_chunks[1].chunk
+
+    # The chunks should not overlap because overlap_tokens=0.
+    assert first.end <= second.start
+
+    # Create an annotation that crosses from the first chunk into the second.
+    boundary_start = first.end - 5
+    boundary_end = second.start + 5
+
+    # Create a second annotation entirely inside the first chunk.
+    other_start = first.start + 5
+    other_end = first.start + 12
+
+    primary_category = "Document Name"
+    secondary_category = next(
+        category for category in CATEGORIES
+        if category != primary_category
+    )
+
+    contract_with_labels = Contract(
+        contract_id="multi_label_contract",
+        text=text,
+        spans=[
+            AnswerSpan(
+                category=primary_category,
+                start=boundary_start,
+                end=boundary_end,
+                text=text[boundary_start:boundary_end],
+            ),
+            AnswerSpan(
+                category=secondary_category,
+                start=other_start,
+                end=other_end,
+                text=text[other_start:other_end],
+            ),
+        ],
+    )
+
+    labeled_chunks = prepare_contract(
+        contract_with_labels,
+        tokenizer=tokenizer,
+        max_tokens=48,
+        overlap_tokens=0,
+    )
+
+    # Adding annotations must not change the chunk boundaries.
+    assert [
+        (item.chunk.start, item.chunk.end)
+        for item in labeled_chunks
+    ] == [
+        (item.chunk.start, item.chunk.end)
+        for item in initial_chunks
+    ]
+
+    primary_index = CATEGORY_TO_INDEX[primary_category]
+    secondary_index = CATEGORY_TO_INDEX[secondary_category]
+
+    # The boundary-crossing annotation should label both chunks.
+    assert labeled_chunks[0].labels[primary_index] == 1
+    assert labeled_chunks[1].labels[primary_index] == 1
+
+    # The first chunk should have two positive label categories.
+    assert labeled_chunks[0].labels[secondary_index] == 1
+
+    # Verify every label follows the project's any-overlap policy.
+    for item in labeled_chunks:
+        chunk = item.chunk
+
+        for span in contract_with_labels.spans:
+            expected = int(
+                chunk.start < span.end
+                and chunk.end > span.start
+            )
+
+            category_index = CATEGORY_TO_INDEX[span.category]
+
+            assert item.labels[category_index] == expected
+
+    # Verify the final multi-label model input.
+    texts, labels = to_model_inputs(labeled_chunks)
+
+    assert len(texts) == len(labeled_chunks)
+    assert labels.shape == (len(labeled_chunks), len(CATEGORIES))
+    assert labels[0].sum() == 2
