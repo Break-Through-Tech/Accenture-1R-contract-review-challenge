@@ -31,7 +31,9 @@ def load_gwen_prototype() -> tuple[Callable[..., list[Chunk]], str]:
         )
     except subprocess.CalledProcessError as error:
         raise ValueError(f"Fetch the pinned PR #48 commit {GWEN_COMMIT} before comparing") from error
-    if original_chunk != (ROOT / "src/chunking/chunk.py").read_bytes():
+    current_chunk = (ROOT / "src/chunking/chunk.py").read_bytes()
+    # Ignore Windows/Unix line-ending differences when comparing source.
+    if original_chunk.replace(b"\r\n", b"\n") != current_chunk.replace(b"\r\n", b"\n"):
         raise ValueError("PR #48 and this checkout have different Chunk implementations")
     module = ModuleType("gwen_pr48_pinned")
     exec(compile(source, f"git:{GWEN_COMMIT}:{GWEN_SOURCE_PATH}", "exec"), module.__dict__)
