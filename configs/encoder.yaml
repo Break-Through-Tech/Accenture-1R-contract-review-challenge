@@ -1,7 +1,7 @@
 # Model & chunking
 model_name: distilbert/distilroberta-base
 max_length: 512
-window_chars: 1500
+window_chars: 800
 overlap_chars: 200
 
 # Split & optimization

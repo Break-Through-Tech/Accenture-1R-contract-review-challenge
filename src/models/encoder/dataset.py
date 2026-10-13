@@ -1,9 +1,9 @@
 from src.labels.loader import Contract
 from src.labels.projection import LabeledChunk, project_labels
 from src.chunking.chunker import chunk_contract
-from torch import tensor, float32
+from torch import Tensor, tensor, float32, stack
 from torch.utils.data import Dataset
-from transformers import PreTrainedTokenizerBase
+from transformers import PreTrainedTokenizerBase, DataCollatorWithPadding
 
 
 def build_labeled_chunks(contracts: list[Contract], window_chars: int, overlap_chars: int) -> list[LabeledChunk]:
@@ -59,3 +59,25 @@ class ChunkDataset(Dataset):
             "attention_mask": self.encodings["attention_mask"][index],
             "labels": tensor(self.labeled_chunks[index].labels, dtype=float32),
         }
+
+
+class ChunkCollator(DataCollatorWithPadding):
+    """
+    Batches ChunkDataset items for the Trainer.
+    The stock collator cannot batch tensor-valued fields, so input_ids and
+    attention_mask are padded to the longest item in the batch by the parent class
+    (the mask is 0 on padding) and the label tensors are stacked separately.
+    Build it as ChunkCollator(tokenizer).
+    """
+
+    def __call__(self, features: list[dict]) -> dict[str, Tensor]:
+        """Return a padded batch with float32 labels of shape (batch, num_categories)."""
+        # Stack the per-chunk label vectors into one (batch, num_categories) tensor
+        labels = stack([f["labels"] for f in features])
+
+        # Pad the token fields with the parent collator, on copies without labels
+        batch = super().__call__([{k: v for k, v in f.items() if k != "labels"} for f in features])
+
+        # Put the stacked labels back into the padded batch
+        batch["labels"] = labels
+        return batch

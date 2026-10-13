@@ -1,11 +1,12 @@
 import pytest
 import torch
+from torch.utils.data import DataLoader
 from transformers import AutoTokenizer
 from src.chunking.chunk import Chunk
 from src.labels.categories import CATEGORIES, CATEGORY_TO_INDEX
 from src.labels.loader import AnswerSpan, Contract
 from src.labels.projection import LabeledChunk
-from src.models.encoder.dataset import ChunkDataset, build_labeled_chunks
+from src.models.encoder.dataset import ChunkCollator, ChunkDataset, build_labeled_chunks
 
 TOKENIZER_NAME = "distilbert/distilroberta-base"
 
@@ -225,3 +226,102 @@ def test_chunk_dataset_built_from_wrapper_output_has_one_item_per_chunk(tokenize
     assert len(dataset) == 2
     assert dataset[0]["labels"][CATEGORY_TO_INDEX["Parties"]].item() == 1.0
     assert dataset[1]["labels"].sum().item() == 0.0
+
+
+# ----- ChunkCollator: batching with padding -----
+# Texts tokenize to 4, 11 and 6 tokens (with <s> and </s>), so the batch pads to 11
+COLLATOR_SPECS = [
+    ("Short.", "Anti-Assignment"),
+    ("A somewhat longer sentence for padding purposes here.", "Governing Law"),
+    ("Mid length text.", "Affiliate License-Licensee"),
+]
+
+
+def make_items(tokenizer, specs=COLLATOR_SPECS) -> list[dict]:
+    """Build ChunkDataset items for (text, category) pairs, in order."""
+    chunks = [make_labeled_chunk(text, category, chunk_index=i) for i, (text, category) in enumerate(specs)]
+    dataset = ChunkDataset(chunks, tokenizer, max_length=32)
+    return [dataset[i] for i in range(len(dataset))]
+
+
+def test_chunk_collator_batch_has_exactly_the_trainer_keys(tokenizer):
+    """Checks the batch holds input_ids, attention_mask and labels only."""
+    batch = ChunkCollator(tokenizer)(make_items(tokenizer))
+
+    assert set(batch.keys()) == {"input_ids", "attention_mask", "labels"}
+
+
+def test_chunk_collator_pads_token_fields_to_longest_item_and_stacks_labels(tokenizer):
+    """Checks shapes: token fields (batch, longest = 11) and labels (batch, 41)."""
+    batch = ChunkCollator(tokenizer)(make_items(tokenizer))
+
+    assert tuple(batch["input_ids"].shape) == (3, 11)
+    assert tuple(batch["attention_mask"].shape) == (3, 11)
+    assert tuple(batch["labels"].shape) == (3, len(CATEGORIES))
+
+
+def test_chunk_collator_attention_mask_marks_real_tokens_and_zeros_padding(tokenizer):
+    """Checks each mask row sums to its item's token count and is 0 after the last real token."""
+    batch = ChunkCollator(tokenizer)(make_items(tokenizer))
+
+    assert batch["attention_mask"].sum(dim=1).tolist() == [4, 11, 6]
+    assert batch["attention_mask"][0, 4:].sum().item() == 0
+    assert batch["attention_mask"][2, 6:].sum().item() == 0
+
+
+def test_chunk_collator_fills_padding_with_pad_token_and_keeps_real_ids(tokenizer):
+    """Checks padded positions hold the pad id and the real positions keep the original ids."""
+    items = make_items(tokenizer)
+
+    batch = ChunkCollator(tokenizer)(items)
+
+    assert (batch["input_ids"][0, 4:] == tokenizer.pad_token_id).all()
+    assert batch["input_ids"][0, :4].tolist() == items[0]["input_ids"]
+    assert batch["input_ids"][1].tolist() == items[1]["input_ids"]
+
+
+def test_chunk_collator_labels_are_float32_and_match_each_item_in_order(tokenizer):
+    """Checks labels are float32 and row i equals item i's label vector, so order is preserved."""
+    items = make_items(tokenizer)
+
+    labels = ChunkCollator(tokenizer)(items)["labels"]
+
+    assert labels.dtype == torch.float32
+    assert all(torch.equal(labels[i], items[i]["labels"]) for i in range(3))
+    assert labels.argmax(dim=1).tolist() == [
+        CATEGORY_TO_INDEX["Anti-Assignment"],
+        CATEGORY_TO_INDEX["Governing Law"],
+        CATEGORY_TO_INDEX["Affiliate License-Licensee"],
+    ]
+
+
+def test_chunk_collator_does_not_modify_the_input_items(tokenizer):
+    """Checks the dataset items keep their labels key and values after batching."""
+    items = make_items(tokenizer)
+    labels_before = [item["labels"].clone() for item in items]
+
+    ChunkCollator(tokenizer)(items)
+
+    assert all(set(item.keys()) == {"input_ids", "attention_mask", "labels"} for item in items)
+    assert all(torch.equal(item["labels"], before) for item, before in zip(items, labels_before))
+
+
+def test_chunk_collator_single_item_batch_needs_no_padding(tokenizer):
+    """Checks a one-item batch keeps its natural length with an all-ones mask."""
+    batch = ChunkCollator(tokenizer)(make_items(tokenizer, COLLATOR_SPECS[:1]))
+
+    assert tuple(batch["input_ids"].shape) == (1, 4)
+    assert batch["attention_mask"].tolist() == [[1, 1, 1, 1]]
+    assert tuple(batch["labels"].shape) == (1, len(CATEGORIES))
+
+
+def test_chunk_collator_works_as_dataloader_collate_fn(tokenizer):
+    """Checks a DataLoader using the collator yields batches in order, with the last one smaller."""
+    chunks = [make_labeled_chunk(text, category, chunk_index=i) for i, (text, category) in enumerate(COLLATOR_SPECS)]
+    dataset = ChunkDataset(chunks, tokenizer, max_length=32)
+
+    batches = list(DataLoader(dataset, batch_size=2, collate_fn=ChunkCollator(tokenizer)))
+
+    assert [tuple(b["labels"].shape) for b in batches] == [(2, len(CATEGORIES)), (1, len(CATEGORIES))]
+    assert tuple(batches[0]["input_ids"].shape) == (2, 11)
+    assert tuple(batches[1]["input_ids"].shape) == (1, 6)
