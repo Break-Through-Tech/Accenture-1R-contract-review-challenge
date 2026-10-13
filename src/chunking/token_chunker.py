@@ -1,6 +1,7 @@
 """Experimental token windows over exact original-text slices (not the shared chunker)."""
 
 from bisect import bisect_right
+from pydoc import text
 
 from nupunkt import sent_spans
 from pydantic import BaseModel
@@ -146,12 +147,29 @@ def chunk_sentence_windows(
     """
     _validate_budget(tokenizer, max_tokens, overlap_tokens)
     spans = sentence_spans(text)
+
+    sentence_texts = [text[start:end] for start, end in spans]
+
+    if sentence_texts:
+        sentence_lengths = [
+            len(ids)
+            for ids in tokenizer(
+                sentence_texts,
+                add_special_tokens=True,
+                truncation=False,
+                padding=False,
+                verbose=False,
+            )["input_ids"]
+        ]
+    else:
+        sentence_lengths = []
+
     chunks = []
     next_sentence = 0
     while next_sentence < len(spans):
         # A sentence that cannot fit alone is kept out of normal sentence packing.
         start, end = spans[next_sentence]
-        if token_length(text[start:end], tokenizer) > max_tokens:
+        if sentence_lengths[next_sentence] > max_tokens:
             pieces = chunk_token_windows(contract_id, text[start:end], tokenizer,
                                         max_tokens, overlap_tokens)
             indices = []
@@ -170,7 +188,7 @@ def chunk_sentence_windows(
         last_sentence = next_sentence
         while last_sentence + 1 < len(spans):
             candidate_start, candidate_end = spans[last_sentence + 1]
-            if token_length(text[candidate_start:candidate_end], tokenizer) > max_tokens:
+            if sentence_lengths[last_sentence + 1] > max_tokens:
                 break
             if token_length(text[start:candidate_end], tokenizer) > max_tokens:
                 break
@@ -184,7 +202,7 @@ def chunk_sentence_windows(
 
         # Do not overlap into a fallback; it has its own separate token-window policy.
         new_start, new_end = spans[next_sentence]
-        if token_length(text[new_start:new_end], tokenizer) > max_tokens:
+        if sentence_lengths[next_sentence] > max_tokens:
             continue
         if token_length(text[spans[last_sentence][0]:end], tokenizer, False) > overlap_tokens:
             continue
