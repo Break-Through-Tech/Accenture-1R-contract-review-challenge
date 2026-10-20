@@ -1,1 +1,8 @@
-
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+# Regenerable per-chunk detail; keep aggregate tables and the compact JSON report.
+results/token_chunking_development/chunks.csv
+results/token_chunking_comparison/chunks.csv
