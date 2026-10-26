@@ -3,6 +3,7 @@ import pytest
 
 from src.evidence.cues import (
     CATEGORY_DESCRIPTIONS_PATH,
+    MANUAL_CUES,
     build_category_cues,
     load_category_cues,
     normalize_category,
@@ -65,6 +66,15 @@ def test_build_category_cues_custom_columns():
     assert build_category_cues(df, name_col="Name", desc_col="Desc") == build_category_cues(make_df())
 
 
+# ----- Manual cues -----
+def test_build_category_cues_manual_cues_appended_without_duplicates():
+    """Manual cues are appended after derived ones, skipping words already derived."""
+    df = pd.DataFrame([("Category: Document Name", "Description: The name of the agreement")],
+                      columns=["Category (incl. context and answer)", "Description"])
+    manual = {"documentname": ["agreement", "titled"], "absent": ["ignored"]}
+    assert build_category_cues(df, manual_cues=manual) == {"documentname": ["agreement", "titled"]}
+
+
 # ----- Real CSV -----
 @pytest.fixture(scope="module")
 def real_cues():
@@ -84,6 +94,19 @@ def test_load_category_cues_real_csv_golden_governing_law(real_cues):
     assert real_cues["governinglaw"] == ["country", "governs", "interpretation", "state", "which"]
 
 
-def test_load_category_cues_real_csv_mostly_non_empty(real_cues):
-    """Only the two terse descriptions (Document Name, Agreement Date) yield no cues."""
-    assert sorted(k for k, v in real_cues.items() if not v) == ["agreementdate", "documentname"]
+def test_load_category_cues_real_csv_every_category_has_cues(real_cues):
+    """With MANUAL_CUES, no category is left without cues."""
+    assert all(real_cues.values())
+
+
+def test_load_category_cues_real_csv_without_manual_cues_leaves_terse_categories_empty():
+    """Disabling MANUAL_CUES shows exactly which descriptions are too terse to yield cues."""
+    if not CATEGORY_DESCRIPTIONS_PATH.exists():
+        pytest.skip(f"Category CSV not found at {CATEGORY_DESCRIPTIONS_PATH}")
+    cues = load_category_cues(manual_cues=None)
+    assert sorted(k for k, v in cues.items() if not v) == ["agreementdate", "documentname"]
+
+
+def test_load_category_cues_real_csv_golden_agreement_date(real_cues):
+    """Agreement Date gets exactly its hand-written cues."""
+    assert real_cues["agreementdate"] == MANUAL_CUES["agreementdate"] == ["dated", "entered", "made", "day of"]

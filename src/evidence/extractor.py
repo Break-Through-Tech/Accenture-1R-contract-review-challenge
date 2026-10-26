@@ -9,8 +9,9 @@ How everything comes together:
 _sentence_spans(): splits chunk text into (start, end) offsets
 extract_evidence(): scores sentences by cue words, returns the best as Evidence (or None)
 extract_for_predictions(): entry point other pipeline stages call. Runs the above for every
-                           prediction in a contract, validates each result, and sorts outcomes
-                           into 'grounded' and 'unknown'
+                           prediction in a contract, validates each result, sorts outcomes
+                           into 'grounded' and 'unknown', and drops duplicate evidence that
+                           overlapping chunks produce for the same clause
 
 Inputs from other modules:
 'category_cues' from cues.build_category_cues() / cues.load_category_cues()
@@ -18,11 +19,13 @@ Inputs from other modules:
 
 Limitations:
 - Sentence splitting breaks on abbreviations like "Inc." and "No."
+- A sentence cut by a chunk boundary is quoted only up to that boundary
 - Only one sentence is returned per clause, so a clause spanning several sentences is only partially captured
 - Cue quality is capped by the wording of the category descriptions
 """
 import re
 from collections.abc import Iterable, Iterator
+from functools import lru_cache
 from typing import Literal
 
 from pydantic import BaseModel
@@ -31,8 +34,17 @@ from src.chunking.chunk import Chunk
 from src.evidence.cues import normalize_category
 from src.evidence.schema import Evidence
 
-# A sentence ends at "." or ";" followed by whitespace.
-_SENTENCE_BREAK = re.compile(r"(?<=[.;])\s+")
+# A sentence ends at "." or ";" followed by whitespace, or at a line break (headings, list items)
+_SENTENCE_BREAK = re.compile(r"(?<=[.;])\s+|\s*\n\s*")
+
+
+@lru_cache(maxsize=None)
+def _cue_pattern(cue: str) -> re.Pattern:
+    """
+    Compile a whole-word pattern for a cue that also accepts simple inflections.
+    "state" matches "states" but not "statement"; "cause" does not match "because".
+    """
+    return re.compile(rf"\b{re.escape(cue)}(?:s|es|d|ed|ing)?\b")
 
 
 def _sentence_spans(text: str) -> Iterator[tuple[int, int]]:
@@ -70,17 +82,18 @@ def extract_evidence(
     min_score: min number of cue words a sentence must contain
 
     Returns None when category has no cues or no sentence scores high enough.
-    Ties go to the earliest sentence.
+    Cues match whole words (plus simple inflections). Ties go to the earliest sentence.
     """
     cues = category_cues.get(normalize_category(category), [])
     if not cues:
         return None
 
     # Score every sentence by how many distinct cue words it contains
+    patterns = [_cue_pattern(cue) for cue in cues]
     best, best_score = None, 0
     for s, e in _sentence_spans(chunk_text):
         sentence = chunk_text[s:e].lower()
-        score = sum(cue in sentence for cue in cues)
+        score = sum(bool(p.search(sentence)) for p in patterns)
         if score > best_score:
             best, best_score = (s, e), score
 
@@ -98,6 +111,25 @@ class GroundedEvidence(BaseModel):
     chunk_index: int
     category: str
     evidence: Evidence
+
+
+def _drop_contained(grounded: list[GroundedEvidence]) -> list[GroundedEvidence]:
+    """
+    Drop evidence whose span is equal to or inside another span of the same category.
+    Overlapping chunks often pick the same sentence; the earliest chunk's record is kept
+    and the original order is preserved.
+    """
+    # Sort by (category, start, longest first) so a contained span always follows its container
+    order = sorted(range(len(grounded)), key=lambda i: (
+        grounded[i].category, grounded[i].evidence.start, -grounded[i].evidence.end, i))
+    keep, last = set(), None
+    for i in order:
+        g = grounded[i]
+        if last is not None and last.category == g.category and g.evidence.end <= last.evidence.end:
+            continue
+        keep.add(i)
+        last = g
+    return [g for i, g in enumerate(grounded) if i in keep]
 
 
 class Unknown(BaseModel):
@@ -126,8 +158,9 @@ def extract_for_predictions(
     category_cues: output of build_category_cues()
 
     Returns (grounded, unknown):
-        grounded: GroundedEvidence records, all verified against contract_text
-        unknown: Unknown records for everything that could not be grounded
+        grounded: GroundedEvidence records, all verified against contract_text, with at most
+                  one record per distinct span per category (contained duplicates are dropped)
+        unknown: Unknown records for everything that could not be grounded, one per (chunk, category)
     """
     grounded, unknown = [], []
     for chunk, category in predictions:
@@ -141,4 +174,4 @@ def extract_for_predictions(
             unknown.append(Unknown(**ids, reason="span_mismatch"))
         else:
             grounded.append(GroundedEvidence(**ids, evidence=ev))
-    return grounded, unknown
+    return _drop_contained(grounded), unknown

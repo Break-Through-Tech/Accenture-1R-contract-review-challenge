@@ -66,7 +66,7 @@ Status reflects `main` plus two unmerged branches: `feature/22-evidence-extracti
 - `__pycache__` files are untracked and covered by `.gitignore`.
 
 **In progress / known issues**
-- The evidence heuristic is weak: on gold spans only ~23% of chosen sentences overlap the gold answer, and Document Name / Agreement Date get no cues, so they always go to Unknown.
+- The evidence heuristic is weak: given gold categories on 1500/200 chunks, ~55% of grounded quotes overlap a gold answer and ~23% of predictions go to Unknown. Evidence is chosen independently of the classifier, so a false-positive prediction still gets a plausible-looking quote. Sentences cut at chunk edges or at abbreviations ("Inc.") yield partial quotes.
 - The baseline uses a random 80/20 split with whole contracts as chunks. It needs a grouped-by-contract split and the chunker.
 - The chunker is a naive stub: it cuts every N characters and ignores sentence and clause boundaries, so it can split a clause. `chunk_contract` has no default window or overlap yet. The real chunker must keep the same signature and `Chunk` output and pass the same tests.
 

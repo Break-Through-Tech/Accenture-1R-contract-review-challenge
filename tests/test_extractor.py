@@ -38,6 +38,7 @@ def make_chunk(text: str = TEXT, start: int = 0, contract_id: str = "c1", chunk_
         (TEXT, [(0, 31), (32, 77), (78, 100), (101, 120)]),
         ("  Alpha beta. Gamma; delta.  ", [(2, 13), (14, 20), (21, 27)]),  # outer whitespace trimmed
         ("No break here", [(0, 13)]),
+        ("TITLE\n\nFirst line.\nSecond  \n", [(0, 5), (7, 18), (19, 25)]),  # line breaks split too
         ("   ", []),
         ("", []),
     ],
@@ -69,6 +70,25 @@ def test_extract_evidence_tie_goes_to_earliest_sentence():
 def test_extract_evidence_category_name_is_normalized():
     """Category lookups ignore case and punctuation."""
     assert extract_evidence(TEXT, "GOVERNING-law", CUES).start == 32
+
+
+@pytest.mark.parametrize(
+    "text, cue, expected",
+    [
+        ("The statement is final. Three states agree.", "state", (24, 43)),  # not inside "statement"
+        ("It was terminated early. Terminate now.", "terminate", (0, 24)),   # "-d" inflection matches
+        ("Seller shall pay. Buyer agrees to day of payment.", "day of", (18, 49)),  # multi-word cue
+    ],
+)
+def test_extract_evidence_cues_match_whole_words(text, cue, expected):
+    """Cues match whole words plus simple inflections, never fragments of longer words."""
+    ev = extract_evidence(text, "X", {"x": [cue]})
+    assert (ev.start, ev.end) == expected
+
+
+def test_extract_evidence_cue_inside_other_word_is_ignored():
+    """'cause' inside 'because' is not a match, so nothing is returned."""
+    assert extract_evidence("Delayed because of rain.", "X", {"x": ["cause"]}) is None
 
 
 @pytest.mark.parametrize(
@@ -110,6 +130,32 @@ def test_extract_for_predictions_wrong_offsets_go_to_unknown():
     assert [u.reason for u in unknown] == ["span_mismatch"]
 
 
+# ----- De-duplication across overlapping chunks -----
+def test_extract_for_predictions_same_sentence_in_two_chunks_kept_once():
+    """Two overlapping chunks that pick the same sentence yield one record, from the first chunk."""
+    first = make_chunk(TEXT[:100], start=0, chunk_index=0)
+    second = make_chunk(TEXT[32:], start=32, chunk_index=1)
+    grounded, unknown = extract_for_predictions(TEXT, [(first, "Governing Law"), (second, "Governing Law")], CUES)
+    assert [(g.chunk_index, g.evidence.start, g.evidence.end) for g in grounded] == [(0, 32, 77)]
+    assert unknown == []
+
+
+def test_extract_for_predictions_fragment_inside_full_sentence_dropped():
+    """A chunk starting mid-sentence quotes a fragment (45, 77) that sits inside (32, 77) and is dropped."""
+    full = make_chunk(TEXT, start=0, chunk_index=0)
+    cut = make_chunk(TEXT[45:], start=45, chunk_index=1)  # "Delaware governs this Agreement. ..."
+    grounded, _ = extract_for_predictions(TEXT, [(cut, "Governing Law"), (full, "Governing Law")], CUES)
+    assert [(g.chunk_index, g.evidence.start, g.evidence.end) for g in grounded] == [(0, 32, 77)]
+
+
+def test_extract_for_predictions_same_span_different_categories_both_kept():
+    """De-duplication is per category, so one sentence can support two categories."""
+    cues = {"governinglaw": ["governs"], "parties": ["delaware"]}
+    chunk = make_chunk()
+    grounded, _ = extract_for_predictions(TEXT, [(chunk, "Governing Law"), (chunk, "Parties")], cues)
+    assert [(g.category, g.evidence.start) for g in grounded] == [("Governing Law", 32), ("Parties", 32)]
+
+
 def test_extract_for_predictions_empty_input_returns_empty_lists():
     """No predictions means nothing grounded and nothing unknown."""
     assert extract_for_predictions(TEXT, [], CUES) == ([], [])
@@ -125,7 +171,7 @@ def cuad_contracts():
 
 
 def test_real_cuad_grounded_evidence_matches_contract_text(cuad_contracts):
-    """Gold categories on 1500/200 chunks never mismatch, and every quote equals text[start:end] inside its chunk."""
+    """Gold categories on 1500/200 chunks never mismatch, quotes equal text[start:end], and no span is duplicated."""
     cues = load_category_cues()
     total_grounded = 0
     for contract in cuad_contracts:
@@ -138,12 +184,14 @@ def test_real_cuad_grounded_evidence_matches_contract_text(cuad_contracts):
         ]
         grounded, unknown = extract_for_predictions(contract.text, predictions, cues)
 
-        assert len(grounded) + len(unknown) == len(predictions)
+        assert len(grounded) + len(unknown) <= len(predictions)
         assert all(u.reason == "no_cue_match" for u in unknown)
         by_index = {c.chunk_index: c for c in chunks}
         for g in grounded:
             ev, chunk = g.evidence, by_index[g.chunk_index]
             assert contract.text[ev.start:ev.end] == ev.quote
             assert chunk.start <= ev.start < ev.end <= chunk.end
+        spans = [(g.category, g.evidence.start, g.evidence.end) for g in grounded]
+        assert len(spans) == len(set(spans))
         total_grounded += len(grounded)
     assert total_grounded > 0
