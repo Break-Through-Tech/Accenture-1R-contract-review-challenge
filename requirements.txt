@@ -2,3 +2,7 @@ numpy
 pandas
 scikit-learn
 pydantic
+pytest
+transformers==4.57.6
+tokenizers==0.22.2
+nupunkt==0.8.0

@@ -1,38 +1,45 @@
-from pydantic import BaseModel, field_validator
-
 """
-Every piece of evidence shown to a reviewer or used for risk scoring needs to be 
-verifiable. It must sit at [start:end] in the original contract. This model acts 
-as the single shared definition of "grounded evidence" so that every piece 
-(extractor, risk scorere, clause-register export, reviewer UI, etc) can all agree 
+Every piece of evidence shown to a reviewer or used for risk scoring needs to be
+verifiable. It must sit at [start:end] in the original contract. This model acts
+as the single shared definition of "grounded evidence" so that every piece
+(extractor, risk scorer, clause-register export, reviewer UI, etc) can all agree
 on what an evidence object looks like.
 
-'start' and 'end' are character offsets in the full contract text
+'start' and 'end' are absolute, end-exclusive character offsets into the full contract text.
 
 There are two layers of checking
-1. 'end' must be greater than 'start'. Pydantic can only see the object itself here,
-not the contract, so this is the only check at contruction-time.
+1. At construction time the span must be non-empty, start must be >= 0, and the quote
+length must equal end - start. Pydantic can only see the object itself here, not the contract.
 2. validate_against verifies that the quote exists as [start:end] in the full contract
-text. This is a seperate method, because contract text isn't stored on the model.
+text. This is a separate method, because contract text isn't stored on the model.
 
-Extractor will call validate_against on every result, and anything that fils gets routed
-to an unknown queue
+The extractor calls validate_against on every result, and anything that fails gets routed
+to the Unknown queue.
 """
+from typing_extensions import Self
+from pydantic import BaseModel, Field, model_validator
+
 
 class Evidence(BaseModel):
-    quote: str # exact text of supporting sentence
-    start: int # character offset of where quote begins (inclusive)
-    end: int # character offset of where the quote ends (exclusive)
+    """
+    A quote from a contract plus its absolute, end-exclusive offsets.
+    A valid Evidence satisfies contract_text[start:end] == quote (see validate_against).
+    """
+    quote: str  # exact text of supporting sentence
+    start: int = Field(ge=0)  # character offset of where quote begins (inclusive)
+    end: int  # character offset of where the quote ends (exclusive)
 
-    @field_validator("end")
-    @classmethod
-    def end_after_start(cls, end, info):
-        # info.data holds fields already validated, so 'start' is available
-        start = info.data.get("start")
-        if start is not None and end <= start:
+    # Model Validator; ensures the span is non-empty & that the quote length matches it
+    @model_validator(mode="after")
+    def check_span_consistency(self) -> Self:
+        if self.end <= self.start:
             raise ValueError("End must be after start.")
-        return end
+        if len(self.quote) != self.end - self.start:
+            raise ValueError(
+                f"Quote length ({len(self.quote)}) must equal end - start ({self.end - self.start})"
+            )
+        return self
 
-    # Returns true only if evidence's span exactly reproduces quote in the source text
     def validate_against(self, source_text: str) -> bool:
-        return 0 <= self.start < self.end <= len(source_text) and source_text[self.start:self.end] == self.quote
+        """Return True only if source_text[start:end] reproduces the quote exactly."""
+        return self.end <= len(source_text) and source_text[self.start:self.end] == self.quote
