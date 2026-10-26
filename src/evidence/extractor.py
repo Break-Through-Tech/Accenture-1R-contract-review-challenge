@@ -116,7 +116,7 @@ class GroundedEvidence(BaseModel):
 def _drop_contained(grounded: list[GroundedEvidence]) -> list[GroundedEvidence]:
     """
     Drop evidence whose span is equal to or inside another span of the same category.
-    Overlapping chunks often pick the same sentence; the earliest chunk's record is kept
+    Overlapping chunks often pick the same sentence; the first record in input order is kept
     and the original order is preserved.
     """
     # Sort by (category, start, longest first) so a contained span always follows its container
