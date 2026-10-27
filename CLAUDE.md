@@ -16,7 +16,7 @@ Guidance for Claude Code in this repo. ARCHITECTURE.md is the source of truth fo
 
 ## Repo Layout
 
-- `src/`: `metrics.py` (per-category P/R/F1), `thresholds.py` (per-class F1-optimal thresholds), `models/naive/tfid_baseline.py` (TF-IDF + one-vs-rest logistic regression), `evidence/` (Pydantic `Evidence` schema), `chunking/` (`chunk.py` holds the `Chunk` model, `chunker.py` holds `chunk_contract`).
+- `src/`: `metrics.py` (per-category P/R/F1), `thresholds.py` (per-class F1-optimal thresholds), `models/naive/tfid_baseline.py` (TF-IDF + one-vs-rest logistic regression), `evidence/` (`schema.py` holds the `Evidence` model, `cues.py` builds category cue words from `category_descriptions.csv`, `extractor.py` picks and validates evidence sentences), `chunking/` (`chunk.py` holds the `Chunk` model, `chunker.py` holds `chunk_contract`).
 - `tests/`: pytest modules, one `test_<module>.py` per `src/` module. `pytest.ini` at the repo root sets `pythonpath = .`, so run `pytest` or `python -m pytest` from the root.
 - `notebooks/`: exploration and plots only. Pipeline logic belongs in `src/`, imported by the notebooks.
 - `data/cuad/`: dataset JSON, `category_descriptions.csv`, `eda.py`, `EDA_SUMMARY.md`. `results/` holds metric CSVs.
@@ -60,16 +60,15 @@ Status reflects `main` plus two unmerged branches: `feature/22-evidence-extracti
 **Done**
 - EDA: 408 training contracts, 41 categories, about 50% of questions answered. Category imbalance is documented in `EDA_SUMMARY.md`.
 - TF-IDF baseline with per-category metrics and per-class threshold tuning (`notebooks/baseline_test.ipynb`). The `apply_thresholds` indexing bug is fixed (PR #43) and `results/tfidf_baseline_metrics.csv` is regenerated.
-- `Evidence` Pydantic schema with span validation (`src/evidence/schema.py`, on `feature/22-evidence-extraction`, PR not yet merged). Its offsets are chunk-relative.
+- Evidence extraction (`src/evidence/`, on `feature/22-evidence-extraction`, PR not yet merged): `Evidence` Pydantic schema with span validation, cue-word sentence selection, and `extract_for_predictions`, which converts offsets to absolute contract coordinates (`chunk.start + offset`), validates each result against the contract text, and routes failures to `Unknown`. Tested in `tests/test_schema.py`, `test_cues.py` and `test_extractor.py`.
 - `Chunk` Pydantic schema (`src/chunking/chunk.py`) with span validation, and a naive fixed-window chunker stub `chunk_contract(contract_id, text, window_chars, overlap_chars)` (`src/chunking/chunker.py`), on the chunker branch, PR not yet merged. `Chunk.start`/`end` are absolute, end-exclusive offsets into the original contract text, so `text[start:end] == chunk.text`.
 - Golden and invariant tests for the chunker in `tests/test_chunker.py` (18 tests, including real CUAD contracts), with `pytest` and `pydantic` added to `requirements.txt`.
 - `__pycache__` files are untracked and covered by `.gitignore`.
 
 **In progress / known issues**
-- `evidence/extractor.py` is empty, so the heuristic sentence selection is still to be written.
+- The evidence heuristic is weak: given gold categories on 1500/200 chunks, ~55% of grounded quotes overlap a gold answer and ~23% of predictions go to Unknown. Evidence is chosen independently of the classifier, so a false-positive prediction still gets a plausible-looking quote. Sentences cut at chunk edges or at abbreviations ("Inc.") yield partial quotes.
 - The baseline uses a random 80/20 split with whole contracts as chunks. It needs a grouped-by-contract split and the chunker.
 - The chunker is a naive stub: it cuts every N characters and ignores sentence and clause boundaries, so it can split a clause. `chunk_contract` has no default window or overlap yet. The real chunker must keep the same signature and `Chunk` output and pass the same tests.
-- Converting `Evidence` offsets to contract coordinates (`chunk.start + evidence.start`) is not implemented yet.
 
 **Next**
 - CUAD loader that yields `(contract_id, text, answer_spans)`, then label projection (spans to multi-hot labels for each chunk), including how to treat spans that straddle chunks.
