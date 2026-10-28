@@ -42,9 +42,11 @@ _NUMBER_WORDS = {
     "nine": 9, "ten": 10, "eleven": 11, "twelve": 12, "fifteen": 15, "eighteen": 18,
     "twenty": 20, "twenty-four": 24, "thirty": 30, "forty-five": 45, "sixty": 60, "ninety": 90,
 }
-# "90 days", "thirty (30) days", "forty (40) days", "five-year", "12 calendar months"
+# "90 days", "thirty (30) days", "forty (40) days", "five-year", "1.5 years", "1,000 days"
+# The lookbehind stops "1.5" or "2,000" being read from their last digits
 _DURATION = re.compile(
-    rf"\b(\d+|{'|'.join(sorted(_NUMBER_WORDS, key=len, reverse=True))})\)?[\s-]*(?:\(\d+\)[\s-]*)?"
+    rf"(?<![\d.,])\b(\d{{1,3}}(?:,\d{{3}})+(?:\.\d+)?|\d+(?:\.\d+)?|"
+    rf"{'|'.join(sorted(_NUMBER_WORDS, key=len, reverse=True))})\)?[\s-]*(?:\(\d+\)[\s-]*)?"
     r"(?:calendar\s+|business\s+)?(day|week|month|year)s?\b"
 )
 
@@ -69,7 +71,7 @@ def _durations_in_days(text: str) -> list[float]:
     """Return every duration written in text ("thirty (30) days", "5 years"), converted to days."""
     found = []
     for number, unit in _DURATION.findall(text.lower()):
-        value = int(number) if number.isdigit() else _NUMBER_WORDS[number]
+        value = _NUMBER_WORDS[number] if number in _NUMBER_WORDS else float(number.replace(",", ""))
         found.append(value * _DAYS_PER_UNIT[unit])
     return found
 

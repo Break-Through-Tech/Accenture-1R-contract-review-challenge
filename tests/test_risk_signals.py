@@ -118,6 +118,8 @@ def test_one_sidedness_ratio_of_phrases(quote, expected):
         ("twenty-four months", [720]),
         ("one year and 2 weeks", [365, 14]),
         ("payable monthly or yearly", []),
+        ("for 1.5 years", [547.5]),                 # decimals, not "5 years"
+        ("within 2,000 days", [2000]),              # thousands separator, not "000 days"
         ("no durations here", []),
     ],
 )
