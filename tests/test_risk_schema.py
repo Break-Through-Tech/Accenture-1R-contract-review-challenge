@@ -64,6 +64,14 @@ def test_load_weight_set_invalid_file_raises(tmp_path):
         load_weight_set(path)
 
 
+def test_weight_set_frozen_rejects_edits():
+    """A loaded version can't be edited in place; a copy with a new id is the only way to change it."""
+    ws = WeightSet(**VALID)
+    with pytest.raises(ValidationError):
+        ws.high_threshold = 0.9
+    assert ws.model_copy(update={"weight_version_id": "test-v2"}).weight_version_id == "test-v2"
+
+
 # ----- Invalid weight sets -----
 @pytest.mark.parametrize(
     "changes",

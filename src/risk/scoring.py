@@ -28,6 +28,8 @@ from collections.abc import Iterable, Set
 from src.risk.schema import ClauseInput, ClauseScore, Rating, WeightSet
 from src.risk.signals import SIGNALS
 
+COMPOSITE_DECIMALS = 9
+
 
 def rate(composite_score: float, weight_set: WeightSet) -> Rating:
     """Return High if score >= high_threshold, Medium if >= medium_threshold, else Low."""
@@ -48,9 +50,10 @@ def score_clause(clause: ClauseInput, contract_categories: Set[str], weight_set:
     """
     signals = {name: fn(clause, contract_categories, weight_set) for name, fn in SIGNALS.items()}
 
-    # Weighted sum; weights sum to 1 so this stays in [0, 1] up to float error, which the clip removes
+    # Weighted sum; weights sum to 1 so this stays in [0, 1] up to float error, which the clip removes.
+    # Rounding stops float error flipping a score that lands exactly on a threshold (0.5499999… vs 0.55)
     composite = sum(weight_set.signal_weights[name] * value for name, value in signals.items())
-    composite = min(max(composite, 0.0), 1.0)
+    composite = round(min(max(composite, 0.0), 1.0), COMPOSITE_DECIMALS)
 
     return ClauseScore(
         contract_id=clause.contract_id,

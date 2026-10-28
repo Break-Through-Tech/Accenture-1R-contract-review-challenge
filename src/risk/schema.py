@@ -65,7 +65,7 @@ class CooccurrenceRule(BaseModel):
     Liability with no Insurance); a negative one lowers its category_severity, because a protection
     elsewhere in the contract softens the clause's impact (e.g. Uncapped Liability with a Cap On Liability).
     """
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="forbid", frozen=True)
 
     target_category: str
     other_category: str
@@ -84,7 +84,7 @@ class MagnitudeRule(BaseModel):
     scores 0 and one at or above high_days scores 1, linearly in between. Set longer_is_riskier
     to False when a short duration is the risk (e.g. a 30-day warranty).
     """
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="forbid", frozen=True)
 
     category: str
     low_days: float = Field(ge=0.0)
@@ -107,8 +107,9 @@ class WeightSet(BaseModel):
     """
     One immutable, versioned set of scoring parameters, owned by the advisor.
     Unknown keys are rejected so a misspelled field in the JSON can't be silently ignored.
+    Frozen, so a loaded version can't be edited in place; use model_copy(update=...) with a new id.
     """
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="forbid", frozen=True)
 
     weight_version_id: str = Field(min_length=1)
     created_by: str = Field(min_length=1)

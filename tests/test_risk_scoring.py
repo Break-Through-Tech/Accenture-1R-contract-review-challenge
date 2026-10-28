@@ -57,6 +57,19 @@ def test_rate_threshold_boundaries(score, expected):
     assert rate(score, WEIGHTS) == expected
 
 
+def test_score_clause_exactly_on_threshold_rates_up():
+    """0.05 + 0.05 + 0.35 sums to 0.44999999999999996 in floats; rounding keeps it on the 0.45 threshold."""
+    ws = WeightSet(
+        weight_version_id="edge", created_by="tests",
+        signal_weights={"category_severity": 0.05, "one_sidedness": 0.05, "magnitude": 0.35, "contract_context": 0.55},
+        medium_threshold=0.45, high_threshold=0.6, default_severity=1.0,
+        aggravating_phrases=["sole discretion"], scope_phrases=["perpetual"],
+    )
+    score = score_clause(_clause("Parties"), {"Parties"}, ws)
+    assert score.composite_score == 0.45
+    assert score.rating == "Medium"
+
+
 # ----- Golden clause scores -----
 def test_score_clause_golden_values():
     """Hand-computed, no Insurance: 0.4*0.9 + 0.2*1 + 0.2*1 + 0.2*0.5 = 0.86 -> High."""
