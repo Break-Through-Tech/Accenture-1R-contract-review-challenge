@@ -1,0 +1,76 @@
+{
+  "weight_version_id": "v1-placeholder",
+  "created_by": "engineering-placeholder",
+  "description": "PLACEHOLDER: every value in this file is an illustrative placeholder pending advisor input, and the four signals themselves are proposals. Severities use tiers (None 0, Low 0.25, Medium 0.5, High 0.75, Critical 1.0); unlisted categories fall back to default_severity. Thresholds follow the tier arithmetic: a Critical clause, or a High-tier clause with one full-strength aggravating signal, rates High; a High-tier clause, or a Medium-tier clause with one full-strength aggravating signal, rates Medium. Values assume a neutral reviewer, not a specific party. Do not use these scores for real triage decisions.",
+  "signal_weights": {
+    "category_severity": 0.55,
+    "one_sidedness": 0.15,
+    "magnitude": 0.15,
+    "contract_context": 0.15
+  },
+  "medium_threshold": 0.35,
+  "high_threshold": 0.55,
+  "default_severity": 0.5,
+  "category_severity": {
+    "Uncapped Liability": 1.0,
+    "Liquidated Damages": 0.75,
+    "Non-Compete": 0.75,
+    "Exclusivity": 0.75,
+    "Governing Law": 0.25,
+    "Agreement Date": 0.0,
+    "Document Name": 0.0,
+    "Effective Date": 0.0,
+    "Parties": 0.0
+  },
+  "cooccurrence_rules": [
+    {"target_category": "Liquidated Damages", "other_category": "Cap On Liability", "when": "present", "adjustment": -0.2},
+    {"target_category": "Non-Compete", "other_category": "Competitive Restriction Exception", "when": "present", "adjustment": -0.2},
+    {"target_category": "Exclusivity", "other_category": "Minimum Commitment", "when": "present", "adjustment": 0.5},
+    {"target_category": "Minimum Commitment", "other_category": "Exclusivity", "when": "present", "adjustment": 0.5},
+    {"target_category": "Anti-Assignment", "other_category": "Change Of Control", "when": "present", "adjustment": 0.3},
+    {"target_category": "Uncapped Liability", "other_category": "Insurance", "when": "absent", "adjustment": 0.5},
+    {"target_category": "Liquidated Damages", "other_category": "Cap On Liability", "when": "absent", "adjustment": 0.5},
+    {"target_category": "Minimum Commitment", "other_category": "Termination For Convenience", "when": "absent", "adjustment": 0.3}
+  ],
+  "aggravating_phrases": [
+    "sole discretion",
+    "absolute discretion",
+    "for any reason",
+    "at any time",
+    "without cause",
+    "without notice",
+    "without liability",
+    "shall not be liable",
+    "waives"
+  ],
+  "mitigating_phrases": [
+    "either party",
+    "each party",
+    "mutual",
+    "reasonable",
+    "unreasonably withheld",
+    "subject to",
+    "provided that",
+    "to the extent",
+    "prior written notice",
+    "good faith"
+  ],
+  "scope_phrases": [
+    "perpetual",
+    "perpetuity",
+    "irrevocable",
+    "unlimited",
+    "worldwide",
+    "throughout the world"
+  ],
+  "magnitude_rules": [
+    {"category": "Non-Compete", "low_days": 180, "high_days": 1095},
+    {"category": "No-Solicit Of Employees", "low_days": 365, "high_days": 1095},
+    {"category": "No-Solicit Of Customers", "low_days": 365, "high_days": 1095},
+    {"category": "Exclusivity", "low_days": 365, "high_days": 1825},
+    {"category": "Renewal Term", "low_days": 365, "high_days": 1825},
+    {"category": "Notice Period To Terminate Renewal", "low_days": 30, "high_days": 180},
+    {"category": "Post-Termination Services", "low_days": 90, "high_days": 730},
+    {"category": "Warranty Duration", "low_days": 90, "high_days": 365, "longer_is_riskier": false}
+  ]
+}
