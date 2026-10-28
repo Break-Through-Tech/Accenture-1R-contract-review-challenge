@@ -1,0 +1,31 @@
+{
+  "experiment": "word_char_tfidf",
+  "data": "data/cuad/train_separate_questions.json",
+  "split": {
+    "method": "split_by_contract",
+    "seed": 42,
+    "val_fraction": 0.2,
+    "train_contracts": 326,
+    "validation_contracts": 82
+  },
+  "chunking": {
+    "method": "chunk_sentence_windows",
+    "tokenizer": "distilbert/distilroberta-base",
+    "tokenizer_revision": "fb53ab8802853c8e4fbdbcd0529f21fc6f459b2b",
+    "max_tokens": 512,
+    "overlap_tokens": 64
+  },
+  "training": {
+    "c": 1.0,
+    "word_features": "1-2 grams, sublinear TF, max 100000",
+    "character_features": "char_wb 3-5 grams, min_df=2, sublinear TF, max 100000",
+    "class_weight": "balanced"
+  },
+  "thresholds_tuned_on": "validation (optimistic; use a separate calibration split for final reporting)",
+  "macro_f1_descriptive": {
+    "word_char_tfidf": 0.630990487804878,
+    "word_tfidf": 0.5710724390243902
+  },
+  "beats_word_tfidf_on_validation_macro_f1": true,
+  "test_data_used": false
+}
