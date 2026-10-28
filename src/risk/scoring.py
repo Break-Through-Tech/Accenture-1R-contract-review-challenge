@@ -18,8 +18,9 @@ Unknown output of evidence.extractor.extract_for_predictions (evidence=None for 
 'WeightSet' from schema.load_weight_set()
 
 PLACEHOLDER: the signals and the default weights are placeholders pending advisor sign-off.
-Clauses with no evidence are still scored (risk_language is 0 for them) and flagged with
-has_evidence=False; whether they should count toward the contract score is an open question.
+Clauses with no evidence are still scored (one_sidedness and magnitude are 0 for them) and
+flagged with has_evidence=False; whether they should count toward the contract score is an
+open question.
 """
 from collections import defaultdict
 from collections.abc import Iterable, Set
@@ -55,6 +56,7 @@ def score_clause(clause: ClauseInput, contract_categories: Set[str], weight_set:
         contract_id=clause.contract_id,
         chunk_index=clause.chunk_index,
         category=clause.category,
+        probability=clause.probability,
         signals=signals,
         composite_score=composite,
         rating=rate(composite, weight_set),

@@ -5,16 +5,20 @@ separate means the scoring logic can be retuned without retraining the model.
 
 This module holds the Pydantic models that cross the risk-scoring stage boundary:
 - WeightSet: the advisor-owned, versioned config that scoring reads (signal weights,
-  rating thresholds, category severities, co-occurrence rules, risk phrases)
+  rating thresholds, category severities, context rules, phrase lists, magnitude rules)
 - ClauseInput: one detected clause, i.e. a cached classifier probability plus the
   Evidence from src/evidence/ (or None if the clause went to the Unknown queue)
 - ClauseScore: the scored row, which always records the weight_version_id it used
 
-PLACEHOLDER: the four signals in SignalName are placeholders until they are settled with
-the advisor. See signals.py for how to add, remove or rename one.
+PLACEHOLDER: the four signals in SignalName are proposals until they are settled with
+the advisor. See signals.py for what each one measures and how to add, remove or rename one.
+
+Detection confidence is deliberately not a signal: a confident detection is not a riskier
+clause. The classifier's per-class thresholds already gate which clauses reach scoring,
+and ClauseScore carries the probability so the UI can still show it.
 
 Creating a new weight version:
-1. Copy src/risk/weights/default_weights_v0.json to a new file
+1. Copy src/risk/weights/default_weights_v1.json to a new file
 2. Give it a new, unique weight_version_id and set created_by
 3. Edit the values; load_weight_set() validates bounds, the weight sum and threshold order
 Never edit a version in place: scores record their weight_version_id, so changing the
@@ -31,14 +35,15 @@ from src.evidence.cues import normalize_category
 from src.evidence.schema import Evidence
 from src.labels.categories import CATEGORIES
 
-DEFAULT_WEIGHTS_PATH = Path(__file__).resolve().parent / "weights" / "default_weights_v0.json"
+DEFAULT_WEIGHTS_PATH = Path(__file__).resolve().parent / "weights" / "default_weights_v1.json"
 
 # PLACEHOLDER signals pending advisor sign-off; every name here needs a function in signals.SIGNALS
-SignalName = Literal["category_severity", "detection_confidence", "risk_language", "cooccurrence"]
+SignalName = Literal["category_severity", "one_sidedness", "magnitude", "contract_context"]
 SIGNAL_NAMES: tuple[str, ...] = get_args(SignalName)
 
 Rating = Literal["Low", "Medium", "High"]
 UnitFloat = Annotated[float, Field(ge=0.0, le=1.0)]
+Phrase = Annotated[str, Field(min_length=1)]
 
 # Allowed slack when checking that signal weights sum to 1.0 (JSON floats rarely sum exactly)
 WEIGHT_SUM_TOLERANCE = 1e-6
@@ -54,17 +59,48 @@ def _check_category(name: str) -> str:
 
 
 class CooccurrenceRule(BaseModel):
-    """If other_category is detected in the same contract, shift target_category's cooccurrence signal by adjustment."""
+    """
+    A rule that fires for target_category when other_category is present in (or absent from) the
+    same contract. A positive adjustment raises the target's contract_context signal (e.g. Uncapped
+    Liability with no Insurance); a negative one lowers its category_severity, because a protection
+    elsewhere in the contract softens the clause's impact (e.g. Uncapped Liability with a Cap On Liability).
+    """
     model_config = ConfigDict(extra="forbid")
 
     target_category: str
     other_category: str
+    when: Literal["present", "absent"] = "present"
     adjustment: float = Field(ge=-1.0, le=1.0)
 
     @field_validator("target_category", "other_category")
     @classmethod
     def check_categories(cls, name: str) -> str:
         return _check_category(name)
+
+
+class MagnitudeRule(BaseModel):
+    """
+    How long is too long for one category's durations, in days. A duration at or below low_days
+    scores 0 and one at or above high_days scores 1, linearly in between. Set longer_is_riskier
+    to False when a short duration is the risk (e.g. a 30-day warranty).
+    """
+    model_config = ConfigDict(extra="forbid")
+
+    category: str
+    low_days: float = Field(ge=0.0)
+    high_days: float
+    longer_is_riskier: bool = True
+
+    @field_validator("category")
+    @classmethod
+    def check_category(cls, name: str) -> str:
+        return _check_category(name)
+
+    @model_validator(mode="after")
+    def check_range(self) -> Self:
+        if self.low_days >= self.high_days:
+            raise ValueError("low_days must be below high_days")
+        return self
 
 
 class WeightSet(BaseModel):
@@ -83,7 +119,10 @@ class WeightSet(BaseModel):
     category_severity: dict[str, UnitFloat] = {}
     default_severity: UnitFloat
     cooccurrence_rules: list[CooccurrenceRule] = []
-    risk_phrases: list[Annotated[str, Field(min_length=1)]] = []
+    aggravating_phrases: list[Phrase] = []
+    mitigating_phrases: list[Phrase] = []
+    scope_phrases: list[Phrase] = []
+    magnitude_rules: list[MagnitudeRule] = []
 
     @field_validator("category_severity")
     @classmethod
@@ -110,6 +149,8 @@ class ClauseInput(BaseModel):
     """
     One detected clause to score: the cached classifier probability for (chunk, category)
     plus its grounded Evidence, or None when the clause went to the Unknown queue.
+    Only pass clauses that cleared the classifier's per-class threshold: every input counts
+    as detected when contract_context checks which categories are present.
     """
     contract_id: str
     chunk_index: int = Field(ge=0)
@@ -123,6 +164,7 @@ class ClauseScore(BaseModel):
     contract_id: str
     chunk_index: int
     category: str
+    probability: UnitFloat
     signals: dict[SignalName, UnitFloat]
     composite_score: UnitFloat
     rating: Rating
