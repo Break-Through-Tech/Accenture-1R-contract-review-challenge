@@ -19,24 +19,26 @@ per channel. All settings are explicit in the report.
 From the repository root, with the pinned tokenizer available in `.venv/hf-cache`:
 
 ```sh
-HF_HUB_OFFLINE=1 python -m pytest tests/test_word_char_tfidf.py
-HF_HUB_OFFLINE=1 python -m scripts.evaluate_word_char_tfidf
+HF_HUB_OFFLINE=1 .venv/bin/python -m pytest tests/test_word_char_tfidf.py
+HF_HUB_OFFLINE=1 TOKENIZERS_PARALLELISM=false .venv/bin/python -m scripts.evaluate_word_char_tfidf --output results/word_char_tfidf_nested
 ```
 
-The runner reads `train_separate_questions.json` only, uses `split_by_contract` with
-a fixed seed and the common sentence-aware chunker, and trains the old word-only and
-new hybrid models on identical chunks. It writes per-category precision/recall/F1,
-threshold JSON files, validation scores, and a report under
-`results/word_char_tfidf/`. `test.json` is never loaded. Thresholds are tuned on the
-validation set for diagnostic parity with the existing threshold workflow; therefore
-validation F1 is optimistic and must not be presented as an unbiased final estimate.
+The runner reads `train_separate_questions.json` only. It creates fixed contract-level
+training, calibration, and evaluation partitions; fits thresholds on calibration only;
+and reports per-category precision/recall/F1 on the untouched evaluation partition.
+Both models use the same contracts, chunker, labels, and tokenization. It writes ID
+hashes, partition sizes, per-category results, thresholds, raw probabilities, and a
+report under `results/word_char_tfidf_nested/`. `test.json` is never loaded. This
+supersedes the initial exploratory report below, which tuned thresholds and reported
+metrics on the same validation set and is explicitly optimistic.
 
-The primary comparison is macro per-category F1; also inspect per-category precision
-and recall, especially rare categories, and compare PR-AUC in follow-up evaluation.
-Compare against the saved baseline only if its split and chunk settings are identical.
-The current saved CSV alone does not establish that comparability. Keep word-only
-features as an ablation, then tune character n-gram range, minimum document frequency,
-and regularization on a development/calibration protocol before any final holdout.
+The current nested holdout compares against a word-only model freshly trained using
+the same partition and pipeline; it does not prove comparability with historical
+`results/tfidf_baseline_metrics.csv` unless that CSV's source split and chunking match.
+The primary metric is unweighted macro per-category F1, accompanied by per-category
+precision, recall, F1, and support. Do not repeatedly tune the design against this
+single evaluation partition; use new fixed development seeds or cross-validation for
+iteration, and reserve the official `test.json` for an agreed final evaluation.
 
 ## Registry and store compatibility
 

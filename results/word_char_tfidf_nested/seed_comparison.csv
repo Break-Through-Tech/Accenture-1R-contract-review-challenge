@@ -1,0 +1,3 @@
+seed,output,word_tfidf_macro_f1,word_char_tfidf_macro_f1,delta,train_contracts,calibration_contracts,evaluation_contracts
+42,word_char_tfidf_nested,0.4760236585365854,0.5330670731707318,0.05704341463414636,260,66,82
+7,word_char_tfidf_seed7,0.4545856097560976,0.5149331707317073,0.060347560975609726,260,66,82
