@@ -32,13 +32,31 @@ report under `results/word_char_tfidf_nested/`. `test.json` is never loaded. Thi
 supersedes the initial exploratory report below, which tuned thresholds and reported
 metrics on the same validation set and is explicitly optimistic.
 
-The current nested holdout compares against a word-only model freshly trained using
-the same partition and pipeline; it does not prove comparability with historical
-`results/tfidf_baseline_metrics.csv` unless that CSV's source split and chunking match.
-The primary metric is unweighted macro per-category F1, accompanied by per-category
-precision, recall, F1, and support. Do not repeatedly tune the design against this
-single evaluation partition; use new fixed development seeds or cross-validation for
-iteration, and reserve the official `test.json` for an agreed final evaluation.
+The runner defaults to five predeclared seeds (`42 7 17 23 101`), producing
+contract-level train/calibration/evaluation splits for each seed. Results for seed 42
+are in `results/word_char_tfidf_nested/`; the other runs are in sibling directories
+named `results/word_char_tfidf_nested_seedN/`. Aggregate per-seed macro-F1 and
+per-category deltas are written under the seed-42 directory. Reproduce all five with:
+
+```sh
+HF_HUB_OFFLINE=1 TOKENIZERS_PARALLELISM=false .venv/bin/python -m scripts.evaluate_word_char_tfidf
+```
+
+Current observed mean macro-F1 is 0.432 for word-only vs 0.504 for word+character
+across five splits; the hybrid wins on all five (mean absolute delta +0.072). Positive
+mean per-category deltas occur in 37/41 categories. These are overlapping random
+splits, not five statistically independent datasets; this is robustness evidence,
+not a confidence interval or a definitive significance claim. Rare categories remain
+unstable, and calibration may have no positives for some labels on a given seed.
+
+The comparison uses a freshly trained word-only model with exactly the same partition
+and pipeline; it does not prove comparability with historical
+`results/tfidf_baseline_metrics.csv` unless that CSV's split and chunking match. The
+primary metric is unweighted macro per-category F1, accompanied by per-category
+precision, recall, and support. The encoder has not yet been compared. Avoid further
+tuning against these evaluation partitions; reserve `test.json` for an agreed final
+evaluation and compare with the encoder on aligned data/settings before claiming
+production superiority.
 
 ## Registry and store compatibility
 
