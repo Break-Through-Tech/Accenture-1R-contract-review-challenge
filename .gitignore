@@ -7,3 +7,6 @@ __pycache__/
 results/token_chunking_development/chunks.csv
 results/token_chunking_comparison/chunks.csv
 .DS_Store
+outputs/
+mlflow.db
+mlruns/

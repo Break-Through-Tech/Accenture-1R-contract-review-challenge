@@ -9,3 +9,6 @@ nupunkt==0.8.0
 
 mlflow==3.17.2
 SQLAlchemy==2.1.6
+torch
+accelerate
+pyyaml
