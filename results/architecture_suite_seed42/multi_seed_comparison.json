@@ -1,0 +1,208 @@
+{
+  "seeds": [
+    42,
+    7,
+    17,
+    23
+  ],
+  "results_by_seed": [
+    {
+      "seed": 42,
+      "model": "context_word_char_tfidf",
+      "precision": 0.3692007317073171,
+      "recall": 0.470479756097561,
+      "f1": 0.34805780487804877,
+      "aupr": 0.3848301270632379
+    },
+    {
+      "seed": 42,
+      "model": "positive_prototype_retrieval",
+      "precision": 0.2204368292682927,
+      "recall": 0.2280048780487805,
+      "f1": 0.16190463414634146,
+      "aupr": 0.1672345885750748
+    },
+    {
+      "seed": 42,
+      "model": "word_char_classifier_chain",
+      "precision": 0.5713841463414634,
+      "recall": 0.5563787804878049,
+      "f1": 0.5221387804878048,
+      "aupr": 0.5579831011967209
+    },
+    {
+      "seed": 42,
+      "model": "word_char_tfidf",
+      "precision": 0.5523660975609755,
+      "recall": 0.5867065853658536,
+      "f1": 0.5330670731707318,
+      "aupr": 0.5971198237476559
+    },
+    {
+      "seed": 42,
+      "model": "word_tfidf",
+      "precision": 0.4969414634146342,
+      "recall": 0.5216843902439025,
+      "f1": 0.4760236585365854,
+      "aupr": 0.5075491546423347
+    },
+    {
+      "seed": 7,
+      "model": "context_word_char_tfidf",
+      "precision": 0.37247780487804877,
+      "recall": 0.42195756097560977,
+      "f1": 0.3492346341463414,
+      "aupr": 0.36275668887176205
+    },
+    {
+      "seed": 7,
+      "model": "positive_prototype_retrieval",
+      "precision": 0.18226853658536588,
+      "recall": 0.214200243902439,
+      "f1": 0.15709634146341464,
+      "aupr": 0.15994262513075108
+    },
+    {
+      "seed": 7,
+      "model": "word_char_classifier_chain",
+      "precision": 0.5734114634146341,
+      "recall": 0.506300731707317,
+      "f1": 0.5048190243902438,
+      "aupr": 0.5529231389618973
+    },
+    {
+      "seed": 7,
+      "model": "word_char_tfidf",
+      "precision": 0.5919065853658537,
+      "recall": 0.5144748780487804,
+      "f1": 0.5149331707317073,
+      "aupr": 0.5854461459704445
+    },
+    {
+      "seed": 7,
+      "model": "word_tfidf",
+      "precision": 0.5006690243902439,
+      "recall": 0.46959170731707317,
+      "f1": 0.4545856097560976,
+      "aupr": 0.49103607460984583
+    },
+    {
+      "seed": 17,
+      "model": "context_word_char_tfidf",
+      "precision": 0.3338280487804878,
+      "recall": 0.36644512195121953,
+      "f1": 0.31409634146341464,
+      "aupr": 0.3352170634744182
+    },
+    {
+      "seed": 17,
+      "model": "positive_prototype_retrieval",
+      "precision": 0.18422195121951218,
+      "recall": 0.21872975609756096,
+      "f1": 0.1630319512195122,
+      "aupr": 0.1679640164879626
+    },
+    {
+      "seed": 17,
+      "model": "word_char_classifier_chain",
+      "precision": 0.5060229268292683,
+      "recall": 0.5140936585365853,
+      "f1": 0.47004341463414634,
+      "aupr": 0.5221058752932058
+    },
+    {
+      "seed": 17,
+      "model": "word_char_tfidf",
+      "precision": 0.5343212195121951,
+      "recall": 0.5128229268292682,
+      "f1": 0.496910487804878,
+      "aupr": 0.5630627906108538
+    },
+    {
+      "seed": 17,
+      "model": "word_tfidf",
+      "precision": 0.4215034146341463,
+      "recall": 0.44309170731707315,
+      "f1": 0.4090946341463415,
+      "aupr": 0.45858261617260243
+    },
+    {
+      "seed": 23,
+      "model": "context_word_char_tfidf",
+      "precision": 0.31014439024390245,
+      "recall": 0.40861512195121946,
+      "f1": 0.3240682926829268,
+      "aupr": 0.33180749489677486
+    },
+    {
+      "seed": 23,
+      "model": "positive_prototype_retrieval",
+      "precision": 0.1462619512195122,
+      "recall": 0.33205975609756094,
+      "f1": 0.18323048780487805,
+      "aupr": 0.17396207375038367
+    },
+    {
+      "seed": 23,
+      "model": "word_char_classifier_chain",
+      "precision": 0.5269390243902439,
+      "recall": 0.4696346341463415,
+      "f1": 0.4631292682926829,
+      "aupr": 0.4984155835144047
+    },
+    {
+      "seed": 23,
+      "model": "word_char_tfidf",
+      "precision": 0.5829924390243902,
+      "recall": 0.5118595121951219,
+      "f1": 0.5053360975609755,
+      "aupr": 0.5398869864923852
+    },
+    {
+      "seed": 23,
+      "model": "word_tfidf",
+      "precision": 0.4413407317073171,
+      "recall": 0.46193731707317076,
+      "f1": 0.42316951219512194,
+      "aupr": 0.4631988620563636
+    }
+  ],
+  "summary": [
+    {
+      "model": "context_word_char_tfidf",
+      "mean_macro_f1": 0.3338642682926829,
+      "std_macro_f1": 0.017554075467439385,
+      "wins_vs_word_char": 0,
+      "n_seeds": 4
+    },
+    {
+      "model": "positive_prototype_retrieval",
+      "mean_macro_f1": 0.1663158536585366,
+      "std_macro_f1": 0.011566433132623965,
+      "wins_vs_word_char": 0,
+      "n_seeds": 4
+    },
+    {
+      "model": "word_char_classifier_chain",
+      "mean_macro_f1": 0.4900326219512195,
+      "std_macro_f1": 0.028123548616218165,
+      "wins_vs_word_char": 0,
+      "n_seeds": 4
+    },
+    {
+      "model": "word_char_tfidf",
+      "mean_macro_f1": 0.5125617073170732,
+      "std_macro_f1": 0.015527008470035561,
+      "wins_vs_word_char": 0,
+      "n_seeds": 4
+    },
+    {
+      "model": "word_tfidf",
+      "mean_macro_f1": 0.4407183536585366,
+      "std_macro_f1": 0.0302588103792453,
+      "wins_vs_word_char": 0,
+      "n_seeds": 4
+    }
+  ],
+  "caveat": "Overlapping randomized contract splits; descriptive results, not independent samples or significance tests. test.json unused."
+}
