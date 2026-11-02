@@ -1,0 +1,73 @@
+{
+  "experiment": "three_additional_architectures",
+  "architectures": {
+    "context_word_char_tfidf": "word+char TF-IDF on current chunk plus adjacent chunk texts; center-chunk labels",
+    "word_char_classifier_chain": "random-order classifier chain over word+char TF-IDF features",
+    "positive_prototype_retrieval": "max cosine similarity to category-positive train chunks in word+char TF-IDF space",
+    "controls": [
+      "word_tfidf",
+      "word_char_tfidf"
+    ]
+  },
+  "split": {
+    "seed": 17,
+    "contract_counts": {
+      "training": 260,
+      "calibration": 66,
+      "evaluation": 82
+    },
+    "contract_id_sha256": {
+      "training": "e1971daa154d964ed368bcdc247c8069f73e819fd13582f078ae2d48e3f7e867",
+      "calibration": "6f7de8b0f2780627b92dcef554b6076659d82ec1833acb676e05c14b0fd03bb2",
+      "evaluation": "64df84d1c690f5575f4073e41d5cc8c5b8cf164b653917836be7b451838d94dc"
+    },
+    "chunk_counts": {
+      "training": 8817,
+      "calibration": 1787,
+      "evaluation": 2516
+    }
+  },
+  "chunking": {
+    "method": "sentence_token",
+    "tokenizer": "distilbert/distilroberta-base",
+    "tokenizer_revision": "fb53ab8802853c8e4fbdbcd0529f21fc6f459b2b",
+    "max_tokens": 512,
+    "overlap_tokens": 64
+  },
+  "thresholds_fit_on": "calibration contracts only",
+  "metrics_on": "held-out evaluation contracts",
+  "macro_metrics": {
+    "context_word_char_tfidf": {
+      "precision": 0.3338280487804878,
+      "recall": 0.36644512195121953,
+      "f1": 0.31409634146341464,
+      "aupr": 0.3352170634744182
+    },
+    "positive_prototype_retrieval": {
+      "precision": 0.18422195121951218,
+      "recall": 0.21872975609756096,
+      "f1": 0.1630319512195122,
+      "aupr": 0.1679640164879626
+    },
+    "word_char_classifier_chain": {
+      "precision": 0.5060229268292683,
+      "recall": 0.5140936585365853,
+      "f1": 0.47004341463414634,
+      "aupr": 0.5221058752932058
+    },
+    "word_char_tfidf": {
+      "precision": 0.5343212195121951,
+      "recall": 0.5128229268292682,
+      "f1": 0.496910487804878,
+      "aupr": 0.5630627906108538
+    },
+    "word_tfidf": {
+      "precision": 0.4215034146341463,
+      "recall": 0.44309170731707315,
+      "f1": 0.4090946341463415,
+      "aupr": 0.45858261617260243
+    }
+  },
+  "data_sha256": "7de21d2bb741ac939e2a839ef9640634a5e0f9f40ea2b82c6833baf7db33dab4",
+  "test_data_used": false
+}
