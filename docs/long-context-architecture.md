@@ -4,17 +4,18 @@
 
 This is a neural hierarchical model, not a sparse-feature variant. Each shared
 sentence-aware token chunk is encoded by the pretrained DistilRoBERTa backbone. The
-ordered chunk embeddings for one contract are then processed as a **bidirectional
-GRU sequence**, and a 41-way linear head predicts the labels for each contextualized
-chunk. Consequently, each chunk's classification can use learned signals from chunks
-before and after it, across the contract—not only its own 512-token window.
+ordered chunk embeddings for one contract are then processed by a **two-layer
+inter-chunk Transformer encoder** with learned positional embeddings, and a 41-way
+linear head predicts labels for each contextualized chunk. Every chunk can attend to
+all other chunks in its contract, not only nearby text or its own 512-token window.
+A bidirectional GRU variant is also supported for ablation (`context_type: bigru`).
 
 Training examples are complete contract sequences with the existing per-chunk
 multi-hot labels. A masked weighted BCE objective ignores padded chunk slots. The
-encoder is fine-tuned jointly with the context GRU and classifier; gradient
-checkpointing and one contract per batch keep activation memory manageable. Inference
-must score all ordered chunks for one contract together; scoring chunks independently
-would discard the core context mechanism.
+encoder is fine-tuned jointly with the inter-chunk Transformer and classifier; gradient
+checkpointing, chunk-level microbatches, and one contract per batch bound activation
+memory. Inference must score all ordered chunks for one contract together; scoring
+chunks independently would discard the core context mechanism.
 
 ## Reproducible protocol
 
@@ -41,7 +42,16 @@ call. Do not mix chunks from different contracts in one call, because the recurr
 state encodes within-contract context.
 
 The forward pass, padding masks, loss masking, grouping, and backpropagation are covered
-by unit tests. This environment has no CUDA device; a full real-data run across 9,025
-training chunks and four epochs has **not** been performed here. CPU smoke tests cannot
-establish model quality. Compare this model to the word+character model using the saved
-seed-42 partitions before making any performance claim; keep `test.json` untouched.
+by unit tests. A CUDA run completed 19 of 20 requested epochs; the process hit a cuBLAS
+internal error starting epoch 20. The best checkpoint (selected by calibration AUPR) was
+successfully evaluated on the untouched evaluation contracts. Results are committed in
+`results/long_context_transformer_seed42/`:
+
+| Model (same seed-42 evaluation contracts) | Macro F1 | Macro AUPR |
+|---|---:|---:|
+| Word + character TF-IDF | 0.533 | 0.597 |
+| Chunk encoder + inter-chunk Transformer | 0.496 | 0.507 |
+
+The neural model is a real long-context architecture and is competitive with the
+word-only baseline, but it does not beat the hybrid yet. The registered predictor
+requires one contract's chunks per call. Keep `test.json` untouched.
