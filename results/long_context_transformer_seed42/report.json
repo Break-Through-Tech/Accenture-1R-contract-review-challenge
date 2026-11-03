@@ -146,5 +146,13 @@
     "aupr": 0.5070630759666203
   },
   "data_sha256": "7de21d2bb741ac939e2a839ef9640634a5e0f9f40ea2b82c6833baf7db33dab4",
-  "test_data_used": false
+  "test_data_used": false,
+  "registry": {
+    "name": "clause-classifier-long-context",
+    "version": "1",
+    "experiment": "clause-review-long-context",
+    "run_id": "d78e1bca1c6f40c6a96e61290d47d223",
+    "tracking_database": "outputs/mlflow/tracking.db (local, ignored)",
+    "artifact_store_smoke": "one synthetic contract; 41 raw category probabilities persisted in outputs/artifact_store.sqlite (local, ignored)"
+  }
 }

@@ -39,6 +39,27 @@ def test_mlflow_registry_roundtrip(tmp_path):
     assert loaded.predict(["a", "b"]).shape == (2, len(CATEGORIES))
 
 
+def test_registered_bundle_predictions_can_be_persisted(tmp_path):
+    registered = register_bundle(
+        _bundle(), experiment_name="end-to-end", registry_name="end-to-end-model",
+        metrics={"macro_f1": 0.5}, metadata={"split_seed": 42},
+        tracking_uri=tmp_path / "mlflow.db",
+    )
+    text = "abcdefgh"
+    chunk_id = "contract-1:0"
+    probabilities = registered.predict_proba([text])[0]
+    store = ArtifactStore(tmp_path / "artifacts.db")
+    store.put_contract("contract-1", text)
+    store.put_chunk(chunk_id=chunk_id, contract_id="contract-1", chunk_index=0,
+                    start=0, end=len(text), text=text)
+    store.put_probabilities(chunk_id, registered.model_version, CATEGORIES,
+                            probabilities.tolist())
+    assert store.get_probabilities(chunk_id, registered.model_version) == dict(
+        zip(CATEGORIES, probabilities.tolist())
+    )
+    store.close()
+
+
 def test_store_persists_predictions_idempotently(tmp_path):
     store = ArtifactStore(tmp_path / "artifacts.db")
     store.put_contract("contract-1", "abcdefgh")

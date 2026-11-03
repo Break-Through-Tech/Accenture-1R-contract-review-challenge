@@ -1,4 +1,4 @@
-# Model registry and artifact store foundations
+# Model registry and artifact store
 
 ## Model/prediction contract
 
@@ -65,5 +65,14 @@ store.put_probabilities(chunk_id, registered.model_version, CATEGORIES, probabil
 
 Install dependencies with `uv pip install --python .venv/bin/python -r requirements.txt`.
 The local test suite exercises MLflow save/load and SQLite persistence in temporary
-directories. Keep generated registry databases and model artifacts local; do not
+directories, including a registered-bundle-to-artifact-store prediction roundtrip.
+
+The long-context Transformer candidate has also been registered locally as
+`clause-classifier-long-context` version `1` (experiment `clause-review-long-context`).
+Its held-out metrics are recorded in
+`results/long_context_transformer_seed42/report.json`; it is a candidate, not a
+replacement for the stronger word+character baseline. A CPU-loaded registry bundle
+was smoke-tested through inference and its 41 raw probabilities were persisted to
+`outputs/artifact_store.sqlite` under that model version. Both outputs are local and
+ignored by Git. Keep generated registry databases and model artifacts local; do not
 commit datasets or model weights.
