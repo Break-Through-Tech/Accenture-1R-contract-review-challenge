@@ -85,6 +85,22 @@ def test_long_context_classifier_empty_predictions_have_expected_shape():
     assert output.loss is None
 
 
+def test_inter_chunk_transformer_aggregates_context_and_masks_padded_chunk():
+    model = LongContextClassifier(
+        FakeEncoder(), hidden_size=8, num_labels=41, dropout=0,
+        context_type="transformer", context_layers=2, attention_heads=2,
+    )
+    input_ids = torch.tensor([[[1, 2], [3, 4]], [[5, 6], [0, 0]]])
+    attention = input_ids.ne(0).long()
+    chunk_mask = torch.tensor([[True, True], [True, False]])
+    labels = torch.zeros((2, 2, 41))
+    output = model(input_ids, attention, chunk_mask, labels=labels)
+
+    assert output.logits.shape == (2, 2, 41)
+    assert torch.isfinite(output.logits).all()
+    assert output.loss is not None
+
+
 def test_long_context_registry_predictor_scores_one_contract_sequence():
     model = LongContextClassifier(FakeEncoder(), hidden_size=8, num_labels=41)
     predictor = LongContextPredictor(model, FakeTokenizer(), max_length=8)

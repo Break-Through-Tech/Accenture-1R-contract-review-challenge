@@ -11,8 +11,12 @@ calibration_fraction: 0.2
 
 # Training controls
 learning_rate: 2.0e-5
-epochs: 4
+epochs: 19
 contracts_per_batch: 1
+encoder_chunk_batch_size: 4
 gradient_accumulation: 8
 pos_weight_cap: 50.0
 dropout: 0.2
+context_type: transformer
+context_layers: 2
+attention_heads: 8
