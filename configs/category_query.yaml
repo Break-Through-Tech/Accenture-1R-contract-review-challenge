@@ -1,0 +1,21 @@
+# Same encoder revision, tokenizer, chunking, and nested seed-42 contract split.
+model_name: distilbert/distilroberta-base
+model_revision: fb53ab8802853c8e4fbdbcd0529f21fc6f459b2b
+max_tokens: 512
+overlap_tokens: 64
+seed: 42
+evaluation_fraction: 0.2
+calibration_fraction: 0.2
+
+# Description-initialized category-query evidence model.
+epochs: 30
+learning_rate: 2.0e-5
+contracts_per_batch: 1
+encoder_chunk_batch_size: 4
+gradient_accumulation: 8
+pos_weight_cap: 50.0
+dropout: 0.2
+context_layers: 2
+attention_heads: 8
+contract_loss_weight: 0.25
+evidence_loss_weight: 0.1
