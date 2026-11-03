@@ -16,10 +16,17 @@ from src.registry.bundle import ClauseModelBundle
 class RegisteredClauseModel:
     """Loaded versioned bundle plus its immutable MLflow identifiers."""
 
-    def __init__(self, bundle: ClauseModelBundle, run_id: str, model_version: str):
+    def __init__(self, bundle: ClauseModelBundle, run_id: str, model_version: str,
+                 registry_name: str):
         self.bundle = bundle
         self.run_id = run_id
         self.model_version = model_version
+        self.registry_name = registry_name
+
+    @property
+    def model_key(self) -> str:
+        """Globally unambiguous key for probability-store rows."""
+        return f"{self.registry_name}:{self.model_version}"
 
     def predict_proba(self, texts: list[str]):
         return self.bundle.predict_proba(texts)
@@ -102,7 +109,7 @@ def register_bundle(
                 raise
         version = client.create_model_version(registry_name, model_uri, run.info.run_id)
     loaded = load_bundle(registry_name, version.version, tracking_uri=tracking_uri)
-    return RegisteredClauseModel(loaded, run.info.run_id, str(version.version))
+    return RegisteredClauseModel(loaded, run.info.run_id, str(version.version), registry_name)
 
 
 def load_bundle(

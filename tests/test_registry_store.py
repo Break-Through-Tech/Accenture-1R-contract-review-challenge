@@ -35,6 +35,7 @@ def test_mlflow_registry_roundtrip(tmp_path):
         tracking_uri=tmp_path / "mlflow.db",
     )
     assert registered.model_version == "1"
+    assert registered.model_key == "contract-review-test:1"
     loaded = load_bundle("contract-review-test", "1", tracking_uri=tmp_path / "mlflow.db")
     assert loaded.predict(["a", "b"]).shape == (2, len(CATEGORIES))
 
@@ -52,9 +53,9 @@ def test_registered_bundle_predictions_can_be_persisted(tmp_path):
     store.put_contract("contract-1", text)
     store.put_chunk(chunk_id=chunk_id, contract_id="contract-1", chunk_index=0,
                     start=0, end=len(text), text=text)
-    store.put_probabilities(chunk_id, registered.model_version, CATEGORIES,
+    store.put_probabilities(chunk_id, registered.model_key, CATEGORIES,
                             probabilities.tolist())
-    assert store.get_probabilities(chunk_id, registered.model_version) == dict(
+    assert store.get_probabilities(chunk_id, registered.model_key) == dict(
         zip(CATEGORIES, probabilities.tolist())
     )
     store.close()

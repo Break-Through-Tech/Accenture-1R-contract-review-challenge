@@ -1,18 +1,21 @@
 from types import SimpleNamespace
 
+import numpy as np
 import torch
 from torch import nn
 
 from src.chunking.chunk import Chunk
 from src.labels.projection import LabeledChunk
 from src.models.encoder.contract_dataset import ContractChunkDataset, collate_contract_sequences
+from src.models.encoder.category_query import CategoryQueryClassifier
 from src.models.encoder.long_context import LongContextClassifier
-from src.registry.predictors import LongContextPredictor
+from src.registry.predictors import CategoryQueryPredictor, LongContextPredictor
 
 
 class FakeEncoder(nn.Module):
     def __init__(self, hidden_size=8):
         super().__init__()
+        self.config = SimpleNamespace(hidden_size=hidden_size)
         self.embedding = nn.Embedding(32, hidden_size)
 
     def forward(self, input_ids, attention_mask):
@@ -99,6 +102,48 @@ def test_inter_chunk_transformer_aggregates_context_and_masks_padded_chunk():
     assert output.logits.shape == (2, 2, 41)
     assert torch.isfinite(output.logits).all()
     assert output.loss is not None
+
+
+def test_category_query_classifier_attends_to_contract_chunks_and_trains():
+    model = CategoryQueryClassifier(
+        FakeEncoder(), torch.randn(41, 8), dropout=0,
+        context_layers=1, attention_heads=2,
+    )
+    input_ids = torch.tensor([[[1, 2], [3, 4]], [[5, 6], [0, 0]]])
+    attention_mask = input_ids.ne(0).long()
+    chunk_mask = torch.tensor([[True, True], [True, False]])
+    labels = torch.zeros((2, 2, 41))
+    labels[0, 1, 3] = 1
+    labels[1, 0, 5] = 1
+
+    output = model(input_ids, attention_mask, chunk_mask, labels,
+                   chunk_pos_weight=torch.ones(41),
+                   contract_pos_weight=torch.ones(41))
+
+    assert output.logits.shape == (2, 2, 41)
+    assert output.contract_logits.shape == (2, 41)
+    assert output.attention_weights.shape == (2, 41, 2)
+    assert torch.allclose(output.attention_weights.sum(-1), torch.ones((2, 41)))
+    assert torch.all(output.attention_weights[1, :, 1] == 0)
+    assert torch.isfinite(output.loss)
+    output.loss.backward()
+    assert model.label_queries.grad is not None
+    assert model.encoder.embedding.weight.grad is not None
+
+
+def test_category_query_predictor_returns_probabilities_and_evidence_attention():
+    model = CategoryQueryClassifier(
+        FakeEncoder(), torch.randn(41, 8), dropout=0,
+        context_layers=1, attention_heads=2,
+    )
+    predictor = CategoryQueryPredictor(model, FakeTokenizer(), max_length=8)
+    result = predictor.predict_with_evidence(["clause one", "second clause"])
+
+    assert result["probabilities"].shape == (2, 41)
+    assert result["attention_weights"].shape == (2, 41)
+    assert result["top_evidence_chunk_indices"].shape == (41,)
+    assert np.allclose(result["attention_weights"].sum(axis=0), 1)
+    assert predictor.predict_proba([]).shape == (0, 41)
 
 
 def test_long_context_registry_predictor_scores_one_contract_sequence():

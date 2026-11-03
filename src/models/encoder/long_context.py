@@ -1,4 +1,4 @@
-"""Hierarchical contract model: chunk encoder plus bidirectional recurrent context."""
+"""Hierarchical contract model: chunk encoder plus cross-chunk context."""
 
 from __future__ import annotations
 
@@ -22,8 +22,8 @@ class LongContextClassifier(nn.Module):
     """Encode each chunk, contextualize the ordered contract sequence, classify per chunk.
 
     The base transformer encodes each sentence-aware chunk independently. A
-    bidirectional GRU then passes information across all chunks in the contract,
-    allowing every chunk's clause predictions to use long-range contract context.
+    configurable BiGRU or Transformer passes information across all chunks in the
+    contract, allowing each chunk's prediction to use long-range contract context.
     """
 
     def __init__(self, encoder: nn.Module, hidden_size: int, num_labels: int,
@@ -114,7 +114,7 @@ def build_long_context_model(model_name: str, revision: str | None = None,
                              encoder_chunk_batch_size: int = 4,
                              context_type: str = "bigru", context_layers: int = 2,
                              attention_heads: int = 8) -> LongContextClassifier:
-    """Load a pretrained transformer encoder and attach the BiGRU chunk-context head."""
+    """Load a pretrained transformer encoder and attach contract-context heads."""
     from transformers import AutoModel
 
     encoder = AutoModel.from_pretrained(model_name, revision=revision)
