@@ -40,12 +40,13 @@ retrieval recall@K and macro classification metrics; keep prototype construction
 
 ## 4. Document-level set prediction of clause instances
 
-Predict a variable-size set of category-tagged clause spans per contract, rather than
+Predict a variable-size set of category-tagged answer-span intervals per contract, rather than
 independent labels for overlapping chunks. Use learned instance slots and bipartite
 matching against CUAD answer spans; include a no-object class and evaluate category
-presence plus span overlap/IoU. Preserve exact source offsets and explicitly measure
-annotation coverage. Do not conflate CUAD answer spans with complete legally sufficient
-clauses.
+presence plus span overlap/IoU. For the first implementation, predict start/end **chunk
+indices** and map them back to exact source character offsets; explicitly report the
+chunk-boundary resolution limit and annotation coverage. Do not conflate CUAD answer spans
+with complete legally sufficient clauses.
 
 ## 5. Long-document sparse-attention encoder
 
