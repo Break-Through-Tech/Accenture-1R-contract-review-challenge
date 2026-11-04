@@ -168,17 +168,6 @@ class CategoryQueryClassifier(nn.Module):
         return (chunk_loss + self.contract_loss_weight * contract_loss
                 + self.evidence_loss_weight * evidence_loss)
 
-    @property
-    def encoder_chunk_batch_size(self) -> int:
-        return self._encoder_chunk_batch_size
-
-    @encoder_chunk_batch_size.setter
-    def encoder_chunk_batch_size(self, value: int) -> None:
-        if value < 1:
-            raise ValueError("encoder_chunk_batch_size must be positive")
-        self._encoder_chunk_batch_size = value
-
-
 def build_category_query_model(
     model_name: str,
     revision: str,

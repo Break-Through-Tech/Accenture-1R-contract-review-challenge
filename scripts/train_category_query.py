@@ -17,11 +17,11 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 import torch
-from torch.utils.data import DataLoader
 from transformers import AutoModel, AutoTokenizer
 
-from scripts.train_long_context import (
-    ROOT, TRAIN_PATH, _aligned_arrays, _digest, _make_loader, _thresholds,
+from src.models.encoder.experiment_utils import (
+    ROOT, TRAIN_PATH, align_chunk_predictions, calibrate_thresholds,
+    digest_contract_ids, make_contract_loader,
 )
 from src.chunking.token_chunker import TOKENIZER_NAME, TOKENIZER_REVISION
 from src.labels.categories import CATEGORIES
@@ -30,7 +30,7 @@ from src.labels.splits import split_by_contract
 from src.metrics import compute_aupr, compute_base_metrics
 from src.models.encoder.category_descriptions import load_category_descriptions
 from src.models.encoder.category_query import CategoryQueryClassifier, build_category_query_model
-from src.models.encoder.contract_dataset import ContractChunkDataset, collate_contract_sequences
+from src.models.encoder.contract_dataset import ContractChunkDataset
 from src.pipeline import prepare_contracts
 from src.registry.predictors import CategoryQueryPredictor
 
@@ -193,11 +193,9 @@ def main() -> None:
     datasets = {name: ContractChunkDataset(value, tokenizer, args.max_tokens)
                 for name, value in chunks.items()}
     loaders = {
-        name: DataLoader(
-            dataset, batch_size=args.contracts_per_batch,
-            shuffle=(name == "training"),
-            collate_fn=lambda items: collate_contract_sequences(items, tokenizer.pad_token_id),
-            generator=torch.Generator().manual_seed(args.seed) if name == "training" else None,
+        name: make_contract_loader(
+            dataset, tokenizer, args.contracts_per_batch,
+            shuffle=(name == "training"), seed=args.seed,
         ) for name, dataset in datasets.items()
     }
     train_chunk_labels = np.asarray([item.labels for item in chunks["training"]], dtype=np.float32)
@@ -276,7 +274,7 @@ def main() -> None:
                 optimizer.zero_grad(set_to_none=True)
 
         calibration_scores, _ = _predict(model, loaders["calibration"], device, amp_dtype)
-        y_cal, score_cal = _aligned_arrays(chunks["calibration"], calibration_scores)
+        y_cal, score_cal = align_chunk_predictions(chunks["calibration"], calibration_scores)
         aupr = float(np.nanmean(compute_aupr(y_cal, score_cal)))
         record = {"epoch": epoch + 1, "train_loss": loss_total / max(steps, 1),
                   "calibration_macro_aupr": aupr}
@@ -306,11 +304,11 @@ def main() -> None:
 
     cal_scores, _ = _predict(model, loaders["calibration"], device, amp_dtype)
     eval_scores, eval_attention = _predict(model, loaders["evaluation"], device, amp_dtype)
-    y_cal, score_cal = _aligned_arrays(chunks["calibration"], cal_scores)
-    y_eval, score_eval = _aligned_arrays(chunks["evaluation"], eval_scores)
+    y_cal, score_cal = align_chunk_predictions(chunks["calibration"], cal_scores)
+    y_eval, score_eval = align_chunk_predictions(chunks["evaluation"], eval_scores)
     if args.evaluate_checkpoint:
         best_aupr = float(np.nanmean(compute_aupr(y_cal, score_cal)))
-    thresholds = _thresholds(y_cal, score_cal)
+    thresholds = calibrate_thresholds(y_cal, score_cal)
     predictions = (score_eval >= np.asarray([thresholds[c] for c in CATEGORIES])).astype(np.uint8)
     metrics = compute_base_metrics(y_eval, predictions, CATEGORIES)
     metrics["aupr"] = compute_aupr(y_eval, score_eval)
@@ -324,7 +322,7 @@ def main() -> None:
     summary = {
         "architecture": "description-initialized category queries with contract-wide cross-attention",
         "contract_counts": {name: len(value) for name, value in groups.items()},
-        "contract_id_sha256": {name: _digest(value) for name, value in ids.items()},
+        "contract_id_sha256": {name: digest_contract_ids(value) for name, value in ids.items()},
         "chunk_counts": {name: len(value) for name, value in chunks.items()},
         "chunking": {"method": "sentence_token", "max_tokens": args.max_tokens,
                      "overlap_tokens": args.overlap_tokens,
@@ -369,7 +367,9 @@ def main() -> None:
             metadata=summary, tracking_uri=ROOT / "outputs/mlflow/tracking.db",
         )
         summary["registry"] = {"run_id": registered.run_id,
-                               "model_version": registered.model_version}
+                               "registry_name": registered.registry_name,
+                               "model_version": registered.model_version,
+                               "model_key": registered.model_key}
         (args.output / "report.json").write_text(json.dumps(summary, indent=2, default=float) + "\n")
     print(json.dumps(summary, indent=2, default=float))
 

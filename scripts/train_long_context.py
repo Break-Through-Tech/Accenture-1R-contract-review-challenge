@@ -1,9 +1,8 @@
-"""Train and evaluate a chunk-encoder + contract-level BiGRU clause model.
+"""Train and evaluate a contract-wide chunk-context clause model.
 
-Each sentence-aware chunk is encoded by DistilRoBERTa, then a bidirectional GRU
-contextualizes the ordered chunk sequence for its entire contract and predicts all
-41 labels per chunk. Uses the nested 260/66/82 contract split; thresholds are
-calibrated on 66 contracts and final metrics use the disjoint 82. Never reads test.json.
+DistilRoBERTa encodes each sentence-aware chunk; the configured inter-chunk context
+encoder predicts all 41 labels across the complete contract. Uses the nested
+260/66/82 contract split and never reads test.json.
 """
 
 from __future__ import annotations
@@ -17,7 +16,6 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 import torch
-from torch.utils.data import DataLoader
 from transformers import AutoModel, AutoTokenizer
 
 from src.chunking.token_chunker import TOKENIZER_NAME, TOKENIZER_REVISION
@@ -25,35 +23,14 @@ from src.labels.categories import CATEGORIES
 from src.labels.loader import load_cuad
 from src.labels.splits import split_by_contract
 from src.metrics import compute_aupr, compute_base_metrics
-from src.models.encoder.contract_dataset import ContractChunkDataset, collate_contract_sequences
+from src.models.encoder.contract_dataset import ContractChunkDataset
+from src.models.encoder.experiment_utils import (
+    ROOT, TRAIN_PATH, align_chunk_predictions, calibrate_thresholds,
+    digest_contract_ids, make_contract_loader,
+)
 from src.models.encoder.long_context import LongContextClassifier, build_long_context_model
 from src.pipeline import prepare_contracts
-from src.thresholds import apply_thresholds, find_best_thresholds
-
-ROOT = Path(__file__).resolve().parents[1]
-TRAIN_PATH = ROOT / "data/cuad/train_separate_questions.json"
-
-
-def _digest(ids: list[str]) -> str:
-    return hashlib.sha256("\n".join(ids).encode("utf-8")).hexdigest()
-
-
-def _thresholds(y_true: np.ndarray, scores: np.ndarray) -> dict[str, float]:
-    active = y_true.sum(axis=0) > 0
-    tuned = find_best_thresholds(
-        y_true[:, active], scores[:, active],
-        [category for category, flag in zip(CATEGORIES, active) if flag],
-    )
-    return {category: float(tuned.get(category, 0.5)) for category in CATEGORIES}
-
-
-def _make_loader(dataset, tokenizer, batch_size: int, shuffle: bool = False, seed: int = 42):
-    generator = torch.Generator().manual_seed(seed)
-    return DataLoader(
-        dataset, batch_size=batch_size, shuffle=shuffle,
-        collate_fn=lambda items: collate_contract_sequences(items, tokenizer.pad_token_id),
-        generator=generator if shuffle else None,
-    )
+from src.thresholds import apply_thresholds
 
 
 def _predict_dataset(model, loader, device, amp_dtype) -> dict[tuple[str, int], np.ndarray]:
@@ -71,14 +48,6 @@ def _predict_dataset(model, loader, device, amp_dtype) -> dict[tuple[str, int], 
                 for index in range(int(mask[row].sum())):
                     results[(contract_id, index)] = probabilities[row, index]
     return results
-
-
-def _aligned_arrays(chunks, predictions):
-    y_true = np.asarray([item.labels for item in chunks], dtype=np.uint8)
-    y_score = np.asarray([
-        predictions[(item.chunk.contract_id, item.chunk.chunk_index)] for item in chunks
-    ], dtype=np.float32)
-    return y_true, y_score
 
 
 def _save_best(model, tokenizer, destination: Path, config: dict) -> None:
@@ -189,7 +158,7 @@ def main() -> None:
     datasets = {name: ContractChunkDataset(value, tokenizer, args.max_tokens)
                 for name, value in chunks.items()}
     loaders = {
-        name: _make_loader(dataset, tokenizer, args.contracts_per_batch,
+        name: make_contract_loader(dataset, tokenizer, args.contracts_per_batch,
                            shuffle=(name == "training"), seed=args.seed)
         for name, dataset in datasets.items()
     }
@@ -251,7 +220,7 @@ def main() -> None:
                 optimizer.zero_grad(set_to_none=True)
 
         calibration_predictions = _predict_dataset(model, loaders["calibration"], device, amp_dtype)
-        y_cal, score_cal = _aligned_arrays(chunks["calibration"], calibration_predictions)
+        y_cal, score_cal = align_chunk_predictions(chunks["calibration"], calibration_predictions)
         aupr = float(np.nanmean(compute_aupr(y_cal, score_cal)))
         epoch_record = {"epoch": epoch + 1, "train_loss": loss_total / max(step_count, 1),
                         "calibration_macro_aupr": aupr}
@@ -280,11 +249,11 @@ def main() -> None:
         model = _load_checkpoint(best_path, device)
     cal_predictions = _predict_dataset(model, loaders["calibration"], device, amp_dtype)
     eval_predictions = _predict_dataset(model, loaders["evaluation"], device, amp_dtype)
-    y_cal, score_cal = _aligned_arrays(chunks["calibration"], cal_predictions)
-    y_eval, score_eval = _aligned_arrays(chunks["evaluation"], eval_predictions)
+    y_cal, score_cal = align_chunk_predictions(chunks["calibration"], cal_predictions)
+    y_eval, score_eval = align_chunk_predictions(chunks["evaluation"], eval_predictions)
     if args.evaluate_checkpoint:
         best_aupr = float(np.nanmean(compute_aupr(y_cal, score_cal)))
-    thresholds = _thresholds(y_cal, score_cal)
+    thresholds = calibrate_thresholds(y_cal, score_cal)
     predictions = apply_thresholds(score_eval, CATEGORIES, thresholds)
     report = compute_base_metrics(y_eval, predictions, CATEGORIES)
     report["aupr"] = compute_aupr(y_eval, score_eval)
@@ -297,7 +266,7 @@ def main() -> None:
     summary = {
         "architecture": f"DistilRoBERTa chunk encoder + {args.context_type} over full contract chunk sequence",
         "contract_counts": {name: len(group) for name, group in groups.items()},
-        "contract_id_sha256": {name: _digest(value) for name, value in ids.items()},
+        "contract_id_sha256": {name: digest_contract_ids(value) for name, value in ids.items()},
         "chunk_counts": {name: len(value) for name, value in chunks.items()},
         "chunking": {"method": "sentence_token", "max_tokens": args.max_tokens,
                      "overlap_tokens": args.overlap_tokens, "tokenizer_revision": TOKENIZER_REVISION},
@@ -329,18 +298,20 @@ def main() -> None:
         bundle = ClauseModelBundle(
             predictor=LongContextPredictor(model, tokenizer, args.max_tokens),
             categories=CATEGORIES, thresholds=thresholds,
-            model_name="distilroberta_bilstm_contract_context",
+            model_name=f"distilroberta_{args.context_type}_contract_context",
             config=summary["training"] | summary["chunking"], seed=args.seed,
         )
         registered = register_bundle(
             bundle, experiment_name="clause-review-long-context",
-            registry_name="clause-classifier", metrics={
+            registry_name="clause-classifier-long-context", metrics={
                 f"evaluation_{name}": float(value)
                 for name, value in summary["macro_metrics"].items()
             }, metadata=summary, tracking_uri=ROOT / "outputs/mlflow/tracking.db",
         )
         summary["registry"] = {"run_id": registered.run_id,
-                               "model_version": registered.model_version}
+                               "registry_name": registered.registry_name,
+                               "model_version": registered.model_version,
+                               "model_key": registered.model_key}
         (args.output / "report.json").write_text(json.dumps(summary, indent=2, default=float) + "\n")
     print(json.dumps(summary, indent=2, default=float))
 
