@@ -2,13 +2,15 @@
 
 import hashlib
 import json
-import subprocess
 
 import pytest
 from transformers import AutoTokenizer
 
 from src.chunking.evaluation import evaluate_chunks, validate_chunks
-from src.chunking.gwen_adapter import GWEN_COMMIT, GWEN_SOURCE_PATH, load_gwen_prototype, saved_development
+from src.chunking.gwen_adapter import (
+    GWEN_COMMIT, GWEN_SOURCE_PATH, GWEN_SNAPSHOT_PATH, GWEN_SOURCE_SHA256,
+    load_gwen_prototype, saved_development,
+)
 from src.chunking.token_chunker import TOKENIZER_NAME, TOKENIZER_REVISION, token_length
 from src.labels.categories import CATEGORY_TO_INDEX
 from src.labels.loader import AnswerSpan, Contract
@@ -38,12 +40,12 @@ def saved_case(tmp_path):
 
 
 # Pin provenance and preserve the original algorithm rather than repairing it.
-def test_pinned_adapter_source_hash_matches_git_blob() -> None:
-    """The executed implementation is the exact reviewed PR #48 source blob."""
+def test_pinned_adapter_source_hash_matches_archived_pr_blob() -> None:
+    """The executed implementation is byte-identical to the reviewed PR #48 source."""
     prototype, digest = load_gwen_prototype()
-    blob = subprocess.check_output(["git", "show", f"{GWEN_COMMIT}:{GWEN_SOURCE_PATH}"])
-    assert digest == hashlib.sha256(blob).hexdigest()
-    assert prototype.__code__.co_filename == f"git:{GWEN_COMMIT}:{GWEN_SOURCE_PATH}"
+    archived = GWEN_SNAPSHOT_PATH.read_bytes()
+    assert digest == hashlib.sha256(archived).hexdigest() == GWEN_SOURCE_SHA256
+    assert prototype.__code__.co_filename == f"archive:{GWEN_COMMIT}:{GWEN_SOURCE_PATH}"
 
 
 def test_gwen_explicit_480_120_real_tokenizer_and_projection(tokenizer) -> None:

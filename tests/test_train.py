@@ -327,14 +327,26 @@ def test_fit_trains_evaluates_and_saves_the_best_checkpoint(tmp_path, tokenizer,
 
 
 def test_fit_saved_train_config_round_trips_to_the_same_config(tmp_path, tokenizer, monkeypatch):
-    """Checks the config written next to the model loads back equal to the one that was used."""
+    """Checks the saved config round-trips and fit requests the matching pinned fast tokenizer."""
     monkeypatch.setattr("src.models.encoder.train.build_model", lambda config: make_tiny_model())
-    config = make_config(output_dir=tmp_path / "run", epochs=1, batch_size=4, grad_accum=1, max_length=32)
+    config = make_config(
+        output_dir=tmp_path / "run", epochs=1, batch_size=4, grad_accum=1, max_length=32,
+        model_revision="fb53ab8802853c8e4fbdbcd0529f21fc6f459b2b",
+    )
+    tokenizer_calls = []
 
+    def get_fast_tokenizer(model_name, **kwargs):
+        tokenizer_calls.append((model_name, kwargs))
+        return tokenizer
+
+    monkeypatch.setattr("src.models.encoder.train.AutoTokenizer.from_pretrained", get_fast_tokenizer)
     fit(config, make_labeled_chunks(8, 4), make_labeled_chunks(8, 4))
 
     saved = (tmp_path / "run" / "best" / "train_config.json").read_text(encoding="utf-8")
     assert TrainConfig.model_validate_json(saved) == config
+    assert tokenizer_calls == [(config.model_name, {
+        "revision": config.model_revision, "use_fast": True,
+    })]
 
 
 def test_fit_prints_the_final_macro_aupr(tmp_path, tokenizer, monkeypatch, capsys):

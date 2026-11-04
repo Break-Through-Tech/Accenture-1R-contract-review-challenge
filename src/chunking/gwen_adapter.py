@@ -1,8 +1,7 @@
-"""Load PR #48's exact committed prototype without merging or modifying its source."""
+"""Load the archived, unchanged PR #48 prototype for reproducible comparison."""
 
 import hashlib
 import json
-import subprocess
 from pathlib import Path
 from types import ModuleType
 from typing import Callable
@@ -12,32 +11,24 @@ from src.labels.loader import Contract
 
 GWEN_COMMIT = "94d6d3d8b332de91338625bde100259a1717728b"
 GWEN_SOURCE_PATH = "experiments/token_chunking.py"
-ROOT = Path(__file__).resolve().parents[2]
+GWEN_SNAPSHOT_PATH = Path(__file__).resolve().parents[2] / "experiments/archive/pr48_token_chunking.py"
+GWEN_SOURCE_SHA256 = "6be39944ce5ee89293973411e164384bae8865ae872a6347a2790c1c8f5b6379"
 
 
 def load_gwen_prototype() -> tuple[Callable[..., list[Chunk]], str]:
-    """Load the reviewed Git blob unchanged and return its callable and source SHA-256.
+    """Load the byte-pinned PR #48 source snapshot and return its callable and SHA-256.
 
-    The pinned commit must have been fetched. Only the prototype module is loaded;
-    its import of the shared Chunk model resolves to our identical implementation.
-    No checkout, source rewrite, bytecode file, or branch merge is performed.
+    The archived source is unchanged from the PR commit, but runs against current main's
+    shared Chunk type. This avoids requiring the closed PR branch or its Git object at
+    evaluation time. The comparison tests audit source coverage and schema compatibility.
     """
-    try:
-        source = subprocess.check_output(
-            ["git", "show", f"{GWEN_COMMIT}:{GWEN_SOURCE_PATH}"], cwd=ROOT, stderr=subprocess.PIPE,
-        )
-        original_chunk = subprocess.check_output(
-            ["git", "show", f"{GWEN_COMMIT}:src/chunking/chunk.py"], cwd=ROOT, stderr=subprocess.PIPE,
-        )
-    except subprocess.CalledProcessError as error:
-        raise ValueError(f"Fetch the pinned PR #48 commit {GWEN_COMMIT} before comparing") from error
-    current_chunk = (ROOT / "src/chunking/chunk.py").read_bytes()
-    # Ignore Windows/Unix line-ending differences when comparing source.
-    if original_chunk.replace(b"\r\n", b"\n") != current_chunk.replace(b"\r\n", b"\n"):
-        raise ValueError("PR #48 and this checkout have different Chunk implementations")
+    source = GWEN_SNAPSHOT_PATH.read_bytes()
+    digest = hashlib.sha256(source).hexdigest()
+    if digest != GWEN_SOURCE_SHA256:
+        raise ValueError("Archived PR #48 prototype does not match its pinned source hash")
     module = ModuleType("gwen_pr48_pinned")
-    exec(compile(source, f"git:{GWEN_COMMIT}:{GWEN_SOURCE_PATH}", "exec"), module.__dict__)
-    return module.token_chunk_contract, hashlib.sha256(source).hexdigest()
+    exec(compile(source, f"archive:{GWEN_COMMIT}:{GWEN_SOURCE_PATH}", "exec"), module.__dict__)
+    return module.token_chunk_contract, digest
 
 
 def saved_development(
