@@ -152,8 +152,8 @@ class ClauseInput(BaseModel):
     """
     One detected clause to score: the cached classifier probability for (chunk, category)
     plus its grounded Evidence, or None when the clause went to the Unknown queue.
-    Only pass clauses that cleared the classifier's per-class threshold: every input counts
-    as detected when contract_context checks which categories are present.
+    Only pass clauses that cleared the classifier's per-class threshold (inputs.clauses_from_probabilities
+    does this): every input counts as detected when contract_context checks which categories are present.
     """
     contract_id: str
     chunk_index: int = Field(ge=0)

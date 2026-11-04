@@ -13,8 +13,8 @@ Everything here is pure: no I/O, no randomness, no global state. Scoring only re
 probabilities and Evidence, so rescoring under a new weight version never reruns the model.
 
 Inputs from other modules:
-'ClauseInput' rows built from cached classifier probabilities plus the GroundedEvidence /
-Unknown output of evidence.extractor.extract_for_predictions (evidence=None for Unknowns)
+'ClauseInput' rows from inputs.clauses_from_probabilities, which reads cached classifier
+probabilities and the evidence stage's output (evidence=None for Unknowns)
 'WeightSet' from schema.load_weight_set()
 
 PLACEHOLDER: the signals and the default weights are placeholders pending advisor sign-off.
