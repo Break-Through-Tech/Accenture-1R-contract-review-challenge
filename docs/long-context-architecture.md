@@ -38,13 +38,14 @@ MLFLOW_DISABLE_AGENT_HINT=1 TOKENIZERS_PARALLELISM=false \
 `--register` is optional. Without it, the checkpoint, threshold file, raw calibration
 and evaluation scores, per-category metrics, and run manifest remain in the output
 directory. The registered predictor API expects one contract's ordered chunk texts per
-call. Do not mix chunks from different contracts in one call, because the recurrent
-state encodes within-contract context.
+call. Do not mix chunks from different contracts in one call, because cross-chunk
+attention is computed over the entire supplied sequence.
 
 The forward pass, padding masks, loss masking, grouping, and backpropagation are covered
-by unit tests. A CUDA run completed 19 of 20 requested epochs; the process hit a cuBLAS
-internal error starting epoch 20. The best checkpoint (selected by calibration AUPR) was
-successfully evaluated on the untouched evaluation contracts. Results are committed in
+by unit tests. The initial CUDA run requested 20 epochs but hit a cuBLAS error starting
+epoch 20; the epoch-19 best checkpoint (selected by calibration AUPR) was successfully
+evaluated on the untouched evaluation contracts. The checked-in config now defaults to
+19 epochs to make that completed run reproducible. Results are committed in
 `results/long_context_transformer_seed42/`:
 
 | Model (same seed-42 evaluation contracts) | Macro F1 | Macro AUPR |

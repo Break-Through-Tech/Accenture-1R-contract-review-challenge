@@ -11,8 +11,8 @@
    to its positive training chunks in the shared sparse TF-IDF space.
 
 The runner includes both word-only TF-IDF and word+character TF-IDF controls and uses
-seed 42's same 260/66/82 contract-level training/calibration/evaluation sets as the
-prior hybrid and upcoming encoder comparison. Chunking and labels use the shared
+the same nested contract-level split protocol used for the word/character and
+encoder-based comparisons. Chunking and labels use the shared
 sentence-token pipeline (512/64). Thresholds are tuned on calibration only. The
 runner never reads `test.json`:
 

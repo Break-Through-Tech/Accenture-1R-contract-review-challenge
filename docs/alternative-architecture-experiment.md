@@ -2,12 +2,12 @@
 
 ## Hypothesis
 
-The current baseline represents chunks with word-level unigrams and bigrams. Contract
-language contains lexical variants, inflections, punctuation-heavy references, and
-related forms that may be poorly matched by exact word features. A second `char_wb`
-TF-IDF channel (3–5 character n-grams), concatenated with word TF-IDF and trained
-with the same one-vs-rest balanced logistic regression, may improve clause recall
-and macro F1 without transformer training or inference cost.
+The original sparse baseline represents chunks with word-level unigrams and bigrams.
+Contract language contains lexical variants, inflections, punctuation-heavy references,
+and related forms that may be poorly matched by exact word features. This experiment
+adds a `char_wb` TF-IDF channel (3–5 character n-grams), concatenated with word TF-IDF
+and trained with the same one-vs-rest balanced logistic regression, to test whether
+clause recall and macro F1 improve without transformer training or inference cost.
 
 This is a testable candidate, not a claim that it beats the baseline or transformer.
 The two feature channels are fitted on training chunks only. The candidate uses
@@ -29,8 +29,8 @@ and reports per-category precision/recall/F1 on the untouched evaluation partiti
 Both models use the same contracts, chunker, labels, and tokenization. It writes ID
 hashes, partition sizes, per-category results, thresholds, raw probabilities, and a
 report under `results/word_char_tfidf_nested/`. `test.json` is never loaded. This
-supersedes the initial exploratory report below, which tuned thresholds and reported
-metrics on the same validation set and is explicitly optimistic.
+supersedes the initial exploratory artifact in `results/word_char_tfidf/`, which tuned
+thresholds and reported metrics on the same validation set and is explicitly optimistic.
 
 The runner defaults to five predeclared seeds (`42 7 17 23 101`), producing
 contract-level train/calibration/evaluation splits for each seed. Results for seed 42
@@ -53,19 +53,18 @@ The comparison uses a freshly trained word-only model with exactly the same part
 and pipeline; it does not prove comparability with historical
 `results/tfidf_baseline_metrics.csv` unless that CSV's split and chunking match. The
 primary metric is unweighted macro per-category F1, accompanied by per-category
-precision, recall, and support. The encoder has not yet been compared. Avoid further
-tuning against these evaluation partitions; reserve `test.json` for an agreed final
-evaluation and compare with the encoder on aligned data/settings before claiming
-production superiority.
+precision, recall, and support. Encoder-based candidates have since been evaluated
+on an aligned seed-42 split; see `encoder-comparison.md`,
+`long-context-architecture.md`, and `category-query-architecture.md`. None has beaten
+the word+character control so far. Avoid further tuning against these evaluation
+partitions; reserve `test.json` for an agreed final evaluation before making production
+claims.
 
 ## Registry and store compatibility
 
-A trained model artifact should bundle both fitted vectorizers (or the fitted feature
-union), the classifier, ordered `CATEGORIES`, tokenizer/chunker identity, training
-split seed, parameters, package versions, and validation-calibrated thresholds. The
-inference interface should accept chunk text and return raw 41-category probabilities;
-threshold application stays downstream so it can be changed without fitting again.
-The generated NPZ preserves validation truth and raw probabilities for offline
-threshold/scoring experiments, but is not a substitute for the SQLite artifact store.
-Persist stable contract/chunk IDs and model version with probabilities when that store
-is implemented.
+Model registration and the SQLite artifact store are implemented; see
+`model-registry-and-artifact-store.md`. Bundles preserve the classifier, ordered
+`CATEGORIES`, calibrated thresholds, configuration, and inference adapter. Store raw
+probabilities by stable contract/chunk IDs and registry-qualified model keys. The NPZ
+files remain experiment snapshots for offline evaluation, not the production artifact
+store.
