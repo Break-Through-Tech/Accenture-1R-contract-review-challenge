@@ -63,7 +63,7 @@ class CooccurrenceRule(BaseModel):
     A rule that fires for target_category when other_category is present in (or absent from) the
     same contract. A positive adjustment raises the target's contract_context signal (e.g. Uncapped
     Liability with no Insurance); a negative one lowers its category_severity, because a protection
-    elsewhere in the contract softens the clause's impact (e.g. Uncapped Liability with a Cap On Liability).
+    elsewhere in the contract softens the clause's impact (e.g. Liquidated Damages with a Cap On Liability).
     """
     model_config = ConfigDict(extra="forbid", frozen=True)
 
@@ -107,7 +107,9 @@ class WeightSet(BaseModel):
     """
     One immutable, versioned set of scoring parameters, owned by the advisor.
     Unknown keys are rejected so a misspelled field in the JSON can't be silently ignored.
-    Frozen, so a loaded version can't be edited in place; use model_copy(update=...) with a new id.
+    Frozen, so fields can't be reassigned, but nested dicts and lists can still be changed: treat
+    them as read-only. To make a new version, write a new JSON file and load it with load_weight_set();
+    model_copy(update=...) skips validation.
     """
     model_config = ConfigDict(extra="forbid", frozen=True)
 
