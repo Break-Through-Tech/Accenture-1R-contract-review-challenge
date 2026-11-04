@@ -38,15 +38,18 @@ from src.risk.schema import SIGNAL_NAMES, ClauseInput, CooccurrenceRule, WeightS
 
 _DAYS_PER_UNIT = {"day": 1, "week": 7, "month": 30, "year": 365}
 _NUMBER_WORDS = {
-    "one": 1, "two": 2, "three": 3, "four": 4, "five": 5, "six": 6, "seven": 7, "eight": 8,
-    "nine": 9, "ten": 10, "eleven": 11, "twelve": 12, "fifteen": 15, "eighteen": 18,
-    "twenty": 20, "twenty-four": 24, "thirty": 30, "forty-five": 45, "sixty": 60, "ninety": 90,
+    "one": 1, "two": 2, "three": 3, "four": 4, "five": 5, "six": 6, "seven": 7, "eight": 8, "nine": 9,
+    "ten": 10, "eleven": 11, "twelve": 12, "thirteen": 13, "fourteen": 14, "fifteen": 15, "sixteen": 16,
+    "seventeen": 17, "eighteen": 18, "nineteen": 19, "twenty": 20, "thirty": 30, "forty": 40, "fifty": 50,
+    "sixty": 60, "seventy": 70, "eighty": 80, "ninety": 90,
 }
-# "90 days", "thirty (30) days", "forty (40) days", "five-year", "1.5 years", "1,000 days"
+_DIGITS = r"\d{1,3}(?:,\d{3})+(?:\.\d+)?|\d+(?:\.\d+)?"
+_WORD = rf"hundred(?:[\s-]+and)?|{'|'.join(sorted(_NUMBER_WORDS, key=len, reverse=True))}"
+_NUMBER = rf"{_DIGITS}|(?:{_WORD})(?:[\s-]+(?:{_WORD}))*"
+# "90 days", "thirty-six (36) months", "24 (twenty four) months", "five-year", "1.5 years", "1,000 days"
 # The lookbehind stops "1.5" or "2,000" being read from their last digits
 _DURATION = re.compile(
-    rf"(?<![\d.,])\b(\d{{1,3}}(?:,\d{{3}})+(?:\.\d+)?|\d+(?:\.\d+)?|"
-    rf"{'|'.join(sorted(_NUMBER_WORDS, key=len, reverse=True))})\)?[\s-]*(?:\(\d+\)[\s-]*)?"
+    rf"(?<![\d.,])\b({_NUMBER})\)?[\s-]*(?:\(\s*({_NUMBER})\s*\)[\s-]*)?"
     r"(?:calendar\s+|business\s+)?(day|week|month|year)s?\b"
 )
 
@@ -67,12 +70,28 @@ def _count_phrases(text: str, phrases: Iterable[str]) -> int:
     return sum(bool(_phrase_pattern(p).search(text)) for p in phrases)
 
 
+def _parse_number(number: str) -> float:
+    """Convert "2,000", "1.5", "thirty-six" or "one hundred and twenty" to a number."""
+    if number[0].isdigit():
+        return float(number.replace(",", ""))
+    total = 0
+    for word in re.split(r"[\s-]+", number):
+        if word == "hundred":
+            total = max(total, 1) * 100
+        elif word != "and":
+            total += _NUMBER_WORDS[word]
+    return total
+
+
 def _durations_in_days(text: str) -> list[float]:
-    """Return every duration written in text ("thirty (30) days", "5 years"), converted to days."""
+    """
+    Return every duration written in text ("thirty (30) days", "5 years"), converted to days.
+    When a duration is written both ways, the digits win over the words.
+    """
     found = []
-    for number, unit in _DURATION.findall(text.lower()):
-        value = _NUMBER_WORDS[number] if number in _NUMBER_WORDS else float(number.replace(",", ""))
-        found.append(value * _DAYS_PER_UNIT[unit])
+    for number, written_again, unit in _DURATION.findall(text.lower()):
+        chosen = written_again if written_again[:1].isdigit() else number
+        found.append(_parse_number(chosen) * _DAYS_PER_UNIT[unit])
     return found
 
 

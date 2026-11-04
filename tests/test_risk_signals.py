@@ -120,6 +120,20 @@ def test_one_sidedness_ratio_of_phrases(quote, expected):
         ("payable monthly or yearly", []),
         ("for 1.5 years", [547.5]),                 # decimals, not "5 years"
         ("within 2,000 days", [2000]),              # thousands separator, not "000 days"
+        ("thirty-six months", [1080]),              # compound words, not "six months"
+        ("twenty four months", [720]),              # compound words without a hyphen
+        ("thirty-six (36) months", [1080]),
+        ("seventy-five (75) days", [75]),
+        ("one hundred twenty (120) days", [120]),   # not "twenty days"
+        ("one hundred and twenty days", [120]),
+        ("one hundred eighty days", [180]),
+        ("two hundred days", [200]),
+        ("24 (twenty four) months", [720]),         # digits first, words in brackets
+        ("twenty four (24) months", [720]),
+        ("sixteen weeks", [112]),
+        ("sixty-day notice", [60]),
+        ("thirty or sixty days", [60]),             # alternatives stay separate, not 90
+        ("thirty (30) days and five years", [30, 1825]),
         ("no durations here", []),
     ],
 )
