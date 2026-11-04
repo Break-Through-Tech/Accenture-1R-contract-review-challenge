@@ -63,3 +63,13 @@ hashes, thresholds, raw predictions, per-category metrics, and limits; (5) make 
 separate focused implementation/evaluation commit. Leave model weights and registry DBs
 in ignored local `outputs/`; do not push or register a candidate as the default without
 explicit approval.
+
+## Progress
+
+1. **Retrieval + reranking:** implemented and evaluated on seed 42. It improved macro-F1
+   from 0.533 to 0.557 while macro-AUPR changed from 0.597 to 0.595; multi-seed
+   robustness remains outstanding. Details: `retrieval-reranker-architecture.md`.
+2. **Contract graph neural network:** queued.
+3. **Supervised contrastive embeddings:** queued.
+4. **Document-level set prediction:** queued.
+5. **Long-document sparse attention:** queued.

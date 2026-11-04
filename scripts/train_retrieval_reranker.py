@@ -62,8 +62,7 @@ def _predict_candidates(model, tokenizer, chunks, candidates, prompts, device,
     probabilities = []
     with torch.no_grad():
         for batch in loader:
-            labels = batch.pop("labels")
-            del labels
+            batch.pop("labels")
             batch = {key: value.to(device) for key, value in batch.items()}
             with torch.autocast(device_type="cuda", dtype=torch.float16, enabled=amp_enabled):
                 logits, _ = model(**batch)
@@ -120,7 +119,9 @@ def _load_checkpoint(path, device):
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--config", type=Path, default=ROOT / "configs/retrieval_reranker.yaml")
-    parser.add_argument("--output", type=Path, default=ROOT / "outputs/retrieval_reranker_seed42")
+    parser.add_argument("--output", type=Path, default=ROOT / "results/retrieval_reranker_seed42")
+    parser.add_argument("--checkpoint-dir", type=Path,
+                        default=ROOT / "outputs/retrieval_reranker_seed42/best")
     parser.add_argument("--evaluate-checkpoint", type=Path,
                         help="Score an existing best/ checkpoint without retraining")
     parser.add_argument("--seed", type=int)
@@ -165,7 +166,7 @@ def main() -> None:
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     amp_enabled = device.type == "cuda"
     args.output.mkdir(parents=True, exist_ok=True)
-    best_path = args.evaluate_checkpoint or args.output / "best"
+    best_path = args.evaluate_checkpoint or args.checkpoint_dir
     if args.evaluate_checkpoint:
         saved_config = json.loads((best_path / "config.json").read_text(encoding="utf-8"))
         args.seed = saved_config["seed"]
@@ -205,8 +206,24 @@ def main() -> None:
         args.overlap_tokens = saved_config["overlap_tokens"]
         args.candidate_top_k = saved_config["candidate_top_k"]
         args.seed = saved_config["seed"]
+        args.c = saved_config["c"]
+        args.dropout = saved_config["dropout"]
+        args.learning_rate = saved_config["learning_rate"]
+        args.batch_size = saved_config["batch_size"]
+        args.negatives_per_positive = saved_config["negatives_per_positive"]
+        args.min_hard_negatives = saved_config["min_hard_negatives"]
         history = saved_config.get("history", [])
         best_calibration_aupr = saved_config.get("best_calibration_macro_aupr", -1.0)
+        training_retrieval = predict_word_char_probabilities(features, retriever, texts["training"])
+        training_pairs, active_categories = build_training_pairs(
+            chunks["training"], labels["training"], training_retrieval, prompts,
+            top_k=args.candidate_top_k,
+            negatives_per_positive=args.negatives_per_positive,
+            min_hard_negatives=args.min_hard_negatives,
+            seed=args.seed,
+        )
+        if active_categories.tolist() != saved_config["active_categories"]:
+            raise RuntimeError("training category activity differs from the saved checkpoint")
     else:
         features, retriever = fit_word_char_tfidf(texts["training"], labels["training"], c=args.c)
         retrieval_train = predict_word_char_probabilities(features, retriever, texts["training"])
@@ -278,6 +295,7 @@ def main() -> None:
                     "batch_size": args.batch_size,
                     "negatives_per_positive": args.negatives_per_positive,
                     "min_hard_negatives": args.min_hard_negatives,
+                    "training_pair_count": len(training_pairs),
                     "active_categories": active_categories.tolist(),
                     "best_calibration_macro_aupr": best_calibration_aupr,
                     "history": history,
@@ -356,7 +374,7 @@ def main() -> None:
             "evaluation_candidate_pairs_scored": len(candidate_sets["evaluation"]),
         },
         "training": {
-            "training_pair_count": len(training_pairs) if not args.evaluate_checkpoint else None,
+            "training_pair_count": len(training_pairs),
             "epochs": len(history), "learning_rate": args.learning_rate,
             "batch_size": args.batch_size, "max_length": args.max_length,
             "negatives_per_positive": args.negatives_per_positive,
