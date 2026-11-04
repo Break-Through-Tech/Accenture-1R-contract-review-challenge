@@ -1,0 +1,55 @@
+{
+  "method": "independent contract-level train/calibration/evaluation splits; thresholds calibrated only on calibration contracts",
+  "seeds": [
+    42,
+    7,
+    17,
+    23,
+    101
+  ],
+  "runs": [
+    {
+      "seed": 42,
+      "output": "results/word_char_tfidf_nested",
+      "word_tfidf_macro_f1": 0.4760236585365854,
+      "word_char_tfidf_macro_f1": 0.5330670731707318,
+      "delta": 0.05704341463414636
+    },
+    {
+      "seed": 7,
+      "output": "results/word_char_tfidf_nested_seed7",
+      "word_tfidf_macro_f1": 0.4545856097560976,
+      "word_char_tfidf_macro_f1": 0.5149331707317073,
+      "delta": 0.060347560975609726
+    },
+    {
+      "seed": 17,
+      "output": "results/word_char_tfidf_nested_seed17",
+      "word_tfidf_macro_f1": 0.40930707317073173,
+      "word_char_tfidf_macro_f1": 0.49407463414634145,
+      "delta": 0.08476756097560972
+    },
+    {
+      "seed": 23,
+      "output": "results/word_char_tfidf_nested_seed23",
+      "word_tfidf_macro_f1": 0.42316951219512194,
+      "word_char_tfidf_macro_f1": 0.5053360975609755,
+      "delta": 0.08216658536585358
+    },
+    {
+      "seed": 101,
+      "output": "results/word_char_tfidf_nested_seed101",
+      "word_tfidf_macro_f1": 0.3963282926829268,
+      "word_char_tfidf_macro_f1": 0.4726875609756097,
+      "delta": 0.07635926829268291
+    }
+  ],
+  "mean_word_tfidf_macro_f1": 0.4318828292682927,
+  "mean_word_char_tfidf_macro_f1": 0.5040197073170731,
+  "mean_macro_f1_delta": 0.07213687804878047,
+  "std_macro_f1_delta": 0.012696046573015377,
+  "hybrid_wins": 5,
+  "n_runs": 5,
+  "caveat": "Repeated random splits overlap in contracts and are not independent samples; descriptive robustness evidence only.",
+  "test_data_used": false
+}

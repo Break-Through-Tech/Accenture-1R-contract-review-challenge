@@ -1,0 +1,821 @@
+model,category,precision,recall,f1,support,aupr,seed
+word_tfidf,Parties,0.77419,0.70588,0.73846,102,0.33398505300761894,42
+word_tfidf,License Grant,0.74725,0.76404,0.75556,89,0.041643808777429465,42
+word_tfidf,Document Name,0.71951,0.71084,0.71515,83,0.7476817818352679,42
+word_tfidf,Governing Law,0.91429,0.79012,0.84768,81,0.8155162672004439,42
+word_tfidf,Anti-Assignment,0.80597,0.69231,0.74483,78,0.774565518033124,42
+word_tfidf,Expiration Date,0.78689,0.62338,0.69565,77,0.7105647666404279,42
+word_tfidf,Agreement Date,0.73973,0.71053,0.72483,76,0.5553115361106068,42
+word_tfidf,Effective Date,0.66667,0.56,0.6087,75,0.09999809650945797,42
+word_tfidf,Cap On Liability,0.68852,0.57534,0.62687,73,0.3533125967865136,42
+word_tfidf,Minimum Commitment,0.625,0.3125,0.41667,64,0.7550997767931293,42
+word_tfidf,Exclusivity,0.28571,0.63158,0.39344,57,0.5987872228777751,42
+word_tfidf,Post-Termination Services,0.2963,0.70175,0.41667,57,0.4015190606890625,42
+word_tfidf,Audit Rights,0.53846,0.82353,0.65116,51,0.7533014204534092,42
+word_tfidf,Termination For Convenience,0.375,0.33333,0.35294,45,0.9304973330407045,42
+word_tfidf,Non-Transferable License,0.5625,0.65854,0.60674,41,0.8846181844554272,42
+word_tfidf,Warranty Duration,0.84615,0.28205,0.42308,39,0.4798870350224761,42
+word_tfidf,Revenue/Profit Sharing,0.5,0.40541,0.44776,37,0.6163327910347169,42
+word_tfidf,Insurance,0.86207,0.78125,0.81967,32,0.4270534680002656,42
+word_tfidf,Renewal Term,0.66667,0.5,0.57143,32,0.8375756605813423,42
+word_tfidf,Covenant Not To Sue,0.4,0.32258,0.35714,31,0.6783414756357259,42
+word_tfidf,Change Of Control,0.66667,0.45161,0.53846,31,0.4584383973576956,42
+word_tfidf,Non-Compete,0.43333,0.43333,0.43333,30,0.04823962878666907,42
+word_tfidf,Notice Period To Terminate Renewal,0.7,0.63636,0.66667,22,0.4088429960843753,42
+word_tfidf,Volume Restriction,0.13953,0.28571,0.1875,21,0.834967320261438,42
+word_tfidf,Ip Ownership Assignment,0.3913,0.5,0.43902,18,0.4226369891543177,42
+word_tfidf,Irrevocable Or Perpetual License,0.52632,0.58824,0.55556,17,0.0018408913082088871,42
+word_tfidf,Rofr/Rofo/Rofn,0.66667,0.25,0.36364,16,0.6847247397724466,42
+word_tfidf,Competitive Restriction Exception,0.12281,0.46667,0.19444,15,0.7305094596235053,42
+word_tfidf,Uncapped Liability,0.52174,0.8,0.63158,15,0.8173394200580366,42
+word_tfidf,Joint Ip Ownership,0.19149,0.75,0.30508,12,0.3858636143630752,42
+word_tfidf,Unlimited/All-You-Can-Eat-License,0.03191,0.27273,0.05714,11,0.2342333178330621,42
+word_tfidf,Third Party Beneficiary,0.11429,0.4,0.17778,10,0.5943004428120486,42
+word_tfidf,No-Solicit Of Employees,0.875,0.77778,0.82353,9,0.422585705431016,42
+word_tfidf,Source Code Escrow,0.44444,0.5,0.47059,8,0.3423905072237338,42
+word_tfidf,Affiliate License-Licensee,0.27273,0.375,0.31579,8,0.6462761809269163,42
+word_tfidf,Most Favored Nation,0.0,0.0,0.0,6,0.3959490717025636,42
+word_tfidf,Liquidated Damages,0.66667,0.66667,0.66667,6,0.10724820872407716,42
+word_tfidf,No-Solicit Of Customers,0.75,0.6,0.66667,5,0.6120502813561142,42
+word_tfidf,Affiliate License-Licensor,0.0,0.0,0.0,4,0.22278495078169952,42
+word_tfidf,Price Restrictions,0.05882,0.75,0.10909,4,0.10176707612822751,42
+word_tfidf,Non-Disparagement,0.0,0.0,0.0,2,0.5409332871615743,42
+word_char_tfidf,Parties,0.89286,0.73529,0.80645,102,0.3291305057917071,42
+word_char_tfidf,License Grant,0.82927,0.76404,0.79532,89,0.04864092860781603,42
+word_char_tfidf,Document Name,0.91228,0.62651,0.74286,83,0.793847505728659,42
+word_char_tfidf,Governing Law,0.89024,0.90123,0.89571,81,0.8376839836379235,42
+word_char_tfidf,Anti-Assignment,0.84615,0.70513,0.76923,78,0.8357747762703546,42
+word_char_tfidf,Expiration Date,0.80645,0.64935,0.71942,77,0.7277343806442504,42
+word_char_tfidf,Agreement Date,0.83077,0.71053,0.76596,76,0.55715072295366,42
+word_char_tfidf,Effective Date,0.76923,0.53333,0.62992,75,0.12378897026233916,42
+word_char_tfidf,Cap On Liability,0.59259,0.65753,0.62338,73,0.5473773961757605,42
+word_char_tfidf,Minimum Commitment,0.74194,0.35938,0.48421,64,0.831916375201545,42
+word_char_tfidf,Exclusivity,0.37805,0.54386,0.44604,57,0.64330231339971,42
+word_char_tfidf,Post-Termination Services,0.45312,0.50877,0.47934,57,0.4591454272171697,42
+word_char_tfidf,Audit Rights,0.67742,0.82353,0.74336,51,0.7694241891927812,42
+word_char_tfidf,Termination For Convenience,0.44737,0.37778,0.40964,45,0.9575189722409765,42
+word_char_tfidf,Non-Transferable License,0.7907,0.82927,0.80952,41,0.965270138495868,42
+word_char_tfidf,Warranty Duration,0.76923,0.51282,0.61538,39,0.677469852246053,42
+word_char_tfidf,Revenue/Profit Sharing,0.42,0.56757,0.48276,37,0.8736162045715425,42
+word_char_tfidf,Insurance,0.9,0.84375,0.87097,32,0.5853740276014712,42
+word_char_tfidf,Renewal Term,0.80952,0.53125,0.64151,32,0.8704736883810374,42
+word_char_tfidf,Covenant Not To Sue,0.70588,0.3871,0.5,31,0.6032853558331265,42
+word_char_tfidf,Change Of Control,0.63158,0.3871,0.48,31,0.5246277717918679,42
+word_char_tfidf,Non-Compete,0.30435,0.7,0.42424,30,0.46696723976619514,42
+word_char_tfidf,Notice Period To Terminate Renewal,0.93333,0.63636,0.75676,22,0.649607843137255,42
+word_char_tfidf,Volume Restriction,0.29412,0.2381,0.26316,21,0.8590441621294618,42
+word_char_tfidf,Ip Ownership Assignment,0.5,0.72222,0.59091,18,0.49517075630329743,42
+word_char_tfidf,Irrevocable Or Perpetual License,0.54839,1.0,0.70833,17,0.03518518518518518,42
+word_char_tfidf,Rofr/Rofo/Rofn,0.625,0.3125,0.41667,16,0.8276599471343492,42
+word_char_tfidf,Competitive Restriction Exception,0.16981,0.6,0.26471,15,0.7589412290637075,42
+word_char_tfidf,Uncapped Liability,0.5,0.73333,0.59459,15,0.8812793119778662,42
+word_char_tfidf,Joint Ip Ownership,0.42105,0.66667,0.51613,12,0.49570061842180113,42
+word_char_tfidf,Unlimited/All-You-Can-Eat-License,0.14706,0.45455,0.22222,11,0.6051567656765676,42
+word_char_tfidf,Third Party Beneficiary,0.38462,0.5,0.43478,10,0.6888558258947197,42
+word_char_tfidf,No-Solicit Of Employees,0.875,0.77778,0.82353,9,0.43846752134793243,42
+word_char_tfidf,Source Code Escrow,0.75,0.375,0.5,8,0.30142271234102797,42
+word_char_tfidf,Affiliate License-Licensee,0.22222,0.5,0.30769,8,0.8423552754435107,42
+word_char_tfidf,Most Favored Nation,0.30769,0.66667,0.42105,6,0.43654560849233426,42
+word_char_tfidf,Liquidated Damages,0.22222,0.66667,0.33333,6,0.29398119427189195,42
+word_char_tfidf,No-Solicit Of Customers,0.16,0.8,0.26667,5,0.676282087886366,42
+word_char_tfidf,Affiliate License-Licensor,0.0,0.0,0.0,4,0.2864855643224781,42
+word_char_tfidf,Price Restrictions,0.1875,0.75,0.3,4,0.20483459206192128,42
+word_char_tfidf,Non-Disparagement,0.0,0.0,0.0,2,0.6754158465504058,42
+context_word_char_tfidf,Parties,0.61538,0.62745,0.62136,102,0.4809934304470433,42
+context_word_char_tfidf,License Grant,0.54701,0.7191,0.62136,89,0.03519153424759833,42
+context_word_char_tfidf,Document Name,0.53,0.63855,0.57923,83,0.5326511404056133,42
+context_word_char_tfidf,Governing Law,0.40833,0.60494,0.48756,81,0.36098161008457247,42
+context_word_char_tfidf,Anti-Assignment,0.42,0.53846,0.47191,78,0.44351439504358775,42
+context_word_char_tfidf,Expiration Date,0.36792,0.50649,0.42623,77,0.3688392348258012,42
+context_word_char_tfidf,Agreement Date,0.53,0.69737,0.60227,76,0.2822495282692057,42
+context_word_char_tfidf,Effective Date,0.42697,0.50667,0.46341,75,0.15659234813563785,42
+context_word_char_tfidf,Cap On Liability,0.34615,0.61644,0.44335,73,0.34387736415662434,42
+context_word_char_tfidf,Minimum Commitment,0.5625,0.14062,0.225,64,0.5734999954542803,42
+context_word_char_tfidf,Exclusivity,0.33333,0.33333,0.33333,57,0.46219956907338333,42
+context_word_char_tfidf,Post-Termination Services,0.39623,0.36842,0.38182,57,0.29247947080899095,42
+context_word_char_tfidf,Audit Rights,0.5,0.47059,0.48485,51,0.3607691437616601,42
+context_word_char_tfidf,Termination For Convenience,0.2766,0.28889,0.28261,45,0.4224204748594048,42
+context_word_char_tfidf,Non-Transferable License,0.67647,0.56098,0.61333,41,0.7236210797422287,42
+context_word_char_tfidf,Warranty Duration,0.78947,0.38462,0.51724,39,0.4693419279197684,42
+context_word_char_tfidf,Revenue/Profit Sharing,0.31915,0.40541,0.35714,37,0.7602618124364173,42
+context_word_char_tfidf,Insurance,0.58333,0.875,0.7,32,0.5270686114199838,42
+context_word_char_tfidf,Renewal Term,0.35417,0.53125,0.425,32,0.5991174204626392,42
+context_word_char_tfidf,Covenant Not To Sue,0.32075,0.54839,0.40476,31,0.04443742599280954,42
+context_word_char_tfidf,Change Of Control,0.29412,0.16129,0.20833,31,0.28107907753134154,42
+context_word_char_tfidf,Non-Compete,0.3125,0.33333,0.32258,30,0.4103956667825281,42
+context_word_char_tfidf,Notice Period To Terminate Renewal,0.31818,0.63636,0.42424,22,0.29941362109335234,42
+context_word_char_tfidf,Volume Restriction,0.2,0.09524,0.12903,21,0.37012963798678084,42
+context_word_char_tfidf,Ip Ownership Assignment,0.34615,0.5,0.40909,18,0.2572782492337525,42
+context_word_char_tfidf,Irrevocable Or Perpetual License,0.83333,0.58824,0.68966,17,0.030952380952380953,42
+context_word_char_tfidf,Rofr/Rofo/Rofn,1.0,0.0625,0.11765,16,0.5865378768326653,42
+context_word_char_tfidf,Competitive Restriction Exception,0.08219,0.4,0.13636,15,0.31380105998275115,42
+context_word_char_tfidf,Uncapped Liability,0.22449,0.73333,0.34375,15,0.6843836087257469,42
+context_word_char_tfidf,Joint Ip Ownership,0.28,0.58333,0.37838,12,0.3653110001036371,42
+context_word_char_tfidf,Unlimited/All-You-Can-Eat-License,0.11429,0.36364,0.17391,11,0.5813577586206897,42
+context_word_char_tfidf,Third Party Beneficiary,0.05479,0.8,0.10256,10,0.2981621564898162,42
+context_word_char_tfidf,No-Solicit Of Employees,0.21875,0.77778,0.34146,9,0.26863796358470204,42
+context_word_char_tfidf,Source Code Escrow,1.0,0.125,0.22222,8,0.24990885776458752,42
+context_word_char_tfidf,Affiliate License-Licensee,0.0,0.0,0.0,8,0.8145042457542457,42
+context_word_char_tfidf,Most Favored Nation,0.16129,0.83333,0.27027,6,0.25036825770780446,42
+context_word_char_tfidf,Liquidated Damages,0.07407,0.33333,0.12121,6,0.17495532617810208,42
+context_word_char_tfidf,No-Solicit Of Customers,0.3,0.6,0.4,5,0.25940605699603697,42
+context_word_char_tfidf,Affiliate License-Licensor,0.0,0.0,0.0,4,0.29291868852008013,42
+context_word_char_tfidf,Price Restrictions,0.01932,1.0,0.03791,4,0.1703804981759729,42
+context_word_char_tfidf,Non-Disparagement,0.0,0.0,0.0,2,0.5780457030285279,42
+word_char_classifier_chain,Parties,0.72727,0.78431,0.75472,102,0.24858024942385373,42
+word_char_classifier_chain,License Grant,0.70874,0.82022,0.76042,89,0.038876079636949196,42
+word_char_classifier_chain,Document Name,0.91071,0.61446,0.73381,83,0.7542600681660998,42
+word_char_classifier_chain,Governing Law,0.89024,0.90123,0.89571,81,0.8332844928708621,42
+word_char_classifier_chain,Anti-Assignment,0.83333,0.70513,0.76389,78,0.8341166134074888,42
+word_char_classifier_chain,Expiration Date,0.79032,0.63636,0.70504,77,0.7402225586783466,42
+word_char_classifier_chain,Agreement Date,0.83051,0.64474,0.72593,76,0.5269074534094915,42
+word_char_classifier_chain,Effective Date,0.75,0.52,0.61417,75,0.20842917677804196,42
+word_char_classifier_chain,Cap On Liability,0.85714,0.57534,0.68852,73,0.5583219385323542,42
+word_char_classifier_chain,Minimum Commitment,0.70968,0.34375,0.46316,64,0.8276335716625566,42
+word_char_classifier_chain,Exclusivity,0.41379,0.63158,0.5,57,0.5818719951238727,42
+word_char_classifier_chain,Post-Termination Services,0.3875,0.54386,0.45255,57,0.4603353103264688,42
+word_char_classifier_chain,Audit Rights,0.68852,0.82353,0.75,51,0.7723853565741736,42
+word_char_classifier_chain,Termination For Convenience,0.38462,0.22222,0.28169,45,0.9575592978297804,42
+word_char_classifier_chain,Non-Transferable License,0.77273,0.82927,0.8,41,0.95983570291135,42
+word_char_classifier_chain,Warranty Duration,0.76923,0.51282,0.61538,39,0.5706569100125573,42
+word_char_classifier_chain,Revenue/Profit Sharing,0.43478,0.54054,0.48193,37,0.7442680504909607,42
+word_char_classifier_chain,Insurance,0.875,0.875,0.875,32,0.5869155976298833,42
+word_char_classifier_chain,Renewal Term,0.57576,0.59375,0.58462,32,0.8243344185121225,42
+word_char_classifier_chain,Covenant Not To Sue,0.6875,0.35484,0.46809,31,0.6030677047924287,42
+word_char_classifier_chain,Change Of Control,0.625,0.48387,0.54545,31,0.4989600583091106,42
+word_char_classifier_chain,Non-Compete,0.30435,0.7,0.42424,30,0.09380556091082408,42
+word_char_classifier_chain,Notice Period To Terminate Renewal,0.71429,0.68182,0.69767,22,0.6407511737089202,42
+word_char_classifier_chain,Volume Restriction,0.29412,0.2381,0.26316,21,0.9092953342953345,42
+word_char_classifier_chain,Ip Ownership Assignment,0.5,0.66667,0.57143,18,0.49517075630329743,42
+word_char_classifier_chain,Irrevocable Or Perpetual License,0.56522,0.76471,0.65,17,0.029551337359792925,42
+word_char_classifier_chain,Rofr/Rofo/Rofn,1.0,0.0625,0.11765,16,0.8214309690516978,42
+word_char_classifier_chain,Competitive Restriction Exception,0.12281,0.46667,0.19444,15,0.7339354388142314,42
+word_char_classifier_chain,Uncapped Liability,0.47826,0.73333,0.57895,15,0.8378162582566632,42
+word_char_classifier_chain,Joint Ip Ownership,0.42857,0.75,0.54545,12,0.5034196437865146,42
+word_char_classifier_chain,Unlimited/All-You-Can-Eat-License,0.04762,0.09091,0.0625,11,0.5430613668061366,42
+word_char_classifier_chain,Third Party Beneficiary,0.27273,0.3,0.28571,10,0.597073011729825,42
+word_char_classifier_chain,No-Solicit Of Employees,0.75,1.0,0.85714,9,0.4281725279646298,42
+word_char_classifier_chain,Source Code Escrow,0.66667,0.25,0.36364,8,0.26062177192868213,42
+word_char_classifier_chain,Affiliate License-Licensee,0.16667,0.5,0.25,8,0.7017857142857143,42
+word_char_classifier_chain,Most Favored Nation,0.10417,0.83333,0.18519,6,0.3391930673535717,42
+word_char_classifier_chain,Liquidated Damages,0.66667,0.66667,0.66667,6,0.20358701670994522,42
+word_char_classifier_chain,No-Solicit Of Customers,1.0,0.4,0.57143,5,0.7023194349510139,42
+word_char_classifier_chain,Affiliate License-Licensor,0.05556,0.25,0.09091,4,0.03558505286929158,42
+word_char_classifier_chain,Price Restrictions,0.66667,0.5,0.57143,4,0.19962443684793038,42
+word_char_classifier_chain,Non-Disparagement,0.0,0.0,0.0,2,0.6702846700527894,42
+positive_prototype_retrieval,Parties,0.38462,0.19608,0.25974,102,0.18347740298492654,42
+positive_prototype_retrieval,License Grant,0.31507,0.25843,0.28395,89,0.011993053452310066,42
+positive_prototype_retrieval,Document Name,0.38462,0.18072,0.2459,83,0.27627521291226936,42
+positive_prototype_retrieval,Governing Law,0.34188,0.49383,0.40404,81,0.3171264529106407,42
+positive_prototype_retrieval,Anti-Assignment,0.25625,0.52564,0.34454,78,0.2067856027307978,42
+positive_prototype_retrieval,Expiration Date,0.15,0.31169,0.20253,77,0.2422567568144813,42
+positive_prototype_retrieval,Agreement Date,0.34286,0.15789,0.21622,76,0.12363520286850821,42
+positive_prototype_retrieval,Effective Date,0.23529,0.05333,0.08696,75,0.012971207689487526,42
+positive_prototype_retrieval,Cap On Liability,0.25,0.35616,0.29379,73,0.2019894932955592,42
+positive_prototype_retrieval,Minimum Commitment,0.375,0.09375,0.15,64,0.31607601430981797,42
+positive_prototype_retrieval,Exclusivity,0.34615,0.15789,0.21687,57,0.18126002947432707,42
+positive_prototype_retrieval,Post-Termination Services,0.06122,0.05263,0.0566,57,0.14262499809107074,42
+positive_prototype_retrieval,Audit Rights,0.28947,0.21569,0.24719,51,0.14213841482958392,42
+positive_prototype_retrieval,Termination For Convenience,0.17857,0.11111,0.13699,45,0.39008732918471273,42
+positive_prototype_retrieval,Non-Transferable License,0.16901,0.29268,0.21429,41,0.27957596640044713,42
+positive_prototype_retrieval,Warranty Duration,0.4,0.15385,0.22222,39,0.09737767565683073,42
+positive_prototype_retrieval,Revenue/Profit Sharing,0.5,0.05405,0.09756,37,0.08544276792716393,42
+positive_prototype_retrieval,Insurance,0.26087,0.375,0.30769,32,0.3007536093252405,42
+positive_prototype_retrieval,Renewal Term,0.17526,0.53125,0.26357,32,0.21785492171824894,42
+positive_prototype_retrieval,Covenant Not To Sue,0.22222,0.12903,0.16327,31,0.010213766158988318,42
+positive_prototype_retrieval,Change Of Control,0.12698,0.51613,0.20382,31,0.08585179323110351,42
+positive_prototype_retrieval,Non-Compete,0.09677,0.1,0.09836,30,0.013674907573838978,42
+positive_prototype_retrieval,Notice Period To Terminate Renewal,0.35714,0.22727,0.27778,22,0.260042112429398,42
+positive_prototype_retrieval,Volume Restriction,0.06452,0.19048,0.09639,21,0.25832548588081455,42
+positive_prototype_retrieval,Ip Ownership Assignment,0.11765,0.11111,0.11429,18,0.1051247952773801,42
+positive_prototype_retrieval,Irrevocable Or Perpetual License,0.09091,0.05882,0.07143,17,0.0071636776839088985,42
+positive_prototype_retrieval,Rofr/Rofo/Rofn,0.07692,0.125,0.09524,16,0.12848588266114352,42
+positive_prototype_retrieval,Competitive Restriction Exception,0.0173,0.33333,0.03289,15,0.3289933557096685,42
+positive_prototype_retrieval,Uncapped Liability,0.11494,0.66667,0.19608,15,0.3196436609656371,42
+positive_prototype_retrieval,Joint Ip Ownership,0.23077,0.5,0.31579,12,0.07110015130356542,42
+positive_prototype_retrieval,Unlimited/All-You-Can-Eat-License,0.01923,0.09091,0.03175,11,0.052526501695685984,42
+positive_prototype_retrieval,Third Party Beneficiary,0.0,0.0,0.0,10,0.23089508938040595,42
+positive_prototype_retrieval,No-Solicit Of Employees,1.0,0.11111,0.2,9,0.14079077347822533,42
+positive_prototype_retrieval,Source Code Escrow,0.0,0.0,0.0,8,0.045933383025083624,42
+positive_prototype_retrieval,Affiliate License-Licensee,0.0,0.0,0.0,8,0.25986232456127994,42
+positive_prototype_retrieval,Most Favored Nation,0.0,0.0,0.0,6,0.11835114668734079,42
+positive_prototype_retrieval,Liquidated Damages,0.00899,0.66667,0.01774,6,0.015669319133719172,42
+positive_prototype_retrieval,No-Solicit Of Customers,1.0,0.2,0.33333,5,0.31687280150405706,42
+positive_prototype_retrieval,Affiliate License-Licensor,0.01493,0.25,0.02817,4,0.016685625932176797,42
+positive_prototype_retrieval,Price Restrictions,0.0625,0.5,0.11111,4,0.04747468669551647,42
+positive_prototype_retrieval,Non-Disparagement,0.0,0.0,0.0,2,0.2932347780327046,42
+word_tfidf,Parties,0.70229,0.80702,0.75102,114,0.44726608610052954,7
+word_tfidf,Cap On Liability,0.7,0.56566,0.6257,99,0.15353493723912073,7
+word_tfidf,Expiration Date,0.77632,0.66292,0.71515,89,0.6956395470330767,7
+word_tfidf,License Grant,0.81667,0.56977,0.67123,86,0.8566824277860272,7
+word_tfidf,Document Name,0.74725,0.8,0.77273,85,0.668437534765023,7
+word_tfidf,Governing Law,0.92958,0.79518,0.85714,83,0.6862724645393125,7
+word_tfidf,Anti-Assignment,0.73563,0.79012,0.7619,81,0.508254467740813,7
+word_tfidf,Effective Date,0.69388,0.43038,0.53125,79,0.10715778240406577,7
+word_tfidf,Agreement Date,0.62651,0.66667,0.64596,78,0.525383222029053,7
+word_tfidf,Audit Rights,0.62162,0.66667,0.64336,69,0.7952284438456315,7
+word_tfidf,Minimum Commitment,0.54902,0.41176,0.47059,68,0.5571409758973733,7
+word_tfidf,Post-Termination Services,0.31313,0.55357,0.4,56,0.3742338103882763,7
+word_tfidf,Exclusivity,0.41176,0.5283,0.46281,53,0.7210982980958655,7
+word_tfidf,Insurance,0.8,0.7,0.74667,40,0.9438853170826932,7
+word_tfidf,Termination For Convenience,0.35938,0.575,0.44231,40,0.8203354964515622,7
+word_tfidf,Revenue/Profit Sharing,0.56757,0.55263,0.56,38,0.4374942366501921,7
+word_tfidf,Non-Transferable License,0.56818,0.71429,0.63291,35,0.2742197838664232,7
+word_tfidf,Non-Compete,0.21569,0.34375,0.26506,32,0.3871386740499692,7
+word_tfidf,Renewal Term,0.77419,0.82759,0.8,29,0.770082386388658,7
+word_tfidf,Warranty Duration,0.5,0.44828,0.47273,29,0.4260838540970548,7
+word_tfidf,Liquidated Damages,0.64286,0.32143,0.42857,28,0.44485487862935097,7
+word_tfidf,Uncapped Liability,0.65517,0.67857,0.66667,28,0.17689808226170364,7
+word_tfidf,Change Of Control,0.52,0.48148,0.5,27,0.02819144410714178,7
+word_tfidf,Volume Restriction,1.0,0.13043,0.23077,23,0.6242156862745097,7
+word_tfidf,Ip Ownership Assignment,0.33333,0.5,0.4,22,0.21272058318209974,7
+word_tfidf,Rofr/Rofo/Rofn,0.5,0.45,0.47368,20,0.08086906514538095,7
+word_tfidf,Competitive Restriction Exception,0.16667,0.05,0.07692,20,0.639278479729178,7
+word_tfidf,Notice Period To Terminate Renewal,0.72727,0.84211,0.78049,19,0.8651924858480065,7
+word_tfidf,Covenant Not To Sue,0.58824,0.58824,0.58824,17,0.8253569174852668,7
+word_tfidf,Irrevocable Or Perpetual License,0.33333,0.33333,0.33333,15,0.31182425861330726,7
+word_tfidf,Affiliate License-Licensee,0.375,0.46154,0.41379,13,0.09978238607270865,7
+word_tfidf,Affiliate License-Licensor,0.13636,0.25,0.17647,12,0.8555954592962856,7
+word_tfidf,Joint Ip Ownership,0.2,0.54545,0.29268,11,0.5626888270408177,7
+word_tfidf,No-Solicit Of Employees,0.85714,0.6,0.70588,10,0.4487881569440874,7
+word_tfidf,Source Code Escrow,1.0,0.11111,0.2,9,0.863931788931789,7
+word_tfidf,Unlimited/All-You-Can-Eat-License,0.0,0.0,0.0,7,0.31925086357792654,7
+word_tfidf,Price Restrictions,0.0,0.0,0.0,7,0.1893259621968427,7
+word_tfidf,Most Favored Nation,0.03226,0.16667,0.05405,6,0.712348218122834,7
+word_tfidf,No-Solicit Of Customers,0.01887,0.16667,0.0339,6,0.039313987472951874,7
+word_tfidf,Third Party Beneficiary,0.03226,0.16667,0.05405,6,0.18595504534139048,7
+word_tfidf,Non-Disparagement,0.0,0.0,0.0,5,0.4905267362793785,7
+word_char_tfidf,Parties,0.76522,0.77193,0.76856,114,0.5281476942740687,7
+word_char_tfidf,Cap On Liability,0.7439,0.61616,0.67403,99,0.14518198628874834,7
+word_char_tfidf,Expiration Date,0.83077,0.60674,0.7013,89,0.7312397286193982,7
+word_char_tfidf,License Grant,0.76543,0.72093,0.74251,86,0.8767122157723115,7
+word_char_tfidf,Document Name,0.77647,0.77647,0.77647,85,0.7639480717272377,7
+word_char_tfidf,Governing Law,0.9125,0.87952,0.89571,83,0.7203821470588249,7
+word_char_tfidf,Anti-Assignment,0.78313,0.80247,0.79268,81,0.5468673036770569,7
+word_char_tfidf,Effective Date,0.64179,0.5443,0.58904,79,0.22079453273895733,7
+word_char_tfidf,Agreement Date,0.66667,0.71795,0.69136,78,0.7718154559132483,7
+word_char_tfidf,Audit Rights,0.73438,0.68116,0.70677,69,0.8391884518257267,7
+word_char_tfidf,Minimum Commitment,0.625,0.44118,0.51724,68,0.6178530217201149,7
+word_char_tfidf,Post-Termination Services,0.375,0.64286,0.47368,56,0.5313157679512601,7
+word_char_tfidf,Exclusivity,0.41463,0.64151,0.5037,53,0.7843334311347192,7
+word_char_tfidf,Insurance,0.75,0.825,0.78571,40,0.9560648773169661,7
+word_char_tfidf,Termination For Convenience,0.43902,0.45,0.44444,40,0.9037799998676921,7
+word_char_tfidf,Revenue/Profit Sharing,0.52381,0.57895,0.55,38,0.5725242557259138,7
+word_char_tfidf,Non-Transferable License,0.71429,0.71429,0.71429,35,0.741915969162346,7
+word_char_tfidf,Non-Compete,0.5,0.21875,0.30435,32,0.4222567258099479,7
+word_char_tfidf,Renewal Term,0.84375,0.93103,0.88525,29,0.8373257723214115,7
+word_char_tfidf,Warranty Duration,0.85714,0.41379,0.55814,29,0.5257032530942869,7
+word_char_tfidf,Liquidated Damages,0.70588,0.42857,0.53333,28,0.48323254992126496,7
+word_char_tfidf,Uncapped Liability,0.66667,0.78571,0.72131,28,0.19127190657493393,7
+word_char_tfidf,Change Of Control,0.53846,0.51852,0.5283,27,0.08261868904137522,7
+word_char_tfidf,Volume Restriction,0.33333,0.17391,0.22857,23,0.7883638617821148,7
+word_char_tfidf,Ip Ownership Assignment,0.5,0.5,0.5,22,0.3742971081095497,7
+word_char_tfidf,Rofr/Rofo/Rofn,0.64286,0.45,0.52941,20,0.28655217331687927,7
+word_char_tfidf,Competitive Restriction Exception,0.29412,0.25,0.27027,20,0.8140024138106486,7
+word_char_tfidf,Notice Period To Terminate Renewal,0.81818,0.94737,0.87805,19,0.9286659324055442,7
+word_char_tfidf,Covenant Not To Sue,0.92308,0.70588,0.8,17,0.848122929611453,7
+word_char_tfidf,Irrevocable Or Perpetual License,0.90909,0.66667,0.76923,15,0.431016403181837,7
+word_char_tfidf,Affiliate License-Licensee,0.35714,0.38462,0.37037,13,0.549690317748394,7
+word_char_tfidf,Affiliate License-Licensor,0.16667,0.16667,0.16667,12,0.9180305619052512,7
+word_char_tfidf,Joint Ip Ownership,0.5,0.18182,0.26667,11,0.6159375046775897,7
+word_char_tfidf,No-Solicit Of Employees,1.0,0.4,0.57143,10,0.4722186895615075,7
+word_char_tfidf,Source Code Escrow,1.0,0.11111,0.2,9,0.8663446054750403,7
+word_char_tfidf,Unlimited/All-You-Can-Eat-License,0.0,0.0,0.0,7,0.3819873986905755,7
+word_char_tfidf,Price Restrictions,0.13158,0.71429,0.22222,7,0.2003132776625907,7
+word_char_tfidf,Most Favored Nation,1.0,0.16667,0.28571,6,0.7713010214131516,7
+word_char_tfidf,No-Solicit Of Customers,0.0,0.0,0.0,6,0.08667013024370808,7
+word_char_tfidf,Third Party Beneficiary,0.03125,0.16667,0.05263,6,0.258237573697876,7
+word_char_tfidf,Non-Disparagement,0.08696,0.4,0.14286,5,0.6170662739567057,7
+context_word_char_tfidf,Parties,0.55215,0.78947,0.64982,114,0.305520289497826,7
+context_word_char_tfidf,Cap On Liability,0.5,0.50505,0.50251,99,0.0689252349475324,7
+context_word_char_tfidf,Expiration Date,0.4359,0.38202,0.40719,89,0.5106457337147255,7
+context_word_char_tfidf,License Grant,0.50476,0.61628,0.55497,86,0.3836842363942926,7
+context_word_char_tfidf,Document Name,0.54369,0.65882,0.59574,85,0.5263222045964095,7
+context_word_char_tfidf,Governing Law,0.33523,0.71084,0.4556,83,0.4502863474123269,7
+context_word_char_tfidf,Anti-Assignment,0.42975,0.64198,0.51485,81,0.313972018873072,7
+context_word_char_tfidf,Effective Date,0.425,0.43038,0.42767,79,0.21767373422251401,7
+context_word_char_tfidf,Agreement Date,0.5,0.5641,0.53012,78,0.4813290613438412,7
+context_word_char_tfidf,Audit Rights,0.41732,0.76812,0.54082,69,0.6064081551205357,7
+context_word_char_tfidf,Minimum Commitment,0.36364,0.41176,0.38621,68,0.3914192231566062,7
+context_word_char_tfidf,Post-Termination Services,0.2875,0.41071,0.33824,56,0.34720742005691524,7
+context_word_char_tfidf,Exclusivity,0.43396,0.43396,0.43396,53,0.35738306402739106,7
+context_word_char_tfidf,Insurance,0.47826,0.825,0.6055,40,0.4600640939221227,7
+context_word_char_tfidf,Termination For Convenience,0.1746,0.275,0.21359,40,0.6344158661513984,7
+context_word_char_tfidf,Revenue/Profit Sharing,0.38776,0.5,0.43678,38,0.4092908310887962,7
+context_word_char_tfidf,Non-Transferable License,0.46296,0.71429,0.5618,35,0.26262203980232324,7
+context_word_char_tfidf,Non-Compete,0.25,0.3125,0.27778,32,0.1493250008340446,7
+context_word_char_tfidf,Renewal Term,0.33333,0.44828,0.38235,29,0.5073307715625517,7
+context_word_char_tfidf,Warranty Duration,0.63158,0.41379,0.5,29,0.2090611378995081,7
+context_word_char_tfidf,Liquidated Damages,0.27778,0.35714,0.3125,28,0.26636855932201736,7
+context_word_char_tfidf,Uncapped Liability,0.38462,0.53571,0.44776,28,0.17561194217728643,7
+context_word_char_tfidf,Change Of Control,0.17895,0.62963,0.27869,27,0.022781390811677293,7
+context_word_char_tfidf,Volume Restriction,0.28571,0.08696,0.13333,23,0.3989439083951279,7
+context_word_char_tfidf,Ip Ownership Assignment,0.58333,0.31818,0.41176,22,0.16698353656896683,7
+context_word_char_tfidf,Rofr/Rofo/Rofn,1.0,0.2,0.33333,20,0.12443628098297732,7
+context_word_char_tfidf,Competitive Restriction Exception,0.6,0.15,0.24,20,0.5168116672777497,7
+context_word_char_tfidf,Notice Period To Terminate Renewal,0.32353,0.57895,0.41509,19,0.3584257710944474,7
+context_word_char_tfidf,Covenant Not To Sue,0.46154,0.35294,0.4,17,0.6893757984205626,7
+context_word_char_tfidf,Irrevocable Or Perpetual License,0.42857,0.2,0.27273,15,0.3228754457924378,7
+context_word_char_tfidf,Affiliate License-Licensee,0.25,0.30769,0.27586,13,0.6178543998244459,7
+context_word_char_tfidf,Affiliate License-Licensor,0.0,0.0,0.0,12,0.36952057742729855,7
+context_word_char_tfidf,Joint Ip Ownership,0.14286,0.18182,0.16,11,0.4740282953843464,7
+context_word_char_tfidf,No-Solicit Of Employees,0.45455,0.5,0.47619,10,0.48273880116944967,7
+context_word_char_tfidf,Source Code Escrow,1.0,0.22222,0.36364,9,0.8241943241943244,7
+context_word_char_tfidf,Unlimited/All-You-Can-Eat-License,0.0,0.0,0.0,7,0.17491067712144812,7
+context_word_char_tfidf,Price Restrictions,0.01828,1.0,0.0359,7,0.1843472451730213,7
+context_word_char_tfidf,Most Favored Nation,0.2,0.16667,0.18182,6,0.4452894500485897,7
+context_word_char_tfidf,No-Solicit Of Customers,0.0,0.0,0.0,6,0.0392823594714765,7
+context_word_char_tfidf,Third Party Beneficiary,0.03448,0.5,0.06452,6,0.168853890828113,7
+context_word_char_tfidf,Non-Disparagement,0.2,0.2,0.2,5,0.45650345763174466,7
+word_char_classifier_chain,Parties,0.78378,0.76316,0.77333,114,0.523095361917821,7
+word_char_classifier_chain,Cap On Liability,0.65217,0.60606,0.62827,99,0.10692625953270705,7
+word_char_classifier_chain,Expiration Date,0.72289,0.67416,0.69767,89,0.6887368482796185,7
+word_char_classifier_chain,License Grant,0.76829,0.73256,0.75,86,0.8501396630075143,7
+word_char_classifier_chain,Document Name,0.77647,0.77647,0.77647,85,0.7543504172095682,7
+word_char_classifier_chain,Governing Law,0.91139,0.86747,0.88889,83,0.7151810531044006,7
+word_char_classifier_chain,Anti-Assignment,0.82895,0.77778,0.80255,81,0.5320938347332766,7
+word_char_classifier_chain,Effective Date,0.67797,0.50633,0.57971,79,0.16090863697779778,7
+word_char_classifier_chain,Agreement Date,0.72857,0.65385,0.68919,78,0.6955416315195712,7
+word_char_classifier_chain,Audit Rights,0.76271,0.65217,0.70312,69,0.8391884518257267,7
+word_char_classifier_chain,Minimum Commitment,0.6383,0.44118,0.52174,68,0.5705366295937617,7
+word_char_classifier_chain,Post-Termination Services,0.375,0.64286,0.47368,56,0.4501118337632364,7
+word_char_classifier_chain,Exclusivity,0.45,0.50943,0.47788,53,0.7427531713763662,7
+word_char_classifier_chain,Insurance,0.73333,0.825,0.77647,40,0.955717825731801,7
+word_char_classifier_chain,Termination For Convenience,0.31169,0.6,0.41026,40,0.8955482500298074,7
+word_char_classifier_chain,Revenue/Profit Sharing,0.47619,0.52632,0.5,38,0.5703826869351535,7
+word_char_classifier_chain,Non-Transferable License,0.58974,0.65714,0.62162,35,0.848367889420521,7
+word_char_classifier_chain,Non-Compete,0.5625,0.28125,0.375,32,0.42343966989674486,7
+word_char_classifier_chain,Renewal Term,0.91304,0.72414,0.80769,29,0.8379313776514483,7
+word_char_classifier_chain,Warranty Duration,0.92308,0.41379,0.57143,29,0.2987450518521979,7
+word_char_classifier_chain,Liquidated Damages,0.19355,0.42857,0.26667,28,0.48830548088484393,7
+word_char_classifier_chain,Uncapped Liability,0.66667,0.78571,0.72131,28,0.23031823237845456,7
+word_char_classifier_chain,Change Of Control,0.53571,0.55556,0.54545,27,0.07931608395553742,7
+word_char_classifier_chain,Volume Restriction,0.33333,0.13043,0.1875,23,0.5464898173721703,7
+word_char_classifier_chain,Ip Ownership Assignment,0.36667,0.5,0.42308,22,0.4125412294530518,7
+word_char_classifier_chain,Rofr/Rofo/Rofn,0.72727,0.4,0.51613,20,0.17905375642385188,7
+word_char_classifier_chain,Competitive Restriction Exception,0.33333,0.25,0.28571,20,0.7025262884945352,7
+word_char_classifier_chain,Notice Period To Terminate Renewal,0.83333,0.78947,0.81081,19,0.94061151161657,7
+word_char_classifier_chain,Covenant Not To Sue,0.6,0.70588,0.64865,17,0.7981088070736436,7
+word_char_classifier_chain,Irrevocable Or Perpetual License,1.0,0.46667,0.63636,15,0.43333440809807705,7
+word_char_classifier_chain,Affiliate License-Licensee,0.5,0.30769,0.38095,13,0.5532249937011842,7
+word_char_classifier_chain,Affiliate License-Licensor,0.22222,0.16667,0.19048,12,0.9102382443360792,7
+word_char_classifier_chain,Joint Ip Ownership,0.5,0.18182,0.26667,11,0.5974260940078172,7
+word_char_classifier_chain,No-Solicit Of Employees,0.66667,0.4,0.5,10,0.4330433685396407,7
+word_char_classifier_chain,Source Code Escrow,1.0,0.44444,0.61538,9,0.8078700454840806,7
+word_char_classifier_chain,Unlimited/All-You-Can-Eat-License,0.0,0.0,0.0,7,0.3212994776561829,7
+word_char_classifier_chain,Price Restrictions,0.14286,0.71429,0.2381,7,0.18871028082726796,7
+word_char_classifier_chain,Most Favored Nation,1.0,0.16667,0.28571,6,0.7690504048040246,7
+word_char_classifier_chain,No-Solicit Of Customers,0.2,0.16667,0.18182,6,0.027302252372034902,7
+word_char_classifier_chain,Third Party Beneficiary,0.01887,0.16667,0.0339,6,0.18133910872966044,7
+word_char_classifier_chain,Non-Disparagement,0.08333,0.4,0.13793,5,0.6100422668700373,7
+positive_prototype_retrieval,Parties,0.31333,0.41228,0.35606,114,0.16823800201246636,7
+positive_prototype_retrieval,Cap On Liability,0.24138,0.35354,0.28689,99,0.08745892538616779,7
+positive_prototype_retrieval,Expiration Date,0.18,0.20225,0.19048,89,0.26429313662499015,7
+positive_prototype_retrieval,License Grant,0.27778,0.23256,0.25316,86,0.3834511744824028,7
+positive_prototype_retrieval,Document Name,0.24167,0.34118,0.28293,85,0.16070447126074008,7
+positive_prototype_retrieval,Governing Law,0.26471,0.54217,0.35573,83,0.2435831885667485,7
+positive_prototype_retrieval,Anti-Assignment,0.31138,0.64198,0.41935,81,0.28947822608790763,7
+positive_prototype_retrieval,Effective Date,0.27451,0.17722,0.21538,79,0.01062419336131802,7
+positive_prototype_retrieval,Agreement Date,0.3,0.42308,0.35106,78,0.2284467540538933,7
+positive_prototype_retrieval,Audit Rights,0.15663,0.37681,0.22128,69,0.25092355542802236,7
+positive_prototype_retrieval,Minimum Commitment,0.06855,0.25,0.10759,68,0.18002498823817006,7
+positive_prototype_retrieval,Post-Termination Services,0.18182,0.07143,0.10256,56,0.14312148564658103,7
+positive_prototype_retrieval,Exclusivity,0.15217,0.13208,0.14141,53,0.18027804573368233,7
+positive_prototype_retrieval,Insurance,0.33333,0.225,0.26866,40,0.34324950854763314,7
+positive_prototype_retrieval,Termination For Convenience,0.1,0.05,0.06667,40,0.22801955456490958,7
+positive_prototype_retrieval,Revenue/Profit Sharing,0.17647,0.07895,0.10909,38,0.1537206265558351,7
+positive_prototype_retrieval,Non-Transferable License,0.2381,0.42857,0.30612,35,0.05309226687312906,7
+positive_prototype_retrieval,Non-Compete,0.0,0.0,0.0,32,0.06958688477760773,7
+positive_prototype_retrieval,Renewal Term,0.14583,0.24138,0.18182,29,0.24931194725612035,7
+positive_prototype_retrieval,Warranty Duration,0.19048,0.13793,0.16,29,0.03365041953950441,7
+positive_prototype_retrieval,Liquidated Damages,0.01695,0.03571,0.02299,28,0.09983125950495865,7
+positive_prototype_retrieval,Uncapped Liability,0.25926,0.25,0.25455,28,0.17285301346088894,7
+positive_prototype_retrieval,Change Of Control,0.28571,0.2963,0.29091,27,0.008955532388212676,7
+positive_prototype_retrieval,Volume Restriction,0.5,0.04348,0.08,23,0.11317876390351542,7
+positive_prototype_retrieval,Ip Ownership Assignment,0.26667,0.18182,0.21622,22,0.024690426492362992,7
+positive_prototype_retrieval,Rofr/Rofo/Rofn,0.04762,0.05,0.04878,20,0.05056545340109302,7
+positive_prototype_retrieval,Competitive Restriction Exception,0.00903,0.35,0.01761,20,0.28194961927782985,7
+positive_prototype_retrieval,Notice Period To Terminate Renewal,0.14286,0.31579,0.19672,19,0.2409821704450223,7
+positive_prototype_retrieval,Covenant Not To Sue,1.0,0.05882,0.11111,17,0.2969425241016892,7
+positive_prototype_retrieval,Irrevocable Or Perpetual License,0.0,0.0,0.0,15,0.12322926628064947,7
+positive_prototype_retrieval,Affiliate License-Licensee,0.12821,0.38462,0.19231,13,0.08359720212861405,7
+positive_prototype_retrieval,Affiliate License-Licensor,0.07407,0.16667,0.10256,12,0.19106963710461297,7
+positive_prototype_retrieval,Joint Ip Ownership,0.07143,0.09091,0.08,11,0.13728864929292478,7
+positive_prototype_retrieval,No-Solicit Of Employees,0.11111,0.2,0.14286,10,0.04981245802485393,7
+positive_prototype_retrieval,Source Code Escrow,0.33333,0.11111,0.16667,9,0.2338311572816168,7
+positive_prototype_retrieval,Unlimited/All-You-Can-Eat-License,0.0,0.0,0.0,7,0.08813470159129283,7
+positive_prototype_retrieval,Price Restrictions,0.05769,0.42857,0.10169,7,0.17512855589077458,7
+positive_prototype_retrieval,Most Favored Nation,0.01235,0.16667,0.02299,6,0.21570220620953195,7
+positive_prototype_retrieval,No-Solicit Of Customers,0.0,0.0,0.0,6,0.02043373855705741,7
+positive_prototype_retrieval,Third Party Beneficiary,0.00858,0.33333,0.01674,6,0.09313686545500376,7
+positive_prototype_retrieval,Non-Disparagement,0.0,0.0,0.0,5,0.13507707457045862,7
+word_tfidf,Parties,0.7037,0.79167,0.7451,96,0.4934102616632651,17
+word_tfidf,License Grant,0.63736,0.63736,0.63736,91,0.09017040995058767,17
+word_tfidf,Anti-Assignment,0.90323,0.64368,0.75168,87,0.7660413079436457,17
+word_tfidf,Governing Law,0.80198,0.96429,0.87568,84,0.8048723235075911,17
+word_tfidf,Agreement Date,0.66667,0.74699,0.70455,83,0.6770803009316853,17
+word_tfidf,Document Name,0.57658,0.78049,0.66321,82,0.6835638136615847,17
+word_tfidf,Cap On Liability,0.70492,0.52439,0.6014,82,0.3515045529897606,17
+word_tfidf,Audit Rights,0.76316,0.37179,0.5,78,0.05527737709057457,17
+word_tfidf,Expiration Date,0.62222,0.71795,0.66667,78,0.41374209120973043,17
+word_tfidf,Effective Date,0.57576,0.53521,0.55474,71,0.7661083568444637,17
+word_tfidf,Minimum Commitment,0.575,0.39655,0.46939,58,0.5723967419308535,17
+word_tfidf,Exclusivity,0.32184,0.49123,0.38889,57,0.29176050243821106,17
+word_tfidf,Insurance,0.76596,0.76596,0.76596,47,0.7511010598966158,17
+word_tfidf,Revenue/Profit Sharing,0.56863,0.64444,0.60417,45,0.967179147967571,17
+word_tfidf,Post-Termination Services,0.27632,0.46667,0.34711,45,0.8349031891067632,17
+word_tfidf,Rofr/Rofo/Rofn,0.47619,0.22727,0.30769,44,0.52684038232192,17
+word_tfidf,Termination For Convenience,0.5,0.32558,0.39437,43,0.4494545089322832,17
+word_tfidf,Non-Transferable License,0.3617,0.53125,0.43038,32,0.3713244439479054,17
+word_tfidf,Ip Ownership Assignment,0.5625,0.3,0.3913,30,0.7006215906114988,17
+word_tfidf,Renewal Term,0.51429,0.6,0.55385,30,0.0420328949363445,17
+word_tfidf,Uncapped Liability,0.8,0.74074,0.76923,27,0.4722509987193309,17
+word_tfidf,Change Of Control,0.37931,0.44,0.40741,25,0.22647423780613452,17
+word_tfidf,Volume Restriction,0.06944,0.4,0.11834,25,0.19387878055984575,17
+word_tfidf,Irrevocable Or Perpetual License,0.5,0.45833,0.47826,24,0.6551958947476025,17
+word_tfidf,Joint Ip Ownership,0.29545,0.54167,0.38235,24,0.25029088268046373,17
+word_tfidf,Non-Compete,0.16071,0.42857,0.23377,21,0.33398077948858057,17
+word_tfidf,Covenant Not To Sue,0.33333,0.63158,0.43636,19,0.4063535511559853,17
+word_tfidf,Notice Period To Terminate Renewal,0.81818,0.5,0.62069,18,0.5574514842917155,17
+word_tfidf,Affiliate License-Licensee,0.33333,0.5,0.4,16,0.8273509990152103,17
+word_tfidf,Competitive Restriction Exception,0.11111,0.07143,0.08696,14,0.2661808821481091,17
+word_tfidf,Warranty Duration,0.33333,0.41667,0.37037,12,0.026400068094076988,17
+word_tfidf,No-Solicit Of Employees,0.57143,0.66667,0.61538,12,0.6623690840366708,17
+word_tfidf,Liquidated Damages,0.0,0.0,0.0,12,0.5933913146092258,17
+word_tfidf,Affiliate License-Licensor,0.0,0.0,0.0,11,0.37079007523768437,17
+word_tfidf,No-Solicit Of Customers,0.5,0.125,0.2,8,,17
+word_tfidf,Non-Disparagement,0.13333,0.33333,0.19048,6,0.39972983376442356,17
+word_tfidf,Most Favored Nation,0.04545,0.2,0.07407,5,0.03516173779006714,17
+word_tfidf,Third Party Beneficiary,0.0,0.0,0.0,5,0.7876664480179908,17
+word_tfidf,Price Restrictions,0.01923,0.25,0.03571,4,0.06727493917274939,17
+word_tfidf,Unlimited/All-You-Can-Eat-License,0.0,0.0,0.0,4,0.14347239288191413,17
+word_tfidf,Source Code Escrow,0.0,0.0,0.0,0,0.4582550048034633,17
+word_char_tfidf,Parties,0.81443,0.82292,0.81865,96,0.5602917471825195,17
+word_char_tfidf,License Grant,0.74419,0.7033,0.72316,91,0.18137585503586312,17
+word_char_tfidf,Anti-Assignment,0.93333,0.64368,0.7619,87,0.8240045604797447,17
+word_char_tfidf,Governing Law,0.96203,0.90476,0.93252,84,0.8354893724183353,17
+word_char_tfidf,Agreement Date,0.69892,0.78313,0.73864,83,0.7417131087810332,17
+word_char_tfidf,Document Name,0.57143,0.87805,0.69231,82,0.7579587357342628,17
+word_char_tfidf,Cap On Liability,0.77419,0.58537,0.66667,82,0.36478456017129834,17
+word_char_tfidf,Audit Rights,0.77465,0.70513,0.73826,78,0.18736816411966886,17
+word_char_tfidf,Expiration Date,0.76812,0.67949,0.72109,78,0.593360991489382,17
+word_char_tfidf,Effective Date,0.5,0.69014,0.57988,71,0.7957664763980546,17
+word_char_tfidf,Minimum Commitment,0.47541,0.5,0.48739,58,0.6542562889273488,17
+word_char_tfidf,Exclusivity,0.45652,0.36842,0.40777,57,0.4206433368579797,17
+word_char_tfidf,Insurance,0.86842,0.70213,0.77647,47,0.7967095742915469,17
+word_char_tfidf,Revenue/Profit Sharing,0.53704,0.64444,0.58586,45,0.9779396926748725,17
+word_char_tfidf,Post-Termination Services,0.34722,0.55556,0.42735,45,0.8734535046133992,17
+word_char_tfidf,Rofr/Rofo/Rofn,1.0,0.43182,0.60317,44,0.6590811131293257,17
+word_char_tfidf,Termination For Convenience,0.48936,0.53488,0.51111,43,0.7557949618975895,17
+word_char_tfidf,Non-Transferable License,0.55556,0.46875,0.50847,32,0.4318034072068583,17
+word_char_tfidf,Ip Ownership Assignment,0.65,0.43333,0.52,30,0.8089827068337258,17
+word_char_tfidf,Renewal Term,0.7037,0.63333,0.66667,30,0.1493133524166605,17
+word_char_tfidf,Uncapped Liability,0.66667,0.81481,0.73333,27,0.5128379849293789,17
+word_char_tfidf,Change Of Control,0.41176,0.28,0.33333,25,0.27854307477738444,17
+word_char_tfidf,Volume Restriction,0.5625,0.36,0.43902,25,0.36888475444387514,17
+word_char_tfidf,Irrevocable Or Perpetual License,0.91667,0.45833,0.61111,24,0.8697767782326608,17
+word_char_tfidf,Joint Ip Ownership,0.5,0.5,0.5,24,0.4104422251294298,17
+word_char_tfidf,Non-Compete,0.275,0.52381,0.36066,21,0.5084021439953643,17
+word_char_tfidf,Covenant Not To Sue,0.54167,0.68421,0.60465,19,0.5988225593043603,17
+word_char_tfidf,Notice Period To Terminate Renewal,0.56,0.77778,0.65116,18,0.734858780709497,17
+word_char_tfidf,Affiliate License-Licensee,1.0,0.3125,0.47619,16,0.8687351572289711,17
+word_char_tfidf,Competitive Restriction Exception,0.2,0.07143,0.10526,14,0.38086817386727473,17
+word_char_tfidf,Warranty Duration,0.40909,0.75,0.52941,12,0.05911313332779301,17
+word_char_tfidf,No-Solicit Of Employees,0.66667,1.0,0.8,12,0.7626630983891967,17
+word_char_tfidf,Liquidated Damages,0.11429,0.33333,0.17021,12,0.5914350886074549,17
+word_char_tfidf,Affiliate License-Licensor,0.2,0.09091,0.125,11,0.6056147131969033,17
+word_char_tfidf,No-Solicit Of Customers,0.5,0.25,0.33333,8,,17
+word_char_tfidf,Non-Disparagement,0.125,0.5,0.2,6,0.5044234022221736,17
+word_char_tfidf,Most Favored Nation,0.13333,0.4,0.2,5,0.1176166253641146,17
+word_char_tfidf,Third Party Beneficiary,0.0,0.0,0.0,5,0.8100389178579713,17
+word_char_tfidf,Price Restrictions,0.0,0.0,0.0,4,0.2716238513450404,17
+word_char_tfidf,Unlimited/All-You-Can-Eat-License,0.5,0.25,0.33333,4,0.3243530169755786,17
+word_char_tfidf,Source Code Escrow,0.0,0.0,0.0,0,0.5733666338702635,17
+context_word_char_tfidf,Parties,0.39594,0.8125,0.53242,96,0.30020530763278075,17
+context_word_char_tfidf,License Grant,0.46341,0.62637,0.53271,91,0.08269636356227662,17
+context_word_char_tfidf,Anti-Assignment,0.45133,0.58621,0.51,87,0.5966440545103565,17
+context_word_char_tfidf,Governing Law,0.40146,0.65476,0.49774,84,0.4028107290291659,17
+context_word_char_tfidf,Agreement Date,0.6,0.54217,0.56962,83,0.48679531096169637,17
+context_word_char_tfidf,Document Name,0.35754,0.78049,0.49042,82,0.5147169134773334,17
+context_word_char_tfidf,Cap On Liability,0.51429,0.43902,0.47368,82,0.20026879494523556,17
+context_word_char_tfidf,Audit Rights,0.47273,0.33333,0.39098,78,0.15395532100179743,17
+context_word_char_tfidf,Expiration Date,0.42857,0.34615,0.38298,78,0.30656473559291053,17
+context_word_char_tfidf,Effective Date,0.33962,0.50704,0.40678,71,0.6021368424701145,17
+context_word_char_tfidf,Minimum Commitment,0.61111,0.18966,0.28947,58,0.4257837515828014,17
+context_word_char_tfidf,Exclusivity,0.26027,0.33333,0.29231,57,0.2699225807654646,17
+context_word_char_tfidf,Insurance,0.5614,0.68085,0.61538,47,0.3753801021392216,17
+context_word_char_tfidf,Revenue/Profit Sharing,0.57143,0.26667,0.36364,45,0.4512365827440285,17
+context_word_char_tfidf,Post-Termination Services,0.26866,0.4,0.32143,45,0.6258471184292949,17
+context_word_char_tfidf,Rofr/Rofo/Rofn,1.0,0.11364,0.20408,44,0.43200705437759906,17
+context_word_char_tfidf,Termination For Convenience,0.3,0.2093,0.24658,43,0.3929849225400233,17
+context_word_char_tfidf,Non-Transferable License,0.35135,0.40625,0.37681,32,0.30658564195213345,17
+context_word_char_tfidf,Ip Ownership Assignment,0.40741,0.36667,0.38596,30,0.5095390483574289,17
+context_word_char_tfidf,Renewal Term,0.35135,0.43333,0.38806,30,0.13738516617603555,17
+context_word_char_tfidf,Uncapped Liability,0.4,0.51852,0.45161,27,0.2986331410711495,17
+context_word_char_tfidf,Change Of Control,0.14,0.28,0.18667,25,0.0722378817235435,17
+context_word_char_tfidf,Volume Restriction,0.41667,0.2,0.27027,25,0.2103034002343046,17
+context_word_char_tfidf,Irrevocable Or Perpetual License,0.58333,0.29167,0.38889,24,0.4391133140906281,17
+context_word_char_tfidf,Joint Ip Ownership,0.19512,0.66667,0.30189,24,0.25819505927180053,17
+context_word_char_tfidf,Non-Compete,0.12676,0.42857,0.19565,21,0.2610466642005513,17
+context_word_char_tfidf,Covenant Not To Sue,0.22581,0.36842,0.28,19,0.3419100161872613,17
+context_word_char_tfidf,Notice Period To Terminate Renewal,0.35714,0.27778,0.3125,18,0.3554406536901461,17
+context_word_char_tfidf,Affiliate License-Licensee,0.26923,0.4375,0.33333,16,0.6662032149284671,17
+context_word_char_tfidf,Competitive Restriction Exception,0.13333,0.28571,0.18182,14,0.22093812705587007,17
+context_word_char_tfidf,Warranty Duration,0.28571,0.5,0.36364,12,0.009361024951021799,17
+context_word_char_tfidf,No-Solicit Of Employees,0.37931,0.91667,0.53659,12,0.3678367736712997,17
+context_word_char_tfidf,Liquidated Damages,0.2,0.16667,0.18182,12,0.43470021132151665,17
+context_word_char_tfidf,Affiliate License-Licensor,0.0,0.0,0.0,11,0.5147677779428068,17
+context_word_char_tfidf,No-Solicit Of Customers,0.5,0.125,0.2,8,,17
+context_word_char_tfidf,Non-Disparagement,0.16667,0.33333,0.22222,6,0.23400217064631712,17
+context_word_char_tfidf,Most Favored Nation,0.2,0.2,0.2,5,0.020672658945973095,17
+context_word_char_tfidf,Third Party Beneficiary,0.0,0.0,0.0,5,0.4450455635062369,17
+context_word_char_tfidf,Price Restrictions,0.0,0.0,0.0,4,0.06527308547053366,17
+context_word_char_tfidf,Unlimited/All-You-Can-Eat-License,0.0,0.0,0.0,4,0.23654607587245416,17
+context_word_char_tfidf,Source Code Escrow,0.0,0.0,0.0,0,0.3829893819471476,17
+word_char_classifier_chain,Parties,0.80808,0.83333,0.82051,96,0.6037332971346294,17
+word_char_classifier_chain,License Grant,0.7971,0.6044,0.6875,91,0.2182060663442632,17
+word_char_classifier_chain,Anti-Assignment,0.89831,0.6092,0.72603,87,0.777864682005316,17
+word_char_classifier_chain,Governing Law,0.95,0.90476,0.92683,84,0.8250551611412751,17
+word_char_classifier_chain,Agreement Date,0.58407,0.79518,0.67347,83,0.7315690381673142,17
+word_char_classifier_chain,Document Name,0.575,0.84146,0.68317,82,0.735074322366184,17
+word_char_classifier_chain,Cap On Liability,0.73239,0.63415,0.67974,82,0.2309359058205447,17
+word_char_classifier_chain,Audit Rights,0.80328,0.62821,0.70504,78,0.12491436788683338,17
+word_char_classifier_chain,Expiration Date,0.84444,0.48718,0.61789,78,0.5430037953535141,17
+word_char_classifier_chain,Effective Date,0.625,0.56338,0.59259,71,0.5796758156729842,17
+word_char_classifier_chain,Minimum Commitment,0.59524,0.43103,0.5,58,0.5761888036876371,17
+word_char_classifier_chain,Exclusivity,0.41509,0.38596,0.4,57,0.40540994219744547,17
+word_char_classifier_chain,Insurance,0.825,0.70213,0.75862,47,0.7228084256219415,17
+word_char_classifier_chain,Revenue/Profit Sharing,0.68966,0.44444,0.54054,45,0.9788260018905799,17
+word_char_classifier_chain,Post-Termination Services,0.30263,0.51111,0.38017,45,0.8674751530132371,17
+word_char_classifier_chain,Rofr/Rofo/Rofn,1.0,0.40909,0.58065,44,0.5563707051477372,17
+word_char_classifier_chain,Termination For Convenience,0.48936,0.53488,0.51111,43,0.762176733364105,17
+word_char_classifier_chain,Non-Transferable License,0.475,0.59375,0.52778,32,0.4102111712272552,17
+word_char_classifier_chain,Ip Ownership Assignment,0.45714,0.53333,0.49231,30,0.7661899662099878,17
+word_char_classifier_chain,Renewal Term,0.70833,0.56667,0.62963,30,0.13893832588983132,17
+word_char_classifier_chain,Uncapped Liability,0.66667,0.81481,0.73333,27,0.48959122013525996,17
+word_char_classifier_chain,Change Of Control,0.23077,0.48,0.31169,25,0.06486935027504281,17
+word_char_classifier_chain,Volume Restriction,0.06911,0.68,0.12546,25,0.29358044299816954,17
+word_char_classifier_chain,Irrevocable Or Perpetual License,0.90909,0.41667,0.57143,24,0.8496315696973594,17
+word_char_classifier_chain,Joint Ip Ownership,0.48,0.5,0.4898,24,0.3000114772110747,17
+word_char_classifier_chain,Non-Compete,0.14286,0.42857,0.21429,21,0.474433983684458,17
+word_char_classifier_chain,Covenant Not To Sue,0.48148,0.68421,0.56522,19,0.5566554601009203,17
+word_char_classifier_chain,Notice Period To Terminate Renewal,0.83333,0.55556,0.66667,18,0.7140200715312078,17
+word_char_classifier_chain,Affiliate License-Licensee,0.71429,0.3125,0.43478,16,0.8696678054039851,17
+word_char_classifier_chain,Competitive Restriction Exception,0.25,0.07143,0.11111,14,0.36471688052117146,17
+word_char_classifier_chain,Warranty Duration,0.42857,0.75,0.54545,12,0.03267672420380924,17
+word_char_classifier_chain,No-Solicit Of Employees,0.81818,0.75,0.78261,12,0.6945489447164767,17
+word_char_classifier_chain,Liquidated Damages,0.06522,0.25,0.10345,12,0.5916062040667073,17
+word_char_classifier_chain,Affiliate License-Licensor,0.19355,0.54545,0.28571,11,0.6056227991741419,17
+word_char_classifier_chain,No-Solicit Of Customers,0.06818,0.375,0.11538,8,,17
+word_char_classifier_chain,Non-Disparagement,0.15385,1.0,0.26667,6,0.5044234022221736,17
+word_char_classifier_chain,Most Favored Nation,0.16667,0.2,0.18182,5,0.10493516399694891,17
+word_char_classifier_chain,Third Party Beneficiary,0.0,0.0,0.0,5,0.8121479842473737,17
+word_char_classifier_chain,Price Restrictions,0.0,0.0,0.0,4,0.17618731569799115,17
+word_char_classifier_chain,Unlimited/All-You-Can-Eat-License,0.5,0.25,0.33333,4,0.255854710129688,17
+word_char_classifier_chain,Source Code Escrow,0.0,0.0,0.0,0,0.5744258215716581,17
+positive_prototype_retrieval,Parties,0.27273,0.4375,0.336,96,0.17238769794972988,17
+positive_prototype_retrieval,License Grant,0.28814,0.37363,0.32536,91,0.032526306206921304,17
+positive_prototype_retrieval,Anti-Assignment,0.54717,0.33333,0.41429,87,0.31783510584139274,17
+positive_prototype_retrieval,Governing Law,0.33945,0.44048,0.38342,84,0.38926304885207297,17
+positive_prototype_retrieval,Agreement Date,0.40426,0.22892,0.29231,83,0.1617940796850637,17
+positive_prototype_retrieval,Document Name,0.47917,0.28049,0.35385,82,0.2816728426898546,17
+positive_prototype_retrieval,Cap On Liability,0.32394,0.28049,0.30065,82,0.1224346154527536,17
+positive_prototype_retrieval,Audit Rights,0.32258,0.12821,0.18349,78,0.009551597383551182,17
+positive_prototype_retrieval,Expiration Date,0.18667,0.17949,0.18301,78,0.23886004968044552,17
+positive_prototype_retrieval,Effective Date,0.19531,0.35211,0.25126,71,0.3748964504092178,17
+positive_prototype_retrieval,Minimum Commitment,0.08257,0.15517,0.10778,58,0.23168700226845002,17
+positive_prototype_retrieval,Exclusivity,0.15625,0.17544,0.16529,57,0.1323260227050689,17
+positive_prototype_retrieval,Insurance,0.34043,0.34043,0.34043,47,0.13658899637006133,17
+positive_prototype_retrieval,Revenue/Profit Sharing,1.0,0.02222,0.04348,45,0.37555586620258036,17
+positive_prototype_retrieval,Post-Termination Services,0.04821,0.6,0.08926,45,0.32774268167245735,17
+positive_prototype_retrieval,Rofr/Rofo/Rofn,0.2381,0.11364,0.15385,44,0.17181602608032023,17
+positive_prototype_retrieval,Termination For Convenience,0.1375,0.25581,0.17886,43,0.28130119367066664,17
+positive_prototype_retrieval,Non-Transferable License,0.11458,0.34375,0.17188,32,0.10318611795659116,17
+positive_prototype_retrieval,Ip Ownership Assignment,0.1519,0.4,0.22018,30,0.24932682070662882,17
+positive_prototype_retrieval,Renewal Term,0.24138,0.23333,0.23729,30,0.011491388594511308,17
+positive_prototype_retrieval,Uncapped Liability,0.22222,0.22222,0.22222,27,0.09708583732397276,17
+positive_prototype_retrieval,Change Of Control,0.2,0.12,0.15,25,0.027597009093425773,17
+positive_prototype_retrieval,Volume Restriction,0.0,0.0,0.0,25,0.05211529637217195,17
+positive_prototype_retrieval,Irrevocable Or Perpetual License,0.16279,0.29167,0.20896,24,0.2531553529411748,17
+positive_prototype_retrieval,Joint Ip Ownership,0.2,0.16667,0.18182,24,0.018085863756525326,17
+positive_prototype_retrieval,Non-Compete,0.01786,0.09524,0.03008,21,0.20473028586922076,17
+positive_prototype_retrieval,Covenant Not To Sue,0.05618,0.26316,0.09259,19,0.10102111788922877,17
+positive_prototype_retrieval,Notice Period To Terminate Renewal,0.24,0.33333,0.27907,18,0.28507790874174405,17
+positive_prototype_retrieval,Affiliate License-Licensee,0.17391,0.25,0.20513,16,0.3378579839540506,17
+positive_prototype_retrieval,Competitive Restriction Exception,0.00901,0.14286,0.01695,14,0.04391394298802955,17
+positive_prototype_retrieval,Warranty Duration,0.08333,0.16667,0.11111,12,0.014729785871959895,17
+positive_prototype_retrieval,No-Solicit Of Employees,0.2,0.33333,0.25,12,0.21456862710210786,17
+positive_prototype_retrieval,Liquidated Damages,0.0,0.0,0.0,12,0.1432363983671973,17
+positive_prototype_retrieval,Affiliate License-Licensor,0.0,0.0,0.0,11,0.1075404412516789,17
+positive_prototype_retrieval,No-Solicit Of Customers,0.03261,0.375,0.06,8,,17
+positive_prototype_retrieval,Non-Disparagement,0.06667,0.33333,0.11111,6,0.1875054294968834,17
+positive_prototype_retrieval,Most Favored Nation,0.01818,0.2,0.03333,5,0.011897115505404031,17
+positive_prototype_retrieval,Third Party Beneficiary,0.0,0.0,0.0,5,0.26206802558468845,17
+positive_prototype_retrieval,Price Restrictions,0.0,0.0,0.0,4,0.04507696145753195,17
+positive_prototype_retrieval,Unlimited/All-You-Can-Eat-License,0.0,0.0,0.0,4,0.09512804094692416,17
+positive_prototype_retrieval,Source Code Escrow,0.0,0.0,0.0,0,0.0939253246262439,17
+word_tfidf,Parties,0.8625,0.61607,0.71875,112,0.19452969701770192,23
+word_tfidf,License Grant,0.73529,0.57471,0.64516,87,0.05469344606134084,23
+word_tfidf,Document Name,0.81481,0.51765,0.63309,85,0.7495074486773181,23
+word_tfidf,Cap On Liability,0.72603,0.64634,0.68387,82,0.8648833500496231,23
+word_tfidf,Anti-Assignment,0.78571,0.80488,0.79518,82,0.757916856955609,23
+word_tfidf,Governing Law,0.92105,0.85366,0.88608,82,0.7474734740387337,23
+word_tfidf,Expiration Date,0.6747,0.70886,0.69136,79,0.22824608639477958,23
+word_tfidf,Agreement Date,0.72368,0.70513,0.71429,78,0.09439273687537691,23
+word_tfidf,Effective Date,0.60656,0.52857,0.56489,70,0.4517542721338559,23
+word_tfidf,Post-Termination Services,0.33803,0.69565,0.45498,69,0.7387318062573042,23
+word_tfidf,Audit Rights,0.71014,0.80328,0.75385,61,0.6000228763481859,23
+word_tfidf,Revenue/Profit Sharing,0.61111,0.55932,0.58407,59,0.3306621121496549,23
+word_tfidf,Termination For Convenience,0.58333,0.30435,0.4,46,0.7495204592526998,23
+word_tfidf,Exclusivity,0.3913,0.4,0.3956,45,0.9428603207562142,23
+word_tfidf,Ip Ownership Assignment,0.50877,0.65909,0.57426,44,0.7823000082343174,23
+word_tfidf,Minimum Commitment,0.28,0.32558,0.30108,43,0.5751637415330273,23
+word_tfidf,Insurance,0.86364,0.55882,0.67857,34,0.6172829696612313,23
+word_tfidf,Renewal Term,0.74286,0.78788,0.76471,33,0.36131353171667474,23
+word_tfidf,Non-Compete,0.33333,0.03125,0.05714,32,0.7399184054145205,23
+word_tfidf,Non-Transferable License,0.47222,0.54839,0.50746,31,0.27763842208166406,23
+word_tfidf,Rofr/Rofo/Rofn,0.4,0.5,0.44444,24,0.2527159762196551,23
+word_tfidf,Uncapped Liability,0.44737,0.70833,0.54839,24,0.01400054806977216,23
+word_tfidf,Notice Period To Terminate Renewal,0.70588,0.52174,0.6,23,0.2543867411920692,23
+word_tfidf,Liquidated Damages,0.2093,0.40909,0.27692,22,0.6863476190623298,23
+word_tfidf,Volume Restriction,0.0,0.0,0.0,22,0.12811085079322257,23
+word_tfidf,Change Of Control,0.23684,0.42857,0.30508,21,0.38538041861879785,23
+word_tfidf,Irrevocable Or Perpetual License,0.45455,0.66667,0.54054,15,0.5708362328927681,23
+word_tfidf,Covenant Not To Sue,0.47368,0.6,0.52941,15,0.6200569117492172,23
+word_tfidf,Joint Ip Ownership,0.5,0.21429,0.3,14,0.8503702943853834,23
+word_tfidf,Affiliate License-Licensee,0.1,0.08333,0.09091,12,0.42189094140951255,23
+word_tfidf,Price Restrictions,0.11111,0.90909,0.19802,11,0.41800940492664523,23
+word_tfidf,Source Code Escrow,0.5,0.27273,0.35294,11,0.7645609472798232,23
+word_tfidf,Warranty Duration,0.33333,0.18182,0.23529,11,0.4956677710897875,23
+word_tfidf,Competitive Restriction Exception,0.16667,0.1,0.125,10,0.407737157179137,23
+word_tfidf,No-Solicit Of Employees,0.5,0.66667,0.57143,9,0.3095970142512356,23
+word_tfidf,Third Party Beneficiary,0.0,0.0,0.0,8,0.4436761057374249,23
+word_tfidf,Affiliate License-Licensor,0.05882,0.14286,0.08333,7,0.17920762925940295,23
+word_tfidf,Non-Disparagement,0.12903,0.57143,0.21053,7,0.6098661085953272,23
+word_tfidf,No-Solicit Of Customers,0.08333,0.33333,0.13333,6,0.012409156976744187,23
+word_tfidf,Most Favored Nation,0.0,0.0,0.0,5,0.08547407674344745,23
+word_tfidf,Unlimited/All-You-Can-Eat-License,0.0,0.0,0.0,2,0.22203941626937268,23
+word_char_tfidf,Parties,0.87255,0.79464,0.83178,112,0.29219128357314045,23
+word_char_tfidf,License Grant,0.77273,0.78161,0.77714,87,0.0891896614345594,23
+word_char_tfidf,Document Name,0.69697,0.81176,0.75,85,0.7696253599618277,23
+word_char_tfidf,Cap On Liability,0.94,0.57317,0.71212,82,0.9183985917492232,23
+word_char_tfidf,Anti-Assignment,0.77895,0.90244,0.83616,82,0.7640512985081997,23
+word_char_tfidf,Governing Law,0.92405,0.89024,0.90683,82,0.7949887829302472,23
+word_char_tfidf,Expiration Date,0.59615,0.78481,0.6776,79,0.23889055881354496,23
+word_char_tfidf,Agreement Date,0.76712,0.71795,0.74172,78,0.13240843893216112,23
+word_char_tfidf,Effective Date,0.6875,0.62857,0.65672,70,0.6946206545970196,23
+word_char_tfidf,Post-Termination Services,0.32374,0.65217,0.43269,69,0.7579248057010022,23
+word_char_tfidf,Audit Rights,0.76119,0.83607,0.79688,61,0.6678347678474729,23
+word_char_tfidf,Revenue/Profit Sharing,0.63265,0.52542,0.57407,59,0.4253892519630056,23
+word_char_tfidf,Termination For Convenience,0.41975,0.73913,0.53543,46,0.7820372844085088,23
+word_char_tfidf,Exclusivity,0.46512,0.44444,0.45455,45,0.9692820253692741,23
+word_char_tfidf,Ip Ownership Assignment,0.71795,0.63636,0.6747,44,0.8642865394420834,23
+word_char_tfidf,Minimum Commitment,0.41026,0.37209,0.39024,43,0.7523092584266977,23
+word_char_tfidf,Insurance,0.95,0.55882,0.7037,34,0.7505098090402643,23
+word_char_tfidf,Renewal Term,0.82759,0.72727,0.77419,33,0.44206820716183337,23
+word_char_tfidf,Non-Compete,0.3,0.1875,0.23077,32,0.8370389418056777,23
+word_char_tfidf,Non-Transferable License,0.79167,0.6129,0.69091,31,0.38775725780707837,23
+word_char_tfidf,Rofr/Rofo/Rofn,0.77778,0.29167,0.42424,24,0.3221043005539375,23
+word_char_tfidf,Uncapped Liability,0.55172,0.66667,0.60377,24,0.0506800941228181,23
+word_char_tfidf,Notice Period To Terminate Renewal,0.8,0.52174,0.63158,23,0.27441701380380623,23
+word_char_tfidf,Liquidated Damages,0.47368,0.40909,0.43902,22,0.7551803477729405,23
+word_char_tfidf,Volume Restriction,0.11842,0.40909,0.18367,22,0.24389942461882788,23
+word_char_tfidf,Change Of Control,0.33333,0.38095,0.35556,21,0.5163402174428757,23
+word_char_tfidf,Irrevocable Or Perpetual License,0.75,0.6,0.66667,15,0.7407059090951316,23
+word_char_tfidf,Covenant Not To Sue,0.81818,0.6,0.69231,15,0.7328788668906636,23
+word_char_tfidf,Joint Ip Ownership,1.0,0.21429,0.35294,14,0.8821408762223313,23
+word_char_tfidf,Affiliate License-Licensee,0.28571,0.16667,0.21053,12,0.40730573911561674,23
+word_char_tfidf,Price Restrictions,1.0,0.27273,0.42857,11,0.545951238668416,23
+word_char_tfidf,Source Code Escrow,1.0,0.09091,0.16667,11,0.8249463898600248,23
+word_char_tfidf,Warranty Duration,0.5,0.36364,0.42105,11,0.5501682707420713,23
+word_char_tfidf,Competitive Restriction Exception,0.33333,0.3,0.31579,10,0.615759513354978,23
+word_char_tfidf,No-Solicit Of Employees,0.85714,0.66667,0.75,9,0.38322954541849025,23
+word_char_tfidf,Third Party Beneficiary,0.19355,0.75,0.30769,8,0.5138478302173127,23
+word_char_tfidf,Affiliate License-Licensor,0.0,0.0,0.0,7,0.28265215176979885,23
+word_char_tfidf,Non-Disparagement,0.17391,0.57143,0.26667,7,0.5882308041280114,23
+word_char_tfidf,No-Solicit Of Customers,0.1,0.33333,0.15385,6,0.06347370983446933,23
+word_char_tfidf,Most Favored Nation,0.2,0.2,0.2,5,0.11362588584858212,23
+word_char_tfidf,Unlimited/All-You-Can-Eat-License,0.0,0.0,0.0,2,0.39702553723386536,23
+context_word_char_tfidf,Parties,0.69767,0.53571,0.60606,112,0.18075086881391259,23
+context_word_char_tfidf,License Grant,0.53191,0.57471,0.55249,87,0.06517240159498745,23
+context_word_char_tfidf,Document Name,0.60294,0.48235,0.53595,85,0.5291891409639585,23
+context_word_char_tfidf,Cap On Liability,0.49038,0.62195,0.54839,82,0.4977376233381751,23
+context_word_char_tfidf,Anti-Assignment,0.44138,0.78049,0.56388,82,0.5025504170071508,23
+context_word_char_tfidf,Governing Law,0.35294,0.80488,0.49071,82,0.48216282199605603,23
+context_word_char_tfidf,Expiration Date,0.32418,0.74684,0.45211,79,0.09400725766779243,23
+context_word_char_tfidf,Agreement Date,0.47826,0.70513,0.56995,78,0.04824634213737896,23
+context_word_char_tfidf,Effective Date,0.53333,0.34286,0.41739,70,0.3273959224514668,23
+context_word_char_tfidf,Post-Termination Services,0.36986,0.3913,0.38028,69,0.5732999436965714,23
+context_word_char_tfidf,Audit Rights,0.38393,0.70492,0.49711,61,0.42388565640046544,23
+context_word_char_tfidf,Revenue/Profit Sharing,0.36735,0.61017,0.4586,59,0.26550798063916525,23
+context_word_char_tfidf,Termination For Convenience,0.2987,0.5,0.37398,46,0.3691675211982381,23
+context_word_char_tfidf,Exclusivity,0.43478,0.22222,0.29412,45,0.4293807666043708,23
+context_word_char_tfidf,Ip Ownership Assignment,0.48214,0.61364,0.54,44,0.6451656912541924,23
+context_word_char_tfidf,Minimum Commitment,0.16667,0.37209,0.23022,43,0.5211281282897735,23
+context_word_char_tfidf,Insurance,0.51064,0.70588,0.59259,34,0.4722415518977443,23
+context_word_char_tfidf,Renewal Term,0.3,0.72727,0.42478,33,0.2253150355782574,23
+context_word_char_tfidf,Non-Compete,0.13793,0.125,0.13115,32,0.5591596448099617,23
+context_word_char_tfidf,Non-Transferable License,0.45946,0.54839,0.5,31,0.20677024227793428,23
+context_word_char_tfidf,Rofr/Rofo/Rofn,0.75,0.25,0.375,24,0.17909273634251838,23
+context_word_char_tfidf,Uncapped Liability,0.22667,0.70833,0.34343,24,0.0038631861340881098,23
+context_word_char_tfidf,Notice Period To Terminate Renewal,0.27586,0.34783,0.30769,23,0.1130047572489433,23
+context_word_char_tfidf,Liquidated Damages,0.18,0.40909,0.25,22,0.4325907901907004,23
+context_word_char_tfidf,Volume Restriction,0.1,0.09091,0.09524,22,0.17557347846480398,23
+context_word_char_tfidf,Change Of Control,0.12821,0.2381,0.16667,21,0.3189215183113699,23
+context_word_char_tfidf,Irrevocable Or Perpetual License,0.57143,0.26667,0.36364,15,0.4023305641700752,23
+context_word_char_tfidf,Covenant Not To Sue,0.42857,0.4,0.41379,15,0.24919937869198264,23
+context_word_char_tfidf,Joint Ip Ownership,0.33333,0.14286,0.2,14,0.7051767778552441,23
+context_word_char_tfidf,Affiliate License-Licensee,0.16667,0.16667,0.16667,12,0.3319607838440821,23
+context_word_char_tfidf,Price Restrictions,0.21739,0.45455,0.29412,11,0.4203899147272777,23
+context_word_char_tfidf,Source Code Escrow,0.0,0.0,0.0,11,0.3539582980847737,23
+context_word_char_tfidf,Warranty Duration,0.42857,0.27273,0.33333,11,0.4959213394063966,23
+context_word_char_tfidf,Competitive Restriction Exception,0.06667,0.1,0.08,10,0.41858831246122064,23
+context_word_char_tfidf,No-Solicit Of Employees,0.26923,0.77778,0.4,9,0.4480744177129013,23
+context_word_char_tfidf,Third Party Beneficiary,0.02439,0.25,0.04444,8,0.33851012038020756,23
+context_word_char_tfidf,Affiliate License-Licensor,0.0,0.0,0.0,7,0.03045771303777218,23
+context_word_char_tfidf,Non-Disparagement,0.13043,0.42857,0.2,7,0.28184164442411064,23
+context_word_char_tfidf,No-Solicit Of Customers,0.05405,0.33333,0.09302,6,0.026953951566855875,23
+context_word_char_tfidf,Most Favored Nation,0.0,0.0,0.0,5,0.06659515085984069,23
+context_word_char_tfidf,Unlimited/All-You-Can-Eat-License,0.0,0.0,0.0,2,0.39286749823505146,23
+word_char_classifier_chain,Parties,0.86207,0.66964,0.75377,112,0.20848940083250128,23
+word_char_classifier_chain,License Grant,0.77273,0.78161,0.77714,87,0.08963770830181457,23
+word_char_classifier_chain,Document Name,0.71765,0.71765,0.71765,85,0.6740022206175762,23
+word_char_classifier_chain,Cap On Liability,0.83607,0.62195,0.71329,82,0.9172417692363861,23
+word_char_classifier_chain,Anti-Assignment,0.77083,0.90244,0.83146,82,0.7624175849959901,23
+word_char_classifier_chain,Governing Law,0.91358,0.90244,0.90798,82,0.7923976852065829,23
+word_char_classifier_chain,Expiration Date,0.52542,0.78481,0.62944,79,0.22104670979324842,23
+word_char_classifier_chain,Agreement Date,0.64835,0.75641,0.69822,78,0.05740843595523977,23
+word_char_classifier_chain,Effective Date,0.70968,0.62857,0.66667,70,0.6946206545970196,23
+word_char_classifier_chain,Post-Termination Services,0.44156,0.49275,0.46575,69,0.6469111122953439,23
+word_char_classifier_chain,Audit Rights,0.71233,0.85246,0.77612,61,0.6675244567044831,23
+word_char_classifier_chain,Revenue/Profit Sharing,0.66038,0.59322,0.625,59,0.3302465336270421,23
+word_char_classifier_chain,Termination For Convenience,0.5,0.52174,0.51064,46,0.7204874018869853,23
+word_char_classifier_chain,Exclusivity,0.44,0.24444,0.31429,45,0.9614656562903263,23
+word_char_classifier_chain,Ip Ownership Assignment,0.7,0.63636,0.66667,44,0.8626052289019793,23
+word_char_classifier_chain,Minimum Commitment,0.425,0.39535,0.40964,43,0.6905968481494479,23
+word_char_classifier_chain,Insurance,0.95,0.55882,0.7037,34,0.706998964777855,23
+word_char_classifier_chain,Renewal Term,0.91304,0.63636,0.75,33,0.38169268653939104,23
+word_char_classifier_chain,Non-Compete,0.29412,0.15625,0.20408,32,0.83636393660095,23
+word_char_classifier_chain,Non-Transferable License,0.54167,0.41935,0.47273,31,0.18965328528616207,23
+word_char_classifier_chain,Rofr/Rofo/Rofn,0.85714,0.5,0.63158,24,0.31273429595494995,23
+word_char_classifier_chain,Uncapped Liability,0.55172,0.66667,0.60377,24,0.028184096523575956,23
+word_char_classifier_chain,Notice Period To Terminate Renewal,0.64706,0.47826,0.55,23,0.24102601442588767,23
+word_char_classifier_chain,Liquidated Damages,0.12048,0.45455,0.19048,22,0.6925685425685426,23
+word_char_classifier_chain,Volume Restriction,0.0,0.0,0.0,22,0.23819990354649542,23
+word_char_classifier_chain,Change Of Control,0.23256,0.47619,0.3125,21,0.43254745254745247,23
+word_char_classifier_chain,Irrevocable Or Perpetual License,0.47619,0.66667,0.55556,15,0.5690779835205677,23
+word_char_classifier_chain,Covenant Not To Sue,0.81818,0.6,0.69231,15,0.6633670717661424,23
+word_char_classifier_chain,Joint Ip Ownership,1.0,0.14286,0.25,14,0.864713091951796,23
+word_char_classifier_chain,Affiliate License-Licensee,0.33333,0.16667,0.22222,12,0.4057665893307717,23
+word_char_classifier_chain,Price Restrictions,0.38462,0.45455,0.41667,11,0.4800414619307837,23
+word_char_classifier_chain,Source Code Escrow,1.0,0.09091,0.16667,11,0.7598349627451211,23
+word_char_classifier_chain,Warranty Duration,0.5,0.36364,0.42105,11,0.552136447571713,23
+word_char_classifier_chain,Competitive Restriction Exception,0.08333,0.1,0.09091,10,0.6224365981004844,23
+word_char_classifier_chain,No-Solicit Of Employees,0.75,0.66667,0.70588,9,0.36888243226411754,23
+word_char_classifier_chain,Third Party Beneficiary,0.33333,0.25,0.28571,8,0.5029158268196144,23
+word_char_classifier_chain,Affiliate License-Licensor,0.0,0.0,0.0,7,0.17304040741040294,23
+word_char_classifier_chain,Non-Disparagement,0.14286,0.57143,0.22857,7,0.5903176665409607,23
+word_char_classifier_chain,No-Solicit Of Customers,0.03922,0.33333,0.07018,6,0.01447876447876448,23
+word_char_classifier_chain,Most Favored Nation,0.0,0.0,0.0,5,0.10898698098294159,23
+word_char_classifier_chain,Unlimited/All-You-Can-Eat-License,0.0,0.0,0.0,2,0.401974052513179,23
+positive_prototype_retrieval,Parties,0.34731,0.51786,0.41577,112,0.11995875656454741,23
+positive_prototype_retrieval,License Grant,0.18552,0.47126,0.26623,87,0.01490713116252129,23
+positive_prototype_retrieval,Document Name,0.31373,0.37647,0.34225,85,0.298572091873066,23
+positive_prototype_retrieval,Cap On Liability,0.25946,0.58537,0.35955,82,0.4822000582635731,23
+positive_prototype_retrieval,Anti-Assignment,0.36496,0.60976,0.45662,82,0.2566079104854324,23
+positive_prototype_retrieval,Governing Law,0.32593,0.53659,0.40553,82,0.32611701737761545,23
+positive_prototype_retrieval,Expiration Date,0.13873,0.3038,0.19048,79,0.04031870571355558,23
+positive_prototype_retrieval,Agreement Date,0.33333,0.32051,0.3268,78,0.008295377875215556,23
+positive_prototype_retrieval,Effective Date,0.15,0.34286,0.2087,70,0.24609028827015703,23
+positive_prototype_retrieval,Post-Termination Services,0.075,0.13043,0.09524,69,0.3191152216682464,23
+positive_prototype_retrieval,Audit Rights,0.31746,0.32787,0.32258,61,0.20473045663982026,23
+positive_prototype_retrieval,Revenue/Profit Sharing,0.22047,0.47458,0.30108,59,0.11740369048415199,23
+positive_prototype_retrieval,Termination For Convenience,0.12308,0.34783,0.18182,46,0.17824792179733068,23
+positive_prototype_retrieval,Exclusivity,0.09449,0.26667,0.13953,45,0.3492956814588678,23
+positive_prototype_retrieval,Ip Ownership Assignment,0.25676,0.43182,0.32203,44,0.23466116796364003,23
+positive_prototype_retrieval,Minimum Commitment,0.12727,0.16279,0.14286,43,0.24527431809439607,23
+positive_prototype_retrieval,Insurance,0.32353,0.32353,0.32353,34,0.3135912382540998,23
+positive_prototype_retrieval,Renewal Term,0.17708,0.51515,0.26357,33,0.11253889563473853,23
+positive_prototype_retrieval,Non-Compete,0.03797,0.09375,0.05405,32,0.26741098471533414,23
+positive_prototype_retrieval,Non-Transferable License,0.12821,0.32258,0.18349,31,0.021321024531376284,23
+positive_prototype_retrieval,Rofr/Rofo/Rofn,0.12,0.125,0.12245,24,0.11110551139094071,23
+positive_prototype_retrieval,Uncapped Liability,0.2619,0.45833,0.33333,24,0.0531751663957392,23
+positive_prototype_retrieval,Notice Period To Terminate Renewal,0.13636,0.52174,0.21622,23,0.01966384964433093,23
+positive_prototype_retrieval,Liquidated Damages,0.01594,0.72727,0.03119,22,0.27029340705568927,23
+positive_prototype_retrieval,Volume Restriction,0.15789,0.13636,0.14634,22,0.0358088886620148,23
+positive_prototype_retrieval,Change Of Control,0.08333,0.09524,0.08889,21,0.2812084850302939,23
+positive_prototype_retrieval,Irrevocable Or Perpetual License,0.16667,0.33333,0.22222,15,0.16768203429392442,23
+positive_prototype_retrieval,Covenant Not To Sue,0.03597,0.33333,0.06494,15,0.16434046624407847,23
+positive_prototype_retrieval,Joint Ip Ownership,0.09524,0.14286,0.11429,14,0.3427313131270726,23
+positive_prototype_retrieval,Affiliate License-Licensee,0.04348,0.16667,0.06897,12,0.0785807434851064,23
+positive_prototype_retrieval,Price Restrictions,0.2,0.27273,0.23077,11,0.15112086329696728,23
+positive_prototype_retrieval,Source Code Escrow,0.0,0.0,0.0,11,0.19279471882502,23
+positive_prototype_retrieval,Warranty Duration,0.09091,0.09091,0.09091,11,0.29848735532677995,23
+positive_prototype_retrieval,Competitive Restriction Exception,0.00635,0.2,0.01231,10,0.06228375404109142,23
+positive_prototype_retrieval,No-Solicit Of Employees,0.10811,0.44444,0.17391,9,0.04574300943428577,23
+positive_prototype_retrieval,Third Party Beneficiary,0.01681,0.5,0.03252,8,0.2278493921657154,23
+positive_prototype_retrieval,Affiliate License-Licensor,0.00833,0.14286,0.01575,7,0.016848203058626506,23
+positive_prototype_retrieval,Non-Disparagement,0.09677,0.42857,0.15789,7,0.26845073789372376,23
+positive_prototype_retrieval,No-Solicit Of Customers,0.00694,0.83333,0.01377,6,0.042694415895854744,23
+positive_prototype_retrieval,Most Favored Nation,0.04545,0.2,0.07407,5,0.0846985337430778,23
+positive_prototype_retrieval,Unlimited/All-You-Can-Eat-License,0.0,0.0,0.0,2,0.06022623592771093,23

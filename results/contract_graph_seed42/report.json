@@ -1,0 +1,81 @@
+{
+  "architecture": "chunk-level pretrained encoder with weighted GraphSAGE message passing",
+  "graph": {
+    "adjacency_edges": "bidirectional immediate chunk neighbors",
+    "semantic_edges": "top non-adjacent TF-IDF cosine neighbors per node",
+    "semantic_neighbors_per_node": 4,
+    "tfidf_fit_on": "training chunks only; labels unused in graph construction",
+    "contract_count": 408,
+    "total_directed_edges": 103642,
+    "mean_directed_edges_per_contract": 254.02450980392157,
+    "median_directed_edges_per_contract": 160.0,
+    "min_directed_edges_per_contract": 0,
+    "max_directed_edges_per_contract": 2370,
+    "contracts_with_no_edges": 7
+  },
+  "training": {
+    "epochs": 3,
+    "learning_rate": 2e-05,
+    "graph_hidden_size": 256,
+    "graph_layers": 2,
+    "encoder_chunk_batch_size": 4,
+    "dropout": 0.1,
+    "pos_weight_cap": 50.0,
+    "best_calibration_macro_aupr": 0.41619963862944753,
+    "history": [
+      {
+        "epoch": 1,
+        "training_loss": 1.1088455332013276,
+        "calibration_macro_aupr": 0.21380097871950715
+      },
+      {
+        "epoch": 2,
+        "training_loss": 0.7239539165909473,
+        "calibration_macro_aupr": 0.34399796999626153
+      },
+      {
+        "epoch": 3,
+        "training_loss": 0.5575285478280141,
+        "calibration_macro_aupr": 0.41619963862944753
+      }
+    ],
+    "device": "cuda",
+    "amp": true
+  },
+  "split": {
+    "seed": 42,
+    "contract_counts": {
+      "training": 260,
+      "calibration": 66,
+      "evaluation": 82
+    },
+    "contract_id_sha256": {
+      "training": "44e5d6e9df85fa666896aca96e4638abce02371e5674316f1bad13bf079922fd",
+      "calibration": "271e06814672af99ef807e67790290b82c41a1f9890f1402247cd6666ac95f69",
+      "evaluation": "495488d5b49f0c1cd93f5a8bb416c110ed96122e8d03b3bcc4f82784068a87f9"
+    },
+    "chunk_counts": {
+      "training": 9025,
+      "calibration": 1899,
+      "evaluation": 2196
+    }
+  },
+  "chunking": {
+    "max_tokens": 512,
+    "overlap_tokens": 64,
+    "tokenizer": "distilbert/distilroberta-base",
+    "tokenizer_revision": "fb53ab8802853c8e4fbdbcd0529f21fc6f459b2b"
+  },
+  "thresholds_fit_on": "calibration contracts only",
+  "metrics_on": "held-out evaluation contracts only",
+  "macro_f1_evaluation": {
+    "contract_graph_sage": 0.38972463414634145,
+    "word_char_tfidf": 0.5330670731707318
+  },
+  "macro_aupr_evaluation": {
+    "contract_graph_sage": 0.42607388527372275,
+    "word_char_tfidf": 0.5971198237476559
+  },
+  "data_sha256": "7de21d2bb741ac939e2a839ef9640634a5e0f9f40ea2b82c6833baf7db33dab4",
+  "test_data_used": false
+}

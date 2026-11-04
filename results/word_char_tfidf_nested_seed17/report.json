@@ -1,0 +1,47 @@
+{
+  "experiment": "word_char_tfidf_nested_holdout",
+  "data": "data/cuad/train_separate_questions.json",
+  "data_sha256": "7de21d2bb741ac939e2a839ef9640634a5e0f9f40ea2b82c6833baf7db33dab4",
+  "split": {
+    "method": "split_by_contract",
+    "seed": 17,
+    "evaluation_fraction": 0.2,
+    "calibration_fraction_of_non_evaluation": 0.2,
+    "contract_counts": {
+      "training": 260,
+      "calibration": 66,
+      "evaluation": 82
+    },
+    "contract_id_sha256": {
+      "training": "e1971daa154d964ed368bcdc247c8069f73e819fd13582f078ae2d48e3f7e867",
+      "calibration": "6f7de8b0f2780627b92dcef554b6076659d82ec1833acb676e05c14b0fd03bb2",
+      "evaluation": "64df84d1c690f5575f4073e41d5cc8c5b8cf164b653917836be7b451838d94dc"
+    },
+    "chunk_counts": {
+      "training": 8817,
+      "calibration": 1787,
+      "evaluation": 2516
+    }
+  },
+  "chunking": {
+    "method": "chunk_sentence_windows",
+    "tokenizer": "distilbert/distilroberta-base",
+    "tokenizer_revision": "fb53ab8802853c8e4fbdbcd0529f21fc6f459b2b",
+    "max_tokens": 512,
+    "overlap_tokens": 64
+  },
+  "training": {
+    "c": 1.0,
+    "word_features": "1-2 grams, sublinear TF, max 100000",
+    "character_features": "char_wb 3-5 grams, min_df=2, sublinear TF, max 100000",
+    "class_weight": "balanced"
+  },
+  "thresholds_fit_on": "calibration contracts only",
+  "metrics_on": "held-out evaluation contracts, never used for model/threshold fitting",
+  "macro_f1_evaluation": {
+    "word_char_tfidf": 0.49407463414634145,
+    "word_tfidf": 0.40930707317073173
+  },
+  "word_char_beats_word_macro_f1": true,
+  "test_data_used": false
+}

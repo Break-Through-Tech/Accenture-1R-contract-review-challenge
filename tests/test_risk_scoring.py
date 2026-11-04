@@ -79,6 +79,7 @@ def test_score_clause_golden_values():
     )
     assert score.composite_score == pytest.approx(0.86)
     assert (score.rating, score.has_evidence, score.probability) == ("High", True, 0.8)
+    assert score.weight_set_sha256 == WEIGHTS.content_sha256
     assert (score.contract_id, score.chunk_index, score.category) == ("c1", 0, "Uncapped Liability")
 
 
@@ -114,6 +115,7 @@ def test_score_clause_probability_does_not_change_score():
 def test_score_clause_composite_stays_in_unit_range():
     """All-max signals with weights summing to 1 only up to float error never exceed 1."""
     ws = WEIGHTS.model_copy(update={
+        "weight_version_id": "test-max",
         "signal_weights": {"category_severity": 0.1, "one_sidedness": 0.2, "magnitude": 0.3, "contract_context": 0.4},
         "category_severity": {"Uncapped Liability": 1.0},
     })

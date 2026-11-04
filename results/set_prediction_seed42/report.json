@@ -1,0 +1,576 @@
+{
+  "architecture": "category-conditioned learned instance slots with Hungarian-matched start/end chunk pointers",
+  "span_prediction": {
+    "max_slots_per_category": 8,
+    "pointer_resolution": "chunk indices mapped to end-exclusive source character boundaries",
+    "encoder_frozen": true,
+    "training_loss": "matched objectness/no-object BCE plus start/end pointer cross-entropy",
+    "matching": "Hungarian assignment per category within each contract",
+    "gold_span_coverage": {
+      "training": {
+        "gold_span_count": 7307,
+        "mapped_span_count": 7307,
+        "uncovered_span_count": 0,
+        "slot_covered_span_count": 6964,
+        "slot_coverage_of_mapped_spans": 0.9530587108252361
+      },
+      "calibration": {
+        "gold_span_count": 1868,
+        "mapped_span_count": 1868,
+        "uncovered_span_count": 0,
+        "slot_covered_span_count": 1813,
+        "slot_coverage_of_mapped_spans": 0.9705567451820128
+      },
+      "evaluation": {
+        "gold_span_count": 2005,
+        "mapped_span_count": 2005,
+        "uncovered_span_count": 0,
+        "slot_covered_span_count": 1978,
+        "slot_coverage_of_mapped_spans": 0.9865336658354115
+      }
+    },
+    "evaluation_span_metrics": {
+      "iou_threshold": 0.5,
+      "true_positive": 2.0,
+      "false_positive": 1502.0,
+      "false_negative": 2003.0,
+      "precision_iou50_micro": 0.0013297872340425532,
+      "recall_iou50_micro": 0.000997506234413965,
+      "f1_iou50_micro": 0.001139925904816187,
+      "f1_iou50_macro": 0.00018324241342474641,
+      "mean_iou_of_matched_spans": 0.5355661918140662,
+      "per_category": [
+        {
+          "category": "Affiliate License-Licensee",
+          "true_positive": 0,
+          "false_positive": 0,
+          "false_negative": 8,
+          "precision_iou50": 0.0,
+          "recall_iou50": 0.0,
+          "f1_iou50": 0.0,
+          "mean_matched_iou": null
+        },
+        {
+          "category": "Affiliate License-Licensor",
+          "true_positive": 0,
+          "false_positive": 0,
+          "false_negative": 4,
+          "precision_iou50": 0.0,
+          "recall_iou50": 0.0,
+          "f1_iou50": 0.0,
+          "mean_matched_iou": null
+        },
+        {
+          "category": "Agreement Date",
+          "true_positive": 0,
+          "false_positive": 0,
+          "false_negative": 76,
+          "precision_iou50": 0.0,
+          "recall_iou50": 0.0,
+          "f1_iou50": 0.0,
+          "mean_matched_iou": null
+        },
+        {
+          "category": "Anti-Assignment",
+          "true_positive": 0.0,
+          "false_positive": 148.0,
+          "false_negative": 102.0,
+          "precision_iou50": 0.0,
+          "recall_iou50": 0.0,
+          "f1_iou50": 0.0,
+          "mean_matched_iou": null
+        },
+        {
+          "category": "Audit Rights",
+          "true_positive": 0,
+          "false_positive": 0,
+          "false_negative": 68,
+          "precision_iou50": 0.0,
+          "recall_iou50": 0.0,
+          "f1_iou50": 0.0,
+          "mean_matched_iou": null
+        },
+        {
+          "category": "Cap On Liability",
+          "true_positive": 0,
+          "false_positive": 0,
+          "false_negative": 99,
+          "precision_iou50": 0.0,
+          "recall_iou50": 0.0,
+          "f1_iou50": 0.0,
+          "mean_matched_iou": null
+        },
+        {
+          "category": "Change Of Control",
+          "true_positive": 0,
+          "false_positive": 0,
+          "false_negative": 39,
+          "precision_iou50": 0.0,
+          "recall_iou50": 0.0,
+          "f1_iou50": 0.0,
+          "mean_matched_iou": null
+        },
+        {
+          "category": "Competitive Restriction Exception",
+          "true_positive": 0,
+          "false_positive": 0,
+          "false_negative": 15,
+          "precision_iou50": 0.0,
+          "recall_iou50": 0.0,
+          "f1_iou50": 0.0,
+          "mean_matched_iou": null
+        },
+        {
+          "category": "Covenant Not To Sue",
+          "true_positive": 0,
+          "false_positive": 0,
+          "false_negative": 29,
+          "precision_iou50": 0.0,
+          "recall_iou50": 0.0,
+          "f1_iou50": 0.0,
+          "mean_matched_iou": null
+        },
+        {
+          "category": "Document Name",
+          "true_positive": 0,
+          "false_positive": 0,
+          "false_negative": 86,
+          "precision_iou50": 0.0,
+          "recall_iou50": 0.0,
+          "f1_iou50": 0.0,
+          "mean_matched_iou": null
+        },
+        {
+          "category": "Effective Date",
+          "true_positive": 0,
+          "false_positive": 0,
+          "false_negative": 73,
+          "precision_iou50": 0.0,
+          "recall_iou50": 0.0,
+          "f1_iou50": 0.0,
+          "mean_matched_iou": null
+        },
+        {
+          "category": "Exclusivity",
+          "true_positive": 0,
+          "false_positive": 0,
+          "false_negative": 67,
+          "precision_iou50": 0.0,
+          "recall_iou50": 0.0,
+          "f1_iou50": 0.0,
+          "mean_matched_iou": null
+        },
+        {
+          "category": "Expiration Date",
+          "true_positive": 0,
+          "false_positive": 0,
+          "false_negative": 73,
+          "precision_iou50": 0.0,
+          "recall_iou50": 0.0,
+          "f1_iou50": 0.0,
+          "mean_matched_iou": null
+        },
+        {
+          "category": "Governing Law",
+          "true_positive": 0,
+          "false_positive": 0,
+          "false_negative": 74,
+          "precision_iou50": 0.0,
+          "recall_iou50": 0.0,
+          "f1_iou50": 0.0,
+          "mean_matched_iou": null
+        },
+        {
+          "category": "Insurance",
+          "true_positive": 0,
+          "false_positive": 0,
+          "false_negative": 58,
+          "precision_iou50": 0.0,
+          "recall_iou50": 0.0,
+          "f1_iou50": 0.0,
+          "mean_matched_iou": null
+        },
+        {
+          "category": "Ip Ownership Assignment",
+          "true_positive": 0,
+          "false_positive": 0,
+          "false_negative": 26,
+          "precision_iou50": 0.0,
+          "recall_iou50": 0.0,
+          "f1_iou50": 0.0,
+          "mean_matched_iou": null
+        },
+        {
+          "category": "Irrevocable Or Perpetual License",
+          "true_positive": 0.0,
+          "false_positive": 71.0,
+          "false_negative": 15.0,
+          "precision_iou50": 0.0,
+          "recall_iou50": 0.0,
+          "f1_iou50": 0.0,
+          "mean_matched_iou": null
+        },
+        {
+          "category": "Joint Ip Ownership",
+          "true_positive": 0,
+          "false_positive": 0,
+          "false_negative": 14,
+          "precision_iou50": 0.0,
+          "recall_iou50": 0.0,
+          "f1_iou50": 0.0,
+          "mean_matched_iou": null
+        },
+        {
+          "category": "License Grant",
+          "true_positive": 1.0,
+          "false_positive": 483.0,
+          "false_negative": 119.0,
+          "precision_iou50": 0.002066115702479339,
+          "recall_iou50": 0.008333333333333333,
+          "f1_iou50": 0.003311258278145696,
+          "mean_matched_iou": 0.5146547441629409
+        },
+        {
+          "category": "Liquidated Damages",
+          "true_positive": 0,
+          "false_positive": 0,
+          "false_negative": 8,
+          "precision_iou50": 0.0,
+          "recall_iou50": 0.0,
+          "f1_iou50": 0.0,
+          "mean_matched_iou": null
+        },
+        {
+          "category": "Minimum Commitment",
+          "true_positive": 0,
+          "false_positive": 0,
+          "false_negative": 62,
+          "precision_iou50": 0.0,
+          "recall_iou50": 0.0,
+          "f1_iou50": 0.0,
+          "mean_matched_iou": null
+        },
+        {
+          "category": "Most Favored Nation",
+          "true_positive": 0,
+          "false_positive": 0,
+          "false_negative": 7,
+          "precision_iou50": 0.0,
+          "recall_iou50": 0.0,
+          "f1_iou50": 0.0,
+          "mean_matched_iou": null
+        },
+        {
+          "category": "No-Solicit Of Customers",
+          "true_positive": 0,
+          "false_positive": 0,
+          "false_negative": 9,
+          "precision_iou50": 0.0,
+          "recall_iou50": 0.0,
+          "f1_iou50": 0.0,
+          "mean_matched_iou": null
+        },
+        {
+          "category": "No-Solicit Of Employees",
+          "true_positive": 0,
+          "false_positive": 0,
+          "false_negative": 14,
+          "precision_iou50": 0.0,
+          "recall_iou50": 0.0,
+          "f1_iou50": 0.0,
+          "mean_matched_iou": null
+        },
+        {
+          "category": "Non-Compete",
+          "true_positive": 0,
+          "false_positive": 0,
+          "false_negative": 41,
+          "precision_iou50": 0.0,
+          "recall_iou50": 0.0,
+          "f1_iou50": 0.0,
+          "mean_matched_iou": null
+        },
+        {
+          "category": "Non-Disparagement",
+          "true_positive": 0,
+          "false_positive": 0,
+          "false_negative": 2,
+          "precision_iou50": 0.0,
+          "recall_iou50": 0.0,
+          "f1_iou50": 0.0,
+          "mean_matched_iou": null
+        },
+        {
+          "category": "Non-Transferable License",
+          "true_positive": 0.0,
+          "false_positive": 272.0,
+          "false_negative": 50.0,
+          "precision_iou50": 0.0,
+          "recall_iou50": 0.0,
+          "f1_iou50": 0.0,
+          "mean_matched_iou": null
+        },
+        {
+          "category": "Notice Period To Terminate Renewal",
+          "true_positive": 0,
+          "false_positive": 0,
+          "false_negative": 20,
+          "precision_iou50": 0.0,
+          "recall_iou50": 0.0,
+          "f1_iou50": 0.0,
+          "mean_matched_iou": null
+        },
+        {
+          "category": "Parties",
+          "true_positive": 0,
+          "false_positive": 0,
+          "false_negative": 386,
+          "precision_iou50": 0.0,
+          "recall_iou50": 0.0,
+          "f1_iou50": 0.0,
+          "mean_matched_iou": null
+        },
+        {
+          "category": "Post-Termination Services",
+          "true_positive": 1.0,
+          "false_positive": 412.0,
+          "false_negative": 62.0,
+          "precision_iou50": 0.002421307506053269,
+          "recall_iou50": 0.015873015873015872,
+          "f1_iou50": 0.004201680672268907,
+          "mean_matched_iou": 0.5564776394651914
+        },
+        {
+          "category": "Price Restrictions",
+          "true_positive": 0,
+          "false_positive": 0,
+          "false_negative": 3,
+          "precision_iou50": 0.0,
+          "recall_iou50": 0.0,
+          "f1_iou50": 0.0,
+          "mean_matched_iou": null
+        },
+        {
+          "category": "Renewal Term",
+          "true_positive": 0,
+          "false_positive": 0,
+          "false_negative": 30,
+          "precision_iou50": 0.0,
+          "recall_iou50": 0.0,
+          "f1_iou50": 0.0,
+          "mean_matched_iou": null
+        },
+        {
+          "category": "Revenue/Profit Sharing",
+          "true_positive": 0,
+          "false_positive": 0,
+          "false_negative": 52,
+          "precision_iou50": 0.0,
+          "recall_iou50": 0.0,
+          "f1_iou50": 0.0,
+          "mean_matched_iou": null
+        },
+        {
+          "category": "Rofr/Rofo/Rofn",
+          "true_positive": 0,
+          "false_positive": 0,
+          "false_negative": 22,
+          "precision_iou50": 0.0,
+          "recall_iou50": 0.0,
+          "f1_iou50": 0.0,
+          "mean_matched_iou": null
+        },
+        {
+          "category": "Source Code Escrow",
+          "true_positive": 0,
+          "false_positive": 0,
+          "false_negative": 16,
+          "precision_iou50": 0.0,
+          "recall_iou50": 0.0,
+          "f1_iou50": 0.0,
+          "mean_matched_iou": null
+        },
+        {
+          "category": "Termination For Convenience",
+          "true_positive": 0,
+          "false_positive": 0,
+          "false_negative": 55,
+          "precision_iou50": 0.0,
+          "recall_iou50": 0.0,
+          "f1_iou50": 0.0,
+          "mean_matched_iou": null
+        },
+        {
+          "category": "Third Party Beneficiary",
+          "true_positive": 0,
+          "false_positive": 0,
+          "false_negative": 8,
+          "precision_iou50": 0.0,
+          "recall_iou50": 0.0,
+          "f1_iou50": 0.0,
+          "mean_matched_iou": null
+        },
+        {
+          "category": "Uncapped Liability",
+          "true_positive": 0.0,
+          "false_positive": 116.0,
+          "false_negative": 21.0,
+          "precision_iou50": 0.0,
+          "recall_iou50": 0.0,
+          "f1_iou50": 0.0,
+          "mean_matched_iou": null
+        },
+        {
+          "category": "Unlimited/All-You-Can-Eat-License",
+          "true_positive": 0,
+          "false_positive": 0,
+          "false_negative": 12,
+          "precision_iou50": 0.0,
+          "recall_iou50": 0.0,
+          "f1_iou50": 0.0,
+          "mean_matched_iou": null
+        },
+        {
+          "category": "Volume Restriction",
+          "true_positive": 0,
+          "false_positive": 0,
+          "false_negative": 27,
+          "precision_iou50": 0.0,
+          "recall_iou50": 0.0,
+          "f1_iou50": 0.0,
+          "mean_matched_iou": null
+        },
+        {
+          "category": "Warranty Duration",
+          "true_positive": 0,
+          "false_positive": 0,
+          "false_negative": 51,
+          "precision_iou50": 0.0,
+          "recall_iou50": 0.0,
+          "f1_iou50": 0.0,
+          "mean_matched_iou": null
+        }
+      ]
+    }
+  },
+  "training": {
+    "epochs_ran": 10,
+    "selected_epoch": 2,
+    "learning_rate": 0.001,
+    "attention_heads": 8,
+    "dropout": 0.1,
+    "no_object_weight": 0.2,
+    "pointer_weight": 1.0,
+    "best_calibration_contract_macro_aupr": 0.4549379437941499,
+    "history": [
+      {
+        "epoch": 1,
+        "training_loss_per_contract": 5.426959237642587,
+        "matched_training_spans": 6964,
+        "training_spans_over_slot_limit": 343,
+        "calibration_contract_macro_aupr": 0.38550610210116787
+      },
+      {
+        "epoch": 2,
+        "training_loss_per_contract": 3.846892843911281,
+        "matched_training_spans": 6964,
+        "training_spans_over_slot_limit": 343,
+        "calibration_contract_macro_aupr": 0.4549379437941499
+      },
+      {
+        "epoch": 3,
+        "training_loss_per_contract": 3.4156663267228464,
+        "matched_training_spans": 6964,
+        "training_spans_over_slot_limit": 343,
+        "calibration_contract_macro_aupr": 0.44909904530478595
+      },
+      {
+        "epoch": 4,
+        "training_loss_per_contract": 3.249606436591309,
+        "matched_training_spans": 6964,
+        "training_spans_over_slot_limit": 343,
+        "calibration_contract_macro_aupr": 0.3998170847566424
+      },
+      {
+        "epoch": 5,
+        "training_loss_per_contract": 3.1036445187834594,
+        "matched_training_spans": 6964,
+        "training_spans_over_slot_limit": 343,
+        "calibration_contract_macro_aupr": 0.4175316490263364
+      },
+      {
+        "epoch": 6,
+        "training_loss_per_contract": 3.02834994787207,
+        "matched_training_spans": 6964,
+        "training_spans_over_slot_limit": 343,
+        "calibration_contract_macro_aupr": 0.37784117804733136
+      },
+      {
+        "epoch": 7,
+        "training_loss_per_contract": 2.9544044690063367,
+        "matched_training_spans": 6964,
+        "training_spans_over_slot_limit": 343,
+        "calibration_contract_macro_aupr": 0.40573446676145664
+      },
+      {
+        "epoch": 8,
+        "training_loss_per_contract": 2.925914454832673,
+        "matched_training_spans": 6964,
+        "training_spans_over_slot_limit": 343,
+        "calibration_contract_macro_aupr": 0.3934432047760078
+      },
+      {
+        "epoch": 9,
+        "training_loss_per_contract": 2.8111696163192392,
+        "matched_training_spans": 6964,
+        "training_spans_over_slot_limit": 343,
+        "calibration_contract_macro_aupr": 0.4377632521838815
+      },
+      {
+        "epoch": 10,
+        "training_loss_per_contract": 2.7313042915139634,
+        "matched_training_spans": 6964,
+        "training_spans_over_slot_limit": 343,
+        "calibration_contract_macro_aupr": 0.42909372151355424
+      }
+    ],
+    "device": "cuda"
+  },
+  "split": {
+    "seed": 42,
+    "contract_counts": {
+      "training": 260,
+      "calibration": 66,
+      "evaluation": 82
+    },
+    "contract_id_sha256": {
+      "training": "44e5d6e9df85fa666896aca96e4638abce02371e5674316f1bad13bf079922fd",
+      "calibration": "271e06814672af99ef807e67790290b82c41a1f9890f1402247cd6666ac95f69",
+      "evaluation": "495488d5b49f0c1cd93f5a8bb416c110ed96122e8d03b3bcc4f82784068a87f9"
+    },
+    "chunk_counts": {
+      "training": 9025,
+      "calibration": 1899,
+      "evaluation": 2196
+    }
+  },
+  "chunking": {
+    "max_tokens": 512,
+    "overlap_tokens": 64,
+    "tokenizer": "distilbert/distilroberta-base",
+    "tokenizer_revision": "fb53ab8802853c8e4fbdbcd0529f21fc6f459b2b"
+  },
+  "thresholds_fit_on": "set contract-presence, chunk-projection, and span-instance thresholds fit on calibration contracts/chunks only; span thresholds optimize calibration IoU-0.5 F1; baseline thresholds fit on calibration chunks",
+  "metrics_on": "held-out evaluation contracts only",
+  "macro_f1_chunk_evaluation": {
+    "hungarian_set_prediction": 0.09856878048780487,
+    "word_char_tfidf": 0.5330670731707318
+  },
+  "macro_aupr_chunk_evaluation": {
+    "hungarian_set_prediction": 0.08846958102212492,
+    "word_char_tfidf": 0.5971198237476559
+  },
+  "contract_presence_macro_aupr_evaluation": 0.4127310681302633,
+  "data_sha256": "7de21d2bb741ac939e2a839ef9640634a5e0f9f40ea2b82c6833baf7db33dab4",
+  "test_data_used": false
+}

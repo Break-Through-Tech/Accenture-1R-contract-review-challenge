@@ -1,0 +1,206 @@
+seed,category,f1_delta
+7,Affiliate License-Licensee,-0.043420000000000014
+7,Affiliate License-Licensor,-0.009799999999999975
+7,Agreement Date,0.045399999999999996
+7,Anti-Assignment,0.03078000000000003
+7,Audit Rights,0.06340999999999997
+7,Cap On Liability,0.048329999999999984
+7,Change Of Control,0.028299999999999992
+7,Competitive Restriction Exception,0.19335000000000002
+7,Covenant Not To Sue,0.21176000000000006
+7,Document Name,0.0037399999999999656
+7,Effective Date,0.05779000000000001
+7,Exclusivity,0.04089000000000004
+7,Expiration Date,-0.013849999999999918
+7,Governing Law,0.03856999999999999
+7,Insurance,0.039040000000000075
+7,Ip Ownership Assignment,0.09999999999999998
+7,Irrevocable Or Perpetual License,0.43589999999999995
+7,Joint Ip Ownership,-0.026009999999999978
+7,License Grant,0.07128000000000001
+7,Liquidated Damages,0.10475999999999996
+7,Minimum Commitment,0.046650000000000025
+7,Most Favored Nation,0.23166000000000003
+7,No-Solicit Of Customers,-0.0339
+7,No-Solicit Of Employees,-0.13444999999999996
+7,Non-Compete,0.03928999999999999
+7,Non-Disparagement,0.14286
+7,Non-Transferable License,0.08138000000000001
+7,Notice Period To Terminate Renewal,0.09755999999999998
+7,Parties,0.01754
+7,Post-Termination Services,0.07367999999999997
+7,Price Restrictions,0.22222
+7,Renewal Term,0.08524999999999994
+7,Revenue/Profit Sharing,-0.010000000000000009
+7,Rofr/Rofo/Rofn,0.05573000000000006
+7,Source Code Escrow,0.0
+7,Termination For Convenience,0.0021300000000000208
+7,Third Party Beneficiary,-0.0014199999999999977
+7,Uncapped Liability,0.05464000000000002
+7,Unlimited/All-You-Can-Eat-License,0.0
+7,Volume Restriction,-0.0022000000000000075
+7,Warranty Duration,0.08540999999999999
+17,Affiliate License-Licensee,0.07618999999999998
+17,Affiliate License-Licensor,1.9999999999999185e-05
+17,Agreement Date,0.034089999999999954
+17,Anti-Assignment,0.010220000000000007
+17,Audit Rights,0.23826000000000003
+17,Cap On Liability,0.06526999999999994
+17,Change Of Control,-0.07407999999999998
+17,Competitive Restriction Exception,0.01830000000000001
+17,Covenant Not To Sue,0.16829
+17,Document Name,0.029100000000000015
+17,Effective Date,0.02513999999999994
+17,Exclusivity,0.018880000000000008
+17,Expiration Date,0.054420000000000024
+17,Governing Law,0.05684
+17,Insurance,0.01051000000000002
+17,Ip Ownership Assignment,0.12870000000000004
+17,Irrevocable Or Perpetual License,0.13285000000000002
+17,Joint Ip Ownership,0.11764999999999998
+17,License Grant,0.08579999999999999
+17,Liquidated Damages,0.17021
+17,Minimum Commitment,0.018000000000000016
+17,Most Favored Nation,0.12593000000000001
+17,No-Solicit Of Customers,0.13333
+17,No-Solicit Of Employees,0.18462
+17,Non-Compete,0.12688999999999998
+17,Non-Disparagement,0.00952
+17,Non-Transferable License,0.07808999999999999
+17,Notice Period To Terminate Renewal,0.030469999999999997
+17,Parties,0.07355
+17,Post-Termination Services,0.08024000000000003
+17,Price Restrictions,-0.03571
+17,Renewal Term,0.11282000000000003
+17,Revenue/Profit Sharing,-0.018309999999999937
+17,Rofr/Rofo/Rofn,0.29547999999999996
+17,Source Code Escrow,0.0
+17,Termination For Convenience,0.11673999999999995
+17,Third Party Beneficiary,0.0
+17,Uncapped Liability,-0.03589999999999993
+17,Unlimited/All-You-Can-Eat-License,0.33333
+17,Volume Restriction,0.32068
+17,Warranty Duration,0.15904000000000007
+23,Affiliate License-Licensee,0.11961999999999999
+23,Affiliate License-Licensor,-0.08333
+23,Agreement Date,0.027430000000000065
+23,Anti-Assignment,0.040980000000000016
+23,Audit Rights,0.04303000000000001
+23,Cap On Liability,0.028249999999999997
+23,Change Of Control,0.05047999999999997
+23,Competitive Restriction Exception,0.19079000000000002
+23,Covenant Not To Sue,0.16289999999999993
+23,Document Name,0.11690999999999996
+23,Effective Date,0.09182999999999997
+23,Exclusivity,0.05895
+23,Expiration Date,-0.013759999999999994
+23,Governing Law,0.020750000000000046
+23,Insurance,0.025129999999999986
+23,Ip Ownership Assignment,0.10043999999999997
+23,Irrevocable Or Perpetual License,0.12612999999999996
+23,Joint Ip Ownership,0.05293999999999999
+23,License Grant,0.1319800000000001
+23,Liquidated Damages,0.16210000000000002
+23,Minimum Commitment,0.08915999999999996
+23,Most Favored Nation,0.2
+23,No-Solicit Of Customers,0.020519999999999983
+23,No-Solicit Of Employees,0.17857
+23,Non-Compete,0.17363
+23,Non-Disparagement,0.05614000000000002
+23,Non-Transferable License,0.18345
+23,Notice Period To Terminate Renewal,0.03158000000000005
+23,Parties,0.11302999999999996
+23,Post-Termination Services,-0.022289999999999976
+23,Price Restrictions,0.23055
+23,Renewal Term,0.009480000000000044
+23,Revenue/Profit Sharing,-0.010000000000000009
+23,Rofr/Rofo/Rofn,-0.020199999999999996
+23,Source Code Escrow,-0.18626999999999996
+23,Termination For Convenience,0.13542999999999994
+23,Third Party Beneficiary,0.30769
+23,Uncapped Liability,0.055379999999999985
+23,Unlimited/All-You-Can-Eat-License,0.0
+23,Volume Restriction,0.18367
+23,Warranty Duration,0.18575999999999998
+42,Affiliate License-Licensee,-0.008099999999999996
+42,Affiliate License-Licensor,0.0
+42,Agreement Date,0.04113
+42,Anti-Assignment,0.024399999999999977
+42,Audit Rights,0.09220000000000006
+42,Cap On Liability,-0.003489999999999993
+42,Change Of Control,-0.05846000000000007
+42,Competitive Restriction Exception,0.07027
+42,Covenant Not To Sue,0.14286
+42,Document Name,0.027710000000000012
+42,Effective Date,0.021220000000000017
+42,Exclusivity,0.05259999999999998
+42,Expiration Date,0.023769999999999958
+42,Governing Law,0.04803000000000002
+42,Insurance,0.05130000000000001
+42,Ip Ownership Assignment,0.15189000000000002
+42,Irrevocable Or Perpetual License,0.15276999999999996
+42,Joint Ip Ownership,0.21104999999999996
+42,License Grant,0.03976000000000002
+42,Liquidated Damages,-0.33333999999999997
+42,Minimum Commitment,0.06753999999999999
+42,Most Favored Nation,0.42105
+42,No-Solicit Of Customers,-0.39999999999999997
+42,No-Solicit Of Employees,0.0
+42,Non-Compete,-0.009089999999999987
+42,Non-Disparagement,0.0
+42,Non-Transferable License,0.20278000000000007
+42,Notice Period To Terminate Renewal,0.09009
+42,Parties,0.06799
+42,Post-Termination Services,0.06267
+42,Price Restrictions,0.19090999999999997
+42,Renewal Term,0.07008000000000003
+42,Revenue/Profit Sharing,0.03500000000000003
+42,Rofr/Rofo/Rofn,0.053029999999999966
+42,Source Code Escrow,0.02940999999999999
+42,Termination For Convenience,0.05670000000000003
+42,Third Party Beneficiary,0.257
+42,Uncapped Liability,-0.03699000000000008
+42,Unlimited/All-You-Can-Eat-License,0.16508
+42,Volume Restriction,0.07566
+42,Warranty Duration,0.19230000000000003
+101,Affiliate License-Licensee,0.008610000000000007
+101,Affiliate License-Licensor,-0.0005399999999999988
+101,Agreement Date,0.08224999999999993
+101,Anti-Assignment,0.06313000000000002
+101,Audit Rights,0.06491000000000002
+101,Cap On Liability,0.13798
+101,Change Of Control,0.013070000000000026
+101,Competitive Restriction Exception,0.07407
+101,Covenant Not To Sue,0.025000000000000022
+101,Document Name,0.10343000000000002
+101,Effective Date,0.04927999999999999
+101,Exclusivity,0.09154000000000001
+101,Expiration Date,0.017219999999999902
+101,Governing Law,0.023050000000000015
+101,Insurance,0.10964000000000007
+101,Ip Ownership Assignment,0.14918999999999993
+101,Irrevocable Or Perpetual License,0.16884
+101,Joint Ip Ownership,0.23056000000000004
+101,License Grant,0.07438999999999996
+101,Liquidated Damages,0.05589999999999999
+101,Minimum Commitment,0.15100000000000002
+101,Most Favored Nation,0.1
+101,No-Solicit Of Customers,0.12051999999999999
+101,No-Solicit Of Employees,0.22857000000000005
+101,Non-Compete,0.24282000000000004
+101,Non-Disparagement,-0.12754
+101,Non-Transferable License,0.14579000000000003
+101,Notice Period To Terminate Renewal,0.04705999999999999
+101,Parties,0.05518000000000001
+101,Post-Termination Services,0.015179999999999971
+101,Price Restrictions,0.0
+101,Renewal Term,0.08319999999999994
+101,Revenue/Profit Sharing,0.11940000000000006
+101,Rofr/Rofo/Rofn,0.11058999999999997
+101,Source Code Escrow,0.0
+101,Termination For Convenience,0.12142999999999998
+101,Third Party Beneficiary,0.10526
+101,Uncapped Liability,0.032379999999999964
+101,Unlimited/All-You-Can-Eat-License,0.0
+101,Volume Restriction,0.10052
+101,Warranty Duration,-0.06214999999999993

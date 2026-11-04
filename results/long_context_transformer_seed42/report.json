@@ -1,0 +1,159 @@
+{
+  "architecture": "DistilRoBERTa chunk encoder + transformer over full contract chunk sequence",
+  "contract_counts": {
+    "training": 260,
+    "calibration": 66,
+    "evaluation": 82
+  },
+  "contract_id_sha256": {
+    "training": "44e5d6e9df85fa666896aca96e4638abce02371e5674316f1bad13bf079922fd",
+    "calibration": "271e06814672af99ef807e67790290b82c41a1f9890f1402247cd6666ac95f69",
+    "evaluation": "495488d5b49f0c1cd93f5a8bb416c110ed96122e8d03b3bcc4f82784068a87f9"
+  },
+  "chunk_counts": {
+    "training": 9025,
+    "calibration": 1899,
+    "evaluation": 2196
+  },
+  "chunking": {
+    "method": "sentence_token",
+    "max_tokens": 512,
+    "overlap_tokens": 64,
+    "tokenizer_revision": "fb53ab8802853c8e4fbdbcd0529f21fc6f459b2b"
+  },
+  "training": {
+    "epochs": 19,
+    "learning_rate": 2e-05,
+    "pos_weight_cap": 50.0,
+    "dropout": 0.2,
+    "context_type": "transformer",
+    "context_layers": 2,
+    "attention_heads": 8,
+    "contracts_per_batch": 1,
+    "encoder_chunk_batch_size": 4,
+    "gradient_accumulation": 8,
+    "device": "cuda",
+    "amp": true,
+    "best_calibration_macro_aupr": 0.5004858322586647,
+    "history": [
+      {
+        "epoch": 1,
+        "train_loss": 1.2336549167449657,
+        "calibration_macro_aupr": 0.07618126313954464
+      },
+      {
+        "epoch": 2,
+        "train_loss": 1.03728512353622,
+        "calibration_macro_aupr": 0.10879450871210618
+      },
+      {
+        "epoch": 3,
+        "train_loss": 0.8402419303472225,
+        "calibration_macro_aupr": 0.20250462230284688
+      },
+      {
+        "epoch": 4,
+        "train_loss": 0.6584844985833535,
+        "calibration_macro_aupr": 0.2638883926292174
+      },
+      {
+        "epoch": 5,
+        "train_loss": 0.5477842219173908,
+        "calibration_macro_aupr": 0.32346825045201105
+      },
+      {
+        "epoch": 6,
+        "train_loss": 0.4669410296644156,
+        "calibration_macro_aupr": 0.3701496012615985
+      },
+      {
+        "epoch": 7,
+        "train_loss": 0.4038524349148457,
+        "calibration_macro_aupr": 0.38191574974999326
+      },
+      {
+        "epoch": 8,
+        "train_loss": 0.3502575883211998,
+        "calibration_macro_aupr": 0.41960540831892273
+      },
+      {
+        "epoch": 9,
+        "train_loss": 0.32038306737175354,
+        "calibration_macro_aupr": 0.4254930156788268
+      },
+      {
+        "epoch": 10,
+        "train_loss": 0.2866395300325866,
+        "calibration_macro_aupr": 0.43593111371979343
+      },
+      {
+        "epoch": 11,
+        "train_loss": 0.25868881228738105,
+        "calibration_macro_aupr": 0.45058726761358064
+      },
+      {
+        "epoch": 12,
+        "train_loss": 0.229533184477343,
+        "calibration_macro_aupr": 0.461224420176076
+      },
+      {
+        "epoch": 13,
+        "train_loss": 0.21071021647120897,
+        "calibration_macro_aupr": 0.46716447481285533
+      },
+      {
+        "epoch": 14,
+        "train_loss": 0.19340906335184208,
+        "calibration_macro_aupr": 0.4769565462883893
+      },
+      {
+        "epoch": 15,
+        "train_loss": 0.1720561062808553,
+        "calibration_macro_aupr": 0.4803901048896991
+      },
+      {
+        "epoch": 16,
+        "train_loss": 0.16370913167484105,
+        "calibration_macro_aupr": 0.48692372017127905
+      },
+      {
+        "epoch": 17,
+        "train_loss": 0.14850262759181743,
+        "calibration_macro_aupr": 0.49411724030052506
+      },
+      {
+        "epoch": 18,
+        "train_loss": 0.13547849607152435,
+        "calibration_macro_aupr": 0.4941666425377468
+      },
+      {
+        "epoch": 19,
+        "train_loss": 0.12767983837984503,
+        "calibration_macro_aupr": 0.5004858322586647
+      }
+    ],
+    "completed_epochs": 19,
+    "attempted_epochs": 20,
+    "completion_note": "CUDA cuBLAS internal error occurred when starting epoch 20; best checkpoint from completed epoch 19 was successfully evaluated. Checkpoint selection used calibration AUPR only.",
+    "amp_dtype": "torch.float16"
+  },
+  "thresholds_fit_on": "calibration contracts only",
+  "metrics_on": "held-out evaluation contracts only",
+  "macro_metrics": {
+    "precision": 0.5037682926829269,
+    "recall": 0.5513853658536585,
+    "f1": 0.49628414634146334,
+    "aupr": 0.5070630759666203
+  },
+  "data_sha256": "7de21d2bb741ac939e2a839ef9640634a5e0f9f40ea2b82c6833baf7db33dab4",
+  "test_data_used": false,
+  "registry": {
+    "name": "clause-classifier-long-context",
+    "version": "1",
+    "experiment": "clause-review-long-context",
+    "run_id": "d78e1bca1c6f40c6a96e61290d47d223",
+    "tracking_database": "outputs/mlflow/tracking.db (local, ignored)",
+    "artifact_store_smoke": "one synthetic contract; 41 raw category probabilities persisted in outputs/artifact_store.sqlite (local, ignored)",
+    "model_key": "clause-classifier-long-context:1"
+  }
+}
