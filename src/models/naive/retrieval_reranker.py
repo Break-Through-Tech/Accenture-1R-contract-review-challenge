@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any, Sequence
+from typing import Sequence
 
 import numpy as np
 import torch
@@ -21,7 +21,7 @@ class CandidatePair:
     chunk_row: int
     category_index: int
     retrieval_score: float
-    target: int
+    target: int | None = None
 
 
 @dataclass(frozen=True)
@@ -41,6 +41,7 @@ def retrieve_top_k(
     *,
     top_k: int,
     active_categories: np.ndarray | None = None,
+    labels: np.ndarray | None = None,
 ) -> list[CandidatePair]:
     """Select each category's top-K chunks independently within each contract.
 
@@ -56,6 +57,8 @@ def retrieve_top_k(
         active_categories = np.ones(num_labels, dtype=bool)
     if active_categories.shape != (num_labels,):
         raise ValueError("active_categories must have one value per category")
+    if labels is not None and labels.shape != probabilities.shape:
+        raise ValueError("labels must align with probabilities")
 
     grouped: dict[str, list[int]] = {}
     for row, item in enumerate(chunks):
@@ -77,14 +80,9 @@ def retrieve_top_k(
                     chunk_row=row,
                     category_index=int(category_index),
                     retrieval_score=float(probabilities[row, category_index]),
-                    target=int(item_label(chunks[row], int(category_index))),
+                    target=(int(labels[row, category_index]) if labels is not None else None),
                 ))
     return candidates
-
-
-def item_label(item: Any, category_index: int) -> int:
-    """Read one projected label without coupling this module to a concrete wrapper type."""
-    return int(item.labels[category_index])
 
 
 def build_training_pairs(
@@ -104,6 +102,7 @@ def build_training_pairs(
     active = labels.sum(axis=0) > 0
     candidates = retrieve_top_k(
         retrieval_probabilities, chunks, top_k=top_k, active_categories=active,
+        labels=labels,
     )
     rng = np.random.default_rng(seed)
     examples: list[PairExample] = []
@@ -152,7 +151,8 @@ def candidate_recall(
     }
     retrieved_positives = {
         (candidate.contract_id, candidate.chunk_index, candidate.category_index)
-        for candidate in candidates if candidate.target == 1
+        for candidate in candidates
+        if labels[candidate.chunk_row, candidate.category_index] == 1
     }
     positive_contract_categories = {
         (contract_id, category_index)
