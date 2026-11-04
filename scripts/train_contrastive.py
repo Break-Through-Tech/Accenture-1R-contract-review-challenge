@@ -310,7 +310,17 @@ def main():
                     "best_calibration_macro_aupr": best_calibration_aupr,
                     "history": history,
                 })
+        saved_config = json.loads((best_path / "config.json").read_text(encoding="utf-8"))
+        saved_config["history"] = history
+        saved_config["epochs_ran"] = len(history)
+        saved_config["selected_epoch"] = max(
+            history, key=lambda row: row["calibration_macro_aupr"],
+        )["epoch"]
+        (best_path / "config.json").write_text(
+            json.dumps(saved_config, indent=2) + "\n", encoding="utf-8",
+        )
         model, positive_prototypes, negative_prototypes, saved_config = _load_checkpoint(best_path, device)
+        history = saved_config["history"]
 
     active_categories = np.asarray(saved_config["active_categories"], dtype=bool)
     embeddings = {
@@ -357,7 +367,9 @@ def main():
             "hard_negative_weight": args.hard_negative_weight,
             "hard_negative_pool": args.hard_negative_pool,
             "categories_per_batch": args.categories_per_batch,
-            "steps_per_epoch": args.steps_per_epoch, "epochs": len(history),
+            "steps_per_epoch": args.steps_per_epoch,
+            "epochs_ran": saved_config.get("epochs_ran", len(history)),
+            "selected_epoch": saved_config.get("selected_epoch", len(history)),
             "learning_rate": args.learning_rate, "history": history,
             "prototype_fit_on": "training embeddings only",
             "prototype_temperature": args.prototype_temperature,

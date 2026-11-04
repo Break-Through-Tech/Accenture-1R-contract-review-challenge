@@ -73,6 +73,9 @@ explicit approval.
    GraphSAGE candidate scored 0.390 macro-F1 / 0.426 macro-AUPR, below the TF-IDF control;
    its calibration curve was still rising at the three-epoch limit. See
    `contract-graph-architecture.md`.
-3. **Supervised contrastive embeddings:** queued.
+3. **Supervised contrastive embeddings:** implemented and screened on seed 42. The
+   train-only prototype classifier scored 0.365 macro-F1 / 0.372 macro-AUPR; prototype
+   recall@16 was 0.950, but ranking scores were poorly calibrated. See
+   `contrastive-architecture.md`.
 4. **Document-level set prediction:** queued.
 5. **Long-document sparse attention:** queued.

@@ -1,0 +1,96 @@
+{
+  "architecture": "multi-label supervised contrastive chunk embeddings with train-only positive/negative prototypes",
+  "contrastive_training": {
+    "positive_pairs": "chunks sharing one or more labels",
+    "hard_negatives": "training-only TF-IDF nearest chunks with the anchor category absent",
+    "hard_negative_tf_idf_fit_on": "training chunks only",
+    "embedding_size": 256,
+    "temperature": 0.07,
+    "hard_negative_weight": 2.0,
+    "hard_negative_pool": 4,
+    "categories_per_batch": 8,
+    "steps_per_epoch": 256,
+    "epochs_ran": 3,
+    "selected_epoch": 1,
+    "learning_rate": 2e-05,
+    "history": [
+      {
+        "epoch": 1,
+        "mean_contrastive_loss": 2.707380518782884,
+        "calibration_macro_aupr": 0.34522523177156494
+      },
+      {
+        "epoch": 2,
+        "mean_contrastive_loss": 2.1762134726159275,
+        "calibration_macro_aupr": 0.3446940493045277
+      },
+      {
+        "epoch": 3,
+        "mean_contrastive_loss": 1.957520471420139,
+        "calibration_macro_aupr": 0.3423242525747341
+      }
+    ],
+    "prototype_fit_on": "training embeddings only",
+    "prototype_temperature": 0.1,
+    "device": "cuda",
+    "amp": true
+  },
+  "prototype_retrieval_recall_at_k": {
+    "1": {
+      "positive_chunk_category_pairs": 1490,
+      "retrieved_positive_pairs": 730,
+      "recall": 0.4899328859060403
+    },
+    "4": {
+      "positive_chunk_category_pairs": 1490,
+      "retrieved_positive_pairs": 1173,
+      "recall": 0.7872483221476511
+    },
+    "8": {
+      "positive_chunk_category_pairs": 1490,
+      "retrieved_positive_pairs": 1318,
+      "recall": 0.8845637583892617
+    },
+    "16": {
+      "positive_chunk_category_pairs": 1490,
+      "retrieved_positive_pairs": 1415,
+      "recall": 0.9496644295302014
+    }
+  },
+  "split": {
+    "seed": 42,
+    "contract_counts": {
+      "training": 260,
+      "calibration": 66,
+      "evaluation": 82
+    },
+    "contract_id_sha256": {
+      "training": "44e5d6e9df85fa666896aca96e4638abce02371e5674316f1bad13bf079922fd",
+      "calibration": "271e06814672af99ef807e67790290b82c41a1f9890f1402247cd6666ac95f69",
+      "evaluation": "495488d5b49f0c1cd93f5a8bb416c110ed96122e8d03b3bcc4f82784068a87f9"
+    },
+    "chunk_counts": {
+      "training": 9025,
+      "calibration": 1899,
+      "evaluation": 2196
+    }
+  },
+  "chunking": {
+    "max_tokens": 512,
+    "overlap_tokens": 64,
+    "tokenizer": "distilbert/distilroberta-base",
+    "tokenizer_revision": "fb53ab8802853c8e4fbdbcd0529f21fc6f459b2b"
+  },
+  "thresholds_fit_on": "calibration contracts only",
+  "metrics_on": "held-out evaluation contracts only",
+  "macro_f1_evaluation": {
+    "supervised_contrastive_prototypes": 0.3651670731707317,
+    "word_char_tfidf": 0.5330670731707318
+  },
+  "macro_aupr_evaluation": {
+    "supervised_contrastive_prototypes": 0.3717415663800743,
+    "word_char_tfidf": 0.5971198237476559
+  },
+  "data_sha256": "7de21d2bb741ac939e2a839ef9640634a5e0f9f40ea2b82c6833baf7db33dab4",
+  "test_data_used": false
+}
