@@ -50,10 +50,12 @@ with complete legally sufficient clauses.
 
 ## 5. Long-document sparse-attention encoder
 
-Evaluate a pretrained sparse-attention model (for example, Longformer) on substantially
-longer contract windows with overlapping windows and overlap-aware aggregation. Preserve
-source offsets and account for answers beyond the model's context limit. Compare coverage,
-GPU memory, throughput, and classification quality against chunk-encoder plus
+Evaluate Longformer-style sparse attention at the chunk-sequence level: a frozen pinned
+encoder produces every overlapping chunk representation, then local windows plus a
+global contract token contextualize the complete sequence. This is not raw Longformer
+self-attention over contract tokens. Preserve source offsets; aggregate overlapping-window
+scores by source interval. Compare full-text coverage, sparse-vs-dense attention links,
+GPU memory, throughput, and classification quality against chunk encoder plus dense
 inter-chunk context; do not assume longer input alone improves quality.
 
 ## Completion checklist

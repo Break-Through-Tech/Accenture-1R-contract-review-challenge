@@ -1,0 +1,18 @@
+# Longformer-style local/global attention over all contract chunk embeddings.
+model_name: distilbert/distilroberta-base
+model_revision: fb53ab8802853c8e4fbdbcd0529f21fc6f459b2b
+seed: 42
+evaluation_fraction: 0.2
+calibration_fraction: 0.2
+max_tokens: 512
+overlap_tokens: 64
+encoder_batch_size: 16
+max_chunks: 4096
+hidden_size: 256
+layers: 2
+attention_heads: 8
+local_radius: 16
+dropout: 0.1
+epochs: 5
+learning_rate: 2.0e-4
+pos_weight_cap: 50.0
