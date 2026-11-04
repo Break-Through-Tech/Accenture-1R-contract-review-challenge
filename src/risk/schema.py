@@ -48,14 +48,15 @@ Phrase = Annotated[str, Field(min_length=1)]
 # Allowed slack when checking that signal weights sum to 1.0 (JSON floats rarely sum exactly)
 WEIGHT_SUM_TOLERANCE = 1e-6
 
-_KNOWN_CATEGORIES = {normalize_category(c) for c in CATEGORIES}
+_CATEGORY_BY_NORMALIZED = {normalize_category(category): category for category in CATEGORIES}
 
 
 def _check_category(name: str) -> str:
-    """Reject category names that don't match any CUAD category (typos would silently fall to default)."""
-    if normalize_category(name) not in _KNOWN_CATEGORIES:
-        raise ValueError(f"Unknown CUAD category: {name!r}")
-    return name
+    """Validate a CUAD category and return its canonical spelling (so typos cannot fall to defaults)."""
+    try:
+        return _CATEGORY_BY_NORMALIZED[normalize_category(name)]
+    except KeyError as exc:
+        raise ValueError(f"Unknown CUAD category: {name!r}") from exc
 
 
 class CooccurrenceRule(BaseModel):
@@ -161,6 +162,11 @@ class ClauseInput(BaseModel):
     probability: UnitFloat
     evidence: Evidence | None = None
 
+    @field_validator("category")
+    @classmethod
+    def check_category(cls, name: str) -> str:
+        return _check_category(name)
+
 
 class ClauseScore(BaseModel):
     """A scored clause: each signal value, their weighted composite, the rating, and the weight version used."""
@@ -173,6 +179,11 @@ class ClauseScore(BaseModel):
     rating: Rating
     has_evidence: bool
     weight_version_id: str
+
+    @field_validator("category")
+    @classmethod
+    def check_category(cls, name: str) -> str:
+        return _check_category(name)
 
 
 def load_weight_set(path: str | Path = DEFAULT_WEIGHTS_PATH) -> WeightSet:

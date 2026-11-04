@@ -4,7 +4,7 @@ import pytest
 from pydantic import ValidationError
 
 from src.evidence.schema import Evidence
-from src.risk.schema import DEFAULT_WEIGHTS_PATH, ClauseInput, WeightSet, load_weight_set
+from src.risk.schema import DEFAULT_WEIGHTS_PATH, ClauseInput, ClauseScore, WeightSet, load_weight_set
 
 VALID = {
     "weight_version_id": "test-v1",
@@ -125,6 +125,35 @@ def test_clause_input_with_evidence_constructs():
     """A clause can carry an Evidence from the evidence stage."""
     ev = Evidence(quote="abc", start=0, end=3)
     assert ClauseInput(contract_id="c", chunk_index=0, category="Parties", probability=0.5, evidence=ev).evidence == ev
+
+
+@pytest.mark.parametrize("category, canonical", [("parties", "Parties"), ("IP Ownership Assignment", "Ip Ownership Assignment")])
+def test_clause_input_category_is_validated_and_canonicalized(category, canonical):
+    clause = ClauseInput(contract_id="c", chunk_index=0, category=category, probability=0.5)
+    assert clause.category == canonical
+
+
+def test_clause_input_unknown_category_raises():
+    with pytest.raises(ValidationError, match="Unknown CUAD category"):
+        ClauseInput(contract_id="c", chunk_index=0, category="Parties Typo", probability=0.5)
+
+
+def test_clause_score_category_is_validated_and_canonicalized():
+    score = ClauseScore(
+        contract_id="c", chunk_index=0, category="parties", probability=0.5,
+        signals={}, composite_score=0.25, rating="Low", has_evidence=False,
+        weight_version_id="test-v1",
+    )
+    assert score.category == "Parties"
+
+
+def test_clause_score_unknown_category_raises():
+    with pytest.raises(ValidationError, match="Unknown CUAD category"):
+        ClauseScore(
+            contract_id="c", chunk_index=0, category="Parties Typo", probability=0.5,
+            signals={}, composite_score=0.25, rating="Low", has_evidence=False,
+            weight_version_id="test-v1",
+        )
 
 
 @pytest.mark.parametrize("probability", [-0.01, 1.01])
