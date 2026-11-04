@@ -16,6 +16,7 @@ Start here for the reproducible experiments added on this branch:
 | Supervised contrastive prototypes | [Contrastive architecture](contrastive-architecture.md) | `results/contrastive_seed42/` |
 | Hungarian-matched span set prediction | [Set prediction](set-prediction-architecture.md) | `results/set_prediction_seed42/` |
 | Local/global sparse long context | [Sparse long context](sparse-long-context-architecture.md) | `results/sparse_long_context_seed42/` |
+| Chunking experiments | [Chunking evaluation](chunking-experiments.md) | `results/token_chunking_development/`, `results/token_chunking_comparison/` |
 
 All reported candidate metrics use contract-level splits and leave `data/cuad/test.json`
 untouched. The word + character TF-IDF model is the current strongest classifier on
