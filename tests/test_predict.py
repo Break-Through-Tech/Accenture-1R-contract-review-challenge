@@ -100,6 +100,18 @@ def test_predict_proba_empty_list_gives_empty_array_with_one_column_per_category
     assert probs.dtype == np.float32
 
 
+@pytest.mark.parametrize("max_length", [0, 513])
+def test_predict_proba_rejects_invalid_max_length(model, tokenizer, max_length):
+    with pytest.raises(ValueError, match="max_length"):
+        predict_proba(model, tokenizer, [], max_length=max_length)
+
+
+@pytest.mark.parametrize("batch_size", [0, -1])
+def test_predict_proba_rejects_nonpositive_batch_size(model, tokenizer, batch_size):
+    with pytest.raises(ValueError, match="batch_size"):
+        predict_proba(model, tokenizer, [], batch_size=batch_size)
+
+
 def test_predict_proba_matches_sigmoid_of_the_model_logits(model, tokenizer):
     """Checks each probability is exactly sigmoid(logit) for a chunk scored directly through the model."""
     enc = tokenizer([TEXTS[1]], truncation=True, max_length=32, padding=True, return_tensors="pt")

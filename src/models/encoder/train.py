@@ -172,7 +172,9 @@ def fit(
     set_seed(config.seed)
 
     # Load the tokenizer and model, and assemble the trainer
-    tokenizer = AutoTokenizer.from_pretrained(config.model_name, revision=config.model_revision)
+    tokenizer = AutoTokenizer.from_pretrained(
+        config.model_name, revision=config.model_revision, use_fast=True
+    )
     model = build_model(config)
     trainer = build_trainer(config, model, tokenizer, train_chunks, val_chunks)
 

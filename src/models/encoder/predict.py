@@ -21,6 +21,11 @@ def predict_proba(
     the value the model was trained with. Runs in eval mode without gradients, on whatever
     device the model is on.
     """
+    if not 1 <= max_length <= 512:
+        raise ValueError("max_length must be between 1 and the encoder's 512-token limit")
+    if batch_size < 1:
+        raise ValueError("batch_size must be positive")
+
     # Handle empty input, since the tokenizer raises on an empty list
     if not chunks:
         return np.zeros((0, model.config.num_labels), dtype=np.float32)
