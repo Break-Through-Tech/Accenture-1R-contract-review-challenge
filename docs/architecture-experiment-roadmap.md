@@ -78,5 +78,8 @@ explicit approval.
    train-only prototype classifier scored 0.365 macro-F1 / 0.372 macro-AUPR; prototype
    recall@16 was 0.950, but ranking scores were poorly calibrated. See
    `contrastive-architecture.md`.
-4. **Document-level set prediction:** queued.
+4. **Document-level set prediction:** implemented and evaluated on seed 42 with 8
+   Hungarian-matched slots/category. Chunk macro-F1/AUPR were 0.099/0.088; character
+   span IoU-0.5 micro-F1 was 0.0011 despite full annotation coverage. The chunk-boundary
+   pointer design is too coarse in this run. See `set-prediction-architecture.md`.
 5. **Long-document sparse attention:** queued.

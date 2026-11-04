@@ -123,33 +123,74 @@ def _align_chunk_scores(chunks, predictions):
     return labels, scores
 
 
+def _span_counts_for_category(contracts, predictions, category_index, threshold, iou_threshold):
+    true_positive = false_positive = false_negative = 0
+    for contract in contracts:
+        candidates = [span for span in predictions[contract.contract_id].spans
+                     if span.category_index == category_index and span.score >= threshold]
+        gold = [span for span in contract.spans
+                if CATEGORY_TO_INDEX[span.category] == category_index]
+        if not candidates or not gold:
+            false_positive += len(candidates)
+            false_negative += len(gold)
+            continue
+        overlaps = np.asarray([
+            [span_iou(pred.char_start, pred.char_end, truth.start, truth.end) for truth in gold]
+            for pred in candidates
+        ])
+        rows, columns = linear_sum_assignment(-overlaps)
+        accepted = sum(overlaps[row, column] >= iou_threshold
+                       for row, column in zip(rows, columns))
+        true_positive += accepted
+        false_positive += len(candidates) - accepted
+        false_negative += len(gold) - accepted
+    return true_positive, false_positive, false_negative
+
+
+def calibrate_span_thresholds(contracts, predictions, iou_threshold=0.5):
+    """Choose per-category slot thresholds by calibration-set span F1 at the target IoU."""
+    thresholds = {}
+    for category_index, category in enumerate(CATEGORIES):
+        best_f1, best_threshold = -1.0, 1.0
+        for threshold in [*np.linspace(0.05, 0.95, 19), 1.0]:
+            tp, fp, fn = _span_counts_for_category(
+                contracts, predictions, category_index, float(threshold), iou_threshold,
+            )
+            precision = tp / (tp + fp) if tp + fp else 0.0
+            recall = tp / (tp + fn) if tp + fn else 0.0
+            f1 = 2 * precision * recall / (precision + recall) if precision + recall else 0.0
+            if f1 > best_f1 or (f1 == best_f1 and threshold > best_threshold):
+                best_f1, best_threshold = f1, float(threshold)
+        thresholds[category] = best_threshold
+    return thresholds
+
+
 def _span_metrics(contracts, predictions, thresholds, iou_threshold=0.5):
     counts = {category: {"tp": 0, "fp": 0, "fn": 0, "matched_iou": []}
               for category in CATEGORIES}
-    for contract in contracts:
-        candidate_spans = predictions[contract.contract_id].spans
-        for category_index, category in enumerate(CATEGORIES):
-            gold = [span for span in contract.spans
-                    if CATEGORY_TO_INDEX[span.category] == category_index]
-            predicted = [span for span in candidate_spans
+    for category_index, category in enumerate(CATEGORIES):
+        tp, fp, fn = _span_counts_for_category(
+            contracts, predictions, category_index, thresholds[category], iou_threshold,
+        )
+        counts[category]["tp"] = tp
+        counts[category]["fp"] = fp
+        counts[category]["fn"] = fn
+        for contract in contracts:
+            predicted = [span for span in predictions[contract.contract_id].spans
                          if span.category_index == category_index
                          and span.score >= thresholds[category]]
-            if not gold or not predicted:
-                counts[category]["fp"] += len(predicted)
-                counts[category]["fn"] += len(gold)
+            gold = [span for span in contract.spans
+                    if CATEGORY_TO_INDEX[span.category] == category_index]
+            if not predicted or not gold:
                 continue
             overlaps = np.asarray([
                 [span_iou(item.char_start, item.char_end, truth.start, truth.end)
                  for truth in gold] for item in predicted
             ])
             rows, columns = linear_sum_assignment(-overlaps)
-            accepted = [(row, column) for row, column in zip(rows, columns)
-                        if overlaps[row, column] >= iou_threshold]
-            counts[category]["tp"] += len(accepted)
-            counts[category]["fp"] += len(predicted) - len(accepted)
-            counts[category]["fn"] += len(gold) - len(accepted)
             counts[category]["matched_iou"].extend(
-                float(overlaps[row, column]) for row, column in accepted
+                float(overlaps[row, column]) for row, column in zip(rows, columns)
+                if overlaps[row, column] >= iou_threshold
             )
     per_category = []
     all_tp = all_fp = all_fn = 0
@@ -411,6 +452,12 @@ def main():
         args.output / "per_category_metrics.csv", index=False,
     )
 
+    span_thresholds = calibrate_span_thresholds(
+        calibration, predictions["calibration"], iou_threshold=0.5,
+    )
+    span_metrics = _span_metrics(
+        evaluation, predictions["evaluation"], span_thresholds, iou_threshold=0.5,
+    )
     for name, y_true, contract_y, contract_scores, chunk_scores in (
         ("calibration", y_cal, cal_contract_targets, cal_contract_scores, score_cal),
         ("evaluation", y_eval, eval_contract_targets, eval_contract_scores, score_eval),
@@ -424,12 +471,10 @@ def main():
     (args.output / "thresholds.json").write_text(json.dumps({
         "set_contract_presence": presence_thresholds,
         "set_chunk_projection": chunk_thresholds,
+        "set_span_instance": span_thresholds,
         "word_char_tfidf_chunk": baseline_thresholds,
     }, indent=2) + "\n", encoding="utf-8")
 
-    span_metrics = _span_metrics(
-        evaluation, predictions["evaluation"], presence_thresholds, iou_threshold=0.5,
-    )
     report = {
         "architecture": "category-conditioned learned instance slots with Hungarian-matched start/end chunk pointers",
         "span_prediction": {
@@ -458,7 +503,7 @@ def main():
         },
         "chunking": {"max_tokens": args.max_tokens, "overlap_tokens": args.overlap_tokens,
                      "tokenizer": TOKENIZER_NAME, "tokenizer_revision": TOKENIZER_REVISION},
-        "thresholds_fit_on": "set span/presence and chunk-projection thresholds each fit on calibration contracts/chunks respectively; baseline thresholds fit on calibration chunks",
+        "thresholds_fit_on": "set contract-presence, chunk-projection, and span-instance thresholds fit on calibration contracts/chunks only; span thresholds optimize calibration IoU-0.5 F1; baseline thresholds fit on calibration chunks",
         "metrics_on": "held-out evaluation contracts only",
         "macro_f1_chunk_evaluation": pd.concat([baseline_metrics, set_metrics], ignore_index=True)
             .groupby("model")["f1"].mean().to_dict(),
