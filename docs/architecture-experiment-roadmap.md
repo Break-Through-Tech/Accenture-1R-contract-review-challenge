@@ -69,7 +69,10 @@ explicit approval.
 1. **Retrieval + reranking:** implemented and evaluated on seed 42. It improved macro-F1
    from 0.533 to 0.557 while macro-AUPR changed from 0.597 to 0.595; multi-seed
    robustness remains outstanding. Details: `retrieval-reranker-architecture.md`.
-2. **Contract graph neural network:** queued.
+2. **Contract graph neural network:** implemented and screened on seed 42. The initial
+   GraphSAGE candidate scored 0.390 macro-F1 / 0.426 macro-AUPR, below the TF-IDF control;
+   its calibration curve was still rising at the three-epoch limit. See
+   `contract-graph-architecture.md`.
 3. **Supervised contrastive embeddings:** queued.
 4. **Document-level set prediction:** queued.
 5. **Long-document sparse attention:** queued.

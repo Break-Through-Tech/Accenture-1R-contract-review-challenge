@@ -310,10 +310,9 @@ def main():
         "contract_graph_sage": thresholds, "word_char_tfidf": baseline_thresholds,
     }, indent=2) + "\n", encoding="utf-8")
 
-    graph_edge_counts = {
-        contract_id: int(graph.edge_index.shape[1])
-        for contract_id, graph in graph_by_split.items()
-    }
+    graph_edge_counts = np.asarray(
+        [graph.edge_index.shape[1] for graph in graph_by_split.values()], dtype=np.int64,
+    )
     report = {
         "architecture": "chunk-level pretrained encoder with weighted GraphSAGE message passing",
         "graph": {
@@ -321,8 +320,13 @@ def main():
             "semantic_edges": "top non-adjacent TF-IDF cosine neighbors per node",
             "semantic_neighbors_per_node": args.semantic_neighbors,
             "tfidf_fit_on": "training chunks only; labels unused in graph construction",
-            "edge_count_by_contract": graph_edge_counts,
-            "total_directed_edges": int(sum(graph_edge_counts.values())),
+            "contract_count": int(graph_edge_counts.size),
+            "total_directed_edges": int(graph_edge_counts.sum()),
+            "mean_directed_edges_per_contract": float(graph_edge_counts.mean()),
+            "median_directed_edges_per_contract": float(np.median(graph_edge_counts)),
+            "min_directed_edges_per_contract": int(graph_edge_counts.min()),
+            "max_directed_edges_per_contract": int(graph_edge_counts.max()),
+            "contracts_with_no_edges": int((graph_edge_counts == 0).sum()),
         },
         "training": {
             "epochs": len(history), "learning_rate": args.learning_rate,
