@@ -46,8 +46,10 @@ partition and protocol in `metadata`.
 `ArtifactStore` creates SQLite tables for contracts, exact source chunks, raw
 per-category chunk probabilities keyed by model version, grounded evidence,
 weight versions, clause scores, and contract scores. Stable chunk and evidence IDs
-are supplied by callers. Contract text is stored so chunk/evidence offsets can be
-checked against the exact source. Prediction writes are idempotent for matching
+are supplied by callers. Use the registry-qualified `registered.model_key` (for
+example, `clause-classifier:3`) rather than a bare version because separate models
+can each have a version `1`. Contract text is stored so chunk/evidence offsets can
+be checked against the exact source. Prediction writes are idempotent for matching
 values and reject conflicting overwrites; a new model version creates separate
 probability rows. This initial layer does not implement risk scoring, weight CRUD,
 feedback/advisor ranking APIs, migrations, or concurrent production serving.
@@ -60,19 +62,20 @@ store.put_contract(contract.contract_id, contract.text)
 store.put_chunk(chunk_id=f"{contract.contract_id}:{chunk.chunk_index}",
                 contract_id=contract.contract_id, chunk_index=chunk.chunk_index,
                 start=chunk.start, end=chunk.end, text=chunk.text)
-store.put_probabilities(chunk_id, registered.model_version, CATEGORIES, probabilities)
+store.put_probabilities(chunk_id, registered.model_key, CATEGORIES, probabilities)
 ```
 
 Install dependencies with `uv pip install --python .venv/bin/python -r requirements.txt`.
 The local test suite exercises MLflow save/load and SQLite persistence in temporary
 directories, including a registered-bundle-to-artifact-store prediction roundtrip.
 
-The long-context Transformer candidate has also been registered locally as
-`clause-classifier-long-context` version `1` (experiment `clause-review-long-context`).
-Its held-out metrics are recorded in
-`results/long_context_transformer_seed42/report.json`; it is a candidate, not a
-replacement for the stronger word+character baseline. A CPU-loaded registry bundle
-was smoke-tested through inference and its 41 raw probabilities were persisted to
-`outputs/artifact_store.sqlite` under that model version. Both outputs are local and
-ignored by Git. Keep generated registry databases and model artifacts local; do not
-commit datasets or model weights.
+The long-context Transformer candidate is registered locally as
+`clause-classifier-long-context:1`; the category-query evidence candidate is registered
+as `clause-classifier-category-query:2` (version 2 exposes attention through
+`predict_with_evidence`). Both remain candidates, not replacements for the stronger
+word+character baseline. Their held-out reports are in
+`results/long_context_transformer_seed42/` and `results/category_query_seed42/`.
+CPU-loaded registry bundles were smoke-tested through inference; 41 raw probabilities
+were persisted to `outputs/artifact_store.sqlite` using registry-qualified model keys.
+The registry database, artifact database, and model weights are local and ignored by
+Git. Do not commit datasets or model weights.

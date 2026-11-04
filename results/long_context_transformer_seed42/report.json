@@ -153,6 +153,7 @@
     "experiment": "clause-review-long-context",
     "run_id": "d78e1bca1c6f40c6a96e61290d47d223",
     "tracking_database": "outputs/mlflow/tracking.db (local, ignored)",
-    "artifact_store_smoke": "one synthetic contract; 41 raw category probabilities persisted in outputs/artifact_store.sqlite (local, ignored)"
+    "artifact_store_smoke": "one synthetic contract; 41 raw category probabilities persisted in outputs/artifact_store.sqlite (local, ignored)",
+    "model_key": "clause-classifier-long-context:1"
   }
 }
