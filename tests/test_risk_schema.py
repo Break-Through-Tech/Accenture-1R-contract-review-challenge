@@ -72,6 +72,51 @@ def test_weight_set_frozen_rejects_edits():
     assert ws.model_copy(update={"weight_version_id": "test-v2"}).weight_version_id == "test-v2"
 
 
+def test_weight_set_nested_values_are_deeply_immutable():
+    ws = WeightSet(**VALID)
+    with pytest.raises(TypeError):
+        ws.signal_weights["category_severity"] = 0.9
+    with pytest.raises(TypeError):
+        ws.category_severity["Parties"] = 0.9
+    with pytest.raises(AttributeError):
+        ws.aggravating_phrases.append("unlimited")
+    with pytest.raises(ValidationError):
+        ws.cooccurrence_rules[0].adjustment = 0.9
+
+
+def test_weight_set_updated_copy_is_revalidated_and_deeply_immutable():
+    ws = WeightSet(**VALID)
+    updated = ws.model_copy(update={
+        "weight_version_id": "test-v2", "category_severity": {"Parties": 0.2},
+    })
+    assert ws.category_severity == {"Uncapped Liability": 0.9}
+    assert updated.category_severity == {"Parties": 0.2}
+    with pytest.raises(TypeError):
+        updated.category_severity["Parties"] = 0.9
+
+
+def test_weight_set_immutable_values_round_trip_through_json():
+    ws = WeightSet(**VALID)
+    assert WeightSet.model_validate_json(ws.model_dump_json()) == ws
+
+
+def test_weight_set_content_hash_is_stable_and_tracks_config_changes():
+    ws = WeightSet(**VALID)
+    same = WeightSet(**VALID)
+    changed = ws.model_copy(update={"weight_version_id": "test-v2", "high_threshold": 0.8})
+    assert ws.content_sha256 == same.content_sha256
+    assert len(ws.content_sha256) == 64
+    assert ws.content_sha256 != changed.content_sha256
+
+
+def test_weight_set_copy_requires_new_id_when_values_change():
+    ws = WeightSet(**VALID)
+    with pytest.raises(ValueError, match="requires a new weight_version_id"):
+        ws.model_copy(update={"high_threshold": 0.8})
+    with pytest.raises(ValueError, match="requires a new weight_version_id"):
+        ws.model_copy(update={"weight_version_id": "test-v1", "high_threshold": 0.8})
+
+
 # ----- Invalid weight sets -----
 @pytest.mark.parametrize(
     "changes",
@@ -142,7 +187,7 @@ def test_clause_score_category_is_validated_and_canonicalized():
     score = ClauseScore(
         contract_id="c", chunk_index=0, category="parties", probability=0.5,
         signals={}, composite_score=0.25, rating="Low", has_evidence=False,
-        weight_version_id="test-v1",
+        weight_version_id="test-v1", weight_set_sha256="0" * 64,
     )
     assert score.category == "Parties"
 
@@ -152,7 +197,7 @@ def test_clause_score_unknown_category_raises():
         ClauseScore(
             contract_id="c", chunk_index=0, category="Parties Typo", probability=0.5,
             signals={}, composite_score=0.25, rating="Low", has_evidence=False,
-            weight_version_id="test-v1",
+            weight_version_id="test-v1", weight_set_sha256="0" * 64,
         )
 
 

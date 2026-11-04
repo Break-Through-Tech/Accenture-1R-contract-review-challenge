@@ -65,6 +65,7 @@ def score_clause(clause: ClauseInput, contract_categories: Set[str], weight_set:
         rating=rate(composite, weight_set),
         has_evidence=clause.evidence is not None,
         weight_version_id=weight_set.weight_version_id,
+        weight_set_sha256=weight_set.content_sha256,
     )
 
 

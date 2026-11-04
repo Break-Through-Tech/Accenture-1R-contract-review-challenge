@@ -24,12 +24,16 @@ Creating a new weight version:
 Never edit a version in place: scores record their weight_version_id, so changing the
 values behind an existing id would make old scores unreproducible.
 """
+import hashlib
+import json
 import math
+from collections.abc import Mapping
 from pathlib import Path
-from typing import Annotated, Literal, get_args
+from types import MappingProxyType
+from typing import Annotated, Any, Literal, get_args
 
 from typing_extensions import Self
-from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
+from pydantic import BaseModel, ConfigDict, Field, field_serializer, field_validator, model_validator
 
 from src.evidence.cues import normalize_category
 from src.evidence.schema import Evidence
@@ -108,29 +112,29 @@ class WeightSet(BaseModel):
     """
     One immutable, versioned set of scoring parameters, owned by the advisor.
     Unknown keys are rejected so a misspelled field in the JSON can't be silently ignored.
-    Frozen, so fields can't be reassigned, but nested dicts and lists can still be changed: treat
-    them as read-only. To make a new version, write a new JSON file and load it with load_weight_set();
-    model_copy(update=...) skips validation.
+    Deeply immutable after validation: mappings are read-only proxies and collections are tuples.
+    To make a new version, create a new validated WeightSet; model_copy(update=...) revalidates
+    the changed copy. The version id must not be reused for different values.
     """
     model_config = ConfigDict(extra="forbid", frozen=True)
 
     weight_version_id: str = Field(min_length=1)
     created_by: str = Field(min_length=1)
     description: str = ""
-    signal_weights: dict[SignalName, UnitFloat]
+    signal_weights: Mapping[SignalName, UnitFloat]
     medium_threshold: UnitFloat
     high_threshold: UnitFloat
-    category_severity: dict[str, UnitFloat] = {}
+    category_severity: Mapping[str, UnitFloat] = Field(default_factory=dict)
     default_severity: UnitFloat
-    cooccurrence_rules: list[CooccurrenceRule] = []
-    aggravating_phrases: list[Phrase] = []
-    mitigating_phrases: list[Phrase] = []
-    scope_phrases: list[Phrase] = []
-    magnitude_rules: list[MagnitudeRule] = []
+    cooccurrence_rules: tuple[CooccurrenceRule, ...] = ()
+    aggravating_phrases: tuple[Phrase, ...] = ()
+    mitigating_phrases: tuple[Phrase, ...] = ()
+    scope_phrases: tuple[Phrase, ...] = ()
+    magnitude_rules: tuple[MagnitudeRule, ...] = ()
 
     @field_validator("category_severity")
     @classmethod
-    def check_severity_categories(cls, severity: dict[str, float]) -> dict[str, float]:
+    def check_severity_categories(cls, severity: Mapping[str, float]) -> Mapping[str, float]:
         for name in severity:
             _check_category(name)
         return severity
@@ -147,6 +151,44 @@ class WeightSet(BaseModel):
         if self.medium_threshold >= self.high_threshold:
             raise ValueError("medium_threshold must be below high_threshold")
         return self
+
+    @field_serializer("signal_weights", "category_severity")
+    def serialize_immutable_mappings(self, value: Mapping) -> dict:
+        """Serialize read-only runtime mappings as ordinary JSON objects."""
+        return dict(value)
+
+    @model_validator(mode="after")
+    def freeze_nested_collections(self) -> Self:
+        """Prevent mutation through nested references, not just assignment to model fields."""
+        object.__setattr__(self, "signal_weights", MappingProxyType(dict(self.signal_weights)))
+        object.__setattr__(self, "category_severity", MappingProxyType(dict(self.category_severity)))
+        for name in (
+            "cooccurrence_rules", "aggravating_phrases", "mitigating_phrases",
+            "scope_phrases", "magnitude_rules",
+        ):
+            object.__setattr__(self, name, tuple(getattr(self, name)))
+        return self
+
+    def model_copy(self, *, update: Mapping[str, Any] | None = None, deep: bool = False) -> "WeightSet":
+        """Return self when unchanged; validate and deeply freeze any updated copy."""
+        if not update:
+            return self
+        updates = dict(update)
+        changed_values = {key: value for key, value in updates.items() if key != "weight_version_id"}
+        if changed_values and updates.get("weight_version_id", self.weight_version_id) == self.weight_version_id:
+            raise ValueError("changing weight-set values requires a new weight_version_id")
+        data = self.model_dump()
+        data.update(updates)
+        return type(self).model_validate(data)
+
+    @property
+    def content_sha256(self) -> str:
+        """Stable fingerprint of the complete validated config for score-level provenance."""
+        canonical = json.dumps(
+            self.model_dump(mode="json"), sort_keys=True, separators=(",", ":"),
+            ensure_ascii=False, allow_nan=False,
+        )
+        return hashlib.sha256(canonical.encode("utf-8")).hexdigest()
 
 
 class ClauseInput(BaseModel):
@@ -169,7 +211,7 @@ class ClauseInput(BaseModel):
 
 
 class ClauseScore(BaseModel):
-    """A scored clause: each signal value, their weighted composite, the rating, and the weight version used."""
+    """A scored clause with its rating, weight version id, and exact config content hash."""
     contract_id: str
     chunk_index: int
     category: str
@@ -179,6 +221,7 @@ class ClauseScore(BaseModel):
     rating: Rating
     has_evidence: bool
     weight_version_id: str
+    weight_set_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
 
     @field_validator("category")
     @classmethod
