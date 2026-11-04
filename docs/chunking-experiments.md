@@ -23,6 +23,20 @@ The original analysis also includes per-category results, example spans, exact s
 - [Per-category results](../results/token_chunking_comparison/per_category.csv)
 - [Earlier token/sentence development findings](../results/token_chunking_development/findings.md)
 
+## Historical fixed-character window sweep
+
+The older `init-transformer-encoder-training` branch included a preliminary sweep over the 326-contract training portion of the seeded split. It sampled 2,000 chunks per setting for token-length estimates and measured annotation containment over those training contracts. The tokenizer revision was not pinned in that notebook, so retain these as exploratory findings, not the canonical reproducible comparison.
+
+| Character window / overlap | Train chunks | Sampled chunks over 512 | p99 input tokens | Annotation containment | Relative estimated tokens per epoch |
+|---|---:|---:|---:|---:|---:|
+| 600 / 72 | 34,882 | 0.1% | 339 | 66.0% | 1.103 |
+| 800 / 96 | 26,182 | 0.7% | 461 | 75.1% | 1.103 |
+| 1,000 / 120 | 20,973 | 1.7% | 568 | 80.3% | 1.093 |
+| 1,500 / 180 | 14,018 | 8.8% | 830 | 90.1% | 1.053 |
+| 2,000 / 240 | 10,547 | 24.2% | 1,148 | 93.5% | 1.000 |
+
+Under its heuristic of less than 1% sampled overflow, the notebook selected 800 characters and then selected 200-character overlap from its sweep. That increased containment from 68.9% at zero overlap to 81.2%, with chunks increasing from 23,102 to 30,637. These are labeled-span containment and estimated input-cost diagnostics only. The notebook did not train or compare classifiers, and the 2,000-chunk truncation estimates are sampled rather than exact. Later pinned evaluation in the preceding section is the stronger chunker comparison; the historical sweep is retained for context, not as a competing configuration recommendation.
+
 ## Reproduction
 
 With project dependencies installed and the pinned tokenizer cached, run from the repository root:

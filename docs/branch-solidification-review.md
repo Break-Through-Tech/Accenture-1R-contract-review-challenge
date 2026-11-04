@@ -14,16 +14,16 @@ The saved 326-contract development comparison found 98.82% annotation containmen
 
 ## `init-transformer-encoder-training`: encoder implementation
 
-The branch has 15 commits, but most of the apparent difference against `main` is because it is an older repository snapshot: its tree lacks the later architecture suite, registry, risk schema, and chunking evaluation. The meaningful encoder changes are already represented and evolved on current `main`:
+The branch has 14 commits ahead of current `main`, but most of the apparent tree difference is because it is an older repository snapshot: its tree lacks the later architecture suite, registry, risk schema, and chunking evaluation. The meaningful encoder changes are already represented and evolved on current `main`:
 
 - frozen/validated `TrainConfig`, pinned model revision, sentence-token mode, shared `prepare_train_val` path, and explicit `max_length`/overlap settings;
 - weighted BCE training, train-only positive weights, macro-AUPR checkpoint selection, and a smoke-training path;
 - validation metrics, checkpoint/config saving, and inference helpers;
 - contract-level splits and tests that keep training and validation contracts disjoint.
 
-Do not merge the old branch wholesale. In particular, its removal of `model_revision` and sentence-token mode would weaken reproducibility and compatibility; its change from `warmup_ratio` to floating-point `warmup_steps` is not a safe equivalent. `requirements.txt`, `.gitignore`, and `CLAUDE.md` also conflict materially with current main.
+Do not merge the old branch wholesale. In particular, its removal of `model_revision` and sentence-token mode would weaken reproducibility and compatibility; its change from `warmup_ratio` to floating-point `warmup_steps` is not a safe equivalent. `requirements.txt`, `.gitignore`, and `CLAUDE.md` also conflict materially with current main. Its unique window-sweep notebook is now summarized, with sampling and tokenizer caveats, in `docs/chunking-experiments.md`; later pinned chunking comparisons supersede it as the reproducible reference.
 
-**Disposition:** treat current `main` as the maintained encoder implementation. Bring forward only a specific demonstrably missing improvement, with a focused diff and tests against current dependencies. The existing encoder results are research results; no new performance claim follows from the old branch's commits. Further classifier comparisons must use contract-level train/calibration/evaluation splits, calibrate thresholds on calibration only, and must not read `data/cuad/test.json`.
+**Disposition:** treat current `main` as the maintained encoder implementation. The old branch's remaining unique findings have been transferred as historical context; no branch-only implementation should be merged. The existing encoder results are research results; no new performance claim follows from the old branch's commits. Further classifier comparisons must use contract-level train/calibration/evaluation splits, calibrate thresholds on calibration only, and must not read `data/cuad/test.json`.
 
 ## Current-main compatibility check
 
