@@ -84,4 +84,8 @@ explicit approval.
    Hungarian-matched slots/category. Chunk macro-F1/AUPR were 0.099/0.088; character
    span IoU-0.5 micro-F1 was 0.0011 despite full annotation coverage. The chunk-boundary
    pointer design is too coarse in this run. See `set-prediction-architecture.md`.
-5. **Long-document sparse attention:** queued.
+5. **Long-document sparse attention:** implemented and screened with local/global sparse
+   attention over complete chunk sequences (not raw-token Longformer). It covered 100% of
+   source text and used 46.6% of the equivalent dense chunk-attention links on this split,
+   but scored 0.142/0.131 chunk macro-F1/AUPR versus the TF-IDF control's 0.533/0.597.
+   See `sparse-long-context-architecture.md`.

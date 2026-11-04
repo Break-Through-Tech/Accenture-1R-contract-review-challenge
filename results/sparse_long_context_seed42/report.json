@@ -1,0 +1,124 @@
+{
+  "architecture": "frozen chunk encoder with local-window plus contract-global sparse attention over all chunks",
+  "context": {
+    "local_radius_chunks": 16,
+    "local_window_chunks": 33,
+    "global_token_count": 1,
+    "attention_layers": 2,
+    "estimated_evaluation_sparse_links_per_layer": 58368,
+    "equivalent_dense_chunk_links": 125174,
+    "sparse_links_per_layer_divided_by_dense": 0.46629491747487495,
+    "overlap_aggregation": "maximum segment-wise mean of scores from windows covering each original character interval",
+    "source_character_coverage": {
+      "training": {
+        "contracts": 260,
+        "fully_covered_contracts": 260,
+        "total_source_characters": 15085240,
+        "covered_source_characters": 15085240,
+        "source_character_coverage": 1.0
+      },
+      "calibration": {
+        "contracts": 66,
+        "fully_covered_contracts": 66,
+        "total_source_characters": 3266522,
+        "covered_source_characters": 3266522,
+        "source_character_coverage": 1.0
+      },
+      "evaluation": {
+        "contracts": 82,
+        "fully_covered_contracts": 82,
+        "total_source_characters": 3676856,
+        "covered_source_characters": 3676856,
+        "source_character_coverage": 1.0
+      }
+    },
+    "max_evaluation_chunks_in_contract": 168
+  },
+  "training": {
+    "encoder_frozen": true,
+    "epochs_ran": 5,
+    "selected_epoch": 5,
+    "learning_rate": 0.0002,
+    "hidden_size": 256,
+    "layers": 2,
+    "attention_heads": 8,
+    "local_radius": 16,
+    "dropout": 0.1,
+    "pos_weight_cap": 50.0,
+    "history": [
+      {
+        "epoch": 1,
+        "training_loss_per_contract": 1.080980862906346,
+        "calibration_chunk_macro_aupr": 0.09250399234399187
+      },
+      {
+        "epoch": 2,
+        "training_loss_per_contract": 0.966953613437139,
+        "calibration_chunk_macro_aupr": 0.10065472341664439
+      },
+      {
+        "epoch": 3,
+        "training_loss_per_contract": 0.9015781122904557,
+        "calibration_chunk_macro_aupr": 0.10799635597626579
+      },
+      {
+        "epoch": 4,
+        "training_loss_per_contract": 0.8431747854329072,
+        "calibration_chunk_macro_aupr": 0.11637828701299421
+      },
+      {
+        "epoch": 5,
+        "training_loss_per_contract": 0.7930782671158131,
+        "calibration_chunk_macro_aupr": 0.12199026683122147
+      }
+    ],
+    "feature_extraction_seconds": 44.00218097900142,
+    "sparse_context_inference_seconds_calibration_plus_evaluation": 1.0031096860002435,
+    "sparse_context_peak_cuda_memory_bytes": 40328192,
+    "device": "cuda"
+  },
+  "split": {
+    "seed": 42,
+    "contract_counts": {
+      "training": 260,
+      "calibration": 66,
+      "evaluation": 82
+    },
+    "contract_id_sha256": {
+      "training": "44e5d6e9df85fa666896aca96e4638abce02371e5674316f1bad13bf079922fd",
+      "calibration": "271e06814672af99ef807e67790290b82c41a1f9890f1402247cd6666ac95f69",
+      "evaluation": "495488d5b49f0c1cd93f5a8bb416c110ed96122e8d03b3bcc4f82784068a87f9"
+    },
+    "chunk_counts": {
+      "training": 9025,
+      "calibration": 1899,
+      "evaluation": 2196
+    }
+  },
+  "chunking": {
+    "max_tokens": 512,
+    "overlap_tokens": 64,
+    "tokenizer": "distilbert/distilroberta-base",
+    "tokenizer_revision": "fb53ab8802853c8e4fbdbcd0529f21fc6f459b2b"
+  },
+  "thresholds_fit_on": "calibration chunks for chunk metrics and calibration contract labels for overlap-consensus metrics",
+  "metrics_on": "held-out evaluation contracts only",
+  "macro_f1_chunk_evaluation": {
+    "sparse_local_global_context": 0.14173853658536587,
+    "word_char_tfidf": 0.5330670731707318
+  },
+  "macro_aupr_chunk_evaluation": {
+    "sparse_local_global_context": 0.13076262017817208,
+    "word_char_tfidf": 0.5971198237476559
+  },
+  "macro_f1_contract_evaluation": {
+    "sparse_local_global_context": 0.43224609756097565,
+    "word_char_tfidf": 0.6611560975609757
+  },
+  "macro_aupr_contract_evaluation": {
+    "sparse_local_global_context": 0.44297770160714306,
+    "word_char_tfidf": 0.7792166328790832
+  },
+  "data_sha256": "7de21d2bb741ac939e2a839ef9640634a5e0f9f40ea2b82c6833baf7db33dab4",
+  "test_data_used": false
+}
