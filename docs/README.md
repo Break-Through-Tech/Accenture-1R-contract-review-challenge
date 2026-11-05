@@ -13,6 +13,7 @@ Start here for the reproducible experiments added on this branch:
 | Next architecture directions | [Experiment roadmap](architecture-experiment-roadmap.md) | Five planned/implemented directions and evaluation policy |
 | Retrieval + cross-encoder reranker | [Retrieval/reranker](retrieval-reranker-architecture.md) | `results/retrieval_reranker_seed{42,7,17,23,101}/` |
 | TF-IDF + reranker score fusion | [Score fusion](tfidf-reranker-fusion.md) | `results/tfidf_reranker_fusion/` (exploratory; reused splits) |
+| Confirmation gate | [Upgrade validation protocol](upgrade-validation-gate.md) | Advisor/team data-source and success-criteria decision needed |
 | Contract graph neural network | [Graph architecture](contract-graph-architecture.md) | `results/contract_graph_seed42/` |
 | Supervised contrastive prototypes | [Contrastive architecture](contrastive-architecture.md) | `results/contrastive_seed42/` |
 | Hungarian-matched span set prediction | [Set prediction](set-prediction-architecture.md) | `results/set_prediction_seed42/` |
