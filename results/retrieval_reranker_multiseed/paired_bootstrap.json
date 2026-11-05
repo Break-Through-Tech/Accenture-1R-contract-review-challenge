@@ -1,0 +1,178 @@
+{
+  "seeds": [
+    42,
+    7,
+    17,
+    23,
+    101
+  ],
+  "bootstrap_replicates_per_seed": 1000,
+  "bootstrap_seed_rule": "numpy default_rng(20261105 + split_seed)",
+  "data_sha256": "7de21d2bb741ac939e2a839ef9640634a5e0f9f40ea2b82c6833baf7db33dab4",
+  "protocol": {
+    "splits": "same saved contract-level train/calibration/evaluation IDs as each paired TF-IDF run",
+    "thresholds": "both systems fit per-category thresholds on calibration predictions only",
+    "macro_f1": "fixed 41-category macro; zero-support categories contribute F1=0",
+    "macro_aupr": "mean over categories with at least one evaluation positive",
+    "bootstrap": "paired resampling of evaluation contracts with replacement; thresholds stay fixed",
+    "test_data_used": false,
+    "interpretation": "five-seed summary is descriptive; seeded evaluation sets overlap and are not independent"
+  },
+  "aggregate": {
+    "word_char_f1": {
+      "mean": 0.5045578736526908,
+      "std_between_seeds": 0.022386267426638108
+    },
+    "reranker_f1": {
+      "mean": 0.5202750637361161,
+      "std_between_seeds": 0.025987991994850107
+    },
+    "delta_f1": {
+      "mean": 0.01571719008342537,
+      "std_between_seeds": 0.015807468253012456
+    },
+    "word_char_aupr": {
+      "mean": 0.5633449910819444,
+      "std_between_seeds": 0.028338430187227426
+    },
+    "reranker_aupr": {
+      "mean": 0.5571472272665787,
+      "std_between_seeds": 0.03354701818956957
+    },
+    "delta_aupr": {
+      "mean": -0.00619776381536572,
+      "std_between_seeds": 0.02378334120031553
+    },
+    "f1_wins": 4,
+    "aupr_wins": 2
+  },
+  "per_seed": [
+    {
+      "seed": 42,
+      "evaluation_contracts": 82,
+      "word_char_f1": 0.5330673042557077,
+      "reranker_f1": 0.5572127024545639,
+      "delta_f1": 0.024145398198856194,
+      "word_char_aupr": 0.5971198237476559,
+      "reranker_aupr": 0.5950169231302245,
+      "delta_aupr": -0.002102900617431458,
+      "candidate_pair_recall_at_16": 0.9758389261744966,
+      "contract_category_recall_at_16": 0.9941804073714839,
+      "candidate_pairs_scored": 40918
+    },
+    {
+      "seed": 7,
+      "evaluation_contracts": 82,
+      "word_char_f1": 0.5149335380774824,
+      "reranker_f1": 0.5301415755113578,
+      "delta_f1": 0.015208037433875332,
+      "word_char_aupr": 0.5854461459704445,
+      "reranker_aupr": 0.5569749548244215,
+      "delta_aupr": -0.028471191146023034,
+      "candidate_pair_recall_at_16": 0.9767879548306148,
+      "contract_category_recall_at_16": 0.9972324723247232,
+      "candidate_pairs_scored": 44116
+    },
+    {
+      "seed": 17,
+      "evaluation_contracts": 82,
+      "word_char_f1": 0.49691116675112396,
+      "reranker_f1": 0.523002932875043,
+      "delta_f1": 0.026091766123919002,
+      "word_char_aupr": 0.5630627906108538,
+      "reranker_aupr": 0.5783899035179038,
+      "delta_aupr": 0.015327112907049911,
+      "candidate_pair_recall_at_16": 0.9794212218649517,
+      "contract_category_recall_at_16": 0.9944237918215614,
+      "candidate_pairs_scored": 42722
+    },
+    {
+      "seed": 23,
+      "evaluation_contracts": 82,
+      "word_char_f1": 0.5053360461284743,
+      "reranker_f1": 0.4938336512055385,
+      "delta_f1": -0.011502394922935755,
+      "word_char_aupr": 0.5398869864923852,
+      "reranker_aupr": 0.5067099743977371,
+      "delta_aupr": -0.03317701209464807,
+      "candidate_pair_recall_at_16": 0.9699934768427919,
+      "contract_category_recall_at_16": 0.9952874646559849,
+      "candidate_pairs_scored": 42312
+    },
+    {
+      "seed": 101,
+      "evaluation_contracts": 82,
+      "word_char_f1": 0.47254131305066527,
+      "reranker_f1": 0.49718445663407734,
+      "delta_f1": 0.024643143583412075,
+      "word_char_aupr": 0.5312092085883828,
+      "reranker_aupr": 0.5486443804626069,
+      "delta_aupr": 0.017435171874224054,
+      "candidate_pair_recall_at_16": 0.9663970130678282,
+      "contract_category_recall_at_16": 0.994413407821229,
+      "candidate_pairs_scored": 45018
+    }
+  ],
+  "paired_contract_bootstrap_95pct": {
+    "42": {
+      "macro_f1_delta": {
+        "lower_95": -0.010594902944616834,
+        "median": 0.020648085488386092,
+        "upper_95": 0.05797572469908687
+      },
+      "macro_aupr_delta": {
+        "lower_95": -0.038450690816446795,
+        "median": -0.002077510332092969,
+        "upper_95": 0.03529659402562327
+      }
+    },
+    "7": {
+      "macro_f1_delta": {
+        "lower_95": -0.012578714552326158,
+        "median": 0.017533120315338435,
+        "upper_95": 0.04666018723250232
+      },
+      "macro_aupr_delta": {
+        "lower_95": -0.050083474630052895,
+        "median": -0.021291983322692998,
+        "upper_95": 0.007820428915103227
+      }
+    },
+    "17": {
+      "macro_f1_delta": {
+        "lower_95": -0.010607927776622526,
+        "median": 0.02644225615152146,
+        "upper_95": 0.06554152118670821
+      },
+      "macro_aupr_delta": {
+        "lower_95": -0.015885289321278466,
+        "median": 0.01869102833070435,
+        "upper_95": 0.050566645248527796
+      }
+    },
+    "23": {
+      "macro_f1_delta": {
+        "lower_95": -0.04505869688373827,
+        "median": -0.010991226704629375,
+        "upper_95": 0.022572609399932858
+      },
+      "macro_aupr_delta": {
+        "lower_95": -0.06780845759566068,
+        "median": -0.032254952161775374,
+        "upper_95": 0.0021405339968424055
+      }
+    },
+    "101": {
+      "macro_f1_delta": {
+        "lower_95": -0.0010094389422400788,
+        "median": 0.023229058379798107,
+        "upper_95": 0.047469721007506634
+      },
+      "macro_aupr_delta": {
+        "lower_95": -0.013016351662316784,
+        "median": 0.01699406055952435,
+        "upper_95": 0.04655040674900188
+      }
+    }
+  }
+}

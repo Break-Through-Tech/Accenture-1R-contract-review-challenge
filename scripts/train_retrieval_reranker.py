@@ -88,7 +88,8 @@ def _metrics_at_thresholds(y_true, scores, thresholds):
     aupr_by_category = dict(zip(CATEGORIES, compute_aupr(y_true, scores)))
     metrics["aupr"] = metrics["category"].map(aupr_by_category)
     metrics["threshold"] = metrics["category"].map(thresholds)
-    metrics.loc[metrics["support"] == 0, ["precision", "recall", "f1"]] = np.nan
+    # Keep unsupported evaluation categories at zero for macro-F1, matching the
+    # project's zero_division=0 convention. AUPR remains undefined for them.
     return metrics
 
 
