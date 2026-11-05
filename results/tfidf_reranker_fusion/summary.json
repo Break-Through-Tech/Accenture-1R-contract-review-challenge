@@ -1,0 +1,39 @@
+{
+  "aggregate": {
+    "tfidf_macro_f1": {
+      "mean": 0.5045578736526908,
+      "std_between_seeds": 0.022386267426638108
+    },
+    "hybrid_macro_f1": {
+      "mean": 0.5573433618607836,
+      "std_between_seeds": 0.027940902592078317
+    },
+    "hybrid_delta_f1": {
+      "mean": 0.0527854882080928,
+      "std_between_seeds": 0.010458074572694348
+    },
+    "tfidf_macro_aupr": {
+      "mean": 0.5633449910819444,
+      "std_between_seeds": 0.028338430187227426
+    },
+    "hybrid_macro_aupr": {
+      "mean": 0.6153681743885604,
+      "std_between_seeds": 0.030540295092986905
+    },
+    "hybrid_delta_aupr": {
+      "mean": 0.05202318330661582,
+      "std_between_seeds": 0.0051056428081291665
+    },
+    "f1_wins": 5,
+    "aupr_wins": 5
+  },
+  "selection": "one global alpha selected by calibration macro-AUPR; ties favor smaller alpha",
+  "evaluation_status": "exploratory only; split results were inspected in prior experiments",
+  "seeds": [
+    42,
+    7,
+    17,
+    23,
+    101
+  ]
+}

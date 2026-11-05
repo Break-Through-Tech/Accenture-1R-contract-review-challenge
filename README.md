@@ -91,7 +91,7 @@ Seed-42 held-out evaluation results below are chunk-level macro-F1 / macro-AUPR.
 | Local/global sparse context | 0.142 | 0.131 |
 | Hungarian-matched set prediction | 0.099 | 0.088 |
 
-A five-seed follow-up found the reranker improves mean macro-F1 by 0.016 and wins four of five splits, but mean macro-AUPR is 0.006 lower and all per-seed paired contract-bootstrap intervals include zero. It is not established as a robust improvement. The other neural candidates did not outperform the TF-IDF control in these screening runs. These results are research comparisons, not evidence of production readiness or legal-review impact. Detailed metrics, protocol, and caveats are in each linked experiment report under [`results/`](results/) and its guide in [`docs/`](docs/).
+A five-seed follow-up found the reranker improves mean macro-F1 by 0.016 and wins four of five splits, but mean macro-AUPR is 0.006 lower and all per-seed paired contract-bootstrap intervals include zero. It is not established as a robust improvement. A TF-IDF plus reranker score-fusion prototype scored higher on both macro metrics across the same five splits, but those evaluation splits had already been inspected and the fusion remains exploratory. Do not promote it without an untouched approved holdout. The other neural candidates did not outperform the TF-IDF control in these screening runs. These results are research comparisons, not evidence of production readiness or legal-review impact. Detailed metrics, protocol, and caveats are in each linked experiment report under [`results/`](results/) and its guide in [`docs/`](docs/).
 
 ### Chunking research
 
