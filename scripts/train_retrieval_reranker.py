@@ -81,6 +81,41 @@ def _dense_reranker_scores(model, tokenizer, chunks, candidates, prompts, device
     )
 
 
+def _resolve_contract_groups(
+    contracts, seed, evaluation_fraction, calibration_fraction, split_manifest=None,
+):
+    """Return disjoint ordered training/calibration/evaluation contract groups.
+
+    A split manifest allows deterministic cross-fitting while preserving the standard
+    nested split path for ordinary runs. Manifest IDs must be unique, known, and disjoint.
+    """
+    if split_manifest is None:
+        development, evaluation = split_by_contract(contracts, evaluation_fraction, seed)
+        training, calibration = split_by_contract(development, calibration_fraction, seed)
+        groups = {"training": training, "calibration": calibration, "evaluation": evaluation}
+        return groups, {name: [c.contract_id for c in group] for name, group in groups.items()}, None
+
+    manifest_bytes = split_manifest.read_bytes()
+    manifest = json.loads(manifest_bytes)
+    required = {"training", "calibration", "evaluation"}
+    if set(manifest) != required:
+        raise ValueError(f"Split manifest must contain exactly {sorted(required)}")
+    by_id = {contract.contract_id: contract for contract in contracts}
+    ids = {name: manifest[name] for name in required}
+    if any(not isinstance(values, list) or not values or
+           any(not isinstance(value, str) for value in values) or
+           len(values) != len(set(values)) for values in ids.values()):
+        raise ValueError("Each manifest split must be a nonempty list of unique contract IDs")
+    id_sets = [set(ids[name]) for name in ("training", "calibration", "evaluation")]
+    if any(id_sets[i] & id_sets[j] for i in range(3) for j in range(i + 1, 3)):
+        raise ValueError("Split manifest contract groups overlap")
+    unknown = set.union(*id_sets) - set(by_id)
+    if unknown:
+        raise ValueError(f"Split manifest contains unknown contract IDs: {sorted(unknown)[:5]}")
+    groups = {name: [by_id[contract_id] for contract_id in ids[name]] for name in required}
+    return groups, ids, hashlib.sha256(manifest_bytes).hexdigest()
+
+
 def _metrics_at_thresholds(y_true, scores, thresholds):
     vector = np.asarray([thresholds[category] for category in CATEGORIES])
     predictions = (scores >= vector).astype(np.uint8)
@@ -139,6 +174,8 @@ def main() -> None:
     parser.add_argument("--min-hard-negatives", type=int)
     parser.add_argument("--evaluation-fraction", type=float)
     parser.add_argument("--calibration-fraction", type=float)
+    parser.add_argument("--split-manifest", type=Path,
+                        help="JSON with explicit training/calibration/evaluation contract IDs")
     args = parser.parse_args()
     import yaml
     config = yaml.safe_load(args.config.read_text(encoding="utf-8"))
@@ -177,11 +214,11 @@ def main() -> None:
         args.candidate_top_k = saved_config["candidate_top_k"]
 
     contracts = load_cuad(TRAIN_PATH)
-    development, evaluation = split_by_contract(contracts, args.evaluation_fraction, args.seed)
-    training, calibration = split_by_contract(development, args.calibration_fraction, args.seed)
-    groups = {"training": training, "calibration": calibration, "evaluation": evaluation}
-    ids = {name: [contract.contract_id for contract in group] for name, group in groups.items()}
-    id_sets = [set(group) for group in ids.values()]
+    groups, ids, split_manifest_sha256 = _resolve_contract_groups(
+        contracts, args.seed, args.evaluation_fraction, args.calibration_fraction,
+        args.split_manifest,
+    )
+    id_sets = [set(ids[name]) for name in ("training", "calibration", "evaluation")]
     if any(id_sets[i] & id_sets[j] for i in range(3) for j in range(i + 1, 3)):
         raise RuntimeError("contract split leakage detected")
 
@@ -385,7 +422,9 @@ def main() -> None:
             "history": history,
         },
         "split": {
+            "method": "explicit_manifest" if args.split_manifest else "nested_seeded_random",
             "seed": args.seed,
+            "manifest_sha256": split_manifest_sha256,
             "contract_counts": {name: len(group) for name, group in groups.items()},
             "contract_id_sha256": {name: digest_contract_ids(ids[name]) for name in ids},
             "chunk_counts": {name: len(value) for name, value in chunks.items()},

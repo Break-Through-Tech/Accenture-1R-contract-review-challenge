@@ -39,21 +39,58 @@ per-seed results, and bootstrap output.
 
 ## Interpretation and limitations
 
-This result is **exploratory, not confirmatory**. The five split evaluations were already
-inspected in previous reranker/architecture experiments, so reuse introduces selection
-and test-set peeking risk. Alpha and thresholds also share the calibration partition,
-which may overfit its sparse categories. These gains do not establish a robust or
-production-quality improvement. Do not promote this model based on these numbers.
+These results are **exploratory, not confirmatory**. The five split evaluations were
+already inspected in previous reranker/architecture experiments, so reuse introduces
+selection bias in the final score. The follow-up below separates blend-weight selection
+from threshold calibration, but it cannot undo earlier inspection of the evaluation
+contracts. These gains do not establish a robust or production-quality improvement.
 
-A stronger follow-up needs an untouched, approved evaluation set. The preferred
-implementation would fit blend/stacking parameters using training-only out-of-fold
-predictions, fit final per-category thresholds on calibration only, then evaluate once on
-that new holdout. Keep the current TF-IDF model as the control and retain raw sparse
-scores for auditability and fallback. `data/cuad/test.json` remains unused.
+## Training-only out-of-fold alpha selection
 
-## Reproduction
+A follow-up selected the global blend weight from out-of-fold predictions on only the
+260 seed-42 training contracts. Five fold-specific rerankers each trained on 208 of those
+contracts; the other 52 received out-of-fold predictions. The separate 66-contract
+calibration partition was used for checkpoint selection in each fold and for final
+per-category threshold fitting. The original 82-contract evaluation partition was not
+used to choose alpha. All folds use the same predeclared alpha grid and retain TF-IDF
+scores off-candidate.
 
-This analysis consumes saved predictions and does not train or access test data:
+| Alpha | OOF training macro-AUPR |
+|---:|---:|
+| 0.0 | 0.5338 |
+| 0.1 | 0.5731 |
+| 0.2 | **0.5843** |
+| 0.35 | 0.5817 |
+| 0.5 | 0.5725 |
+| 0.75 | 0.5469 |
+| 1.0 | 0.4704 |
+
+With alpha fixed to 0.2 from OOF training predictions, the seed-42 evaluation comparison
+was TF-IDF macro-F1 0.5331 vs. fusion 0.5752, and macro-AUPR 0.5971 vs. 0.6544. Paired
+contract-bootstrap 95% intervals for the deltas were [0.0136, 0.0629] for macro-F1 and
+[0.0315, 0.0795] for macro-AUPR. These intervals are conditional on the fitted models
+and calibration thresholds, and the evaluation contracts were inspected in prior work.
+This is a cleaner parameter-selection procedure, not a fresh independent confirmation.
+Some rare categories still regress. Full fold manifests, predictions, reports, and
+per-category results are under `results/reranker_oof_seed42/` and
+`results/reranker_oof_fusion_seed42/`.
+
+To reproduce the cross-fit, train, and analyze stages (GPU training required):
+
+```bash
+.venv/bin/python -m scripts.crossfit_reranker_fusion prepare
+.venv/bin/python -m scripts.crossfit_reranker_fusion train
+.venv/bin/python -m scripts.crossfit_reranker_fusion analyze
+```
+
+For a stronger independent confirmation, the team/advisor must approve an untouched
+evaluation source and the protocol before it is opened. Keep TF-IDF as the control and
+retain raw sparse scores for auditability and fallback. `data/cuad/test.json` remains
+unused.
+
+## Reproduction of the original calibration-selected experiment
+
+This older analysis consumes saved predictions and does not train or access test data:
 
 ```bash
 HF_HUB_OFFLINE=1 TOKENIZERS_PARALLELISM=false \
