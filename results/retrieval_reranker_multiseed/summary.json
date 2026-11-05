@@ -1,0 +1,46 @@
+{
+  "aggregate": {
+    "word_char_f1": {
+      "mean": 0.5045578736526908,
+      "std_between_seeds": 0.022386267426638108
+    },
+    "reranker_f1": {
+      "mean": 0.5202750637361161,
+      "std_between_seeds": 0.025987991994850107
+    },
+    "delta_f1": {
+      "mean": 0.01571719008342537,
+      "std_between_seeds": 0.015807468253012456
+    },
+    "word_char_aupr": {
+      "mean": 0.5633449910819444,
+      "std_between_seeds": 0.028338430187227426
+    },
+    "reranker_aupr": {
+      "mean": 0.5571472272665787,
+      "std_between_seeds": 0.03354701818956957
+    },
+    "delta_aupr": {
+      "mean": -0.00619776381536572,
+      "std_between_seeds": 0.02378334120031553
+    },
+    "f1_wins": 4,
+    "aupr_wins": 2
+  },
+  "protocol": {
+    "splits": "same saved contract-level train/calibration/evaluation IDs as each paired TF-IDF run",
+    "thresholds": "both systems fit per-category thresholds on calibration predictions only",
+    "macro_f1": "fixed 41-category macro; zero-support categories contribute F1=0",
+    "macro_aupr": "mean over categories with at least one evaluation positive",
+    "bootstrap": "paired resampling of evaluation contracts with replacement; thresholds stay fixed",
+    "test_data_used": false,
+    "interpretation": "five-seed summary is descriptive; seeded evaluation sets overlap and are not independent"
+  },
+  "seeds": [
+    42,
+    7,
+    17,
+    23,
+    101
+  ]
+}
