@@ -1,5 +1,6 @@
 import numpy as np
 import pytest
+from transformers import AutoTokenizer
 
 from src.chunking.chunk import Chunk
 from src.evidence.cues import load_category_cues
@@ -46,6 +47,26 @@ def test_contract_inference_preserves_offsets_and_grounds_predictions(monkeypatc
     assert text[evidence.start:evidence.end] == evidence.quote
     assert result["grounded"][0].category == "Governing Law"
     assert result["unknown"] == []
+
+
+def test_contract_inference_runs_real_chunker_and_preserves_source_offsets():
+    tokenizer = AutoTokenizer.from_pretrained(
+        "distilbert/distilroberta-base", local_files_only=True,
+    )
+    text = "Introductory text. This Agreement is governed by Delaware law. More text."
+    cues = {"governinglaw": ["governed", "delaware"]}
+    pipeline = ContractInferencePipeline(
+        make_bundle(), tokenizer=tokenizer, category_cues=cues,
+        max_tokens=32, overlap_tokens=4,
+    )
+
+    result = pipeline.predict_contract("real-chunker", text)
+
+    assert result["chunks"]
+    assert all(text[item["start"]:item["end"]] == item["text"] for item in result["chunks"])
+    evidence = result["grounded"][0].evidence
+    assert text[evidence.start:evidence.end] == evidence.quote
+    assert evidence.quote == "This Agreement is governed by Delaware law."
 
 
 def test_contract_inference_routes_unmatched_prediction_to_unknown(monkeypatch):
