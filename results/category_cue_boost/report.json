@@ -1,0 +1,133 @@
+{
+  "data_sha256": "7de21d2bb741ac939e2a839ef9640634a5e0f9f40ea2b82c6833baf7db33dab4",
+  "method": "per-category binary cue-match indicator adds one shared nonnegative logit offset; cues come from category descriptions",
+  "boost_grid": [
+    0.0,
+    0.25,
+    0.5,
+    1.0,
+    2.0
+  ],
+  "selection": "one global boost selected independently per seed using calibration macro-AUPR; per-category thresholds also fit on calibration only",
+  "seeds": [
+    {
+      "seed": 42,
+      "selected_boost": 1.0,
+      "tfidf_macro_f1": 0.5330673042557077,
+      "cue_macro_f1": 0.5303331439372314,
+      "delta_macro_f1": -0.0027341603184762864,
+      "tfidf_macro_aupr": 0.5971198237476559,
+      "cue_macro_aupr": 0.6069366121485453,
+      "delta_macro_aupr": 0.009816788400889398,
+      "paired_contract_bootstrap_95pct": {
+        "macro_f1_delta": {
+          "lower_95": -0.015151344181552423,
+          "median": -0.0032293931055537572,
+          "upper_95": 0.006541139550888791
+        },
+        "macro_aupr_delta": {
+          "lower_95": 0.001958297933006073,
+          "median": 0.00981871131833445,
+          "upper_95": 0.02169366075459666
+        }
+      },
+      "cue_match_fraction": 0.36975209916033586
+    },
+    {
+      "seed": 7,
+      "selected_boost": 0.25,
+      "tfidf_macro_f1": 0.5149335380774824,
+      "cue_macro_f1": 0.5199046369755925,
+      "delta_macro_f1": 0.004971098898110093,
+      "tfidf_macro_aupr": 0.5854461459704445,
+      "cue_macro_aupr": 0.5889612235410197,
+      "delta_macro_aupr": 0.0035150775705751203,
+      "paired_contract_bootstrap_95pct": {
+        "macro_f1_delta": {
+          "lower_95": -0.00486620023623068,
+          "median": 0.004538514225255835,
+          "upper_95": 0.015715148917505705
+        },
+        "macro_aupr_delta": {
+          "lower_95": 0.0006662483923089463,
+          "median": 0.0033615191506404796,
+          "upper_95": 0.0073490756696677675
+        }
+      },
+      "cue_match_fraction": 0.37959492110208504
+    },
+    {
+      "seed": 17,
+      "selected_boost": 0.5,
+      "tfidf_macro_f1": 0.49691116675112396,
+      "cue_macro_f1": 0.4942718925190652,
+      "delta_macro_f1": -0.0026392742320587304,
+      "tfidf_macro_aupr": 0.5630627906108538,
+      "cue_macro_aupr": 0.5675131445506372,
+      "delta_macro_aupr": 0.004450353939783325,
+      "paired_contract_bootstrap_95pct": {
+        "macro_f1_delta": {
+          "lower_95": -0.020544959848019777,
+          "median": -0.0013628120722137538,
+          "upper_95": 0.01733979516419781
+        },
+        "macro_aupr_delta": {
+          "lower_95": 0.0010424236697659766,
+          "median": 0.004200108366273325,
+          "upper_95": 0.008166838148685384
+        }
+      },
+      "cue_match_fraction": 0.35994997867307765
+    },
+    {
+      "seed": 23,
+      "selected_boost": 0.5,
+      "tfidf_macro_f1": 0.5053360461284743,
+      "cue_macro_f1": 0.5075186123795515,
+      "delta_macro_f1": 0.002182566251077267,
+      "tfidf_macro_aupr": 0.5398869864923852,
+      "cue_macro_aupr": 0.5451912071609477,
+      "delta_macro_aupr": 0.005304220668562509,
+      "paired_contract_bootstrap_95pct": {
+        "macro_f1_delta": {
+          "lower_95": -0.0055950929802472266,
+          "median": 0.0018611317769412772,
+          "upper_95": 0.010795429069646027
+        },
+        "macro_aupr_delta": {
+          "lower_95": -0.0007121716727478438,
+          "median": 0.004901856229135193,
+          "upper_95": 0.019351781273360413
+        }
+      },
+      "cue_match_fraction": 0.3842798279283908
+    },
+    {
+      "seed": 101,
+      "selected_boost": 0.5,
+      "tfidf_macro_f1": 0.47254131305066527,
+      "cue_macro_f1": 0.48086516839641785,
+      "delta_macro_f1": 0.008323855345752584,
+      "tfidf_macro_aupr": 0.5312092085883828,
+      "cue_macro_aupr": 0.5384108242704931,
+      "delta_macro_aupr": 0.007201615682110307,
+      "paired_contract_bootstrap_95pct": {
+        "macro_f1_delta": {
+          "lower_95": -0.000396381310653722,
+          "median": 0.008117988475176918,
+          "upper_95": 0.018756398687329735
+        },
+        "macro_aupr_delta": {
+          "lower_95": 0.0012083257959417616,
+          "median": 0.0073424477877575,
+          "upper_95": 0.013411734432979843
+        }
+      },
+      "cue_match_fraction": 0.36178725970353587
+    }
+  ],
+  "mean_delta_macro_f1": 0.0020208171888809858,
+  "mean_delta_macro_aupr": 0.006057611252384132,
+  "interpretation": "exploratory ablation on previously inspected contract evaluation splits; cue matches are not risk policy",
+  "test_data_used": false
+}
