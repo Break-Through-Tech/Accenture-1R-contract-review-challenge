@@ -1,6 +1,6 @@
 {
   "inputs": {
-    "probabilities": "results/word_char_tfidf/word_char_tfidf_validation.npz",
+    "probabilities": "results/word_char_tfidf_nested/word_char_tfidf_evaluation.npz",
     "thresholds": "word_char_tfidf_thresholds.json",
     "weight_version_id": "v1-placeholder",
     "weight_set_sha256": "583a5591d0e47fb02e96a8fae0db4212f33dd74916755e29923cb4c3e111985b",
@@ -23,150 +23,150 @@
   "counts": {
     "contracts": 82,
     "chunks": 2196,
-    "predicted_clauses": 1622,
+    "predicted_clauses": 1529,
     "gold_spans": 2005,
-    "distinct_triage_scores": 48,
+    "distinct_triage_scores": 46,
     "base_ratings": {
-      "High": 29,
-      "Medium": 224,
-      "Low": 1369
+      "High": 40,
+      "Medium": 225,
+      "Low": 1264
     }
   },
   "gold_reference_note": "Gold = CUAD annotations scored as if detected perfectly, with the full annotated answer as evidence. It measures how much detection and evidence errors move the ranking, not whether the ranking matches a reviewer's judgement.",
   "agreement_with_gold": {
     "triage_score": {
-      "spearman": 0.8575,
-      "max_rank_move": 43,
-      "top_10_overlap": 6
+      "spearman": 0.8091,
+      "max_rank_move": 55,
+      "top_10_overlap": 5
     },
     "high_count": {
-      "spearman": 0.5563,
-      "max_rank_move": 56,
-      "top_10_overlap": 7
+      "spearman": 0.5852,
+      "max_rank_move": 54,
+      "top_10_overlap": 6
     },
     "worst_clause": {
-      "spearman": 0.8225,
-      "max_rank_move": 46,
-      "top_10_overlap": 6
+      "spearman": 0.7858,
+      "max_rank_move": 59,
+      "top_10_overlap": 5
     }
   },
   "weight_sensitivity": [
     {
       "variant": "category_severity-0.10",
-      "spearman": 0.9911,
-      "max_rank_move": 9,
+      "spearman": 0.9935,
+      "max_rank_move": 8,
       "top_10_overlap": 9,
-      "spearman_vs_gold": 0.8403
+      "spearman_vs_gold": 0.7862
     },
     {
       "variant": "category_severity+0.10",
-      "spearman": 0.9889,
-      "max_rank_move": 11,
+      "spearman": 0.9893,
+      "max_rank_move": 13,
       "top_10_overlap": 7,
-      "spearman_vs_gold": 0.8356
+      "spearman_vs_gold": 0.8058
     },
     {
       "variant": "one_sidedness-0.10",
-      "spearman": 0.9777,
-      "max_rank_move": 24,
+      "spearman": 0.9899,
+      "max_rank_move": 15,
       "top_10_overlap": 9,
-      "spearman_vs_gold": 0.8858
+      "spearman_vs_gold": 0.8528
     },
     {
       "variant": "one_sidedness+0.10",
-      "spearman": 0.9671,
-      "max_rank_move": 17,
+      "spearman": 0.9676,
+      "max_rank_move": 19,
       "top_10_overlap": 7,
-      "spearman_vs_gold": 0.7685
+      "spearman_vs_gold": 0.7072
     },
     {
       "variant": "magnitude-0.10",
-      "spearman": 0.9873,
-      "max_rank_move": 13,
-      "top_10_overlap": 7,
-      "spearman_vs_gold": 0.7944
+      "spearman": 0.985,
+      "max_rank_move": 18,
+      "top_10_overlap": 8,
+      "spearman_vs_gold": 0.7615
     },
     {
       "variant": "magnitude+0.10",
-      "spearman": 0.9736,
-      "max_rank_move": 17,
-      "top_10_overlap": 9,
-      "spearman_vs_gold": 0.8661
+      "spearman": 0.9817,
+      "max_rank_move": 15,
+      "top_10_overlap": 8,
+      "spearman_vs_gold": 0.8108
     },
     {
       "variant": "contract_context-0.10",
-      "spearman": 0.9836,
-      "max_rank_move": 12,
+      "spearman": 0.9924,
+      "max_rank_move": 14,
       "top_10_overlap": 9,
-      "spearman_vs_gold": 0.8667
+      "spearman_vs_gold": 0.8057
     },
     {
       "variant": "contract_context+0.10",
-      "spearman": 0.9951,
-      "max_rank_move": 9,
-      "top_10_overlap": 10,
-      "spearman_vs_gold": 0.8539
+      "spearman": 0.9971,
+      "max_rank_move": 7,
+      "top_10_overlap": 8,
+      "spearman_vs_gold": 0.8231
     },
     {
       "variant": "triage_top_k=1",
-      "spearman": 0.9857,
-      "max_rank_move": 20,
-      "top_10_overlap": 9,
-      "spearman_vs_gold": 0.7878
+      "spearman": 0.9853,
+      "max_rank_move": 16,
+      "top_10_overlap": 8,
+      "spearman_vs_gold": 0.7545
     },
     {
       "variant": "triage_top_k=5",
-      "spearman": 0.996,
-      "max_rank_move": 9,
+      "spearman": 0.9973,
+      "max_rank_move": 5,
       "top_10_overlap": 9,
-      "spearman_vs_gold": 0.8712
+      "spearman_vs_gold": 0.8286
     },
     {
       "variant": "triage_max_weight=0.25",
-      "spearman": 0.9934,
+      "spearman": 0.9973,
       "max_rank_move": 9,
       "top_10_overlap": 9,
-      "spearman_vs_gold": 0.8745
+      "spearman_vs_gold": 0.822
     },
     {
       "variant": "triage_max_weight=0.75",
-      "spearman": 0.9989,
-      "max_rank_move": 5,
-      "top_10_overlap": 10,
-      "spearman_vs_gold": 0.852
+      "spearman": 0.9981,
+      "max_rank_move": 7,
+      "top_10_overlap": 9,
+      "spearman_vs_gold": 0.8027
     },
     {
       "variant": "triage_max_weight=1.0",
-      "spearman": 0.9857,
-      "max_rank_move": 20,
-      "top_10_overlap": 9,
-      "spearman_vs_gold": 0.7878
+      "spearman": 0.9853,
+      "max_rank_move": 16,
+      "top_10_overlap": 8,
+      "spearman_vs_gold": 0.7545
     }
   ],
   "threshold_sensitivity": [
     {
       "variant": "medium_threshold-0.05",
-      "clause_ratings_changed": 66,
-      "high_clauses": 29,
-      "medium_clauses": 290
+      "clause_ratings_changed": 90,
+      "high_clauses": 40,
+      "medium_clauses": 315
     },
     {
       "variant": "medium_threshold+0.05",
-      "clause_ratings_changed": 65,
-      "high_clauses": 29,
-      "medium_clauses": 159
+      "clause_ratings_changed": 39,
+      "high_clauses": 40,
+      "medium_clauses": 186
     },
     {
       "variant": "high_threshold-0.05",
       "clause_ratings_changed": 1,
-      "high_clauses": 30,
-      "medium_clauses": 223
+      "high_clauses": 41,
+      "medium_clauses": 224
     },
     {
       "variant": "high_threshold+0.05",
-      "clause_ratings_changed": 6,
-      "high_clauses": 23,
-      "medium_clauses": 230
+      "clause_ratings_changed": 14,
+      "high_clauses": 26,
+      "medium_clauses": 239
     }
   ]
 }

@@ -7,9 +7,14 @@ Run from the repo root:
     python -m scripts.evaluate_triage
     python -m scripts.evaluate_triage --probabilities <cache.npz> --thresholds <thresholds.json>
 
-The cache must come from the shared split and chunker (split_by_contract seed 42 / 0.2,
-chunk_sentence_windows 512 / 64). The script rebuilds those chunks and refuses a cache whose
-saved y_true doesn't match them row for row, since a misaligned cache would score the wrong text.
+The default cache is the nested TF-IDF holdout: its thresholds were tuned on separate calibration
+contracts, so the 82 evaluation contracts scored here never influenced them. (The plain
+results/word_char_tfidf cache tunes thresholds on those same contracts, which flatters the results.)
+
+The cache must be an .npz with y_prob (and ideally y_true), one row per chunk, built with the
+shared split and chunker (split_by_contract seed 42 / 0.2, chunk_sentence_windows 512 / 64).
+The script rebuilds those chunks and refuses a cache whose saved y_true doesn't match them row
+for row, since a misaligned cache would score the wrong text.
 
 Writes to --output:
     ranking.csv: one row per contract, predicted rank and score next to the gold reference
@@ -35,11 +40,22 @@ from src.risk.scoring import score_contract_clauses
 
 ROOT = Path(__file__).resolve().parents[1]
 TRAIN_PATH = ROOT / "data" / "cuad" / "train_separate_questions.json"
-CACHE_DIR = ROOT / "results" / "word_char_tfidf"
+CACHE_DIR = ROOT / "results" / "word_char_tfidf_nested"
 # Must match how the cache was produced (see the cache's report.json)
 VAL_FRACTION, SEED, MAX_TOKENS, OVERLAP_TOKENS = 0.2, 42, 512, 64
 TOP_N = 10  # "which contracts to open first": size of the top list compared between rankings
 WEIGHT_STEP, THRESHOLD_STEP = 0.1, 0.05
+
+
+def _load_cache(path: Path) -> tuple[np.ndarray, np.ndarray | None]:
+    """Return (y_prob, y_true or None) from an .npz cache; any other format raises ValueError."""
+    cache = np.load(path, allow_pickle=False)
+    if not hasattr(cache, "files") or "y_prob" not in cache.files:
+        raise ValueError(
+            f"{path} must be an .npz holding a y_prob array (one row per chunk). The encoder's "
+            "val_probs.npy + val_chunks.csv format isn't supported yet."
+        )
+    return cache["y_prob"], cache["y_true"] if "y_true" in cache.files else None
 
 
 def _reweighted(ws: WeightSet, signal: str, delta: float) -> WeightSet:
@@ -85,7 +101,7 @@ def _agreement(ranks: pd.Series, reference: pd.Series) -> dict:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
-    parser.add_argument("--probabilities", type=Path, default=CACHE_DIR / "word_char_tfidf_validation.npz",
+    parser.add_argument("--probabilities", type=Path, default=CACHE_DIR / "word_char_tfidf_evaluation.npz",
                         help=".npz with y_prob (and y_true, checked against the rebuilt chunks)")
     parser.add_argument("--thresholds", type=Path, default=CACHE_DIR / "word_char_tfidf_thresholds.json")
     parser.add_argument("--weights", type=Path, default=DEFAULT_WEIGHTS_PATH)
@@ -97,9 +113,8 @@ def main() -> None:
     tokenizer = AutoTokenizer.from_pretrained(TOKENIZER_NAME, revision=TOKENIZER_REVISION)
     labeled = prepare_contracts(val, tokenizer, max_tokens=MAX_TOKENS, overlap_tokens=OVERLAP_TOKENS)
     chunks = [lc.chunk for lc in labeled]
-    cache = np.load(args.probabilities, allow_pickle=False)
-    probabilities = cache["y_prob"]
-    if "y_true" in cache.files and not np.array_equal(cache["y_true"], to_model_inputs(labeled)[1]):
+    probabilities, saved_labels = _load_cache(args.probabilities)
+    if saved_labels is not None and not np.array_equal(saved_labels, to_model_inputs(labeled)[1]):
         raise ValueError("Cache labels don't match the rebuilt chunks: wrong split, chunker or settings")
 
     # Predicted and gold-reference clauses, scored under the base weight set

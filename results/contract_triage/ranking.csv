@@ -1,83 +1,83 @@
 rank,contract_id,triage_score,high,medium,low,unknown,top_clauses,gold_rank,gold_triage_score
-1,FuelcellEnergyInc_20191106_8-K_EX-10.1_11868007_EX-10.1_Development Agreement,0.627083333,2,7,13,3,Uncapped Liability (0.68 High); Exclusivity (0.64 High); Affiliate License-Licensee (0.42 Medium),4,0.558333333
-2,EUROPEANMICROHOLDINGSINC_03_06_1998-EX-10.6-DISTRIBUTOR AGREEMENT,0.6,2,2,20,2,Exclusivity (0.64 High); Uncapped Liability (0.62 High); Notice Period To Terminate Renewal (0.42 Medium),4,0.558333333
-2,EdietsComInc_20001030_10QSB_EX-10.4_2606646_EX-10.4_Co-Branding Agreement,0.6,2,4,19,1,Exclusivity (0.64 High); Uncapped Liability (0.62 High); Affiliate License-Licensee (0.42 Medium),3,0.56875
-4,SUMMAFOURINC_06_19_1998-EX-10.3-SOFTWARE LICENSE AND MAINTENANCE AGREEMENT,0.579166667,1,6,18,4,Exclusivity (0.64 High); Minimum Commitment (0.50 Medium); Affiliate License-Licensee (0.42 Medium),31,0.425
-5,"Array BioPharma Inc. - LICENSE, DEVELOPMENT AND COMMERCIALIZATION AGREEMENT",0.566666667,1,6,19,2,Exclusivity (0.64 High); Affiliate License-Licensor (0.42 Medium); Irrevocable Or Perpetual License (0.42 Medium),22,0.466666667
-5,LegacyEducationAllianceInc_20200330_10-K_EX-10.18_12090678_EX-10.18_Development Agreement,0.566666667,1,3,20,3,Exclusivity (0.64 High); License Grant (0.42 Medium); Renewal Term (0.42 Medium),1,0.610416667
-7,ENERGYXXILTD_05_08_2015-EX-10.13-Transportation AGREEMENT,0.565833333,1,2,7,0,Uncapped Liability (0.62 High); Minimum Commitment (0.47 Medium); Anti-Assignment (0.42 Medium),11,0.533333333
-8,CORIOINC_07_20_2000-EX-10.5-LICENSE AND HOSTING AGREEMENT,0.558333333,1,6,20,2,Uncapped Liability (0.62 High); Affiliate License-Licensee (0.42 Medium); Irrevocable Or Perpetual License (0.42 Medium),4,0.558333333
-8,NEONSYSTEMSINC_03_01_1999-EX-10.5-DISTRIBUTOR AGREEMENT_New,0.558333333,1,4,21,5,Uncapped Liability (0.62 High); Affiliate License-Licensee (0.42 Medium); Notice Period To Terminate Renewal (0.42 Medium),22,0.466666667
-10,"DUOSTECHNOLOGIESGROUP,INC_04_21_2009-EX-10.1-STRATEGIC ALLIANCE AGREEMENT",0.55625,1,3,17,1,Uncapped Liability (0.62 High); Notice Period To Terminate Renewal (0.42 Medium); Exclusivity (0.41 Medium),4,0.558333333
-11,ACCURAYINC_09_01_2010-EX-10.31-DISTRIBUTOR AGREEMENT,0.540833333,1,1,18,3,Uncapped Liability (0.62 High); Most Favored Nation (0.42 Medium); Anti-Assignment (0.32 Low),11,0.533333333
-11,"IPAYMENT,INC_05_14_2007-EX-10.1-SPONSORSHIP AGREEMENT",0.540833333,1,1,15,0,Uncapped Liability (0.62 High); Post-Termination Services (0.42 Medium); Anti-Assignment (0.32 Low),37,0.4125
-13,"OASYSMOBILE,INC_07_05_2001-EX-10.17-OUTSOURCING AGREEMENT",0.538333333,1,1,21,3,Uncapped Liability (0.62 High); Cap On Liability (0.42 Medium); Notice Period To Terminate Renewal (0.30 Low),31,0.425
-14,ENERGOUSCORP_03_16_2017-EX-10.24-STRATEGIC ALLIANCE AGREEMENT,0.5375,2,8,18,2,Exclusivity (0.56 High); Uncapped Liability (0.55 High); Affiliate License-Licensee (0.42 Medium),14,0.51875
-15,SPARKLINGSPRINGWATERHOLDINGSLTD_07_03_2002-EX-10.13-SOFTWARE LICENSE AND MAINTENANCE AGREEMENT,0.533333333,1,1,10,1,Uncapped Liability (0.62 High); License Grant (0.42 Medium); Anti-Assignment (0.28 Low),31,0.425
-16,CytodynInc_20200109_10-Q_EX-10.5_11941634_EX-10.5_License Agreement,0.51875,1,6,20,3,Uncapped Liability (0.55 High); Exclusivity (0.49 Medium); Affiliate License-Licensee (0.42 Medium),2,0.5875
-17,ImpresseCorp_20000322_S-1A_EX-10.11_5199234_EX-10.11_Co-Branding Agreement,0.515833333,1,0,15,3,Uncapped Liability (0.62 High); Minimum Commitment (0.32 Low); Anti-Assignment (0.28 Low),9,0.541992188
-18,SLINGERBAGINC_05_27_2020-EX-10.7-CONSULTING AGREEMENT,0.486666667,1,1,11,1,Liquidated Damages (0.56 High); Termination For Convenience (0.35 Medium); Anti-Assignment (0.32 Low),61,0.3325
-19,"CARDAX,INC_08_19_2014-EX-10.1-COLLABORATION AGREEMENT",0.483333333,1,1,14,2,Uncapped Liability (0.55 High); Post-Termination Services (0.42 Medium); Affiliate License-Licensor (0.28 Low),10,0.5375
-20,AMERICASSHOPPINGMALLINC_12_10_1999-EX-10.2-SITE DEVELOPMENT AND HOSTING AGREEMENT,0.477083333,0,4,17,4,Exclusivity (0.49 Medium); Liquidated Damages (0.49 Medium); Notice Period To Terminate Renewal (0.42 Medium),20,0.487192623
-21,ENTERTAINMENTGAMINGASIAINC_02_15_2005-EX-10.5-DISTRIBUTOR AGREEMENT,0.466666667,0,6,17,1,Exclusivity (0.49 Medium); No-Solicit Of Employees (0.42 Medium); Notice Period To Terminate Renewal (0.42 Medium),21,0.479678494
-21,FuseMedicalInc_20190321_10-K_EX-10.43_11575454_EX-10.43_Distributor Agreement,0.466666667,1,0,10,1,Exclusivity (0.56 High); Anti-Assignment (0.28 Low); Audit Rights (0.28 Low),44,0.397916667
-23,WPPPLC_04_30_2020-EX-4.28-SERVICE AGREEMENT,0.461666667,0,4,12,3,Non-Compete (0.48 Medium); Competitive Restriction Exception (0.42 Medium); No-Solicit Of Customers (0.42 Medium),28,0.461666667
-24,AURASYSTEMSINC_06_16_2010-EX-10.25-STRATEGIC ALLIANCE AGREEMENT,0.454166667,0,3,21,2,Exclusivity (0.49 Medium); Notice Period To Terminate Renewal (0.42 Medium); Minimum Commitment (0.35 Medium),18,0.500148402
-24,LIMEENERGYCO_09_09_1999-EX-10-DISTRIBUTOR AGREEMENT,0.454166667,0,3,21,4,Exclusivity (0.49 Medium); Warranty Duration (0.42 Medium); Minimum Commitment (0.35 Medium),16,0.515416667
-26,PalmerSquareCapitalBdcInc_20200116_10-12GA_EX-10.6_11949289_EX-10.6_Trademark License Agreement,0.440416667,0,3,11,0,Anti-Assignment (0.47 Medium); Exclusivity (0.41 Medium); Competitive Restriction Exception (0.35 Medium),19,0.4984375
-27,INTRICONCORP_03_10_2009-EX-10.22-Strategic Alliance Agreement,0.4375,0,2,13,0,Exclusivity (0.49 Medium); Minimum Commitment (0.35 Medium); Audit Rights (0.33 Low),29,0.448242188
-28,ArcGroupInc_20171211_8-K_EX-10.1_10976103_EX-10.1_Sponsorship Agreement,0.436666667,0,2,7,1,Exclusivity (0.49 Medium); Minimum Commitment (0.40 Medium); Competitive Restriction Exception (0.28 Low),67,0.229166667
-28,"OPTIMIZEDTRANSPORTATIONMANAGEMENT,INC_07_26_2000-EX-6.6-DISTRIBUTOR AGREEMENT",0.436666667,0,2,6,0,Exclusivity (0.49 Medium); Minimum Commitment (0.40 Medium); Competitive Restriction Exception (0.28 Low),22,0.466666667
-30,LEJUHOLDINGSLTD_03_12_2014-EX-10.34-INTERNET CHANNEL COOPERATION AGREEMENT,0.433333333,0,1,10,2,Liquidated Damages (0.49 Medium); Non-Compete (0.33 Low); Anti-Assignment (0.32 Low),49,0.389583333
-31,BIOAMBERINC_04_10_2013-EX-10.34-DEVELOPMENT AGREEMENT (1),0.429166667,0,2,16,3,Exclusivity (0.49 Medium); Minimum Commitment (0.35 Medium); Affiliate License-Licensee (0.28 Low),15,0.516666667
-32,TheglobeComInc_19990503_S-1A_EX-10.20_5416126_EX-10.20_Co-Branding Agreement,0.425,0,3,19,5,Affiliate License-Licensee (0.42 Medium); Covenant Not To Sue (0.42 Medium); Termination For Convenience (0.42 Medium),4,0.558333333
-32,WaterNowInc_20191120_10-Q_EX-10.12_11900227_EX-10.12_Distributor Agreement,0.425,0,4,18,3,Covenant Not To Sue (0.42 Medium); Notice Period To Terminate Renewal (0.42 Medium); Renewal Term (0.42 Medium),22,0.466666667
-34,ChinaRealEstateInformationCorp_20090929_F-1_EX-10.32_4771615_EX-10.32_Content License Agreement,0.422916667,0,3,16,0,Post-Termination Services (0.42 Medium); Termination For Convenience (0.42 Medium); Exclusivity (0.41 Medium),38,0.405416667
+1,FuelcellEnergyInc_20191106_8-K_EX-10.1_11868007_EX-10.1_Development Agreement,0.614583333,2,6,12,3,Uncapped Liability (0.68 High); Exclusivity (0.56 High); Affiliate License-Licensee (0.42 Medium),4,0.558333333
+2,EUROPEANMICROHOLDINGSINC_03_06_1998-EX-10.6-DISTRIBUTOR AGREEMENT,0.6,2,2,20,4,Exclusivity (0.64 High); Uncapped Liability (0.62 High); Notice Period To Terminate Renewal (0.42 Medium),4,0.558333333
+2,EdietsComInc_20001030_10QSB_EX-10.4_2606646_EX-10.4_Co-Branding Agreement,0.6,2,5,21,2,Exclusivity (0.64 High); Uncapped Liability (0.62 High); Affiliate License-Licensee (0.42 Medium),3,0.56875
+2,SUMMAFOURINC_06_19_1998-EX-10.3-SOFTWARE LICENSE AND MAINTENANCE AGREEMENT,0.6,2,4,19,4,Exclusivity (0.64 High); Uncapped Liability (0.62 High); Affiliate License-Licensee (0.42 Medium),31,0.425
+5,"Array BioPharma Inc. - LICENSE, DEVELOPMENT AND COMMERCIALIZATION AGREEMENT",0.58125,2,6,19,3,Uncapped Liability (0.62 High); Exclusivity (0.56 High); Affiliate License-Licensor (0.42 Medium),22,0.466666667
+6,LegacyEducationAllianceInc_20200330_10-K_EX-10.18_12090678_EX-10.18_Development Agreement,0.566666667,1,3,18,3,Exclusivity (0.64 High); License Grant (0.42 Medium); Renewal Term (0.42 Medium),1,0.610416667
+6,SLINGERBAGINC_05_27_2020-EX-10.7-CONSULTING AGREEMENT,0.566666667,1,2,12,1,Liquidated Damages (0.64 High); Post-Termination Services (0.50 Medium); Termination For Convenience (0.35 Medium),61,0.3325
+6,WORLDWIDESTRATEGIESINC_11_02_2005-EX-10-RESELLER AGREEMENT,0.566666667,1,6,19,6,Exclusivity (0.64 High); Affiliate License-Licensor (0.42 Medium); Irrevocable Or Perpetual License (0.42 Medium),22,0.466666667
+9,CORIOINC_07_20_2000-EX-10.5-LICENSE AND HOSTING AGREEMENT,0.558333333,1,7,21,1,Uncapped Liability (0.62 High); Affiliate License-Licensee (0.42 Medium); Irrevocable Or Perpetual License (0.42 Medium),4,0.558333333
+9,NEONSYSTEMSINC_03_01_1999-EX-10.5-DISTRIBUTOR AGREEMENT_New,0.558333333,1,6,17,5,Uncapped Liability (0.62 High); Affiliate License-Licensee (0.42 Medium); Notice Period To Terminate Renewal (0.42 Medium),22,0.466666667
+9,SPARKLINGSPRINGWATERHOLDINGSLTD_07_03_2002-EX-10.13-SOFTWARE LICENSE AND MAINTENANCE AGREEMENT,0.558333333,1,2,10,1,Uncapped Liability (0.62 High); Irrevocable Or Perpetual License (0.42 Medium); License Grant (0.42 Medium),31,0.425
+12,"DUOSTECHNOLOGIESGROUP,INC_04_21_2009-EX-10.1-STRATEGIC ALLIANCE AGREEMENT",0.55625,1,4,18,2,Uncapped Liability (0.62 High); Notice Period To Terminate Renewal (0.42 Medium); Exclusivity (0.41 Medium),4,0.558333333
+12,INTRICONCORP_03_10_2009-EX-10.22-Strategic Alliance Agreement,0.55625,1,2,15,1,Uncapped Liability (0.62 High); Exclusivity (0.49 Medium); Minimum Commitment (0.35 Medium),29,0.448242188
+12,"OASYSMOBILE,INC_07_05_2001-EX-10.17-OUTSOURCING AGREEMENT",0.55625,1,2,23,5,Uncapped Liability (0.62 High); Cap On Liability (0.42 Medium); Non-Compete (0.41 Medium),31,0.425
+15,TheglobeComInc_19990503_S-1A_EX-10.20_5416126_EX-10.20_Co-Branding Agreement,0.554166667,1,2,16,4,Exclusivity (0.64 High); Irrevocable Or Perpetual License (0.42 Medium); Minimum Commitment (0.35 Medium),4,0.558333333
+16,"IPAYMENT,INC_05_14_2007-EX-10.1-SPONSORSHIP AGREEMENT",0.5425,1,1,17,1,Uncapped Liability (0.62 High); Post-Termination Services (0.42 Medium); Liquidated Damages (0.33 Low),37,0.4125
+17,ImpresseCorp_20000322_S-1A_EX-10.11_5199234_EX-10.11_Co-Branding Agreement,0.53875,1,1,16,4,Uncapped Liability (0.62 High); Non-Compete (0.41 Medium); Minimum Commitment (0.32 Low),9,0.541992188
+18,ENERGOUSCORP_03_16_2017-EX-10.24-STRATEGIC ALLIANCE AGREEMENT,0.5375,2,6,19,2,Exclusivity (0.56 High); Uncapped Liability (0.55 High); Competitive Restriction Exception (0.42 Medium),14,0.51875
+19,ACCURAYINC_09_01_2010-EX-10.31-DISTRIBUTOR AGREEMENT,0.533333333,1,1,14,2,Uncapped Liability (0.62 High); Most Favored Nation (0.42 Medium); Anti-Assignment (0.28 Low),11,0.533333333
+19,ENERGYXXILTD_05_08_2015-EX-10.13-Transportation AGREEMENT,0.533333333,1,1,6,0,Uncapped Liability (0.62 High); Anti-Assignment (0.42 Medium); Cap On Liability (0.28 Low),11,0.533333333
+21,CytodynInc_20200109_10-Q_EX-10.5_11941634_EX-10.5_License Agreement,0.51875,1,6,17,2,Uncapped Liability (0.55 High); Exclusivity (0.49 Medium); Affiliate License-Licensor (0.42 Medium),2,0.5875
+22,PelicanDeliversInc_20200211_S-1_EX-10.3_11975895_EX-10.3_Development Agreement2,0.516666667,1,1,6,3,Liquidated Damages (0.60 High); Post-Termination Services (0.42 Medium); Anti-Assignment (0.28 Low),36,0.416666667
+23,FuseMedicalInc_20190321_10-K_EX-10.43_11575454_EX-10.43_Distributor Agreement,0.489583333,1,1,8,0,Exclusivity (0.56 High); Non-Compete (0.41 Medium); Anti-Assignment (0.28 Low),44,0.397916667
+24,"CARDAX,INC_08_19_2014-EX-10.1-COLLABORATION AGREEMENT",0.483333333,1,1,14,2,Uncapped Liability (0.55 High); Irrevocable Or Perpetual License (0.42 Medium); Affiliate License-Licensor (0.28 Low),10,0.5375
+25,VERTEXENERGYINC_08_14_2014-EX-10.24-OPERATION AND MAINTENANCE AGREEMENT,0.478333333,1,1,13,2,Uncapped Liability (0.55 High); Insurance (0.35 Medium); Anti-Assignment (0.32 Low),50,0.3875
+26,WPPPLC_04_30_2020-EX-4.28-SERVICE AGREEMENT,0.475833333,0,4,9,2,Liquidated Damages (0.49 Medium); Non-Compete (0.48 Medium); No-Solicit Of Customers (0.42 Medium),28,0.461666667
+27,AMERICASSHOPPINGMALLINC_12_10_1999-EX-10.2-SITE DEVELOPMENT AND HOSTING AGREEMENT,0.464583333,0,3,20,6,Liquidated Damages (0.49 Medium); Notice Period To Terminate Renewal (0.42 Medium); Exclusivity (0.41 Medium),20,0.487192623
+28,AURASYSTEMSINC_06_16_2010-EX-10.25-STRATEGIC ALLIANCE AGREEMENT,0.461666667,0,3,19,2,Exclusivity (0.49 Medium); Notice Period To Terminate Renewal (0.42 Medium); Minimum Commitment (0.40 Medium),18,0.500148402
+29,LIMEENERGYCO_09_09_1999-EX-10-DISTRIBUTOR AGREEMENT,0.454166667,0,3,21,5,Exclusivity (0.49 Medium); Warranty Duration (0.42 Medium); Minimum Commitment (0.35 Medium),16,0.515416667
+30,"OPTIMIZEDTRANSPORTATIONMANAGEMENT,INC_07_26_2000-EX-6.6-DISTRIBUTOR AGREEMENT",0.436666667,0,2,5,0,Exclusivity (0.49 Medium); Minimum Commitment (0.40 Medium); Competitive Restriction Exception (0.28 Low),22,0.466666667
+31,LEJUHOLDINGSLTD_03_12_2014-EX-10.34-INTERNET CHANNEL COOPERATION AGREEMENT,0.433333333,0,1,9,1,Liquidated Damages (0.49 Medium); Non-Compete (0.33 Low); Anti-Assignment (0.32 Low),49,0.389583333
+32,ENTERTAINMENTGAMINGASIAINC_02_15_2005-EX-10.5-DISTRIBUTOR AGREEMENT,0.425,0,6,21,2,Most Favored Nation (0.42 Medium); No-Solicit Of Employees (0.42 Medium); Notice Period To Terminate Renewal (0.42 Medium),21,0.479678494
+32,WaterNowInc_20191120_10-Q_EX-10.12_11900227_EX-10.12_Distributor Agreement,0.425,0,5,18,2,Cap On Liability (0.42 Medium); Covenant Not To Sue (0.42 Medium); Notice Period To Terminate Renewal (0.42 Medium),22,0.466666667
+34,ASIANDRAGONGROUPINC_08_11_2005-EX-10.5-Reseller Agreement,0.422916667,0,3,14,1,Price Restrictions (0.42 Medium); Unlimited/All-You-Can-Eat-License (0.42 Medium); Exclusivity (0.41 Medium),40,0.405
+34,ChinaRealEstateInformationCorp_20090929_F-1_EX-10.32_4771615_EX-10.32_Content License Agreement,0.422916667,0,3,17,1,Post-Termination Services (0.42 Medium); Termination For Convenience (0.42 Medium); Exclusivity (0.41 Medium),38,0.405416667
 34,LejuHoldingsLtd_20140121_DRS (on F-1)_EX-10.26_8473102_EX-10.26_Content License Agreement1,0.422916667,0,3,16,0,Post-Termination Services (0.42 Medium); Termination For Convenience (0.42 Medium); Exclusivity (0.41 Medium),38,0.405416667
-36,BLACKBOXSTOCKSINC_08_05_2014-EX-10.1-DISTRIBUTOR AGREEMENT,0.420833333,0,3,12,2,Warranty Duration (0.42 Medium); Exclusivity (0.41 Medium); Non-Compete (0.41 Medium),22,0.466666667
-37,RISEEDUCATIONCAYMANLTD_04_17_2020-EX-4.23-SERVICE AGREEMENT,0.416666667,0,1,8,2,Liquidated Damages (0.49 Medium); Expiration Date (0.28 Low); License Grant (0.28 Low),30,0.441666667
-38,"BELLRINGBRANDS,INC_02_07_2020-EX-10.18-MASTER SUPPLY AGREEMENT",0.4125,0,3,11,0,Notice Period To Terminate Renewal (0.42 Medium); Renewal Term (0.42 Medium); Anti-Assignment (0.35 Medium),17,0.508333333
-38,WORLDWIDESTRATEGIESINC_11_02_2005-EX-10-RESELLER AGREEMENT,0.4125,0,3,22,7,Affiliate License-Licensor (0.42 Medium); Irrevocable Or Perpetual License (0.42 Medium); No-Solicit Of Employees (0.35 Medium),22,0.466666667
-40,NmfSlfIInc_20200115_10-12GA_EX-10.5_11946987_EX-10.5_Trademark License Agreement,0.402083333,0,3,14,0,Exclusivity (0.41 Medium); Non-Compete (0.41 Medium); Covenant Not To Sue (0.35 Medium),13,0.5234375
-41,BravatekSolutionsInc_20170418_8-K_EX-10.1_10205739_EX-10.1_Reseller Agreement,0.397916667,0,2,8,1,Post-Termination Services (0.42 Medium); Exclusivity (0.41 Medium); Anti-Assignment (0.28 Low),41,0.401432292
-41,FulucaiProductionsLtd_20131223_10-Q_EX-10.9_8368347_EX-10.9_Content License Agreement,0.397916667,0,2,8,1,Unlimited/All-You-Can-Eat-License (0.42 Medium); Exclusivity (0.41 Medium); Affiliate License-Licensee (0.28 Low),31,0.425
-43,PelicanDeliversInc_20200211_S-1_EX-10.3_11975895_EX-10.3_Development Agreement2,0.39375,0,2,9,3,Post-Termination Services (0.42 Medium); Termination For Convenience (0.39 Medium); Affiliate License-Licensor (0.28 Low),36,0.416666667
-44,"SPIENERGYCO,LTD_03_09_2011-EX-99.5-OPERATIONS AND MAINTENANCE AGREEMENT",0.3825,0,1,12,0,Notice Period To Terminate Renewal (0.42 Medium); Anti-Assignment (0.32 Low); Change Of Control (0.28 Low),55,0.375
-45,PrecheckHealthServicesInc_20200320_8-K_EX-99.2_12070169_EX-99.2_Distributor Agreement,0.375833333,0,1,9,2,Exclusivity (0.41 Medium); Non-Compete (0.33 Low); Anti-Assignment (0.28 Low),47,0.391666667
-46,AULAMERICANUNITTRUST_04_24_2020-EX-99.8.77-SERVICING AGREEMENT,0.375,0,1,2,0,Termination For Convenience (0.42 Medium); Audit Rights (0.28 Low); Expiration Date (0.28 Low),55,0.375
-46,OLDAPIWIND-DOWNLTD_01_08_2016-EX-1.3-AGENCY AGREEMENT1,0.375,0,1,6,2,Termination For Convenience (0.42 Medium); Anti-Assignment (0.28 Low); Revenue/Profit Sharing (0.28 Low),57,0.366666667
-48,ASIANDRAGONGROUPINC_08_11_2005-EX-10.5-Reseller Agreement,0.372916667,0,1,14,3,Exclusivity (0.41 Medium); Renewal Term (0.31 Low); Anti-Assignment (0.28 Low),40,0.405
-49,GluMobileInc_20070319_S-1A_EX-10.09_436630_EX-10.09_Content License Agreement3,0.366666667,0,1,4,0,Exclusivity (0.41 Medium); License Grant (0.28 Low); Revenue/Profit Sharing (0.28 Low),67,0.229166667
-49,LinkPlusCorp_20050802_8-K_EX-10_3240252_EX-10_Affiliate Agreement,0.366666667,0,1,11,1,Exclusivity (0.41 Medium); Anti-Assignment (0.28 Low); Audit Rights (0.28 Low),44,0.397916667
-51,"GWG HOLDINGS, INC. - ORDERLY MARKETING AGREEMENT",0.35,0,1,7,1,Termination For Convenience (0.39 Medium); Anti-Assignment (0.28 Low); Expiration Date (0.28 Low),62,0.332083333
-52,VERTEXENERGYINC_08_14_2014-EX-10.24-OPERATION AND MAINTENANCE AGREEMENT,0.3325,0,1,13,2,Insurance (0.35 Medium); Anti-Assignment (0.32 Low); Audit Rights (0.28 Low),50,0.3875
-53,SouthernStarEnergyInc_20051202_SB-2A_EX-9_801890_EX-9_Affiliate Agreement,0.329166667,0,1,1,1,License Grant (0.42 Medium); Revenue/Profit Sharing (0.28 Low),42,0.4
-54,PfHospitalityGroupInc_20150923_10-12G_EX-10.1_9266710_EX-10.1_Franchise Agreement3,0.311666667,0,0,6,0,Non-Compete (0.33 Low); Competitive Restriction Exception (0.28 Low); No-Solicit Of Customers (0.28 Low),57,0.366666667
-55,ASPIRITYHOLDINGSLLC_05_07_2012-EX-10.6-OUTSOURCING AGREEMENT,0.305,0,0,12,3,Anti-Assignment (0.32 Low); Audit Rights (0.28 Low); Change Of Control (0.28 Low),42,0.4
-55,ATMOSENERGYCORP_11_22_2002-EX-10.17-TRANSPORTATION SERVICE AGREEMENT,0.305,0,0,8,1,Minimum Commitment (0.32 Low); Expiration Date (0.28 Low); Volume Restriction (0.28 Low),51,0.3825
-55,AzulSa_20170303_F-1A_EX-10.3_9943903_EX-10.3_Maintenance Agreement1,0.305,0,0,12,2,Anti-Assignment (0.32 Low); Audit Rights (0.28 Low); Change Of Control (0.28 Low),35,0.417916667
-55,TRUENORTHENERGYCORP_02_08_2007-EX-10.1-DEVELOPMENT AGREEMENT,0.305,0,0,10,0,Minimum Commitment (0.32 Low); Anti-Assignment (0.28 Low); Expiration Date (0.28 Low),47,0.391666667
-59,"BLUEROCKRESIDENTIALGROWTHREIT,INC_06_01_2016-EX-1.1-AGENCY AGREEMENT",0.275,0,0,8,1,Cap On Liability (0.28 Low); Insurance (0.28 Low); Revenue/Profit Sharing (0.28 Low),63,0.275
-59,CardlyticsInc_20180112_S-1_EX-10.16_11002987_EX-10.16_Maintenance Agreement4,0.275,0,0,5,0,Expiration Date (0.28 Low); Minimum Commitment (0.28 Low); Renewal Term (0.28 Low),46,0.397272727
-59,CcRealEstateIncomeFundadv_20181205_POS 8C_EX-99.(H)(3)_11447739_EX-99.(H)(3)_Marketing Agreement,0.275,0,0,11,2,Anti-Assignment (0.28 Low); Cap On Liability (0.28 Low); Expiration Date (0.28 Low),63,0.275
-59,EmmisCommunicationsCorp_20191125_8-K_EX-10.6_11906433_EX-10.6_Marketing Agreement,0.275,0,0,8,3,Anti-Assignment (0.28 Low); Expiration Date (0.28 Low); Volume Restriction (0.28 Low),63,0.275
-59,LegacyEducationAllianceInc_20141110_8-K_EX-10.9_8828866_EX-10.9_Endorsement Agreement,0.275,0,0,11,4,Anti-Assignment (0.28 Low); License Grant (0.28 Low); Non-Disparagement (0.28 Low),52,0.379776684
-59,NUVEEN - REMARKETING AGREEMENT,0.275,0,0,10,1,Anti-Assignment (0.28 Low); Audit Rights (0.28 Low); Cap On Liability (0.28 Low),57,0.366666667
-59,SMITHELECTRICVEHICLESCORP_04_04_2012-EX-10.26-FLEET MAINTENANCE AGREEMENT,0.275,0,0,5,0,Anti-Assignment (0.28 Low); Expiration Date (0.28 Low); Insurance (0.28 Low),54,0.375039062
-59,TALCOTTRESOLUTIONLIFEINSURANCECO-SEPARATEACCOUNTTWELVE_04_30_2020-EX-99.8(L)-SERVICE AGREEMENT,0.275,0,0,8,2,Audit Rights (0.28 Low); Cap On Liability (0.28 Low); Expiration Date (0.28 Low),63,0.275
-67,FerroglobePlc_20150624_F-4A_EX-10.20_9154746_EX-10.20_Outsourcing Agreement,0.229166667,0,0,6,0,Post-Termination Services (0.28 Low); Termination For Convenience (0.28 Low); Agreement Date (0.00 Low),53,0.3775
-67,PrudentialBancorpInc_20170606_8-K_EX-10.4_10474434_EX-10.4_Endorsement Agreement,0.229166667,0,0,6,0,Insurance (0.28 Low); Third Party Beneficiary (0.28 Low); Agreement Date (0.00 Low),60,0.352083333
-69,HerImports_20161018_8-KA_EX-10.14_9765707_EX-10.14_Maintenance Agreement,0.20625,0,0,6,2,Anti-Assignment (0.28 Low); Governing Law (0.14 Low); Agreement Date (0.00 Low),70,0.20625
-69,PACIFICSYSTEMSCONTROLTECHNOLOGYINC_08_24_2000-EX-10.53-SPONSORSHIP AGREEMENT,0.20625,0,0,4,1,Anti-Assignment (0.28 Low); Governing Law (0.14 Low); Document Name (0.00 Low),70,0.20625
-71,SECURIANFUNDSTRUST_05_01_2012-EX-99.28.H.9-NET INVESTMENT INCOME MAINTENANCE AGREEMENT,0.183333333,0,0,5,0,Expiration Date (0.28 Low); Agreement Date (0.00 Low); Document Name (0.00 Low),67,0.229166667
-71,"SOLUTIONSVENDINGINTERNATIONAL,INC_03_31_2020-EX1A-1 UNDR AGMT-SERVICES AGREEMENT",0.183333333,0,0,2,0,Expiration Date (0.28 Low); Effective Date (0.00 Low),73,0.183333333
-71,WOMENSGOLFUNLIMITEDINC_03_29_2000-EX-10.13-ENDORSEMENT AGREEMENT - Intellectual Property Rights                 Confidentiality and Non-Use Obligations Agreement,0.183333333,0,0,3,1,Ip Ownership Assignment (0.28 Low); Document Name (0.00 Low); Parties (0.00 Low),73,0.183333333
-74,FEDERATEDGOVERNMENTINCOMESECURITIESINC_04_28_2020-EX-99.SERV AGREE-SERVICES AGREEMENT_AMENDMENT,0.091666667,0,0,5,0,Governing Law (0.14 Low); Agreement Date (0.00 Low); Document Name (0.00 Low),75,0.091666667
-74,LejuHoldingsLtd_20140121_DRS (on F-1)_EX-10.26_8473102_EX-10.26_Content License Agreement2,0.091666667,0,0,5,0,Governing Law (0.14 Low); Agreement Date (0.00 Low); Document Name (0.00 Low),75,0.091666667
-74,"VEONEER,INC_02_21_2020-EX-10.11-JOINT VENTURE AGREEMENT",0.091666667,0,0,5,1,Governing Law (0.14 Low); Agreement Date (0.00 Low); Document Name (0.00 Low),70,0.20625
-77,BIOAMBERINC_04_10_2013-EX-10.34-DEVELOPMENT AGREEMENT - First Amendment,0.0,0,0,4,0,Agreement Date (0.00 Low); Document Name (0.00 Low); Effective Date (0.00 Low),77,0.0
-77,CardlyticsInc_20180112_S-1_EX-10.16_11002987_EX-10.16_Maintenance Agreement2,0.0,0,0,0,0,,77,0.0
-77,Cerus Corporation - FIRST AMEND TO SUPPLY AND MANUFACTURING AGREEMENT,0.0,0,0,3,0,Agreement Date (0.00 Low); Document Name (0.00 Low); Parties (0.00 Low),77,0.0
-77,PcquoteComInc_19990721_S-1A_EX-10.11_6377149_EX-10.11_Co-Branding Agreement3,0.0,0,0,4,0,Agreement Date (0.00 Low); Document Name (0.00 Low); Effective Date (0.00 Low),77,0.0
-77,QBIOMEDINC_04_08_2020-EX-99.1-JOINT FILING AGREEMENT,0.0,0,0,1,0,Document Name (0.00 Low),77,0.0
-77,"SPRINGBANKPHARMACEUTICALS,INC_04_08_2020-EX-99.A-JOINT FILING AGREEMENT",0.0,0,0,2,0,Agreement Date (0.00 Low); Parties (0.00 Low),77,0.0
+37,BLACKBOXSTOCKSINC_08_05_2014-EX-10.1-DISTRIBUTOR AGREEMENT,0.420833333,0,3,8,1,Warranty Duration (0.42 Medium); Exclusivity (0.41 Medium); Non-Compete (0.41 Medium),22,0.466666667
+38,"BELLRINGBRANDS,INC_02_07_2020-EX-10.18-MASTER SUPPLY AGREEMENT",0.4125,0,3,10,0,Notice Period To Terminate Renewal (0.42 Medium); Renewal Term (0.42 Medium); Anti-Assignment (0.35 Medium),17,0.508333333
+39,PfHospitalityGroupInc_20150923_10-12G_EX-10.1_9266710_EX-10.1_Franchise Agreement3,0.411666667,0,1,5,0,Non-Compete (0.48 Medium); Competitive Restriction Exception (0.28 Low); No-Solicit Of Customers (0.28 Low),57,0.366666667
+40,PalmerSquareCapitalBdcInc_20200116_10-12GA_EX-10.6_11949289_EX-10.6_Trademark License Agreement,0.410416667,0,3,11,0,Anti-Assignment (0.42 Medium); Exclusivity (0.41 Medium); Competitive Restriction Exception (0.35 Medium),19,0.4984375
+41,BravatekSolutionsInc_20170418_8-K_EX-10.1_10205739_EX-10.1_Reseller Agreement,0.407083333,0,2,9,1,Post-Termination Services (0.42 Medium); Exclusivity (0.41 Medium); Non-Compete (0.33 Low),41,0.401432292
+42,FulucaiProductionsLtd_20131223_10-Q_EX-10.9_8368347_EX-10.9_Content License Agreement,0.397916667,0,2,8,2,Unlimited/All-You-Can-Eat-License (0.42 Medium); Exclusivity (0.41 Medium); Anti-Assignment (0.28 Low),31,0.425
+43,NmfSlfIInc_20200115_10-12GA_EX-10.5_11946987_EX-10.5_Trademark License Agreement,0.391666667,0,3,14,0,Exclusivity (0.41 Medium); Competitive Restriction Exception (0.35 Medium); Covenant Not To Sue (0.35 Medium),13,0.5234375
+44,LegacyEducationAllianceInc_20141110_8-K_EX-10.9_8828866_EX-10.9_Endorsement Agreement,0.389583333,0,2,9,6,Exclusivity (0.41 Medium); Non-Compete (0.41 Medium); Anti-Assignment (0.28 Low),52,0.379776684
+45,"SPIENERGYCO,LTD_03_09_2011-EX-99.5-OPERATIONS AND MAINTENANCE AGREEMENT",0.3825,0,1,15,1,Notice Period To Terminate Renewal (0.42 Medium); Anti-Assignment (0.32 Low); Audit Rights (0.28 Low),55,0.375
+46,ArcGroupInc_20171211_8-K_EX-10.1_10976103_EX-10.1_Sponsorship Agreement,0.375833333,0,1,10,2,Exclusivity (0.41 Medium); Non-Compete (0.33 Low); Competitive Restriction Exception (0.28 Low),67,0.229166667
+46,LinkPlusCorp_20050802_8-K_EX-10_3240252_EX-10_Affiliate Agreement,0.375833333,0,1,12,2,Exclusivity (0.41 Medium); Non-Compete (0.33 Low); Anti-Assignment (0.28 Low),44,0.397916667
+46,PrecheckHealthServicesInc_20200320_8-K_EX-99.2_12070169_EX-99.2_Distributor Agreement,0.375833333,0,1,7,1,Exclusivity (0.41 Medium); Non-Compete (0.33 Low); Competitive Restriction Exception (0.28 Low),47,0.391666667
+49,AULAMERICANUNITTRUST_04_24_2020-EX-99.8.77-SERVICING AGREEMENT,0.375,0,1,3,0,Termination For Convenience (0.42 Medium); Audit Rights (0.28 Low); Expiration Date (0.28 Low),55,0.375
+49,OLDAPIWIND-DOWNLTD_01_08_2016-EX-1.3-AGENCY AGREEMENT1,0.375,0,1,4,0,Cap On Liability (0.42 Medium); Anti-Assignment (0.28 Low); Post-Termination Services (0.28 Low),57,0.366666667
+49,SMITHELECTRICVEHICLESCORP_04_04_2012-EX-10.26-FLEET MAINTENANCE AGREEMENT,0.375,0,1,7,0,Audit Rights (0.42 Medium); Anti-Assignment (0.28 Low); Cap On Liability (0.28 Low),54,0.375039062
+52,BIOAMBERINC_04_10_2013-EX-10.34-DEVELOPMENT AGREEMENT (1),0.366666667,0,1,15,3,Exclusivity (0.41 Medium); Affiliate License-Licensee (0.28 Low); Affiliate License-Licensor (0.28 Low),15,0.516666667
+52,GluMobileInc_20070319_S-1A_EX-10.09_436630_EX-10.09_Content License Agreement3,0.366666667,0,1,3,1,Exclusivity (0.41 Medium); License Grant (0.28 Low); Revenue/Profit Sharing (0.28 Low),67,0.229166667
+54,"GWG HOLDINGS, INC. - ORDERLY MARKETING AGREEMENT",0.325,0,1,7,1,Termination For Convenience (0.35 Medium); Anti-Assignment (0.28 Low); Expiration Date (0.28 Low),62,0.332083333
+55,NUVEEN - REMARKETING AGREEMENT,0.311666667,0,0,8,1,Liquidated Damages (0.33 Low); Anti-Assignment (0.28 Low); Audit Rights (0.28 Low),57,0.366666667
+55,RISEEDUCATIONCAYMANLTD_04_17_2020-EX-4.23-SERVICE AGREEMENT,0.311666667,0,0,5,1,Liquidated Damages (0.33 Low); Cap On Liability (0.28 Low); Expiration Date (0.28 Low),30,0.441666667
+57,AzulSa_20170303_F-1A_EX-10.3_9943903_EX-10.3_Maintenance Agreement1,0.305,0,0,13,0,Anti-Assignment (0.32 Low); Audit Rights (0.28 Low); Cap On Liability (0.28 Low),35,0.417916667
+58,ASPIRITYHOLDINGSLLC_05_07_2012-EX-10.6-OUTSOURCING AGREEMENT,0.275,0,0,12,3,Anti-Assignment (0.28 Low); Audit Rights (0.28 Low); Expiration Date (0.28 Low),42,0.4
+58,"BLUEROCKRESIDENTIALGROWTHREIT,INC_06_01_2016-EX-1.1-AGENCY AGREEMENT",0.275,0,0,7,1,Cap On Liability (0.28 Low); Insurance (0.28 Low); Revenue/Profit Sharing (0.28 Low),63,0.275
+58,CardlyticsInc_20180112_S-1_EX-10.16_11002987_EX-10.16_Maintenance Agreement4,0.275,0,0,3,0,Expiration Date (0.28 Low); Price Restrictions (0.28 Low); Renewal Term (0.28 Low),46,0.397272727
+58,CcRealEstateIncomeFundadv_20181205_POS 8C_EX-99.(H)(3)_11447739_EX-99.(H)(3)_Marketing Agreement,0.275,0,0,9,1,Anti-Assignment (0.28 Low); Cap On Liability (0.28 Low); Expiration Date (0.28 Low),63,0.275
+58,EmmisCommunicationsCorp_20191125_8-K_EX-10.6_11906433_EX-10.6_Marketing Agreement,0.275,0,0,8,2,Anti-Assignment (0.28 Low); Expiration Date (0.28 Low); Volume Restriction (0.28 Low),63,0.275
+58,TRUENORTHENERGYCORP_02_08_2007-EX-10.1-DEVELOPMENT AGREEMENT,0.275,0,0,10,0,Anti-Assignment (0.28 Low); Cap On Liability (0.28 Low); Expiration Date (0.28 Low),47,0.391666667
+64,TALCOTTRESOLUTIONLIFEINSURANCECO-SEPARATEACCOUNTTWELVE_04_30_2020-EX-99.8(L)-SERVICE AGREEMENT,0.252083333,0,0,6,1,Audit Rights (0.28 Low); Cap On Liability (0.28 Low); Governing Law (0.14 Low),63,0.275
+65,PrudentialBancorpInc_20170606_8-K_EX-10.4_10474434_EX-10.4_Endorsement Agreement,0.229166667,0,0,6,0,Insurance (0.28 Low); Third Party Beneficiary (0.28 Low); Agreement Date (0.00 Low),60,0.352083333
+65,SouthernStarEnergyInc_20051202_SB-2A_EX-9_801890_EX-9_Affiliate Agreement,0.229166667,0,0,2,1,Cap On Liability (0.28 Low); Revenue/Profit Sharing (0.28 Low),42,0.4
+67,ATMOSENERGYCORP_11_22_2002-EX-10.17-TRANSPORTATION SERVICE AGREEMENT,0.20625,0,0,5,0,Volume Restriction (0.28 Low); Governing Law (0.14 Low); Agreement Date (0.00 Low),51,0.3825
+67,HerImports_20161018_8-KA_EX-10.14_9765707_EX-10.14_Maintenance Agreement,0.20625,0,0,6,2,Anti-Assignment (0.28 Low); Governing Law (0.14 Low); Agreement Date (0.00 Low),70,0.20625
+67,PACIFICSYSTEMSCONTROLTECHNOLOGYINC_08_24_2000-EX-10.53-SPONSORSHIP AGREEMENT,0.20625,0,0,3,1,Anti-Assignment (0.28 Low); Governing Law (0.14 Low); Parties (0.00 Low),70,0.20625
+70,FerroglobePlc_20150624_F-4A_EX-10.20_9154746_EX-10.20_Outsourcing Agreement,0.183333333,0,0,5,0,Post-Termination Services (0.28 Low); Agreement Date (0.00 Low); Document Name (0.00 Low),53,0.3775
+70,"SOLUTIONSVENDINGINTERNATIONAL,INC_03_31_2020-EX1A-1 UNDR AGMT-SERVICES AGREEMENT",0.183333333,0,0,1,0,Expiration Date (0.28 Low),73,0.183333333
+70,WOMENSGOLFUNLIMITEDINC_03_29_2000-EX-10.13-ENDORSEMENT AGREEMENT - Intellectual Property Rights                 Confidentiality and Non-Use Obligations Agreement,0.183333333,0,0,2,1,Ip Ownership Assignment (0.28 Low); Parties (0.00 Low),73,0.183333333
+73,FEDERATEDGOVERNMENTINCOMESECURITIESINC_04_28_2020-EX-99.SERV AGREE-SERVICES AGREEMENT_AMENDMENT,0.091666667,0,0,5,0,Governing Law (0.14 Low); Agreement Date (0.00 Low); Document Name (0.00 Low),75,0.091666667
+73,"VEONEER,INC_02_21_2020-EX-10.11-JOINT VENTURE AGREEMENT",0.091666667,0,0,5,1,Governing Law (0.14 Low); Agreement Date (0.00 Low); Document Name (0.00 Low),70,0.20625
+75,BIOAMBERINC_04_10_2013-EX-10.34-DEVELOPMENT AGREEMENT - First Amendment,0.0,0,0,2,0,Agreement Date (0.00 Low); Parties (0.00 Low),77,0.0
+75,CardlyticsInc_20180112_S-1_EX-10.16_11002987_EX-10.16_Maintenance Agreement2,0.0,0,0,0,0,,77,0.0
+75,Cerus Corporation - FIRST AMEND TO SUPPLY AND MANUFACTURING AGREEMENT,0.0,0,0,1,0,Parties (0.00 Low),77,0.0
+75,LejuHoldingsLtd_20140121_DRS (on F-1)_EX-10.26_8473102_EX-10.26_Content License Agreement2,0.0,0,0,4,0,Agreement Date (0.00 Low); Document Name (0.00 Low); Effective Date (0.00 Low),75,0.091666667
+75,PcquoteComInc_19990721_S-1A_EX-10.11_6377149_EX-10.11_Co-Branding Agreement3,0.0,0,0,4,0,Agreement Date (0.00 Low); Document Name (0.00 Low); Effective Date (0.00 Low),77,0.0
+75,QBIOMEDINC_04_08_2020-EX-99.1-JOINT FILING AGREEMENT,0.0,0,0,0,0,,77,0.0
+75,SECURIANFUNDSTRUST_05_01_2012-EX-99.28.H.9-NET INVESTMENT INCOME MAINTENANCE AGREEMENT,0.0,0,0,4,0,Agreement Date (0.00 Low); Document Name (0.00 Low); Effective Date (0.00 Low),67,0.229166667
+75,"SPRINGBANKPHARMACEUTICALS,INC_04_08_2020-EX-99.A-JOINT FILING AGREEMENT",0.0,0,0,1,0,Parties (0.00 Low),77,0.0
