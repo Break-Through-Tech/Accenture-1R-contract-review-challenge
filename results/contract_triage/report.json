@@ -1,0 +1,172 @@
+{
+  "inputs": {
+    "probabilities": "results/word_char_tfidf/word_char_tfidf_validation.npz",
+    "thresholds": "word_char_tfidf_thresholds.json",
+    "weight_version_id": "v1-placeholder",
+    "weight_set_sha256": "583a5591d0e47fb02e96a8fae0db4212f33dd74916755e29923cb4c3e111985b",
+    "triage_top_k": 3,
+    "triage_max_weight": 0.5,
+    "split": {
+      "method": "split_by_contract",
+      "seed": 42,
+      "val_fraction": 0.2
+    },
+    "chunking": {
+      "method": "chunk_sentence_windows",
+      "tokenizer": "distilbert/distilroberta-base",
+      "tokenizer_revision": "fb53ab8802853c8e4fbdbcd0529f21fc6f459b2b",
+      "max_tokens": 512,
+      "overlap_tokens": 64
+    },
+    "test_data_used": false
+  },
+  "counts": {
+    "contracts": 82,
+    "chunks": 2196,
+    "predicted_clauses": 1622,
+    "gold_spans": 2005,
+    "distinct_triage_scores": 48,
+    "base_ratings": {
+      "High": 29,
+      "Medium": 224,
+      "Low": 1369
+    }
+  },
+  "gold_reference_note": "Gold = CUAD annotations scored as if detected perfectly, with the full annotated answer as evidence. It measures how much detection and evidence errors move the ranking, not whether the ranking matches a reviewer's judgement.",
+  "agreement_with_gold": {
+    "triage_score": {
+      "spearman": 0.8575,
+      "max_rank_move": 43,
+      "top_10_overlap": 6
+    },
+    "high_count": {
+      "spearman": 0.5563,
+      "max_rank_move": 56,
+      "top_10_overlap": 7
+    },
+    "worst_clause": {
+      "spearman": 0.8225,
+      "max_rank_move": 46,
+      "top_10_overlap": 6
+    }
+  },
+  "weight_sensitivity": [
+    {
+      "variant": "category_severity-0.10",
+      "spearman": 0.9911,
+      "max_rank_move": 9,
+      "top_10_overlap": 9,
+      "spearman_vs_gold": 0.8403
+    },
+    {
+      "variant": "category_severity+0.10",
+      "spearman": 0.9889,
+      "max_rank_move": 11,
+      "top_10_overlap": 7,
+      "spearman_vs_gold": 0.8356
+    },
+    {
+      "variant": "one_sidedness-0.10",
+      "spearman": 0.9777,
+      "max_rank_move": 24,
+      "top_10_overlap": 9,
+      "spearman_vs_gold": 0.8858
+    },
+    {
+      "variant": "one_sidedness+0.10",
+      "spearman": 0.9671,
+      "max_rank_move": 17,
+      "top_10_overlap": 7,
+      "spearman_vs_gold": 0.7685
+    },
+    {
+      "variant": "magnitude-0.10",
+      "spearman": 0.9873,
+      "max_rank_move": 13,
+      "top_10_overlap": 7,
+      "spearman_vs_gold": 0.7944
+    },
+    {
+      "variant": "magnitude+0.10",
+      "spearman": 0.9736,
+      "max_rank_move": 17,
+      "top_10_overlap": 9,
+      "spearman_vs_gold": 0.8661
+    },
+    {
+      "variant": "contract_context-0.10",
+      "spearman": 0.9836,
+      "max_rank_move": 12,
+      "top_10_overlap": 9,
+      "spearman_vs_gold": 0.8667
+    },
+    {
+      "variant": "contract_context+0.10",
+      "spearman": 0.9951,
+      "max_rank_move": 9,
+      "top_10_overlap": 10,
+      "spearman_vs_gold": 0.8539
+    },
+    {
+      "variant": "triage_top_k=1",
+      "spearman": 0.9857,
+      "max_rank_move": 20,
+      "top_10_overlap": 9,
+      "spearman_vs_gold": 0.7878
+    },
+    {
+      "variant": "triage_top_k=5",
+      "spearman": 0.996,
+      "max_rank_move": 9,
+      "top_10_overlap": 9,
+      "spearman_vs_gold": 0.8712
+    },
+    {
+      "variant": "triage_max_weight=0.25",
+      "spearman": 0.9934,
+      "max_rank_move": 9,
+      "top_10_overlap": 9,
+      "spearman_vs_gold": 0.8745
+    },
+    {
+      "variant": "triage_max_weight=0.75",
+      "spearman": 0.9989,
+      "max_rank_move": 5,
+      "top_10_overlap": 10,
+      "spearman_vs_gold": 0.852
+    },
+    {
+      "variant": "triage_max_weight=1.0",
+      "spearman": 0.9857,
+      "max_rank_move": 20,
+      "top_10_overlap": 9,
+      "spearman_vs_gold": 0.7878
+    }
+  ],
+  "threshold_sensitivity": [
+    {
+      "variant": "medium_threshold-0.05",
+      "clause_ratings_changed": 66,
+      "high_clauses": 29,
+      "medium_clauses": 290
+    },
+    {
+      "variant": "medium_threshold+0.05",
+      "clause_ratings_changed": 65,
+      "high_clauses": 29,
+      "medium_clauses": 159
+    },
+    {
+      "variant": "high_threshold-0.05",
+      "clause_ratings_changed": 1,
+      "high_clauses": 30,
+      "medium_clauses": 223
+    },
+    {
+      "variant": "high_threshold+0.05",
+      "clause_ratings_changed": 6,
+      "high_clauses": 23,
+      "medium_clauses": 230
+    }
+  ]
+}
