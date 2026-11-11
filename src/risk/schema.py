@@ -10,6 +10,9 @@ This module holds the Pydantic models that cross the risk-scoring stage boundary
   Evidence from src/evidence/ (or None if the clause went to the Unknown queue)
 - ClauseScore: the scored row, which always records the weight_version_id it used
 
+The weight set also holds the contract-level triage settings (triage_top_k, triage_max_weight)
+read by contract.py, so a weight version covers the contract ranking too.
+
 PLACEHOLDER: the four signals in SignalName are proposals until they are settled with
 the advisor. See signals.py for what each one measures and how to add, remove or rename one.
 
@@ -131,6 +134,9 @@ class WeightSet(BaseModel):
     mitigating_phrases: tuple[Phrase, ...] = ()
     scope_phrases: tuple[Phrase, ...] = ()
     magnitude_rules: tuple[MagnitudeRule, ...] = ()
+    # Contract triage: triage_max_weight * worst clause + (1 - it) * mean of the triage_top_k worst
+    triage_top_k: int = Field(default=3, ge=1)
+    triage_max_weight: UnitFloat = 0.5
 
     @field_validator("category_severity")
     @classmethod

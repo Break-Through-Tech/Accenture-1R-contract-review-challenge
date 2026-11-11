@@ -8,14 +8,14 @@ aggregate_contracts(): keeps each contract's worst-scoring clause per category, 
 sensitivity(): rescores the same clauses under several weight sets and returns each contract's rank
                under each one, so ranking stability can be checked without rerunning the model
 
-triage_score = (worst clause composite + mean of the TOP_K worst composites) / 2
-The worst clause counts for half, so one severe clause always matters; the mean of the top
-TOP_K counts for the other half, so a contract with several risky clauses outranks one with a
-single clause of the same score. Missing slots in the top TOP_K count as 0, and each category
-counts once, so a long contract that repeats a clause in many chunks isn't ranked higher for it.
+triage_score = m * worst clause composite + (1 - m) * mean of the k worst composites
+where k = WeightSet.triage_top_k (default 3) and m = WeightSet.triage_max_weight (default 0.5).
+The worst clause term means one severe clause always matters; the mean term means a contract
+with several risky clauses outranks one with a single clause of the same score. Missing slots
+in the top k count as 0, and each category counts once, so a long contract that repeats a
+clause in many chunks isn't ranked higher for it.
 
-PLACEHOLDER: TOP_K and the half/half split are engineering choices pending the advisor. Once
-they are settled they should move into the WeightSet so a weight version covers them too.
+PLACEHOLDER: the defaults (k = 3, m = 0.5) are engineering choices pending the advisor.
 
 Unknown-queue clauses (no evidence) are kept in the score and counted in unknown_count: dropping
 them would rank a contract lower just because its evidence couldn't be found.
@@ -33,8 +33,6 @@ from pydantic import BaseModel, Field
 
 from src.risk.schema import ClauseInput, ClauseScore, UnitFloat, WeightSet
 from src.risk.scoring import COMPOSITE_DECIMALS, score_contract_clauses
-
-TOP_K = 3
 
 
 class ContractScore(BaseModel):
@@ -54,12 +52,12 @@ class ContractScore(BaseModel):
     weight_set_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
 
 
-def _triage_score(composites: Sequence[float]) -> float:
-    """(max + mean of the TOP_K highest, padding with 0) / 2; composites must be sorted high to low."""
+def _triage_score(composites: Sequence[float], weight_set: WeightSet) -> float:
+    """m * max + (1 - m) * mean of the k highest (padding with 0); composites must be sorted high to low."""
     if not composites:
         return 0.0
-    top = list(composites[:TOP_K])
-    return round((top[0] + sum(top) / TOP_K) / 2, COMPOSITE_DECIMALS)
+    k, m = weight_set.triage_top_k, weight_set.triage_max_weight
+    return round(m * composites[0] + (1 - m) * sum(composites[:k]) / k, COMPOSITE_DECIMALS)
 
 
 def aggregate_contracts(
@@ -76,8 +74,9 @@ def aggregate_contracts(
     """
     # Keep the worst clause per (contract, category); every score must come from this weight set
     worst: dict[str, dict[str, ClauseScore]] = defaultdict(dict)
+    version = (weight_set.weight_version_id, weight_set.content_sha256)
     for score in scores:
-        if (score.weight_version_id, score.weight_set_sha256) != (weight_set.weight_version_id, weight_set.content_sha256):
+        if (score.weight_version_id, score.weight_set_sha256) != version:
             raise ValueError(
                 f"clause score from weight version {score.weight_version_id!r} can't be aggregated "
                 f"under {weight_set.weight_version_id!r}"
@@ -95,12 +94,12 @@ def aggregate_contracts(
         ratings = [s.rating for s in clauses]
         unranked.append(dict(
             contract_id=contract_id,
-            triage_score=_triage_score([s.composite_score for s in clauses]),
+            triage_score=_triage_score([s.composite_score for s in clauses], weight_set),
             high_count=ratings.count("High"),
             medium_count=ratings.count("Medium"),
             low_count=ratings.count("Low"),
             unknown_count=sum(not s.has_evidence for s in clauses),
-            top_clauses=clauses[:TOP_K],
+            top_clauses=clauses[:weight_set.triage_top_k],
             weight_version_id=weight_set.weight_version_id,
             weight_set_sha256=weight_set.content_sha256,
         ))

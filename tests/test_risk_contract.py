@@ -1,6 +1,6 @@
 import pytest
 
-from src.risk.contract import TOP_K, _triage_score, aggregate_contracts, sensitivity
+from src.risk.contract import _triage_score, aggregate_contracts, sensitivity
 from src.risk.schema import ClauseInput, ClauseScore, WeightSet
 from src.risk.scoring import rate
 
@@ -32,7 +32,7 @@ def _clause(contract_id: str, category: str) -> ClauseInput:
     return ClauseInput(contract_id=contract_id, chunk_index=0, category=category, probability=0.9)
 
 
-# ----- Triage score formula: (max + mean of top 3, padded with 0) / 2 -----
+# ----- Triage score formula: 0.5 * max + 0.5 * mean of top 3 (padded with 0), the defaults -----
 @pytest.mark.parametrize(
     "composites, expected",
     [
@@ -45,14 +45,38 @@ def _clause(contract_id: str, category: str) -> ClauseInput:
     ],
 )
 def test_triage_score_golden_values(composites, expected):
-    """The worst clause counts half and the mean of the top TOP_K counts half."""
-    assert TOP_K == 3
-    assert _triage_score(composites) == pytest.approx(expected)
+    """The worst clause counts half and the mean of the top 3 counts half."""
+    assert (WEIGHTS.triage_top_k, WEIGHTS.triage_max_weight) == (3, 0.5)
+    assert _triage_score(composites, WEIGHTS) == pytest.approx(expected)
+
+
+@pytest.mark.parametrize(
+    "top_k, max_weight, expected",
+    [
+        (1, 0.5, 0.9),          # top 1 only: the worst clause alone
+        (2, 0.5, 0.825),        # 0.45 + 0.5 * 1.5/2
+        (3, 1.0, 0.9),          # all weight on the worst clause
+        (3, 0.0, 0.6),          # all weight on the mean of the top 3
+        (5, 0.5, 0.65),         # 0.45 + 0.5 * 2.0/5, two empty slots
+    ],
+)
+def test_triage_score_reads_settings_from_the_weight_set(top_k, max_weight, expected):
+    """triage_top_k and triage_max_weight come from the weight version, not the code."""
+    ws = WEIGHTS.model_copy(update={"weight_version_id": "test-k", "triage_top_k": top_k, "triage_max_weight": max_weight})
+    assert _triage_score([0.9, 0.6, 0.3, 0.2], ws) == pytest.approx(expected)
+
+
+def test_aggregate_contracts_keeps_triage_top_k_clauses():
+    """top_clauses holds the triage_top_k worst clauses."""
+    ws = WEIGHTS.model_copy(update={"weight_version_id": "test-k1", "triage_top_k": 1})
+    scores = [_score("c1", "Audit Rights", 0.4, weight_set=ws), _score("c1", "Uncapped Liability", 0.9, weight_set=ws)]
+    [contract] = aggregate_contracts(scores, ws)
+    assert [s.category for s in contract.top_clauses] == ["Uncapped Liability"]
 
 
 def test_triage_score_breadth_breaks_ties_on_the_worst_clause():
     """Two contracts with the same worst clause: the one with more risky clauses ranks higher."""
-    assert _triage_score([0.6, 0.5]) > _triage_score([0.6])
+    assert _triage_score([0.6, 0.5], WEIGHTS) > _triage_score([0.6], WEIGHTS)
 
 
 # ----- Aggregation -----
