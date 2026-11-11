@@ -69,13 +69,26 @@ Install dependencies with `uv pip install --python .venv/bin/python -r requireme
 The local test suite exercises MLflow save/load and SQLite persistence in temporary
 directories, including a registered-bundle-to-artifact-store prediction roundtrip.
 
-The long-context Transformer candidate is registered locally as
-`clause-classifier-long-context:1`; the category-query evidence candidate is registered
-as `clause-classifier-category-query:2` (version 2 exposes attention through
-`predict_with_evidence`). Both remain candidates, not replacements for the stronger
-word+character baseline. Their held-out reports are in
+The local registry currently contains the long-context Transformer
+`clause-classifier-long-context:1`, the category-query evidence candidate
+`clause-classifier-category-query:2` (version 2 exposes attention through
+`predict_with_evidence`), and the word+character TF-IDF control
+`clause-classifier-word-char-tfidf:1`. The neural models remain candidates, not
+replacements for the stronger sparse baseline. TF-IDF version 1 was fitted on the
+seed-42 training contracts; thresholds were calibrated on calibration contracts only.
+Its recorded evaluation metrics are diagnostic because those contracts have prior
+research exposure. Registration metadata includes dataset hash, split ID hashes, model
+configuration, threshold provenance, and explicit `test_data_used: false`.
+
+Recreate/register the TF-IDF artifact locally with:
+
+```bash
+HF_HUB_OFFLINE=1 TOKENIZERS_PARALLELISM=false \
+  .venv/bin/python -m scripts.register_tfidf_bundle
+```
+
+This creates a new numbered version if rerun; it does not promote it to a production
+alias or deployment. The existing neural reports are in
 `results/long_context_transformer_seed42/` and `results/category_query_seed42/`.
-CPU-loaded registry bundles were smoke-tested through inference; 41 raw probabilities
-were persisted to `outputs/artifact_store.sqlite` using registry-qualified model keys.
 The registry database, artifact database, and model weights are local and ignored by
 Git. Do not commit datasets or model weights.
