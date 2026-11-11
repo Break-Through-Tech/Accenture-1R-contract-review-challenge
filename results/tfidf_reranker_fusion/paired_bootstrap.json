@@ -1,0 +1,188 @@
+{
+  "seeds": [
+    42,
+    7,
+    17,
+    23,
+    101
+  ],
+  "alpha_grid": [
+    0.0,
+    0.1,
+    0.2,
+    0.35,
+    0.5,
+    0.75,
+    1.0
+  ],
+  "bootstrap_replicates_per_seed": 1000,
+  "selection": "one global alpha selected by calibration macro-AUPR; ties favor smaller alpha",
+  "thresholds": "per-category thresholds fit on the same calibration partition",
+  "fusion": "logit interpolation on reranker candidates; TF-IDF probability retained off-candidate",
+  "macro_f1": "fixed 41-category macro; zero-support categories contribute F1=0",
+  "macro_aupr": "mean over categories with at least one evaluation positive",
+  "paired_contract_bootstrap_95pct": {
+    "42": {
+      "macro_f1_delta": {
+        "lower_95": 0.024771387355214117,
+        "median": 0.04962162697788669,
+        "upper_95": 0.07629902086178422
+      },
+      "macro_aupr_delta": {
+        "lower_95": 0.02851858905824477,
+        "median": 0.055243335690294215,
+        "upper_95": 0.0805669831672984
+      }
+    },
+    "7": {
+      "macro_f1_delta": {
+        "lower_95": 0.027895236206898488,
+        "median": 0.04822444664092518,
+        "upper_95": 0.06914362157017079
+      },
+      "macro_aupr_delta": {
+        "lower_95": 0.03814367627936327,
+        "median": 0.049511271719226035,
+        "upper_95": 0.06590647044398003
+      }
+    },
+    "17": {
+      "macro_f1_delta": {
+        "lower_95": 0.04329264269906308,
+        "median": 0.067506826874726,
+        "upper_95": 0.09314222065427785
+      },
+      "macro_aupr_delta": {
+        "lower_95": 0.03180251334275091,
+        "median": 0.054744326173879865,
+        "upper_95": 0.0819850738938212
+      }
+    },
+    "23": {
+      "macro_f1_delta": {
+        "lower_95": 0.031136732314541483,
+        "median": 0.052760070907525686,
+        "upper_95": 0.0754683208278608
+      },
+      "macro_aupr_delta": {
+        "lower_95": 0.028518316642297696,
+        "median": 0.04581249253134784,
+        "upper_95": 0.06617210295345868
+      }
+    },
+    "101": {
+      "macro_f1_delta": {
+        "lower_95": 0.02534046740322392,
+        "median": 0.038895991993637,
+        "upper_95": 0.05278561391994353
+      },
+      "macro_aupr_delta": {
+        "lower_95": 0.035762116544117616,
+        "median": 0.051546773818582636,
+        "upper_95": 0.0656410361556488
+      }
+    }
+  },
+  "aggregate": {
+    "tfidf_macro_f1": {
+      "mean": 0.5045578736526908,
+      "std_between_seeds": 0.022386267426638108
+    },
+    "hybrid_macro_f1": {
+      "mean": 0.5573433618607836,
+      "std_between_seeds": 0.027940902592078317
+    },
+    "hybrid_delta_f1": {
+      "mean": 0.0527854882080928,
+      "std_between_seeds": 0.010458074572694348
+    },
+    "tfidf_macro_aupr": {
+      "mean": 0.5633449910819444,
+      "std_between_seeds": 0.028338430187227426
+    },
+    "hybrid_macro_aupr": {
+      "mean": 0.6153681743885604,
+      "std_between_seeds": 0.030540295092986905
+    },
+    "hybrid_delta_aupr": {
+      "mean": 0.05202318330661582,
+      "std_between_seeds": 0.0051056428081291665
+    },
+    "f1_wins": 5,
+    "aupr_wins": 5
+  },
+  "per_seed": [
+    {
+      "seed": 42,
+      "selected_alpha": 0.35,
+      "selected_calibration_macro_aupr": 0.6128797099602256,
+      "reranked_score_fraction": 0.4544626593806922,
+      "tfidf_macro_f1": 0.5330673042557077,
+      "hybrid_macro_f1": 0.5878754725750144,
+      "standalone_reranker_macro_f1": 0.5572127024545639,
+      "hybrid_delta_f1": 0.05480816831930668,
+      "tfidf_macro_aupr": 0.5971198237476559,
+      "hybrid_macro_aupr": 0.6537906102368183,
+      "standalone_reranker_macro_aupr": 0.5950169231302245,
+      "hybrid_delta_aupr": 0.05667078648916235
+    },
+    {
+      "seed": 7,
+      "selected_alpha": 0.2,
+      "selected_calibration_macro_aupr": 0.6439829145196002,
+      "reranked_score_fraction": 0.4386465552384835,
+      "tfidf_macro_f1": 0.5149335380774824,
+      "hybrid_macro_f1": 0.5633530854443435,
+      "standalone_reranker_macro_f1": 0.5301415755113578,
+      "hybrid_delta_f1": 0.04841954736686105,
+      "tfidf_macro_aupr": 0.5854461459704445,
+      "hybrid_macro_aupr": 0.6344736149407851,
+      "standalone_reranker_macro_aupr": 0.5569749548244215,
+      "hybrid_delta_aupr": 0.049027468970340604
+    },
+    {
+      "seed": 17,
+      "selected_alpha": 0.75,
+      "selected_calibration_macro_aupr": 0.6368436692544834,
+      "reranked_score_fraction": 0.41414944356120825,
+      "tfidf_macro_f1": 0.49691116675112396,
+      "hybrid_macro_f1": 0.5646289474343028,
+      "standalone_reranker_macro_f1": 0.523002932875043,
+      "hybrid_delta_f1": 0.06771778068317885,
+      "tfidf_macro_aupr": 0.5630627906108538,
+      "hybrid_macro_aupr": 0.6190873577554917,
+      "standalone_reranker_macro_aupr": 0.5783899035179038,
+      "hybrid_delta_aupr": 0.05602456714463788
+    },
+    {
+      "seed": 23,
+      "selected_alpha": 0.2,
+      "selected_calibration_macro_aupr": 0.6124816742745923,
+      "reranked_score_fraction": 0.42627013630731103,
+      "tfidf_macro_f1": 0.5053360461284743,
+      "hybrid_macro_f1": 0.559314254339509,
+      "standalone_reranker_macro_f1": 0.4938336512055385,
+      "hybrid_delta_f1": 0.05397820821103472,
+      "tfidf_macro_aupr": 0.5398869864923852,
+      "hybrid_macro_aupr": 0.5845170788381622,
+      "standalone_reranker_macro_aupr": 0.5067099743977371,
+      "hybrid_delta_aupr": 0.04463009234577697
+    },
+    {
+      "seed": 101,
+      "selected_alpha": 0.2,
+      "selected_calibration_macro_aupr": 0.6186170712101282,
+      "reranked_score_fraction": 0.36685599732709656,
+      "tfidf_macro_f1": 0.47254131305066527,
+      "hybrid_macro_f1": 0.511545049510748,
+      "standalone_reranker_macro_f1": 0.49718445663407734,
+      "hybrid_delta_f1": 0.039003736460082705,
+      "tfidf_macro_aupr": 0.5312092085883828,
+      "hybrid_macro_aupr": 0.5849722101715441,
+      "standalone_reranker_macro_aupr": 0.5486443804626069,
+      "hybrid_delta_aupr": 0.053763001583161274
+    }
+  ],
+  "evaluation_status": "exploratory only; split results were inspected in prior experiments",
+  "test_data_used": false
+}

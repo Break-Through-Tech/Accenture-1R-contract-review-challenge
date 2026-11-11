@@ -1,0 +1,470 @@
+{
+  "data_sha256": "7de21d2bb741ac939e2a839ef9640634a5e0f9f40ea2b82c6833baf7db33dab4",
+  "seed": 42,
+  "oof_training_contracts": 260,
+  "oof_training_id_sha256": "44e5d6e9df85fa666896aca96e4638abce02371e5674316f1bad13bf079922fd",
+  "oof_fold_manifest_hashes": [
+    "731a8a30f9641926befc8df4187b7e4b63d79e3105a4139a8d7a5a897b7e8b84",
+    "918340983b1a2570cb6b9d2bf31163c79163701f45923433c758e62a2e617b51",
+    "0e8ea0455808075626641dc26132ca1de41b492d2e157838f1c0a3a1c16235db",
+    "6061dfbaa0642cc01b1359398d924dc6174f0cdb27775c2d3f8e48be15ea5286",
+    "77a98c53900fbd5ded23b7be3b8a7a890aee86594e361d78ef5ec458b67285ce"
+  ],
+  "alpha_grid": [
+    0.0,
+    0.1,
+    0.2,
+    0.35,
+    0.5,
+    0.75,
+    1.0
+  ],
+  "training_only_oof_macro_aupr_by_alpha": {
+    "0.0": 0.5338447881398971,
+    "0.1": 0.5730720410452991,
+    "0.2": 0.5843488909726906,
+    "0.35": 0.5816567928695775,
+    "0.5": 0.5724508111388409,
+    "0.75": 0.546856568868095,
+    "1.0": 0.4704296260324285
+  },
+  "selected_alpha": 0.2,
+  "alpha_selection": "global alpha selected by macro-AUPR on out-of-fold predictions for the 260 seed-42 training contracts only; calibration/evaluation scores are not compared across alpha values",
+  "base_model_checkpoint_selection": "each fold's best epoch selected by macro-AUPR on the separate 66-contract calibration partition",
+  "thresholds": "per-category thresholds fit on the same separate 66-contract calibration partition",
+  "evaluation": {
+    "contracts": 82,
+    "tfidf_macro_f1": 0.5330673042557077,
+    "fusion_macro_f1": 0.5751547037862429,
+    "delta_macro_f1": 0.0420873995305352,
+    "tfidf_macro_aupr": 0.5971198237476559,
+    "fusion_macro_aupr": 0.6543613824519205,
+    "delta_macro_aupr": 0.05724155870426462,
+    "paired_contract_bootstrap_95pct": {
+      "macro_f1_delta": {
+        "lower_95": 0.013597515525198512,
+        "median": 0.03833951502076588,
+        "upper_95": 0.06287965981702827
+      },
+      "macro_aupr_delta": {
+        "lower_95": 0.031451298099355846,
+        "median": 0.05597878879565743,
+        "upper_95": 0.07946888078147736
+      }
+    }
+  },
+  "per_category": [
+    {
+      "category": "Affiliate License-Licensee",
+      "support": 8,
+      "tfidf_f1": 0.30769,
+      "fusion_f1": 0.375,
+      "delta_f1": 0.06730999999999998,
+      "tfidf_aupr": 0.3291305057917071,
+      "fusion_aupr": 0.4767892222025287,
+      "delta_aupr": 0.14765871641082157
+    },
+    {
+      "category": "Affiliate License-Licensor",
+      "support": 4,
+      "tfidf_f1": 0.0,
+      "fusion_f1": 0.0,
+      "delta_f1": 0.0,
+      "tfidf_aupr": 0.04864092860781603,
+      "fusion_aupr": 0.04227643613203876,
+      "delta_aupr": -0.006364492475777264
+    },
+    {
+      "category": "Agreement Date",
+      "support": 76,
+      "tfidf_f1": 0.76596,
+      "fusion_f1": 0.82517,
+      "delta_f1": 0.059209999999999985,
+      "tfidf_aupr": 0.793847505728659,
+      "fusion_aupr": 0.828258666307611,
+      "delta_aupr": 0.034411160578951994
+    },
+    {
+      "category": "Anti-Assignment",
+      "support": 78,
+      "tfidf_f1": 0.76923,
+      "fusion_f1": 0.77143,
+      "delta_f1": 0.0021999999999999797,
+      "tfidf_aupr": 0.8376839836379235,
+      "fusion_aupr": 0.8619538758614119,
+      "delta_aupr": 0.02426989222348841
+    },
+    {
+      "category": "Audit Rights",
+      "support": 51,
+      "tfidf_f1": 0.74336,
+      "fusion_f1": 0.78505,
+      "delta_f1": 0.041690000000000005,
+      "tfidf_aupr": 0.8357747762703546,
+      "fusion_aupr": 0.8602002606029099,
+      "delta_aupr": 0.024425484332555314
+    },
+    {
+      "category": "Cap On Liability",
+      "support": 73,
+      "tfidf_f1": 0.62338,
+      "fusion_f1": 0.68116,
+      "delta_f1": 0.05777999999999994,
+      "tfidf_aupr": 0.7277343806442504,
+      "fusion_aupr": 0.7533821767040675,
+      "delta_aupr": 0.02564779605981704
+    },
+    {
+      "category": "Change Of Control",
+      "support": 31,
+      "tfidf_f1": 0.48,
+      "fusion_f1": 0.51064,
+      "delta_f1": 0.03064,
+      "tfidf_aupr": 0.55715072295366,
+      "fusion_aupr": 0.6578093946024045,
+      "delta_aupr": 0.10065867164874454
+    },
+    {
+      "category": "Competitive Restriction Exception",
+      "support": 15,
+      "tfidf_f1": 0.26471,
+      "fusion_f1": 0.25397,
+      "delta_f1": -0.010740000000000027,
+      "tfidf_aupr": 0.12378897026233916,
+      "fusion_aupr": 0.1601705217757726,
+      "delta_aupr": 0.03638155151343343
+    },
+    {
+      "category": "Covenant Not To Sue",
+      "support": 31,
+      "tfidf_f1": 0.5,
+      "fusion_f1": 0.53333,
+      "delta_f1": 0.03332999999999997,
+      "tfidf_aupr": 0.5473773961757605,
+      "fusion_aupr": 0.7160487956525038,
+      "delta_aupr": 0.16867139947674326
+    },
+    {
+      "category": "Document Name",
+      "support": 83,
+      "tfidf_f1": 0.74286,
+      "fusion_f1": 0.84967,
+      "delta_f1": 0.10681000000000007,
+      "tfidf_aupr": 0.831916375201545,
+      "fusion_aupr": 0.860595869525213,
+      "delta_aupr": 0.02867949432366801
+    },
+    {
+      "category": "Effective Date",
+      "support": 75,
+      "tfidf_f1": 0.62992,
+      "fusion_f1": 0.64516,
+      "delta_f1": 0.01523999999999992,
+      "tfidf_aupr": 0.64330231339971,
+      "fusion_aupr": 0.6958337038228385,
+      "delta_aupr": 0.05253139042312849
+    },
+    {
+      "category": "Exclusivity",
+      "support": 57,
+      "tfidf_f1": 0.44604,
+      "fusion_f1": 0.56364,
+      "delta_f1": 0.11760000000000004,
+      "tfidf_aupr": 0.4591454272171697,
+      "fusion_aupr": 0.563988366035895,
+      "delta_aupr": 0.10484293881872525
+    },
+    {
+      "category": "Expiration Date",
+      "support": 77,
+      "tfidf_f1": 0.71942,
+      "fusion_f1": 0.78873,
+      "delta_f1": 0.0693100000000001,
+      "tfidf_aupr": 0.7694241891927812,
+      "fusion_aupr": 0.8417467075065295,
+      "delta_aupr": 0.07232251831374825
+    },
+    {
+      "category": "Governing Law",
+      "support": 81,
+      "tfidf_f1": 0.89571,
+      "fusion_f1": 0.9375,
+      "delta_f1": 0.041789999999999994,
+      "tfidf_aupr": 0.9575189722409765,
+      "fusion_aupr": 0.9812412596389942,
+      "delta_aupr": 0.02372228739801774
+    },
+    {
+      "category": "Insurance",
+      "support": 32,
+      "tfidf_f1": 0.87097,
+      "fusion_f1": 0.96875,
+      "delta_f1": 0.09777999999999998,
+      "tfidf_aupr": 0.965270138495868,
+      "fusion_aupr": 0.9945431507616488,
+      "delta_aupr": 0.02927301226578083
+    },
+    {
+      "category": "Ip Ownership Assignment",
+      "support": 18,
+      "tfidf_f1": 0.59091,
+      "fusion_f1": 0.55172,
+      "delta_f1": -0.03919000000000006,
+      "tfidf_aupr": 0.677469852246053,
+      "fusion_aupr": 0.6955609367456885,
+      "delta_aupr": 0.01809108449963548
+    },
+    {
+      "category": "Irrevocable Or Perpetual License",
+      "support": 17,
+      "tfidf_f1": 0.70833,
+      "fusion_f1": 0.94118,
+      "delta_f1": 0.23285,
+      "tfidf_aupr": 0.8736162045715425,
+      "fusion_aupr": 0.9549512338872201,
+      "delta_aupr": 0.0813350293156776
+    },
+    {
+      "category": "Joint Ip Ownership",
+      "support": 12,
+      "tfidf_f1": 0.51613,
+      "fusion_f1": 0.63636,
+      "delta_f1": 0.12023000000000006,
+      "tfidf_aupr": 0.5853740276014712,
+      "fusion_aupr": 0.677057550855751,
+      "delta_aupr": 0.09168352325427986
+    },
+    {
+      "category": "License Grant",
+      "support": 89,
+      "tfidf_f1": 0.79532,
+      "fusion_f1": 0.81818,
+      "delta_f1": 0.02285999999999999,
+      "tfidf_aupr": 0.8704736883810374,
+      "fusion_aupr": 0.8949207484854005,
+      "delta_aupr": 0.02444706010436304
+    },
+    {
+      "category": "Liquidated Damages",
+      "support": 6,
+      "tfidf_f1": 0.33333,
+      "fusion_f1": 0.25,
+      "delta_f1": -0.08333000000000002,
+      "tfidf_aupr": 0.6032853558331265,
+      "fusion_aupr": 0.5774262277617982,
+      "delta_aupr": -0.025859128071328286
+    },
+    {
+      "category": "Minimum Commitment",
+      "support": 64,
+      "tfidf_f1": 0.48421,
+      "fusion_f1": 0.4186,
+      "delta_f1": -0.06560999999999995,
+      "tfidf_aupr": 0.5246277717918679,
+      "fusion_aupr": 0.5909424994366643,
+      "delta_aupr": 0.0663147276447964
+    },
+    {
+      "category": "Most Favored Nation",
+      "support": 6,
+      "tfidf_f1": 0.42105,
+      "fusion_f1": 0.28571,
+      "delta_f1": -0.13533999999999996,
+      "tfidf_aupr": 0.46696723976619514,
+      "fusion_aupr": 0.4087420397300637,
+      "delta_aupr": -0.058225200036131464
+    },
+    {
+      "category": "No-Solicit Of Customers",
+      "support": 5,
+      "tfidf_f1": 0.26667,
+      "fusion_f1": 0.19512,
+      "delta_f1": -0.07155000000000003,
+      "tfidf_aupr": 0.649607843137255,
+      "fusion_aupr": 0.7025641025641025,
+      "delta_aupr": 0.05295625942684756
+    },
+    {
+      "category": "No-Solicit Of Employees",
+      "support": 9,
+      "tfidf_f1": 0.82353,
+      "fusion_f1": 0.875,
+      "delta_f1": 0.051470000000000016,
+      "tfidf_aupr": 0.8590441621294618,
+      "fusion_aupr": 0.9598765432098768,
+      "delta_aupr": 0.10083238108041503
+    },
+    {
+      "category": "Non-Compete",
+      "support": 30,
+      "tfidf_f1": 0.42424,
+      "fusion_f1": 0.59701,
+      "delta_f1": 0.17277000000000003,
+      "tfidf_aupr": 0.49517075630329743,
+      "fusion_aupr": 0.6273808824044786,
+      "delta_aupr": 0.1322101261011812
+    },
+    {
+      "category": "Non-Disparagement",
+      "support": 2,
+      "tfidf_f1": 0.0,
+      "fusion_f1": 0.0,
+      "delta_f1": 0.0,
+      "tfidf_aupr": 0.03518518518518518,
+      "fusion_aupr": 0.08193979933110368,
+      "delta_aupr": 0.0467546141459185
+    },
+    {
+      "category": "Non-Transferable License",
+      "support": 41,
+      "tfidf_f1": 0.80952,
+      "fusion_f1": 0.77778,
+      "delta_f1": -0.03173999999999999,
+      "tfidf_aupr": 0.8276599471343492,
+      "fusion_aupr": 0.9074265998352748,
+      "delta_aupr": 0.07976665270092564
+    },
+    {
+      "category": "Notice Period To Terminate Renewal",
+      "support": 22,
+      "tfidf_f1": 0.75676,
+      "fusion_f1": 0.75676,
+      "delta_f1": 0.0,
+      "tfidf_aupr": 0.7589412290637075,
+      "fusion_aupr": 0.7942646152323268,
+      "delta_aupr": 0.0353233861686193
+    },
+    {
+      "category": "Parties",
+      "support": 102,
+      "tfidf_f1": 0.80645,
+      "fusion_f1": 0.84153,
+      "delta_f1": 0.03508,
+      "tfidf_aupr": 0.8812793119778662,
+      "fusion_aupr": 0.9049631845926389,
+      "delta_aupr": 0.023683872614772672
+    },
+    {
+      "category": "Post-Termination Services",
+      "support": 57,
+      "tfidf_f1": 0.47934,
+      "fusion_f1": 0.49689,
+      "delta_f1": 0.01755000000000001,
+      "tfidf_aupr": 0.49570061842180113,
+      "fusion_aupr": 0.5436201433546171,
+      "delta_aupr": 0.04791952493281593
+    },
+    {
+      "category": "Price Restrictions",
+      "support": 4,
+      "tfidf_f1": 0.3,
+      "fusion_f1": 0.57143,
+      "delta_f1": 0.27143,
+      "tfidf_aupr": 0.6051567656765676,
+      "fusion_aupr": 0.5011350737797957,
+      "delta_aupr": -0.1040216918967719
+    },
+    {
+      "category": "Renewal Term",
+      "support": 32,
+      "tfidf_f1": 0.64151,
+      "fusion_f1": 0.65714,
+      "delta_f1": 0.01562999999999992,
+      "tfidf_aupr": 0.6888558258947197,
+      "fusion_aupr": 0.7447042672928085,
+      "delta_aupr": 0.055848441398088755
+    },
+    {
+      "category": "Revenue/Profit Sharing",
+      "support": 37,
+      "tfidf_f1": 0.48276,
+      "fusion_f1": 0.53608,
+      "delta_f1": 0.05331999999999998,
+      "tfidf_aupr": 0.43846752134793243,
+      "fusion_aupr": 0.5834027636134063,
+      "delta_aupr": 0.14493524226547383
+    },
+    {
+      "category": "Rofr/Rofo/Rofn",
+      "support": 16,
+      "tfidf_f1": 0.41667,
+      "fusion_f1": 0.2,
+      "delta_f1": -0.21666999999999997,
+      "tfidf_aupr": 0.30142271234102797,
+      "fusion_aupr": 0.41997880956617284,
+      "delta_aupr": 0.11855609722514487
+    },
+    {
+      "category": "Source Code Escrow",
+      "support": 8,
+      "tfidf_f1": 0.5,
+      "fusion_f1": 0.54545,
+      "delta_f1": 0.04544999999999999,
+      "tfidf_aupr": 0.8423552754435107,
+      "fusion_aupr": 0.9129464285714286,
+      "delta_aupr": 0.07059115312791786
+    },
+    {
+      "category": "Termination For Convenience",
+      "support": 45,
+      "tfidf_f1": 0.40964,
+      "fusion_f1": 0.43373,
+      "delta_f1": 0.02409,
+      "tfidf_aupr": 0.43654560849233426,
+      "fusion_aupr": 0.4545965658239742,
+      "delta_aupr": 0.018050957331639916
+    },
+    {
+      "category": "Third Party Beneficiary",
+      "support": 10,
+      "tfidf_f1": 0.43478,
+      "fusion_f1": 0.56,
+      "delta_f1": 0.12522000000000005,
+      "tfidf_aupr": 0.29398119427189195,
+      "fusion_aupr": 0.43315508408821074,
+      "delta_aupr": 0.13917388981631879
+    },
+    {
+      "category": "Uncapped Liability",
+      "support": 15,
+      "tfidf_f1": 0.59459,
+      "fusion_f1": 0.52632,
+      "delta_f1": -0.06826999999999994,
+      "tfidf_aupr": 0.676282087886366,
+      "fusion_aupr": 0.6669920846242495,
+      "delta_aupr": -0.009290003262116486
+    },
+    {
+      "category": "Unlimited/All-You-Can-Eat-License",
+      "support": 11,
+      "tfidf_f1": 0.22222,
+      "fusion_f1": 0.5,
+      "delta_f1": 0.27778,
+      "tfidf_aupr": 0.2864855643224781,
+      "fusion_aupr": 0.4181791971666805,
+      "delta_aupr": 0.13169363284420238
+    },
+    {
+      "category": "Volume Restriction",
+      "support": 21,
+      "tfidf_f1": 0.26316,
+      "fusion_f1": 0.44444,
+      "delta_f1": 0.18128,
+      "tfidf_aupr": 0.20483459206192128,
+      "fusion_aupr": 0.38450502714262697,
+      "delta_aupr": 0.17967043508070568
+    },
+    {
+      "category": "Warranty Duration",
+      "support": 39,
+      "tfidf_f1": 0.61538,
+      "fusion_f1": 0.67568,
+      "delta_f1": 0.06029999999999991,
+      "tfidf_aupr": 0.6754158465504058,
+      "fusion_aupr": 0.6927458643000128,
+      "delta_aupr": 0.017330017749607074
+    }
+  ],
+  "interpretation": "exploratory only: seed-42 evaluation contracts were inspected in earlier experiments; this does not provide a fresh confirmation",
+  "test_data_used": false
+}
