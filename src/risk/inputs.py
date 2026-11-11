@@ -7,6 +7,8 @@ load_cached_probabilities(): reads a saved .npy probability matrix
 clauses_from_probabilities(): applies the per-class thresholds, grounds each detected clause with
                               evidence.extractor.extract_for_predictions, and returns ClauseInput
                               rows (evidence=None for the Unknown queue)
+gold_clauses(): builds the same rows from CUAD's annotated answers instead of a classifier, as a
+                perfect-detection reference for checking how far predictions move the ranking
 
 The matrix has one row per chunk, in the same order as the chunks passed in, and one column per
 category, in CATEGORIES order. Rows from several contracts can sit in one matrix.
@@ -29,7 +31,10 @@ import numpy as np
 
 from src.chunking.chunk import Chunk
 from src.evidence.extractor import extract_for_predictions
+from src.evidence.schema import Evidence
 from src.labels.categories import CATEGORIES
+from src.labels.loader import Contract
+from src.labels.projection import spans_overlap
 from src.risk.schema import ClauseInput
 from src.thresholds import apply_thresholds
 
@@ -89,4 +94,30 @@ def clauses_from_probabilities(
             )
             for record in [*grounded, *unknown]
         ]
+    return clauses
+
+
+def gold_clauses(contracts: Sequence[Contract], chunks: Sequence[Chunk]) -> list[ClauseInput]:
+    """
+    Build one ClauseInput per annotated answer span: probability 1.0, the gold answer as evidence,
+    and the index of the first chunk that overlaps it. This is what scoring would see with a perfect
+    classifier, so never use it on test.json before final evaluation.
+    Note the gold quote is the whole annotated answer, often longer than the extractor's one sentence.
+    """
+    # The first chunk (in order) of each contract that overlaps each span
+    chunks_by_contract: dict[str, list[Chunk]] = defaultdict(list)
+    for chunk in chunks:
+        chunks_by_contract[chunk.contract_id].append(chunk)
+
+    clauses = []
+    for contract in contracts:
+        for span in contract.spans:
+            chunk = next((c for c in chunks_by_contract[contract.contract_id]
+                          if spans_overlap(c.start, c.end, span.start, span.end)), None)
+            if chunk is None:
+                raise ValueError(f"No chunk of {contract.contract_id!r} covers its span at [{span.start}:{span.end}]")
+            clauses.append(ClauseInput(
+                contract_id=contract.contract_id, chunk_index=chunk.chunk_index, category=span.category,
+                probability=1.0, evidence=Evidence(quote=span.text, start=span.start, end=span.end),
+            ))
     return clauses
