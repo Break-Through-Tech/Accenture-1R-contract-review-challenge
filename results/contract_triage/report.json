@@ -1,7 +1,8 @@
 {
   "inputs": {
     "probabilities": "results/word_char_tfidf_nested/word_char_tfidf_evaluation.npz",
-    "thresholds": "word_char_tfidf_thresholds.json",
+    "thresholds": "results/word_char_tfidf_nested/word_char_tfidf_thresholds.json",
+    "weights": "src/risk/weights/default_weights_v1.json",
     "weight_version_id": "v1-placeholder",
     "weight_set_sha256": "583a5591d0e47fb02e96a8fae0db4212f33dd74916755e29923cb4c3e111985b",
     "triage_top_k": 3,

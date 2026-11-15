@@ -47,6 +47,12 @@ TOP_N = 10  # "which contracts to open first": size of the top list compared bet
 WEIGHT_STEP, THRESHOLD_STEP = 0.1, 0.05
 
 
+def _shown(path: Path) -> str:
+    """A path for the report: repo-relative when inside the repo (caches share file names across folders)."""
+    path = path.resolve()
+    return path.relative_to(ROOT).as_posix() if path.is_relative_to(ROOT) else str(path)
+
+
 def _load_cache(path: Path) -> tuple[np.ndarray, np.ndarray | None]:
     """Return (y_prob, y_true or None) from an .npz cache; any other format raises ValueError."""
     cache = np.load(path, allow_pickle=False)
@@ -174,9 +180,9 @@ def main() -> None:
 
     report = {
         "inputs": {
-            "probabilities": args.probabilities.relative_to(ROOT).as_posix() if args.probabilities.is_relative_to(ROOT)
-            else str(args.probabilities),
-            "thresholds": args.thresholds.name,
+            "probabilities": _shown(args.probabilities),
+            "thresholds": _shown(args.thresholds),
+            "weights": _shown(args.weights),
             "weight_version_id": ws.weight_version_id, "weight_set_sha256": ws.content_sha256,
             "triage_top_k": ws.triage_top_k, "triage_max_weight": ws.triage_max_weight,
             "split": {"method": "split_by_contract", "seed": SEED, "val_fraction": VAL_FRACTION},
