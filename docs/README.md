@@ -14,6 +14,7 @@ Start here for the reproducible experiments added on this branch:
 | Retrieval + cross-encoder reranker | [Retrieval/reranker](retrieval-reranker-architecture.md) | `results/retrieval_reranker_seed{42,7,17,23,101}/` |
 | TF-IDF + reranker score fusion | [Score fusion](tfidf-reranker-fusion.md) | `results/tfidf_reranker_fusion/`, `results/reranker_oof_fusion_seed42/` (exploratory; reused evaluation contracts) |
 | Error analysis (TF-IDF vs. reranker) | [Error analysis](error-analysis.md) | `results/error_analysis/` (also documents the per-category AUPR fix) |
+| Threshold strategies (rare categories) | [Threshold robustness](threshold-robustness.md) | `results/threshold_robustness/` (exploratory; reused evaluation contracts) |
 | Confirmation gate | [Upgrade validation protocol](upgrade-validation-gate.md) | Advisor/team data-source and success-criteria decision needed |
 | Contract graph neural network | [Graph architecture](contract-graph-architecture.md) | `results/contract_graph_seed42/` |
 | Supervised contrastive prototypes | [Contrastive architecture](contrastive-architecture.md) | `results/contrastive_seed42/` |
