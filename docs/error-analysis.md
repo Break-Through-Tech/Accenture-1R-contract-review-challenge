@@ -33,8 +33,8 @@ AUPR 0.049 when the real value is 0.870.
 
 | | Word+char TF-IDF | Reranker |
 |---|---:|---:|
-| Mean macro-F1 (5 seeds) | 0.513 | 0.526 |
-| Mean macro-AUPR (5 seeds) | 0.571 | 0.559 |
+| Mean macro-F1 (5 seeds) | 0.505 | 0.520 |
+| Mean macro-AUPR (5 seeds) | 0.563 | 0.557 |
 | Chunk-level recall (all positives) | 62.7% | 64.6% |
 | False positives (5 seeds) | 3,017 | 3,293 |
 | Share of errors that are misses (FN) | 48% | 45% |

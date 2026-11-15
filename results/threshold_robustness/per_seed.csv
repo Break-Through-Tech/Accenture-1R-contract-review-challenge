@@ -1,0 +1,51 @@
+model,strategy,seed,macro_f1,common_f1,common_categories,rare_f1,rare_categories,uncommon_f1,uncommon_categories
+word_char_tfidf,per_category_f1 (current),7,0.5149,0.6618,18,0.2231,9,0.5137,14
+word_char_tfidf,global,7,0.4957,0.6538,18,0.2252,9,0.4662,14
+word_char_tfidf,shrunk,7,0.5041,0.6644,18,0.2207,9,0.4803,14
+word_char_tfidf,rare_fallback,7,0.5154,0.6618,18,0.2252,9,0.5137,14
+word_char_tfidf,recall_floor,7,0.5144,0.6615,18,0.2103,9,0.5208,14
+reranker,per_category_f1 (current),7,0.5301,0.6433,18,0.2983,9,0.5337,14
+reranker,global,7,0.5236,0.6405,18,0.2903,9,0.5231,14
+reranker,shrunk,7,0.5343,0.6478,18,0.2839,9,0.5495,14
+reranker,rare_fallback,7,0.5284,0.6433,18,0.2903,9,0.5337,14
+reranker,recall_floor,7,0.5222,0.6372,18,0.2811,9,0.5293,14
+word_char_tfidf,per_category_f1 (current),17,0.4969,0.6441,18,0.1835,8,0.4875,15
+word_char_tfidf,global,17,0.4713,0.6485,18,0.0583,8,0.479,15
+word_char_tfidf,shrunk,17,0.4842,0.6506,18,0.0903,8,0.4946,15
+word_char_tfidf,rare_fallback,17,0.4725,0.6441,18,0.0583,8,0.4875,15
+word_char_tfidf,recall_floor,17,0.4871,0.6441,18,0.1761,8,0.4647,15
+reranker,per_category_f1 (current),17,0.523,0.6904,18,0.2465,8,0.4696,15
+reranker,global,17,0.5269,0.6743,18,0.2671,8,0.4886,15
+reranker,shrunk,17,0.5367,0.6933,18,0.2771,8,0.4871,15
+reranker,rare_fallback,17,0.527,0.6904,18,0.2671,8,0.4696,15
+reranker,recall_floor,17,0.5333,0.6917,18,0.261,8,0.4885,15
+word_char_tfidf,per_category_f1 (current),23,0.5053,0.6802,18,0.3345,6,0.3805,17
+word_char_tfidf,global,23,0.4864,0.6931,18,0.1944,6,0.3705,17
+word_char_tfidf,shrunk,23,0.4898,0.6845,18,0.1944,6,0.3879,17
+word_char_tfidf,rare_fallback,23,0.4848,0.6802,18,0.1944,6,0.3805,17
+word_char_tfidf,recall_floor,23,0.5054,0.6781,18,0.3251,6,0.3862,17
+reranker,per_category_f1 (current),23,0.4938,0.6811,18,0.2316,6,0.3881,17
+reranker,global,23,0.4659,0.6433,18,0.2542,6,0.3527,17
+reranker,shrunk,23,0.4954,0.6816,18,0.2924,6,0.3699,17
+reranker,rare_fallback,23,0.4971,0.6811,18,0.2542,6,0.3881,17
+reranker,recall_floor,23,0.5002,0.6863,18,0.2594,6,0.3881,17
+word_char_tfidf,per_category_f1 (current),42,0.5331,0.6869,18,0.3708,8,0.4351,15
+word_char_tfidf,global,42,0.4693,0.6941,18,0.1529,8,0.3682,15
+word_char_tfidf,shrunk,42,0.5166,0.694,18,0.2208,8,0.4615,15
+word_char_tfidf,rare_fallback,42,0.4906,0.6869,18,0.1529,8,0.4351,15
+word_char_tfidf,recall_floor,42,0.5182,0.6837,18,0.2983,8,0.4368,15
+reranker,per_category_f1 (current),42,0.5572,0.7256,18,0.3089,8,0.4875,15
+reranker,global,42,0.544,0.7166,18,0.3358,8,0.4479,15
+reranker,shrunk,42,0.5695,0.7312,18,0.3692,8,0.4824,15
+reranker,rare_fallback,42,0.5625,0.7256,18,0.3358,8,0.4875,15
+reranker,recall_floor,42,0.5355,0.7256,18,0.2817,8,0.4425,15
+word_char_tfidf,per_category_f1 (current),101,0.4725,0.6264,21,0.099,8,0.4523,12
+word_char_tfidf,global,101,0.467,0.6314,21,0.1004,8,0.4238,12
+word_char_tfidf,shrunk,101,0.472,0.6325,21,0.0773,8,0.4541,12
+word_char_tfidf,rare_fallback,101,0.4728,0.6264,21,0.1004,8,0.4523,12
+word_char_tfidf,recall_floor,101,0.4768,0.6261,21,0.1237,8,0.4507,12
+reranker,per_category_f1 (current),101,0.4972,0.6349,21,0.204,8,0.4517,12
+reranker,global,101,0.4836,0.5916,21,0.2615,8,0.4428,12
+reranker,shrunk,101,0.5091,0.6283,21,0.2752,8,0.4565,12
+reranker,rare_fallback,101,0.5084,0.6349,21,0.2615,8,0.4517,12
+reranker,recall_floor,101,0.5003,0.6359,21,0.2296,8,0.4435,12
