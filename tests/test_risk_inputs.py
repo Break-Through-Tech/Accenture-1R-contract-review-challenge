@@ -4,7 +4,8 @@ import pytest
 from src.chunking.chunk import Chunk
 from src.evidence.cues import normalize_category
 from src.labels.categories import CATEGORIES
-from src.risk.inputs import clauses_from_probabilities, load_cached_probabilities
+from src.labels.loader import AnswerSpan, Contract
+from src.risk.inputs import clauses_from_probabilities, gold_clauses, load_cached_probabilities
 from src.risk.schema import WeightSet
 from src.risk.scoring import score_contract_clauses
 
@@ -170,3 +171,38 @@ def test_below_threshold_category_counts_as_absent():
     matrix = _matrix(1, {(0, "Uncapped Liability"): 0.8, (0, "Insurance"): 0.4})
     [score] = score_contract_clauses(_clauses(matrix), WEIGHTS)
     assert score.signals["contract_context"] == pytest.approx(0.5)
+
+
+# ----- Gold reference clauses -----
+def _contract(spans: list[tuple[str, str]]) -> Contract:
+    """Build contract c1 over TEXT with an AnswerSpan for each (category, quoted text)."""
+    return Contract(contract_id="c1", text=TEXT, spans=[
+        AnswerSpan(category=category, start=TEXT.index(quote), end=TEXT.index(quote) + len(quote), text=quote)
+        for category, quote in spans
+    ])
+
+
+def test_gold_clauses_use_annotations_as_evidence():
+    """Each answer span becomes a certain detection quoting the annotated text, in its first chunk."""
+    start = TEXT.index("Either")
+    chunks = [_chunk(TEXT[:start]), _chunk(TEXT[start:], start=start, index=1)]
+    contract = _contract([("Uncapped Liability", "liability is uncapped"), ("Audit Rights", "may audit records")])
+    clauses = gold_clauses([contract], chunks)
+    assert [(c.category, c.chunk_index, c.probability, c.evidence.quote) for c in clauses] == [
+        ("Uncapped Liability", 0, 1.0, "liability is uncapped"),
+        ("Audit Rights", 1, 1.0, "may audit records"),
+    ]
+    assert all(TEXT[c.evidence.start:c.evidence.end] == c.evidence.quote for c in clauses)
+
+
+def test_gold_clauses_span_across_chunks_uses_the_first():
+    """A span straddling two chunks is assigned to the earlier one."""
+    chunks = [_chunk(TEXT[:20]), _chunk(TEXT[15:], start=15, index=1)]
+    [clause] = gold_clauses([_contract([("Uncapped Liability", "liability is uncapped")])], chunks)
+    assert clause.chunk_index == 0
+
+
+def test_gold_clauses_uncovered_span_raises():
+    """Chunks that don't cover a span mean they don't belong to this contract text."""
+    with pytest.raises(ValueError):
+        gold_clauses([_contract([("Audit Rights", "may audit records")])], [_chunk(TEXT[:10])])
