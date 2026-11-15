@@ -1,0 +1,224 @@
+{
+  "seeds": [
+    7,
+    17,
+    23,
+    42,
+    101
+  ],
+  "macro_by_seed": [
+    {
+      "model": "word_char_tfidf",
+      "seed": 7,
+      "macro_f1": 0.5149335380774824,
+      "macro_aupr": 0.5854461459704445
+    },
+    {
+      "model": "reranker",
+      "seed": 7,
+      "macro_f1": 0.5301415755113578,
+      "macro_aupr": 0.5569749548244215
+    },
+    {
+      "model": "word_char_tfidf",
+      "seed": 17,
+      "macro_f1": 0.49691116675112396,
+      "macro_aupr": 0.563062790610854
+    },
+    {
+      "model": "reranker",
+      "seed": 17,
+      "macro_f1": 0.523002932875043,
+      "macro_aupr": 0.5783899035179036
+    },
+    {
+      "model": "word_char_tfidf",
+      "seed": 23,
+      "macro_f1": 0.5053360461284743,
+      "macro_aupr": 0.5398869864923852
+    },
+    {
+      "model": "reranker",
+      "seed": 23,
+      "macro_f1": 0.4938336512055385,
+      "macro_aupr": 0.5067099743977371
+    },
+    {
+      "model": "word_char_tfidf",
+      "seed": 42,
+      "macro_f1": 0.5330673042557077,
+      "macro_aupr": 0.5971198237476559
+    },
+    {
+      "model": "reranker",
+      "seed": 42,
+      "macro_f1": 0.5572127024545639,
+      "macro_aupr": 0.5950169231302245
+    },
+    {
+      "model": "word_char_tfidf",
+      "seed": 101,
+      "macro_f1": 0.47254131305066527,
+      "macro_aupr": 0.5312092085883827
+    },
+    {
+      "model": "reranker",
+      "seed": 101,
+      "macro_f1": 0.49718445663407734,
+      "macro_aupr": 0.5486443804626069
+    }
+  ],
+  "macro_mean": {
+    "reranker": {
+      "macro_f1": 0.5202750637361161,
+      "macro_aupr": 0.5571472272665787
+    },
+    "word_char_tfidf": {
+      "macro_f1": 0.5045578736526908,
+      "macro_aupr": 0.5633449910819445
+    }
+  },
+  "error_totals": {
+    "reranker": {
+      "tp": 5022,
+      "fp": 3293,
+      "fn": 2757,
+      "fp_on_unlabeled": 1116
+    },
+    "word_char_tfidf": {
+      "tp": 4876,
+      "fp": 3017,
+      "fn": 2903,
+      "fp_on_unlabeled": 1189
+    }
+  },
+  "fp_share_on_unlabeled_chunks": {
+    "reranker": 0.33890069845126025,
+    "word_char_tfidf": 0.39410009943652635
+  },
+  "fn_share_of_errors": {
+    "reranker": 0.455702479338843,
+    "word_char_tfidf": 0.4903716216216216
+  },
+  "top_cross_category_confusions": [
+    {
+      "model": "reranker",
+      "predicted_category": "Affiliate License-Licensor",
+      "gold_label": "License Grant",
+      "count": 138,
+      "share": 0.6273
+    },
+    {
+      "model": "word_char_tfidf",
+      "predicted_category": "Exclusivity",
+      "gold_label": "License Grant",
+      "count": 121,
+      "share": 0.599
+    },
+    {
+      "model": "reranker",
+      "predicted_category": "Uncapped Liability",
+      "gold_label": "Cap On Liability",
+      "count": 95,
+      "share": 0.8333
+    },
+    {
+      "model": "word_char_tfidf",
+      "predicted_category": "Effective Date",
+      "gold_label": "Parties",
+      "count": 86,
+      "share": 0.6935
+    },
+    {
+      "model": "reranker",
+      "predicted_category": "Affiliate License-Licensee",
+      "gold_label": "License Grant",
+      "count": 78,
+      "share": 0.7222
+    },
+    {
+      "model": "word_char_tfidf",
+      "predicted_category": "Effective Date",
+      "gold_label": "Document Name",
+      "count": 71,
+      "share": 0.5726
+    },
+    {
+      "model": "word_char_tfidf",
+      "predicted_category": "Agreement Date",
+      "gold_label": "Parties",
+      "count": 68,
+      "share": 0.6476
+    },
+    {
+      "model": "reranker",
+      "predicted_category": "Post-Termination Services",
+      "gold_label": "Expiration Date",
+      "count": 67,
+      "share": 0.2233
+    },
+    {
+      "model": "word_char_tfidf",
+      "predicted_category": "Termination For Convenience",
+      "gold_label": "Expiration Date",
+      "count": 66,
+      "share": 0.4962
+    },
+    {
+      "model": "reranker",
+      "predicted_category": "Effective Date",
+      "gold_label": "Parties",
+      "count": 61,
+      "share": 0.6162
+    },
+    {
+      "model": "word_char_tfidf",
+      "predicted_category": "Affiliate License-Licensor",
+      "gold_label": "License Grant",
+      "count": 60,
+      "share": 0.6316
+    },
+    {
+      "model": "reranker",
+      "predicted_category": "Post-Termination Services",
+      "gold_label": "Termination For Convenience",
+      "count": 58,
+      "share": 0.1933
+    },
+    {
+      "model": "reranker",
+      "predicted_category": "Agreement Date",
+      "gold_label": "Parties",
+      "count": 57,
+      "share": 0.76
+    },
+    {
+      "model": "reranker",
+      "predicted_category": "Affiliate License-Licensor",
+      "gold_label": "Non-Transferable License",
+      "count": 57,
+      "share": 0.2591
+    },
+    {
+      "model": "word_char_tfidf",
+      "predicted_category": "Exclusivity",
+      "gold_label": "Non-Transferable License",
+      "count": 56,
+      "share": 0.2772
+    },
+    {
+      "model": "word_char_tfidf",
+      "predicted_category": "Effective Date",
+      "gold_label": "Agreement Date",
+      "count": 55,
+      "share": 0.4435
+    }
+  ],
+  "positives_caught": {
+    "only_tfidf_caught": 796,
+    "only_reranker_caught": 942,
+    "both_caught": 4080,
+    "both_missed": 1961
+  },
+  "test_data_used": false
+}

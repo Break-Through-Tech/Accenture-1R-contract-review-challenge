@@ -1,0 +1,1511 @@
+model,predicted_category,gold_label,count,category_false_positives,share
+reranker,Affiliate License-Licensee,License Grant,78,108,0.7222
+reranker,Affiliate License-Licensee,Non-Transferable License,37,108,0.3426
+reranker,Affiliate License-Licensee,Exclusivity,25,108,0.2315
+reranker,Affiliate License-Licensee,Irrevocable Or Perpetual License,22,108,0.2037
+reranker,Affiliate License-Licensee,(no gold label),13,108,0.1204
+reranker,Affiliate License-Licensee,Ip Ownership Assignment,9,108,0.0833
+reranker,Affiliate License-Licensee,Anti-Assignment,8,108,0.0741
+reranker,Affiliate License-Licensee,Affiliate License-Licensor,7,108,0.0648
+reranker,Affiliate License-Licensee,Document Name,7,108,0.0648
+reranker,Affiliate License-Licensee,Joint Ip Ownership,7,108,0.0648
+reranker,Affiliate License-Licensee,Parties,7,108,0.0648
+reranker,Affiliate License-Licensee,Agreement Date,6,108,0.0556
+reranker,Affiliate License-Licensee,Effective Date,6,108,0.0556
+reranker,Affiliate License-Licensee,Post-Termination Services,5,108,0.0463
+reranker,Affiliate License-Licensee,Change Of Control,4,108,0.037
+reranker,Affiliate License-Licensee,Covenant Not To Sue,3,108,0.0278
+reranker,Affiliate License-Licensee,Revenue/Profit Sharing,3,108,0.0278
+reranker,Affiliate License-Licensee,Termination For Convenience,3,108,0.0278
+reranker,Affiliate License-Licensee,Audit Rights,2,108,0.0185
+reranker,Affiliate License-Licensee,Competitive Restriction Exception,2,108,0.0185
+reranker,Affiliate License-Licensee,Expiration Date,2,108,0.0185
+reranker,Affiliate License-Licensee,No-Solicit Of Customers,2,108,0.0185
+reranker,Affiliate License-Licensee,Non-Compete,2,108,0.0185
+reranker,Affiliate License-Licensee,Third Party Beneficiary,2,108,0.0185
+reranker,Affiliate License-Licensee,Unlimited/All-You-Can-Eat-License,2,108,0.0185
+reranker,Affiliate License-Licensee,Minimum Commitment,1,108,0.0093
+reranker,Affiliate License-Licensor,License Grant,138,220,0.6273
+reranker,Affiliate License-Licensor,Non-Transferable License,57,220,0.2591
+reranker,Affiliate License-Licensor,Exclusivity,40,220,0.1818
+reranker,Affiliate License-Licensor,Affiliate License-Licensee,33,220,0.15
+reranker,Affiliate License-Licensor,(no gold label),31,220,0.1409
+reranker,Affiliate License-Licensor,Irrevocable Or Perpetual License,30,220,0.1364
+reranker,Affiliate License-Licensor,Joint Ip Ownership,21,220,0.0955
+reranker,Affiliate License-Licensor,Anti-Assignment,16,220,0.0727
+reranker,Affiliate License-Licensor,Ip Ownership Assignment,15,220,0.0682
+reranker,Affiliate License-Licensor,Document Name,14,220,0.0636
+reranker,Affiliate License-Licensor,Parties,14,220,0.0636
+reranker,Affiliate License-Licensor,Agreement Date,13,220,0.0591
+reranker,Affiliate License-Licensor,Effective Date,12,220,0.0545
+reranker,Affiliate License-Licensor,Post-Termination Services,12,220,0.0545
+reranker,Affiliate License-Licensor,Covenant Not To Sue,10,220,0.0455
+reranker,Affiliate License-Licensor,Rofr/Rofo/Rofn,6,220,0.0273
+reranker,Affiliate License-Licensor,Unlimited/All-You-Can-Eat-License,6,220,0.0273
+reranker,Affiliate License-Licensor,Minimum Commitment,5,220,0.0227
+reranker,Affiliate License-Licensor,Expiration Date,4,220,0.0182
+reranker,Affiliate License-Licensor,Change Of Control,3,220,0.0136
+reranker,Affiliate License-Licensor,Competitive Restriction Exception,3,220,0.0136
+reranker,Affiliate License-Licensor,Non-Compete,3,220,0.0136
+reranker,Affiliate License-Licensor,Revenue/Profit Sharing,3,220,0.0136
+reranker,Affiliate License-Licensor,Audit Rights,2,220,0.0091
+reranker,Affiliate License-Licensor,Cap On Liability,2,220,0.0091
+reranker,Affiliate License-Licensor,Governing Law,2,220,0.0091
+reranker,Affiliate License-Licensor,No-Solicit Of Customers,2,220,0.0091
+reranker,Affiliate License-Licensor,Renewal Term,2,220,0.0091
+reranker,Affiliate License-Licensor,Termination For Convenience,2,220,0.0091
+reranker,Affiliate License-Licensor,Volume Restriction,2,220,0.0091
+reranker,Affiliate License-Licensor,Most Favored Nation,1,220,0.0045
+reranker,Affiliate License-Licensor,Non-Disparagement,1,220,0.0045
+reranker,Affiliate License-Licensor,Notice Period To Terminate Renewal,1,220,0.0045
+reranker,Affiliate License-Licensor,Source Code Escrow,1,220,0.0045
+reranker,Agreement Date,Parties,57,75,0.76
+reranker,Agreement Date,Document Name,41,75,0.5467
+reranker,Agreement Date,(no gold label),17,75,0.2267
+reranker,Agreement Date,Effective Date,15,75,0.2
+reranker,Agreement Date,License Grant,3,75,0.04
+reranker,Agreement Date,Expiration Date,2,75,0.0267
+reranker,Agreement Date,Non-Transferable License,2,75,0.0267
+reranker,Agreement Date,Exclusivity,1,75,0.0133
+reranker,Agreement Date,Governing Law,1,75,0.0133
+reranker,Agreement Date,Revenue/Profit Sharing,1,75,0.0133
+reranker,Agreement Date,Unlimited/All-You-Can-Eat-License,1,75,0.0133
+reranker,Agreement Date,Volume Restriction,1,75,0.0133
+reranker,Anti-Assignment,Ip Ownership Assignment,18,49,0.3673
+reranker,Anti-Assignment,(no gold label),14,49,0.2857
+reranker,Anti-Assignment,Governing Law,5,49,0.102
+reranker,Anti-Assignment,License Grant,4,49,0.0816
+reranker,Anti-Assignment,Irrevocable Or Perpetual License,3,49,0.0612
+reranker,Anti-Assignment,Non-Transferable License,3,49,0.0612
+reranker,Anti-Assignment,Rofr/Rofo/Rofn,3,49,0.0612
+reranker,Anti-Assignment,Affiliate License-Licensee,2,49,0.0408
+reranker,Anti-Assignment,Change Of Control,2,49,0.0408
+reranker,Anti-Assignment,Covenant Not To Sue,2,49,0.0408
+reranker,Anti-Assignment,Exclusivity,2,49,0.0408
+reranker,Anti-Assignment,Post-Termination Services,2,49,0.0408
+reranker,Anti-Assignment,Termination For Convenience,2,49,0.0408
+reranker,Anti-Assignment,Audit Rights,1,49,0.0204
+reranker,Anti-Assignment,Cap On Liability,1,49,0.0204
+reranker,Anti-Assignment,Document Name,1,49,0.0204
+reranker,Anti-Assignment,Expiration Date,1,49,0.0204
+reranker,Anti-Assignment,Joint Ip Ownership,1,49,0.0204
+reranker,Anti-Assignment,No-Solicit Of Employees,1,49,0.0204
+reranker,Anti-Assignment,Parties,1,49,0.0204
+reranker,Anti-Assignment,Third Party Beneficiary,1,49,0.0204
+reranker,Audit Rights,(no gold label),65,84,0.7738
+reranker,Audit Rights,Post-Termination Services,3,84,0.0357
+reranker,Audit Rights,Cap On Liability,2,84,0.0238
+reranker,Audit Rights,Covenant Not To Sue,2,84,0.0238
+reranker,Audit Rights,Exclusivity,2,84,0.0238
+reranker,Audit Rights,Expiration Date,2,84,0.0238
+reranker,Audit Rights,Revenue/Profit Sharing,2,84,0.0238
+reranker,Audit Rights,Warranty Duration,2,84,0.0238
+reranker,Audit Rights,Anti-Assignment,1,84,0.0119
+reranker,Audit Rights,Insurance,1,84,0.0119
+reranker,Audit Rights,Ip Ownership Assignment,1,84,0.0119
+reranker,Audit Rights,License Grant,1,84,0.0119
+reranker,Audit Rights,Minimum Commitment,1,84,0.0119
+reranker,Audit Rights,Most Favored Nation,1,84,0.0119
+reranker,Audit Rights,Parties,1,84,0.0119
+reranker,Audit Rights,Price Restrictions,1,84,0.0119
+reranker,Audit Rights,Renewal Term,1,84,0.0119
+reranker,Audit Rights,Termination For Convenience,1,84,0.0119
+reranker,Cap On Liability,(no gold label),68,129,0.5271
+reranker,Cap On Liability,Insurance,18,129,0.1395
+reranker,Cap On Liability,Post-Termination Services,8,129,0.062
+reranker,Cap On Liability,Expiration Date,5,129,0.0388
+reranker,Cap On Liability,Governing Law,5,129,0.0388
+reranker,Cap On Liability,Non-Transferable License,4,129,0.031
+reranker,Cap On Liability,Termination For Convenience,4,129,0.031
+reranker,Cap On Liability,Warranty Duration,4,129,0.031
+reranker,Cap On Liability,Anti-Assignment,3,129,0.0233
+reranker,Cap On Liability,License Grant,3,129,0.0233
+reranker,Cap On Liability,Liquidated Damages,3,129,0.0233
+reranker,Cap On Liability,Uncapped Liability,3,129,0.0233
+reranker,Cap On Liability,Audit Rights,2,129,0.0155
+reranker,Cap On Liability,Effective Date,2,129,0.0155
+reranker,Cap On Liability,Minimum Commitment,2,129,0.0155
+reranker,Cap On Liability,Parties,2,129,0.0155
+reranker,Cap On Liability,Renewal Term,2,129,0.0155
+reranker,Cap On Liability,Third Party Beneficiary,2,129,0.0155
+reranker,Cap On Liability,Volume Restriction,2,129,0.0155
+reranker,Cap On Liability,Agreement Date,1,129,0.0078
+reranker,Cap On Liability,Change Of Control,1,129,0.0078
+reranker,Cap On Liability,Document Name,1,129,0.0078
+reranker,Cap On Liability,Exclusivity,1,129,0.0078
+reranker,Cap On Liability,Ip Ownership Assignment,1,129,0.0078
+reranker,Cap On Liability,Most Favored Nation,1,129,0.0078
+reranker,Cap On Liability,Revenue/Profit Sharing,1,129,0.0078
+reranker,Cap On Liability,Rofr/Rofo/Rofn,1,129,0.0078
+reranker,Change Of Control,Anti-Assignment,31,65,0.4769
+reranker,Change Of Control,(no gold label),19,65,0.2923
+reranker,Change Of Control,Governing Law,13,65,0.2
+reranker,Change Of Control,Post-Termination Services,5,65,0.0769
+reranker,Change Of Control,Termination For Convenience,4,65,0.0615
+reranker,Change Of Control,Expiration Date,3,65,0.0462
+reranker,Change Of Control,Agreement Date,2,65,0.0308
+reranker,Change Of Control,Audit Rights,2,65,0.0308
+reranker,Change Of Control,Insurance,2,65,0.0308
+reranker,Change Of Control,Irrevocable Or Perpetual License,2,65,0.0308
+reranker,Change Of Control,License Grant,2,65,0.0308
+reranker,Change Of Control,Rofr/Rofo/Rofn,2,65,0.0308
+reranker,Change Of Control,Affiliate License-Licensee,1,65,0.0154
+reranker,Change Of Control,Affiliate License-Licensor,1,65,0.0154
+reranker,Change Of Control,Cap On Liability,1,65,0.0154
+reranker,Change Of Control,Exclusivity,1,65,0.0154
+reranker,Change Of Control,Ip Ownership Assignment,1,65,0.0154
+reranker,Change Of Control,Minimum Commitment,1,65,0.0154
+reranker,Change Of Control,Non-Disparagement,1,65,0.0154
+reranker,Change Of Control,Parties,1,65,0.0154
+reranker,Competitive Restriction Exception,Exclusivity,45,117,0.3846
+reranker,Competitive Restriction Exception,Non-Compete,38,117,0.3248
+reranker,Competitive Restriction Exception,License Grant,33,117,0.2821
+reranker,Competitive Restriction Exception,Non-Transferable License,19,117,0.1624
+reranker,Competitive Restriction Exception,(no gold label),17,117,0.1453
+reranker,Competitive Restriction Exception,No-Solicit Of Employees,10,117,0.0855
+reranker,Competitive Restriction Exception,Covenant Not To Sue,6,117,0.0513
+reranker,Competitive Restriction Exception,No-Solicit Of Customers,6,117,0.0513
+reranker,Competitive Restriction Exception,Anti-Assignment,5,117,0.0427
+reranker,Competitive Restriction Exception,Irrevocable Or Perpetual License,5,117,0.0427
+reranker,Competitive Restriction Exception,Expiration Date,4,117,0.0342
+reranker,Competitive Restriction Exception,Minimum Commitment,4,117,0.0342
+reranker,Competitive Restriction Exception,Post-Termination Services,4,117,0.0342
+reranker,Competitive Restriction Exception,Revenue/Profit Sharing,4,117,0.0342
+reranker,Competitive Restriction Exception,Rofr/Rofo/Rofn,4,117,0.0342
+reranker,Competitive Restriction Exception,Affiliate License-Licensee,3,117,0.0256
+reranker,Competitive Restriction Exception,Affiliate License-Licensor,3,117,0.0256
+reranker,Competitive Restriction Exception,Non-Disparagement,3,117,0.0256
+reranker,Competitive Restriction Exception,Agreement Date,2,117,0.0171
+reranker,Competitive Restriction Exception,Change Of Control,2,117,0.0171
+reranker,Competitive Restriction Exception,Document Name,2,117,0.0171
+reranker,Competitive Restriction Exception,Effective Date,2,117,0.0171
+reranker,Competitive Restriction Exception,Ip Ownership Assignment,2,117,0.0171
+reranker,Competitive Restriction Exception,Parties,2,117,0.0171
+reranker,Competitive Restriction Exception,Termination For Convenience,2,117,0.0171
+reranker,Competitive Restriction Exception,Audit Rights,1,117,0.0085
+reranker,Competitive Restriction Exception,Cap On Liability,1,117,0.0085
+reranker,Competitive Restriction Exception,Governing Law,1,117,0.0085
+reranker,Competitive Restriction Exception,Joint Ip Ownership,1,117,0.0085
+reranker,Competitive Restriction Exception,Liquidated Damages,1,117,0.0085
+reranker,Competitive Restriction Exception,Most Favored Nation,1,117,0.0085
+reranker,Competitive Restriction Exception,Price Restrictions,1,117,0.0085
+reranker,Competitive Restriction Exception,Warranty Duration,1,117,0.0085
+reranker,Covenant Not To Sue,(no gold label),15,31,0.4839
+reranker,Covenant Not To Sue,License Grant,5,31,0.1613
+reranker,Covenant Not To Sue,Non-Compete,3,31,0.0968
+reranker,Covenant Not To Sue,Non-Transferable License,3,31,0.0968
+reranker,Covenant Not To Sue,Affiliate License-Licensee,2,31,0.0645
+reranker,Covenant Not To Sue,Anti-Assignment,2,31,0.0645
+reranker,Covenant Not To Sue,Irrevocable Or Perpetual License,2,31,0.0645
+reranker,Covenant Not To Sue,Affiliate License-Licensor,1,31,0.0323
+reranker,Covenant Not To Sue,Cap On Liability,1,31,0.0323
+reranker,Covenant Not To Sue,Competitive Restriction Exception,1,31,0.0323
+reranker,Covenant Not To Sue,Expiration Date,1,31,0.0323
+reranker,Covenant Not To Sue,Governing Law,1,31,0.0323
+reranker,Covenant Not To Sue,Ip Ownership Assignment,1,31,0.0323
+reranker,Covenant Not To Sue,Minimum Commitment,1,31,0.0323
+reranker,Covenant Not To Sue,No-Solicit Of Customers,1,31,0.0323
+reranker,Covenant Not To Sue,No-Solicit Of Employees,1,31,0.0323
+reranker,Covenant Not To Sue,Notice Period To Terminate Renewal,1,31,0.0323
+reranker,Covenant Not To Sue,Post-Termination Services,1,31,0.0323
+reranker,Covenant Not To Sue,Renewal Term,1,31,0.0323
+reranker,Covenant Not To Sue,Revenue/Profit Sharing,1,31,0.0323
+reranker,Covenant Not To Sue,Termination For Convenience,1,31,0.0323
+reranker,Covenant Not To Sue,Uncapped Liability,1,31,0.0323
+reranker,Document Name,Parties,49,70,0.7
+reranker,Document Name,Agreement Date,25,70,0.3571
+reranker,Document Name,(no gold label),18,70,0.2571
+reranker,Document Name,Effective Date,16,70,0.2286
+reranker,Document Name,Volume Restriction,5,70,0.0714
+reranker,Document Name,Expiration Date,3,70,0.0429
+reranker,Document Name,License Grant,2,70,0.0286
+reranker,Document Name,Minimum Commitment,1,70,0.0143
+reranker,Document Name,No-Solicit Of Customers,1,70,0.0143
+reranker,Document Name,Non-Compete,1,70,0.0143
+reranker,Document Name,Non-Transferable License,1,70,0.0143
+reranker,Document Name,Unlimited/All-You-Can-Eat-License,1,70,0.0143
+reranker,Effective Date,Parties,61,99,0.6162
+reranker,Effective Date,Document Name,53,99,0.5354
+reranker,Effective Date,Agreement Date,45,99,0.4545
+reranker,Effective Date,Expiration Date,25,99,0.2525
+reranker,Effective Date,(no gold label),13,99,0.1313
+reranker,Effective Date,Renewal Term,12,99,0.1212
+reranker,Effective Date,Notice Period To Terminate Renewal,9,99,0.0909
+reranker,Effective Date,Termination For Convenience,5,99,0.0505
+reranker,Effective Date,Volume Restriction,4,99,0.0404
+reranker,Effective Date,Cap On Liability,3,99,0.0303
+reranker,Effective Date,Exclusivity,3,99,0.0303
+reranker,Effective Date,License Grant,3,99,0.0303
+reranker,Effective Date,Post-Termination Services,3,99,0.0303
+reranker,Effective Date,Revenue/Profit Sharing,3,99,0.0303
+reranker,Effective Date,Change Of Control,2,99,0.0202
+reranker,Effective Date,Governing Law,2,99,0.0202
+reranker,Effective Date,Unlimited/All-You-Can-Eat-License,1,99,0.0101
+reranker,Exclusivity,(no gold label),44,119,0.3697
+reranker,Exclusivity,License Grant,26,119,0.2185
+reranker,Exclusivity,Ip Ownership Assignment,10,119,0.084
+reranker,Exclusivity,Non-Transferable License,8,119,0.0672
+reranker,Exclusivity,Irrevocable Or Perpetual License,7,119,0.0588
+reranker,Exclusivity,Rofr/Rofo/Rofn,7,119,0.0588
+reranker,Exclusivity,Post-Termination Services,6,119,0.0504
+reranker,Exclusivity,Competitive Restriction Exception,5,119,0.042
+reranker,Exclusivity,Effective Date,5,119,0.042
+reranker,Exclusivity,Minimum Commitment,5,119,0.042
+reranker,Exclusivity,Revenue/Profit Sharing,5,119,0.042
+reranker,Exclusivity,Agreement Date,4,119,0.0336
+reranker,Exclusivity,Anti-Assignment,4,119,0.0336
+reranker,Exclusivity,Covenant Not To Sue,4,119,0.0336
+reranker,Exclusivity,Parties,4,119,0.0336
+reranker,Exclusivity,Affiliate License-Licensor,3,119,0.0252
+reranker,Exclusivity,Document Name,3,119,0.0252
+reranker,Exclusivity,Expiration Date,3,119,0.0252
+reranker,Exclusivity,Governing Law,3,119,0.0252
+reranker,Exclusivity,Joint Ip Ownership,3,119,0.0252
+reranker,Exclusivity,Liquidated Damages,3,119,0.0252
+reranker,Exclusivity,Non-Compete,3,119,0.0252
+reranker,Exclusivity,Cap On Liability,2,119,0.0168
+reranker,Exclusivity,Termination For Convenience,2,119,0.0168
+reranker,Exclusivity,Audit Rights,1,119,0.0084
+reranker,Exclusivity,Change Of Control,1,119,0.0084
+reranker,Exclusivity,No-Solicit Of Customers,1,119,0.0084
+reranker,Exclusivity,Notice Period To Terminate Renewal,1,119,0.0084
+reranker,Exclusivity,Renewal Term,1,119,0.0084
+reranker,Exclusivity,Volume Restriction,1,119,0.0084
+reranker,Expiration Date,(no gold label),26,60,0.4333
+reranker,Expiration Date,Renewal Term,11,60,0.1833
+reranker,Expiration Date,Parties,9,60,0.15
+reranker,Expiration Date,Termination For Convenience,9,60,0.15
+reranker,Expiration Date,Agreement Date,7,60,0.1167
+reranker,Expiration Date,Effective Date,7,60,0.1167
+reranker,Expiration Date,Document Name,6,60,0.1
+reranker,Expiration Date,Post-Termination Services,6,60,0.1
+reranker,Expiration Date,License Grant,5,60,0.0833
+reranker,Expiration Date,Revenue/Profit Sharing,5,60,0.0833
+reranker,Expiration Date,Notice Period To Terminate Renewal,4,60,0.0667
+reranker,Expiration Date,Exclusivity,3,60,0.05
+reranker,Expiration Date,Governing Law,3,60,0.05
+reranker,Expiration Date,Rofr/Rofo/Rofn,3,60,0.05
+reranker,Expiration Date,Volume Restriction,3,60,0.05
+reranker,Expiration Date,Anti-Assignment,2,60,0.0333
+reranker,Expiration Date,Insurance,2,60,0.0333
+reranker,Expiration Date,Non-Transferable License,2,60,0.0333
+reranker,Expiration Date,Affiliate License-Licensee,1,60,0.0167
+reranker,Expiration Date,Affiliate License-Licensor,1,60,0.0167
+reranker,Expiration Date,Cap On Liability,1,60,0.0167
+reranker,Expiration Date,Change Of Control,1,60,0.0167
+reranker,Expiration Date,Minimum Commitment,1,60,0.0167
+reranker,Expiration Date,Third Party Beneficiary,1,60,0.0167
+reranker,Governing Law,(no gold label),17,25,0.68
+reranker,Governing Law,Termination For Convenience,3,25,0.12
+reranker,Governing Law,Anti-Assignment,2,25,0.08
+reranker,Governing Law,Effective Date,1,25,0.04
+reranker,Governing Law,Exclusivity,1,25,0.04
+reranker,Governing Law,Expiration Date,1,25,0.04
+reranker,Governing Law,Ip Ownership Assignment,1,25,0.04
+reranker,Governing Law,Parties,1,25,0.04
+reranker,Insurance,(no gold label),29,39,0.7436
+reranker,Insurance,Agreement Date,2,39,0.0513
+reranker,Insurance,Anti-Assignment,2,39,0.0513
+reranker,Insurance,Document Name,2,39,0.0513
+reranker,Insurance,Effective Date,2,39,0.0513
+reranker,Insurance,Parties,2,39,0.0513
+reranker,Insurance,Third Party Beneficiary,2,39,0.0513
+reranker,Insurance,Cap On Liability,1,39,0.0256
+reranker,Insurance,Liquidated Damages,1,39,0.0256
+reranker,Insurance,No-Solicit Of Customers,1,39,0.0256
+reranker,Insurance,Post-Termination Services,1,39,0.0256
+reranker,Insurance,Termination For Convenience,1,39,0.0256
+reranker,Insurance,Uncapped Liability,1,39,0.0256
+reranker,Ip Ownership Assignment,Anti-Assignment,29,86,0.3372
+reranker,Ip Ownership Assignment,License Grant,26,86,0.3023
+reranker,Ip Ownership Assignment,(no gold label),18,86,0.2093
+reranker,Ip Ownership Assignment,Covenant Not To Sue,10,86,0.1163
+reranker,Ip Ownership Assignment,Joint Ip Ownership,10,86,0.1163
+reranker,Ip Ownership Assignment,Exclusivity,8,86,0.093
+reranker,Ip Ownership Assignment,Irrevocable Or Perpetual License,8,86,0.093
+reranker,Ip Ownership Assignment,Affiliate License-Licensee,7,86,0.0814
+reranker,Ip Ownership Assignment,Post-Termination Services,7,86,0.0814
+reranker,Ip Ownership Assignment,Governing Law,6,86,0.0698
+reranker,Ip Ownership Assignment,Non-Transferable License,6,86,0.0698
+reranker,Ip Ownership Assignment,Non-Compete,5,86,0.0581
+reranker,Ip Ownership Assignment,Affiliate License-Licensor,3,86,0.0349
+reranker,Ip Ownership Assignment,Expiration Date,3,86,0.0349
+reranker,Ip Ownership Assignment,Rofr/Rofo/Rofn,3,86,0.0349
+reranker,Ip Ownership Assignment,Agreement Date,2,86,0.0233
+reranker,Ip Ownership Assignment,Change Of Control,2,86,0.0233
+reranker,Ip Ownership Assignment,Document Name,2,86,0.0233
+reranker,Ip Ownership Assignment,Effective Date,2,86,0.0233
+reranker,Ip Ownership Assignment,Parties,2,86,0.0233
+reranker,Ip Ownership Assignment,Termination For Convenience,2,86,0.0233
+reranker,Ip Ownership Assignment,Competitive Restriction Exception,1,86,0.0116
+reranker,Ip Ownership Assignment,Insurance,1,86,0.0116
+reranker,Ip Ownership Assignment,No-Solicit Of Employees,1,86,0.0116
+reranker,Ip Ownership Assignment,Revenue/Profit Sharing,1,86,0.0116
+reranker,Ip Ownership Assignment,Unlimited/All-You-Can-Eat-License,1,86,0.0116
+reranker,Irrevocable Or Perpetual License,License Grant,3,6,0.5
+reranker,Irrevocable Or Perpetual License,Ip Ownership Assignment,2,6,0.3333
+reranker,Irrevocable Or Perpetual License,Non-Transferable License,2,6,0.3333
+reranker,Irrevocable Or Perpetual License,Exclusivity,1,6,0.1667
+reranker,Irrevocable Or Perpetual License,Joint Ip Ownership,1,6,0.1667
+reranker,Irrevocable Or Perpetual License,No-Solicit Of Employees,1,6,0.1667
+reranker,Irrevocable Or Perpetual License,Non-Compete,1,6,0.1667
+reranker,Irrevocable Or Perpetual License,Post-Termination Services,1,6,0.1667
+reranker,Joint Ip Ownership,(no gold label),21,49,0.4286
+reranker,Joint Ip Ownership,Ip Ownership Assignment,8,49,0.1633
+reranker,Joint Ip Ownership,Document Name,6,49,0.1224
+reranker,Joint Ip Ownership,License Grant,6,49,0.1224
+reranker,Joint Ip Ownership,Parties,6,49,0.1224
+reranker,Joint Ip Ownership,Agreement Date,5,49,0.102
+reranker,Joint Ip Ownership,Anti-Assignment,4,49,0.0816
+reranker,Joint Ip Ownership,Effective Date,4,49,0.0816
+reranker,Joint Ip Ownership,Covenant Not To Sue,2,49,0.0408
+reranker,Joint Ip Ownership,Irrevocable Or Perpetual License,2,49,0.0408
+reranker,Joint Ip Ownership,Affiliate License-Licensor,1,49,0.0204
+reranker,Joint Ip Ownership,Change Of Control,1,49,0.0204
+reranker,Joint Ip Ownership,Competitive Restriction Exception,1,49,0.0204
+reranker,Joint Ip Ownership,Exclusivity,1,49,0.0204
+reranker,Joint Ip Ownership,Insurance,1,49,0.0204
+reranker,Joint Ip Ownership,Minimum Commitment,1,49,0.0204
+reranker,Joint Ip Ownership,Most Favored Nation,1,49,0.0204
+reranker,Joint Ip Ownership,No-Solicit Of Customers,1,49,0.0204
+reranker,Joint Ip Ownership,Non-Transferable License,1,49,0.0204
+reranker,Joint Ip Ownership,Revenue/Profit Sharing,1,49,0.0204
+reranker,Joint Ip Ownership,Rofr/Rofo/Rofn,1,49,0.0204
+reranker,Joint Ip Ownership,Volume Restriction,1,49,0.0204
+reranker,License Grant,(no gold label),21,52,0.4038
+reranker,License Grant,Joint Ip Ownership,7,52,0.1346
+reranker,License Grant,Exclusivity,6,52,0.1154
+reranker,License Grant,Ip Ownership Assignment,6,52,0.1154
+reranker,License Grant,Effective Date,4,52,0.0769
+reranker,License Grant,Parties,4,52,0.0769
+reranker,License Grant,Document Name,3,52,0.0577
+reranker,License Grant,Expiration Date,3,52,0.0577
+reranker,License Grant,Post-Termination Services,3,52,0.0577
+reranker,License Grant,Rofr/Rofo/Rofn,3,52,0.0577
+reranker,License Grant,Termination For Convenience,3,52,0.0577
+reranker,License Grant,Agreement Date,2,52,0.0385
+reranker,License Grant,Anti-Assignment,2,52,0.0385
+reranker,License Grant,Competitive Restriction Exception,2,52,0.0385
+reranker,License Grant,Governing Law,2,52,0.0385
+reranker,License Grant,Non-Transferable License,2,52,0.0385
+reranker,License Grant,Affiliate License-Licensee,1,52,0.0192
+reranker,License Grant,Audit Rights,1,52,0.0192
+reranker,License Grant,Source Code Escrow,1,52,0.0192
+reranker,License Grant,Warranty Duration,1,52,0.0192
+reranker,Liquidated Damages,(no gold label),11,22,0.5
+reranker,Liquidated Damages,Expiration Date,3,22,0.1364
+reranker,Liquidated Damages,Termination For Convenience,3,22,0.1364
+reranker,Liquidated Damages,Revenue/Profit Sharing,2,22,0.0909
+reranker,Liquidated Damages,Anti-Assignment,1,22,0.0455
+reranker,Liquidated Damages,Cap On Liability,1,22,0.0455
+reranker,Liquidated Damages,Change Of Control,1,22,0.0455
+reranker,Liquidated Damages,Insurance,1,22,0.0455
+reranker,Liquidated Damages,License Grant,1,22,0.0455
+reranker,Liquidated Damages,No-Solicit Of Employees,1,22,0.0455
+reranker,Liquidated Damages,Notice Period To Terminate Renewal,1,22,0.0455
+reranker,Liquidated Damages,Post-Termination Services,1,22,0.0455
+reranker,Liquidated Damages,Renewal Term,1,22,0.0455
+reranker,Liquidated Damages,Rofr/Rofo/Rofn,1,22,0.0455
+reranker,Minimum Commitment,(no gold label),106,168,0.631
+reranker,Minimum Commitment,Volume Restriction,15,168,0.0893
+reranker,Minimum Commitment,Revenue/Profit Sharing,13,168,0.0774
+reranker,Minimum Commitment,Expiration Date,10,168,0.0595
+reranker,Minimum Commitment,Post-Termination Services,7,168,0.0417
+reranker,Minimum Commitment,Effective Date,6,168,0.0357
+reranker,Minimum Commitment,Parties,6,168,0.0357
+reranker,Minimum Commitment,Agreement Date,5,168,0.0298
+reranker,Minimum Commitment,Document Name,5,168,0.0298
+reranker,Minimum Commitment,Exclusivity,5,168,0.0298
+reranker,Minimum Commitment,Liquidated Damages,5,168,0.0298
+reranker,Minimum Commitment,Renewal Term,5,168,0.0298
+reranker,Minimum Commitment,Termination For Convenience,5,168,0.0298
+reranker,Minimum Commitment,Competitive Restriction Exception,4,168,0.0238
+reranker,Minimum Commitment,Insurance,4,168,0.0238
+reranker,Minimum Commitment,Notice Period To Terminate Renewal,4,168,0.0238
+reranker,Minimum Commitment,Audit Rights,3,168,0.0179
+reranker,Minimum Commitment,Cap On Liability,3,168,0.0179
+reranker,Minimum Commitment,Warranty Duration,3,168,0.0179
+reranker,Minimum Commitment,No-Solicit Of Employees,2,168,0.0119
+reranker,Minimum Commitment,Unlimited/All-You-Can-Eat-License,2,168,0.0119
+reranker,Minimum Commitment,Ip Ownership Assignment,1,168,0.006
+reranker,Minimum Commitment,License Grant,1,168,0.006
+reranker,Minimum Commitment,Most Favored Nation,1,168,0.006
+reranker,Minimum Commitment,Non-Compete,1,168,0.006
+reranker,Minimum Commitment,Non-Transferable License,1,168,0.006
+reranker,Most Favored Nation,(no gold label),32,120,0.2667
+reranker,Most Favored Nation,Exclusivity,28,120,0.2333
+reranker,Most Favored Nation,License Grant,25,120,0.2083
+reranker,Most Favored Nation,Rofr/Rofo/Rofn,16,120,0.1333
+reranker,Most Favored Nation,Non-Transferable License,13,120,0.1083
+reranker,Most Favored Nation,Anti-Assignment,8,120,0.0667
+reranker,Most Favored Nation,Expiration Date,8,120,0.0667
+reranker,Most Favored Nation,Renewal Term,8,120,0.0667
+reranker,Most Favored Nation,Competitive Restriction Exception,7,120,0.0583
+reranker,Most Favored Nation,Minimum Commitment,7,120,0.0583
+reranker,Most Favored Nation,Non-Compete,6,120,0.05
+reranker,Most Favored Nation,Notice Period To Terminate Renewal,6,120,0.05
+reranker,Most Favored Nation,Revenue/Profit Sharing,6,120,0.05
+reranker,Most Favored Nation,Audit Rights,5,120,0.0417
+reranker,Most Favored Nation,Post-Termination Services,5,120,0.0417
+reranker,Most Favored Nation,Termination For Convenience,4,120,0.0333
+reranker,Most Favored Nation,Affiliate License-Licensee,3,120,0.025
+reranker,Most Favored Nation,Covenant Not To Sue,3,120,0.025
+reranker,Most Favored Nation,Volume Restriction,3,120,0.025
+reranker,Most Favored Nation,Change Of Control,2,120,0.0167
+reranker,Most Favored Nation,Governing Law,2,120,0.0167
+reranker,Most Favored Nation,Insurance,2,120,0.0167
+reranker,Most Favored Nation,Ip Ownership Assignment,2,120,0.0167
+reranker,Most Favored Nation,Irrevocable Or Perpetual License,2,120,0.0167
+reranker,Most Favored Nation,Liquidated Damages,2,120,0.0167
+reranker,Most Favored Nation,Non-Disparagement,2,120,0.0167
+reranker,Most Favored Nation,Affiliate License-Licensor,1,120,0.0083
+reranker,Most Favored Nation,Agreement Date,1,120,0.0083
+reranker,Most Favored Nation,Cap On Liability,1,120,0.0083
+reranker,Most Favored Nation,Document Name,1,120,0.0083
+reranker,Most Favored Nation,Effective Date,1,120,0.0083
+reranker,Most Favored Nation,No-Solicit Of Customers,1,120,0.0083
+reranker,Most Favored Nation,Parties,1,120,0.0083
+reranker,Most Favored Nation,Unlimited/All-You-Can-Eat-License,1,120,0.0083
+reranker,No-Solicit Of Customers,No-Solicit Of Employees,14,41,0.3415
+reranker,No-Solicit Of Customers,(no gold label),13,41,0.3171
+reranker,No-Solicit Of Customers,Exclusivity,7,41,0.1707
+reranker,No-Solicit Of Customers,Non-Compete,7,41,0.1707
+reranker,No-Solicit Of Customers,Competitive Restriction Exception,5,41,0.122
+reranker,No-Solicit Of Customers,License Grant,3,41,0.0732
+reranker,No-Solicit Of Customers,Governing Law,2,41,0.0488
+reranker,No-Solicit Of Customers,Ip Ownership Assignment,2,41,0.0488
+reranker,No-Solicit Of Customers,Liquidated Damages,2,41,0.0488
+reranker,No-Solicit Of Customers,Minimum Commitment,2,41,0.0488
+reranker,No-Solicit Of Customers,Post-Termination Services,2,41,0.0488
+reranker,No-Solicit Of Customers,Rofr/Rofo/Rofn,2,41,0.0488
+reranker,No-Solicit Of Customers,Affiliate License-Licensor,1,41,0.0244
+reranker,No-Solicit Of Customers,Audit Rights,1,41,0.0244
+reranker,No-Solicit Of Customers,Cap On Liability,1,41,0.0244
+reranker,No-Solicit Of Customers,Change Of Control,1,41,0.0244
+reranker,No-Solicit Of Customers,Document Name,1,41,0.0244
+reranker,No-Solicit Of Customers,Effective Date,1,41,0.0244
+reranker,No-Solicit Of Customers,Expiration Date,1,41,0.0244
+reranker,No-Solicit Of Customers,Irrevocable Or Perpetual License,1,41,0.0244
+reranker,No-Solicit Of Employees,No-Solicit Of Customers,6,13,0.4615
+reranker,No-Solicit Of Employees,Non-Compete,6,13,0.4615
+reranker,No-Solicit Of Employees,(no gold label),5,13,0.3846
+reranker,No-Solicit Of Employees,Competitive Restriction Exception,2,13,0.1538
+reranker,No-Solicit Of Employees,Exclusivity,2,13,0.1538
+reranker,No-Solicit Of Employees,Anti-Assignment,1,13,0.0769
+reranker,No-Solicit Of Employees,Covenant Not To Sue,1,13,0.0769
+reranker,No-Solicit Of Employees,Ip Ownership Assignment,1,13,0.0769
+reranker,No-Solicit Of Employees,Minimum Commitment,1,13,0.0769
+reranker,No-Solicit Of Employees,Non-Disparagement,1,13,0.0769
+reranker,Non-Compete,(no gold label),25,81,0.3086
+reranker,Non-Compete,Exclusivity,17,81,0.2099
+reranker,Non-Compete,License Grant,17,81,0.2099
+reranker,Non-Compete,Non-Transferable License,12,81,0.1481
+reranker,Non-Compete,Competitive Restriction Exception,7,81,0.0864
+reranker,Non-Compete,Minimum Commitment,6,81,0.0741
+reranker,Non-Compete,Rofr/Rofo/Rofn,6,81,0.0741
+reranker,Non-Compete,Covenant Not To Sue,4,81,0.0494
+reranker,Non-Compete,Revenue/Profit Sharing,4,81,0.0494
+reranker,Non-Compete,Anti-Assignment,3,81,0.037
+reranker,Non-Compete,Irrevocable Or Perpetual License,3,81,0.037
+reranker,Non-Compete,Post-Termination Services,3,81,0.037
+reranker,Non-Compete,Change Of Control,2,81,0.0247
+reranker,Non-Compete,No-Solicit Of Customers,2,81,0.0247
+reranker,Non-Compete,No-Solicit Of Employees,2,81,0.0247
+reranker,Non-Compete,Parties,2,81,0.0247
+reranker,Non-Compete,Volume Restriction,2,81,0.0247
+reranker,Non-Compete,Affiliate License-Licensee,1,81,0.0123
+reranker,Non-Compete,Affiliate License-Licensor,1,81,0.0123
+reranker,Non-Compete,Audit Rights,1,81,0.0123
+reranker,Non-Compete,Ip Ownership Assignment,1,81,0.0123
+reranker,Non-Compete,Joint Ip Ownership,1,81,0.0123
+reranker,Non-Compete,Non-Disparagement,1,81,0.0123
+reranker,Non-Compete,Price Restrictions,1,81,0.0123
+reranker,Non-Compete,Renewal Term,1,81,0.0123
+reranker,Non-Disparagement,License Grant,6,14,0.4286
+reranker,Non-Disparagement,Covenant Not To Sue,5,14,0.3571
+reranker,Non-Disparagement,Non-Transferable License,4,14,0.2857
+reranker,Non-Disparagement,Ip Ownership Assignment,2,14,0.1429
+reranker,Non-Disparagement,(no gold label),1,14,0.0714
+reranker,Non-Disparagement,Anti-Assignment,1,14,0.0714
+reranker,Non-Disparagement,Governing Law,1,14,0.0714
+reranker,Non-Disparagement,Joint Ip Ownership,1,14,0.0714
+reranker,Non-Disparagement,Termination For Convenience,1,14,0.0714
+reranker,Non-Disparagement,Volume Restriction,1,14,0.0714
+reranker,Non-Transferable License,License Grant,42,47,0.8936
+reranker,Non-Transferable License,Irrevocable Or Perpetual License,25,47,0.5319
+reranker,Non-Transferable License,Affiliate License-Licensee,12,47,0.2553
+reranker,Non-Transferable License,Exclusivity,10,47,0.2128
+reranker,Non-Transferable License,Affiliate License-Licensor,8,47,0.1702
+reranker,Non-Transferable License,Joint Ip Ownership,5,47,0.1064
+reranker,Non-Transferable License,Ip Ownership Assignment,4,47,0.0851
+reranker,Non-Transferable License,Anti-Assignment,3,47,0.0638
+reranker,Non-Transferable License,Expiration Date,2,47,0.0426
+reranker,Non-Transferable License,Post-Termination Services,2,47,0.0426
+reranker,Non-Transferable License,Termination For Convenience,2,47,0.0426
+reranker,Non-Transferable License,Competitive Restriction Exception,1,47,0.0213
+reranker,Non-Transferable License,Effective Date,1,47,0.0213
+reranker,Non-Transferable License,Minimum Commitment,1,47,0.0213
+reranker,Non-Transferable License,No-Solicit Of Employees,1,47,0.0213
+reranker,Non-Transferable License,Revenue/Profit Sharing,1,47,0.0213
+reranker,Non-Transferable License,Unlimited/All-You-Can-Eat-License,1,47,0.0213
+reranker,Notice Period To Terminate Renewal,Expiration Date,34,44,0.7727
+reranker,Notice Period To Terminate Renewal,Renewal Term,26,44,0.5909
+reranker,Notice Period To Terminate Renewal,Termination For Convenience,13,44,0.2955
+reranker,Notice Period To Terminate Renewal,Effective Date,7,44,0.1591
+reranker,Notice Period To Terminate Renewal,Parties,6,44,0.1364
+reranker,Notice Period To Terminate Renewal,Post-Termination Services,6,44,0.1364
+reranker,Notice Period To Terminate Renewal,Agreement Date,5,44,0.1136
+reranker,Notice Period To Terminate Renewal,Document Name,5,44,0.1136
+reranker,Notice Period To Terminate Renewal,Exclusivity,3,44,0.0682
+reranker,Notice Period To Terminate Renewal,(no gold label),2,44,0.0455
+reranker,Notice Period To Terminate Renewal,Cap On Liability,2,44,0.0455
+reranker,Notice Period To Terminate Renewal,Change Of Control,2,44,0.0455
+reranker,Notice Period To Terminate Renewal,Insurance,2,44,0.0455
+reranker,Notice Period To Terminate Renewal,Price Restrictions,2,44,0.0455
+reranker,Notice Period To Terminate Renewal,Warranty Duration,2,44,0.0455
+reranker,Notice Period To Terminate Renewal,Audit Rights,1,44,0.0227
+reranker,Notice Period To Terminate Renewal,Competitive Restriction Exception,1,44,0.0227
+reranker,Notice Period To Terminate Renewal,Ip Ownership Assignment,1,44,0.0227
+reranker,Notice Period To Terminate Renewal,License Grant,1,44,0.0227
+reranker,Notice Period To Terminate Renewal,Minimum Commitment,1,44,0.0227
+reranker,Notice Period To Terminate Renewal,No-Solicit Of Employees,1,44,0.0227
+reranker,Notice Period To Terminate Renewal,Revenue/Profit Sharing,1,44,0.0227
+reranker,Notice Period To Terminate Renewal,Uncapped Liability,1,44,0.0227
+reranker,Parties,(no gold label),39,57,0.6842
+reranker,Parties,Document Name,12,57,0.2105
+reranker,Parties,Agreement Date,8,57,0.1404
+reranker,Parties,Effective Date,4,57,0.0702
+reranker,Parties,Expiration Date,3,57,0.0526
+reranker,Parties,Governing Law,1,57,0.0175
+reranker,Parties,No-Solicit Of Customers,1,57,0.0175
+reranker,Parties,Non-Compete,1,57,0.0175
+reranker,Parties,Notice Period To Terminate Renewal,1,57,0.0175
+reranker,Parties,Renewal Term,1,57,0.0175
+reranker,Post-Termination Services,(no gold label),100,300,0.3333
+reranker,Post-Termination Services,Expiration Date,67,300,0.2233
+reranker,Post-Termination Services,Termination For Convenience,58,300,0.1933
+reranker,Post-Termination Services,Renewal Term,25,300,0.0833
+reranker,Post-Termination Services,Change Of Control,23,300,0.0767
+reranker,Post-Termination Services,Notice Period To Terminate Renewal,18,300,0.06
+reranker,Post-Termination Services,Effective Date,15,300,0.05
+reranker,Post-Termination Services,License Grant,14,300,0.0467
+reranker,Post-Termination Services,Anti-Assignment,13,300,0.0433
+reranker,Post-Termination Services,Liquidated Damages,13,300,0.0433
+reranker,Post-Termination Services,Cap On Liability,11,300,0.0367
+reranker,Post-Termination Services,Exclusivity,11,300,0.0367
+reranker,Post-Termination Services,Minimum Commitment,10,300,0.0333
+reranker,Post-Termination Services,Non-Compete,10,300,0.0333
+reranker,Post-Termination Services,Rofr/Rofo/Rofn,10,300,0.0333
+reranker,Post-Termination Services,Audit Rights,9,300,0.03
+reranker,Post-Termination Services,Irrevocable Or Perpetual License,8,300,0.0267
+reranker,Post-Termination Services,Governing Law,7,300,0.0233
+reranker,Post-Termination Services,Revenue/Profit Sharing,7,300,0.0233
+reranker,Post-Termination Services,Agreement Date,6,300,0.02
+reranker,Post-Termination Services,Insurance,6,300,0.02
+reranker,Post-Termination Services,No-Solicit Of Customers,5,300,0.0167
+reranker,Post-Termination Services,No-Solicit Of Employees,5,300,0.0167
+reranker,Post-Termination Services,Parties,5,300,0.0167
+reranker,Post-Termination Services,Document Name,4,300,0.0133
+reranker,Post-Termination Services,Ip Ownership Assignment,4,300,0.0133
+reranker,Post-Termination Services,Competitive Restriction Exception,3,300,0.01
+reranker,Post-Termination Services,Third Party Beneficiary,3,300,0.01
+reranker,Post-Termination Services,Covenant Not To Sue,2,300,0.0067
+reranker,Post-Termination Services,Joint Ip Ownership,2,300,0.0067
+reranker,Post-Termination Services,Most Favored Nation,2,300,0.0067
+reranker,Post-Termination Services,Non-Disparagement,2,300,0.0067
+reranker,Post-Termination Services,Price Restrictions,2,300,0.0067
+reranker,Post-Termination Services,Uncapped Liability,2,300,0.0067
+reranker,Post-Termination Services,Affiliate License-Licensee,1,300,0.0033
+reranker,Post-Termination Services,Affiliate License-Licensor,1,300,0.0033
+reranker,Post-Termination Services,Source Code Escrow,1,300,0.0033
+reranker,Post-Termination Services,Volume Restriction,1,300,0.0033
+reranker,Price Restrictions,(no gold label),81,179,0.4525
+reranker,Price Restrictions,Revenue/Profit Sharing,21,179,0.1173
+reranker,Price Restrictions,Minimum Commitment,19,179,0.1061
+reranker,Price Restrictions,Volume Restriction,17,179,0.095
+reranker,Price Restrictions,Rofr/Rofo/Rofn,13,179,0.0726
+reranker,Price Restrictions,Exclusivity,12,179,0.067
+reranker,Price Restrictions,Document Name,8,179,0.0447
+reranker,Price Restrictions,License Grant,8,179,0.0447
+reranker,Price Restrictions,Effective Date,7,179,0.0391
+reranker,Price Restrictions,Parties,7,179,0.0391
+reranker,Price Restrictions,Agreement Date,6,179,0.0335
+reranker,Price Restrictions,Audit Rights,6,179,0.0335
+reranker,Price Restrictions,Expiration Date,5,179,0.0279
+reranker,Price Restrictions,Cap On Liability,4,179,0.0223
+reranker,Price Restrictions,Liquidated Damages,3,179,0.0168
+reranker,Price Restrictions,Most Favored Nation,3,179,0.0168
+reranker,Price Restrictions,Non-Compete,3,179,0.0168
+reranker,Price Restrictions,Non-Transferable License,3,179,0.0168
+reranker,Price Restrictions,Anti-Assignment,2,179,0.0112
+reranker,Price Restrictions,No-Solicit Of Customers,2,179,0.0112
+reranker,Price Restrictions,Renewal Term,2,179,0.0112
+reranker,Price Restrictions,Termination For Convenience,2,179,0.0112
+reranker,Price Restrictions,Affiliate License-Licensee,1,179,0.0056
+reranker,Price Restrictions,Competitive Restriction Exception,1,179,0.0056
+reranker,Price Restrictions,Covenant Not To Sue,1,179,0.0056
+reranker,Price Restrictions,Irrevocable Or Perpetual License,1,179,0.0056
+reranker,Price Restrictions,Non-Disparagement,1,179,0.0056
+reranker,Price Restrictions,Notice Period To Terminate Renewal,1,179,0.0056
+reranker,Price Restrictions,Post-Termination Services,1,179,0.0056
+reranker,Price Restrictions,Unlimited/All-You-Can-Eat-License,1,179,0.0056
+reranker,Renewal Term,Expiration Date,29,37,0.7838
+reranker,Renewal Term,Termination For Convenience,10,37,0.2703
+reranker,Renewal Term,Effective Date,6,37,0.1622
+reranker,Renewal Term,(no gold label),4,37,0.1081
+reranker,Renewal Term,Agreement Date,3,37,0.0811
+reranker,Renewal Term,Change Of Control,3,37,0.0811
+reranker,Renewal Term,Document Name,3,37,0.0811
+reranker,Renewal Term,Parties,3,37,0.0811
+reranker,Renewal Term,Cap On Liability,2,37,0.0541
+reranker,Renewal Term,Post-Termination Services,2,37,0.0541
+reranker,Renewal Term,Irrevocable Or Perpetual License,1,37,0.027
+reranker,Renewal Term,Minimum Commitment,1,37,0.027
+reranker,Renewal Term,Rofr/Rofo/Rofn,1,37,0.027
+reranker,Renewal Term,Uncapped Liability,1,37,0.027
+reranker,Revenue/Profit Sharing,(no gold label),46,106,0.434
+reranker,Revenue/Profit Sharing,Minimum Commitment,18,106,0.1698
+reranker,Revenue/Profit Sharing,Post-Termination Services,9,106,0.0849
+reranker,Revenue/Profit Sharing,Liquidated Damages,8,106,0.0755
+reranker,Revenue/Profit Sharing,Expiration Date,6,106,0.0566
+reranker,Revenue/Profit Sharing,License Grant,6,106,0.0566
+reranker,Revenue/Profit Sharing,Audit Rights,5,106,0.0472
+reranker,Revenue/Profit Sharing,Renewal Term,5,106,0.0472
+reranker,Revenue/Profit Sharing,Document Name,4,106,0.0377
+reranker,Revenue/Profit Sharing,Non-Transferable License,4,106,0.0377
+reranker,Revenue/Profit Sharing,Parties,4,106,0.0377
+reranker,Revenue/Profit Sharing,Rofr/Rofo/Rofn,4,106,0.0377
+reranker,Revenue/Profit Sharing,Competitive Restriction Exception,3,106,0.0283
+reranker,Revenue/Profit Sharing,Exclusivity,3,106,0.0283
+reranker,Revenue/Profit Sharing,Termination For Convenience,3,106,0.0283
+reranker,Revenue/Profit Sharing,Agreement Date,2,106,0.0189
+reranker,Revenue/Profit Sharing,Effective Date,2,106,0.0189
+reranker,Revenue/Profit Sharing,Most Favored Nation,2,106,0.0189
+reranker,Revenue/Profit Sharing,Non-Compete,2,106,0.0189
+reranker,Revenue/Profit Sharing,Warranty Duration,2,106,0.0189
+reranker,Revenue/Profit Sharing,Affiliate License-Licensee,1,106,0.0094
+reranker,Revenue/Profit Sharing,Cap On Liability,1,106,0.0094
+reranker,Revenue/Profit Sharing,Change Of Control,1,106,0.0094
+reranker,Revenue/Profit Sharing,Covenant Not To Sue,1,106,0.0094
+reranker,Revenue/Profit Sharing,Governing Law,1,106,0.0094
+reranker,Revenue/Profit Sharing,Irrevocable Or Perpetual License,1,106,0.0094
+reranker,Revenue/Profit Sharing,Notice Period To Terminate Renewal,1,106,0.0094
+reranker,Rofr/Rofo/Rofn,(no gold label),17,37,0.4595
+reranker,Rofr/Rofo/Rofn,Exclusivity,7,37,0.1892
+reranker,Rofr/Rofo/Rofn,License Grant,6,37,0.1622
+reranker,Rofr/Rofo/Rofn,Competitive Restriction Exception,3,37,0.0811
+reranker,Rofr/Rofo/Rofn,Non-Transferable License,3,37,0.0811
+reranker,Rofr/Rofo/Rofn,Revenue/Profit Sharing,3,37,0.0811
+reranker,Rofr/Rofo/Rofn,Expiration Date,2,37,0.0541
+reranker,Rofr/Rofo/Rofn,Minimum Commitment,2,37,0.0541
+reranker,Rofr/Rofo/Rofn,Anti-Assignment,1,37,0.027
+reranker,Rofr/Rofo/Rofn,Audit Rights,1,37,0.027
+reranker,Rofr/Rofo/Rofn,Effective Date,1,37,0.027
+reranker,Rofr/Rofo/Rofn,Irrevocable Or Perpetual License,1,37,0.027
+reranker,Rofr/Rofo/Rofn,Joint Ip Ownership,1,37,0.027
+reranker,Rofr/Rofo/Rofn,No-Solicit Of Customers,1,37,0.027
+reranker,Rofr/Rofo/Rofn,Non-Compete,1,37,0.027
+reranker,Rofr/Rofo/Rofn,Post-Termination Services,1,37,0.027
+reranker,Rofr/Rofo/Rofn,Volume Restriction,1,37,0.027
+reranker,Source Code Escrow,(no gold label),9,17,0.5294
+reranker,Source Code Escrow,License Grant,5,17,0.2941
+reranker,Source Code Escrow,Irrevocable Or Perpetual License,2,17,0.1176
+reranker,Source Code Escrow,Affiliate License-Licensee,1,17,0.0588
+reranker,Source Code Escrow,Anti-Assignment,1,17,0.0588
+reranker,Source Code Escrow,Audit Rights,1,17,0.0588
+reranker,Source Code Escrow,Expiration Date,1,17,0.0588
+reranker,Source Code Escrow,Non-Transferable License,1,17,0.0588
+reranker,Source Code Escrow,Notice Period To Terminate Renewal,1,17,0.0588
+reranker,Source Code Escrow,Renewal Term,1,17,0.0588
+reranker,Source Code Escrow,Volume Restriction,1,17,0.0588
+reranker,Termination For Convenience,Expiration Date,44,113,0.3894
+reranker,Termination For Convenience,(no gold label),33,113,0.292
+reranker,Termination For Convenience,Renewal Term,27,113,0.2389
+reranker,Termination For Convenience,Notice Period To Terminate Renewal,26,113,0.2301
+reranker,Termination For Convenience,Post-Termination Services,20,113,0.177
+reranker,Termination For Convenience,Change Of Control,18,113,0.1593
+reranker,Termination For Convenience,Effective Date,6,113,0.0531
+reranker,Termination For Convenience,Cap On Liability,5,113,0.0442
+reranker,Termination For Convenience,Non-Compete,5,113,0.0442
+reranker,Termination For Convenience,Parties,5,113,0.0442
+reranker,Termination For Convenience,Covenant Not To Sue,4,113,0.0354
+reranker,Termination For Convenience,Minimum Commitment,4,113,0.0354
+reranker,Termination For Convenience,Audit Rights,3,113,0.0265
+reranker,Termination For Convenience,Document Name,3,113,0.0265
+reranker,Termination For Convenience,Agreement Date,2,113,0.0177
+reranker,Termination For Convenience,Anti-Assignment,2,113,0.0177
+reranker,Termination For Convenience,Exclusivity,2,113,0.0177
+reranker,Termination For Convenience,Irrevocable Or Perpetual License,2,113,0.0177
+reranker,Termination For Convenience,License Grant,2,113,0.0177
+reranker,Termination For Convenience,Non-Transferable License,2,113,0.0177
+reranker,Termination For Convenience,Revenue/Profit Sharing,2,113,0.0177
+reranker,Termination For Convenience,Uncapped Liability,2,113,0.0177
+reranker,Termination For Convenience,Governing Law,1,113,0.0088
+reranker,Termination For Convenience,Ip Ownership Assignment,1,113,0.0088
+reranker,Termination For Convenience,No-Solicit Of Customers,1,113,0.0088
+reranker,Termination For Convenience,Rofr/Rofo/Rofn,1,113,0.0088
+reranker,Third Party Beneficiary,(no gold label),16,33,0.4848
+reranker,Third Party Beneficiary,Anti-Assignment,13,33,0.3939
+reranker,Third Party Beneficiary,Governing Law,4,33,0.1212
+reranker,Third Party Beneficiary,Change Of Control,3,33,0.0909
+reranker,Third Party Beneficiary,Cap On Liability,1,33,0.0303
+reranker,Third Party Beneficiary,Expiration Date,1,33,0.0303
+reranker,Third Party Beneficiary,Parties,1,33,0.0303
+reranker,Third Party Beneficiary,Rofr/Rofo/Rofn,1,33,0.0303
+reranker,Uncapped Liability,Cap On Liability,95,114,0.8333
+reranker,Uncapped Liability,Expiration Date,13,114,0.114
+reranker,Uncapped Liability,(no gold label),10,114,0.0877
+reranker,Uncapped Liability,Governing Law,7,114,0.0614
+reranker,Uncapped Liability,Renewal Term,7,114,0.0614
+reranker,Uncapped Liability,Warranty Duration,7,114,0.0614
+reranker,Uncapped Liability,Insurance,6,114,0.0526
+reranker,Uncapped Liability,Termination For Convenience,5,114,0.0439
+reranker,Uncapped Liability,Anti-Assignment,4,114,0.0351
+reranker,Uncapped Liability,Notice Period To Terminate Renewal,4,114,0.0351
+reranker,Uncapped Liability,Post-Termination Services,4,114,0.0351
+reranker,Uncapped Liability,Document Name,3,114,0.0263
+reranker,Uncapped Liability,Covenant Not To Sue,1,114,0.0088
+reranker,Uncapped Liability,Effective Date,1,114,0.0088
+reranker,Uncapped Liability,Exclusivity,1,114,0.0088
+reranker,Uncapped Liability,Ip Ownership Assignment,1,114,0.0088
+reranker,Uncapped Liability,Liquidated Damages,1,114,0.0088
+reranker,Uncapped Liability,No-Solicit Of Employees,1,114,0.0088
+reranker,Uncapped Liability,Parties,1,114,0.0088
+reranker,Unlimited/All-You-Can-Eat-License,License Grant,56,73,0.7671
+reranker,Unlimited/All-You-Can-Eat-License,Non-Transferable License,24,73,0.3288
+reranker,Unlimited/All-You-Can-Eat-License,Exclusivity,22,73,0.3014
+reranker,Unlimited/All-You-Can-Eat-License,Affiliate License-Licensee,10,73,0.137
+reranker,Unlimited/All-You-Can-Eat-License,Irrevocable Or Perpetual License,9,73,0.1233
+reranker,Unlimited/All-You-Can-Eat-License,(no gold label),7,73,0.0959
+reranker,Unlimited/All-You-Can-Eat-License,Post-Termination Services,6,73,0.0822
+reranker,Unlimited/All-You-Can-Eat-License,Rofr/Rofo/Rofn,5,73,0.0685
+reranker,Unlimited/All-You-Can-Eat-License,Effective Date,4,73,0.0548
+reranker,Unlimited/All-You-Can-Eat-License,Joint Ip Ownership,4,73,0.0548
+reranker,Unlimited/All-You-Can-Eat-License,Affiliate License-Licensor,3,73,0.0411
+reranker,Unlimited/All-You-Can-Eat-License,Agreement Date,3,73,0.0411
+reranker,Unlimited/All-You-Can-Eat-License,Document Name,3,73,0.0411
+reranker,Unlimited/All-You-Can-Eat-License,Parties,3,73,0.0411
+reranker,Unlimited/All-You-Can-Eat-License,Anti-Assignment,2,73,0.0274
+reranker,Unlimited/All-You-Can-Eat-License,Covenant Not To Sue,2,73,0.0274
+reranker,Unlimited/All-You-Can-Eat-License,Expiration Date,2,73,0.0274
+reranker,Unlimited/All-You-Can-Eat-License,Ip Ownership Assignment,2,73,0.0274
+reranker,Unlimited/All-You-Can-Eat-License,Minimum Commitment,2,73,0.0274
+reranker,Unlimited/All-You-Can-Eat-License,Termination For Convenience,2,73,0.0274
+reranker,Unlimited/All-You-Can-Eat-License,Change Of Control,1,73,0.0137
+reranker,Unlimited/All-You-Can-Eat-License,Competitive Restriction Exception,1,73,0.0137
+reranker,Unlimited/All-You-Can-Eat-License,Insurance,1,73,0.0137
+reranker,Unlimited/All-You-Can-Eat-License,Liquidated Damages,1,73,0.0137
+reranker,Unlimited/All-You-Can-Eat-License,Non-Compete,1,73,0.0137
+reranker,Unlimited/All-You-Can-Eat-License,Non-Disparagement,1,73,0.0137
+reranker,Unlimited/All-You-Can-Eat-License,Renewal Term,1,73,0.0137
+reranker,Unlimited/All-You-Can-Eat-License,Revenue/Profit Sharing,1,73,0.0137
+reranker,Unlimited/All-You-Can-Eat-License,Volume Restriction,1,73,0.0137
+reranker,Volume Restriction,(no gold label),55,126,0.4365
+reranker,Volume Restriction,Minimum Commitment,29,126,0.2302
+reranker,Volume Restriction,Exclusivity,12,126,0.0952
+reranker,Volume Restriction,License Grant,7,126,0.0556
+reranker,Volume Restriction,Revenue/Profit Sharing,7,126,0.0556
+reranker,Volume Restriction,Audit Rights,6,126,0.0476
+reranker,Volume Restriction,Price Restrictions,6,126,0.0476
+reranker,Volume Restriction,Competitive Restriction Exception,5,126,0.0397
+reranker,Volume Restriction,Expiration Date,5,126,0.0397
+reranker,Volume Restriction,Non-Compete,4,126,0.0317
+reranker,Volume Restriction,Rofr/Rofo/Rofn,4,126,0.0317
+reranker,Volume Restriction,Termination For Convenience,4,126,0.0317
+reranker,Volume Restriction,Most Favored Nation,3,126,0.0238
+reranker,Volume Restriction,Cap On Liability,2,126,0.0159
+reranker,Volume Restriction,Effective Date,2,126,0.0159
+reranker,Volume Restriction,No-Solicit Of Customers,2,126,0.0159
+reranker,Volume Restriction,Non-Transferable License,2,126,0.0159
+reranker,Volume Restriction,Parties,2,126,0.0159
+reranker,Volume Restriction,Renewal Term,2,126,0.0159
+reranker,Volume Restriction,Warranty Duration,2,126,0.0159
+reranker,Volume Restriction,Agreement Date,1,126,0.0079
+reranker,Volume Restriction,Anti-Assignment,1,126,0.0079
+reranker,Volume Restriction,Document Name,1,126,0.0079
+reranker,Volume Restriction,Governing Law,1,126,0.0079
+reranker,Volume Restriction,Liquidated Damages,1,126,0.0079
+reranker,Volume Restriction,Non-Disparagement,1,126,0.0079
+reranker,Volume Restriction,Notice Period To Terminate Renewal,1,126,0.0079
+reranker,Volume Restriction,Post-Termination Services,1,126,0.0079
+reranker,Volume Restriction,Unlimited/All-You-Can-Eat-License,1,126,0.0079
+reranker,Warranty Duration,(no gold label),38,68,0.5588
+reranker,Warranty Duration,Cap On Liability,14,68,0.2059
+reranker,Warranty Duration,Expiration Date,7,68,0.1029
+reranker,Warranty Duration,Minimum Commitment,4,68,0.0588
+reranker,Warranty Duration,Termination For Convenience,4,68,0.0588
+reranker,Warranty Duration,Effective Date,3,68,0.0441
+reranker,Warranty Duration,Audit Rights,2,68,0.0294
+reranker,Warranty Duration,License Grant,2,68,0.0294
+reranker,Warranty Duration,Post-Termination Services,2,68,0.0294
+reranker,Warranty Duration,Rofr/Rofo/Rofn,2,68,0.0294
+reranker,Warranty Duration,Agreement Date,1,68,0.0147
+reranker,Warranty Duration,Covenant Not To Sue,1,68,0.0147
+reranker,Warranty Duration,Document Name,1,68,0.0147
+reranker,Warranty Duration,Insurance,1,68,0.0147
+reranker,Warranty Duration,Ip Ownership Assignment,1,68,0.0147
+reranker,Warranty Duration,Irrevocable Or Perpetual License,1,68,0.0147
+reranker,Warranty Duration,Non-Transferable License,1,68,0.0147
+reranker,Warranty Duration,Notice Period To Terminate Renewal,1,68,0.0147
+reranker,Warranty Duration,Parties,1,68,0.0147
+reranker,Warranty Duration,Renewal Term,1,68,0.0147
+word_char_tfidf,Affiliate License-Licensee,License Grant,26,28,0.9286
+word_char_tfidf,Affiliate License-Licensee,Non-Transferable License,21,28,0.75
+word_char_tfidf,Affiliate License-Licensee,Irrevocable Or Perpetual License,9,28,0.3214
+word_char_tfidf,Affiliate License-Licensee,Exclusivity,7,28,0.25
+word_char_tfidf,Affiliate License-Licensee,Affiliate License-Licensor,2,28,0.0714
+word_char_tfidf,Affiliate License-Licensee,Anti-Assignment,2,28,0.0714
+word_char_tfidf,Affiliate License-Licensee,Competitive Restriction Exception,2,28,0.0714
+word_char_tfidf,Affiliate License-Licensee,Covenant Not To Sue,2,28,0.0714
+word_char_tfidf,Affiliate License-Licensee,Joint Ip Ownership,2,28,0.0714
+word_char_tfidf,Affiliate License-Licensee,Non-Compete,2,28,0.0714
+word_char_tfidf,Affiliate License-Licensee,Ip Ownership Assignment,1,28,0.0357
+word_char_tfidf,Affiliate License-Licensee,No-Solicit Of Customers,1,28,0.0357
+word_char_tfidf,Affiliate License-Licensee,Post-Termination Services,1,28,0.0357
+word_char_tfidf,Affiliate License-Licensee,Unlimited/All-You-Can-Eat-License,1,28,0.0357
+word_char_tfidf,Affiliate License-Licensor,License Grant,60,95,0.6316
+word_char_tfidf,Affiliate License-Licensor,Non-Transferable License,28,95,0.2947
+word_char_tfidf,Affiliate License-Licensor,Exclusivity,24,95,0.2526
+word_char_tfidf,Affiliate License-Licensor,(no gold label),21,95,0.2211
+word_char_tfidf,Affiliate License-Licensor,Irrevocable Or Perpetual License,18,95,0.1895
+word_char_tfidf,Affiliate License-Licensor,Affiliate License-Licensee,13,95,0.1368
+word_char_tfidf,Affiliate License-Licensor,Joint Ip Ownership,12,95,0.1263
+word_char_tfidf,Affiliate License-Licensor,Ip Ownership Assignment,10,95,0.1053
+word_char_tfidf,Affiliate License-Licensor,Post-Termination Services,4,95,0.0421
+word_char_tfidf,Affiliate License-Licensor,Anti-Assignment,2,95,0.0211
+word_char_tfidf,Affiliate License-Licensor,Rofr/Rofo/Rofn,2,95,0.0211
+word_char_tfidf,Affiliate License-Licensor,Termination For Convenience,2,95,0.0211
+word_char_tfidf,Affiliate License-Licensor,Unlimited/All-You-Can-Eat-License,2,95,0.0211
+word_char_tfidf,Affiliate License-Licensor,Change Of Control,1,95,0.0105
+word_char_tfidf,Affiliate License-Licensor,Covenant Not To Sue,1,95,0.0105
+word_char_tfidf,Affiliate License-Licensor,Expiration Date,1,95,0.0105
+word_char_tfidf,Affiliate License-Licensor,Insurance,1,95,0.0105
+word_char_tfidf,Affiliate License-Licensor,Non-Compete,1,95,0.0105
+word_char_tfidf,Affiliate License-Licensor,Revenue/Profit Sharing,1,95,0.0105
+word_char_tfidf,Agreement Date,Parties,68,105,0.6476
+word_char_tfidf,Agreement Date,Document Name,46,105,0.4381
+word_char_tfidf,Agreement Date,(no gold label),30,105,0.2857
+word_char_tfidf,Agreement Date,Effective Date,14,105,0.1333
+word_char_tfidf,Agreement Date,License Grant,4,105,0.0381
+word_char_tfidf,Agreement Date,Expiration Date,3,105,0.0286
+word_char_tfidf,Agreement Date,Exclusivity,2,105,0.019
+word_char_tfidf,Agreement Date,Non-Transferable License,2,105,0.019
+word_char_tfidf,Agreement Date,Minimum Commitment,1,105,0.0095
+word_char_tfidf,Agreement Date,Unlimited/All-You-Can-Eat-License,1,105,0.0095
+word_char_tfidf,Anti-Assignment,(no gold label),28,64,0.4375
+word_char_tfidf,Anti-Assignment,Governing Law,19,64,0.2969
+word_char_tfidf,Anti-Assignment,Ip Ownership Assignment,5,64,0.0781
+word_char_tfidf,Anti-Assignment,License Grant,4,64,0.0625
+word_char_tfidf,Anti-Assignment,Change Of Control,3,64,0.0469
+word_char_tfidf,Anti-Assignment,Non-Transferable License,3,64,0.0469
+word_char_tfidf,Anti-Assignment,Expiration Date,2,64,0.0312
+word_char_tfidf,Anti-Assignment,Non-Compete,2,64,0.0312
+word_char_tfidf,Anti-Assignment,Rofr/Rofo/Rofn,2,64,0.0312
+word_char_tfidf,Anti-Assignment,Termination For Convenience,2,64,0.0312
+word_char_tfidf,Anti-Assignment,Audit Rights,1,64,0.0156
+word_char_tfidf,Anti-Assignment,Cap On Liability,1,64,0.0156
+word_char_tfidf,Anti-Assignment,Covenant Not To Sue,1,64,0.0156
+word_char_tfidf,Anti-Assignment,Effective Date,1,64,0.0156
+word_char_tfidf,Anti-Assignment,Exclusivity,1,64,0.0156
+word_char_tfidf,Anti-Assignment,Joint Ip Ownership,1,64,0.0156
+word_char_tfidf,Anti-Assignment,Parties,1,64,0.0156
+word_char_tfidf,Anti-Assignment,Source Code Escrow,1,64,0.0156
+word_char_tfidf,Anti-Assignment,Third Party Beneficiary,1,64,0.0156
+word_char_tfidf,Audit Rights,(no gold label),71,85,0.8353
+word_char_tfidf,Audit Rights,Post-Termination Services,4,85,0.0471
+word_char_tfidf,Audit Rights,Cap On Liability,3,85,0.0353
+word_char_tfidf,Audit Rights,Exclusivity,2,85,0.0235
+word_char_tfidf,Audit Rights,Ip Ownership Assignment,2,85,0.0235
+word_char_tfidf,Audit Rights,Change Of Control,1,85,0.0118
+word_char_tfidf,Audit Rights,Expiration Date,1,85,0.0118
+word_char_tfidf,Audit Rights,Non-Compete,1,85,0.0118
+word_char_tfidf,Audit Rights,Price Restrictions,1,85,0.0118
+word_char_tfidf,Audit Rights,Renewal Term,1,85,0.0118
+word_char_tfidf,Audit Rights,Termination For Convenience,1,85,0.0118
+word_char_tfidf,Cap On Liability,(no gold label),60,82,0.7317
+word_char_tfidf,Cap On Liability,Insurance,8,82,0.0976
+word_char_tfidf,Cap On Liability,Expiration Date,5,82,0.061
+word_char_tfidf,Cap On Liability,Uncapped Liability,4,82,0.0488
+word_char_tfidf,Cap On Liability,License Grant,3,82,0.0366
+word_char_tfidf,Cap On Liability,Non-Transferable License,3,82,0.0366
+word_char_tfidf,Cap On Liability,Renewal Term,3,82,0.0366
+word_char_tfidf,Cap On Liability,Termination For Convenience,3,82,0.0366
+word_char_tfidf,Cap On Liability,Governing Law,2,82,0.0244
+word_char_tfidf,Cap On Liability,Warranty Duration,2,82,0.0244
+word_char_tfidf,Cap On Liability,Audit Rights,1,82,0.0122
+word_char_tfidf,Cap On Liability,Liquidated Damages,1,82,0.0122
+word_char_tfidf,Cap On Liability,Revenue/Profit Sharing,1,82,0.0122
+word_char_tfidf,Change Of Control,Anti-Assignment,30,55,0.5455
+word_char_tfidf,Change Of Control,(no gold label),19,55,0.3455
+word_char_tfidf,Change Of Control,Expiration Date,3,55,0.0545
+word_char_tfidf,Change Of Control,Termination For Convenience,3,55,0.0545
+word_char_tfidf,Change Of Control,Governing Law,2,55,0.0364
+word_char_tfidf,Change Of Control,Non-Compete,1,55,0.0182
+word_char_tfidf,Change Of Control,Non-Transferable License,1,55,0.0182
+word_char_tfidf,Change Of Control,Notice Period To Terminate Renewal,1,55,0.0182
+word_char_tfidf,Change Of Control,Post-Termination Services,1,55,0.0182
+word_char_tfidf,Change Of Control,Renewal Term,1,55,0.0182
+word_char_tfidf,Change Of Control,Rofr/Rofo/Rofn,1,55,0.0182
+word_char_tfidf,Competitive Restriction Exception,License Grant,26,75,0.3467
+word_char_tfidf,Competitive Restriction Exception,Exclusivity,22,75,0.2933
+word_char_tfidf,Competitive Restriction Exception,(no gold label),19,75,0.2533
+word_char_tfidf,Competitive Restriction Exception,Non-Compete,15,75,0.2
+word_char_tfidf,Competitive Restriction Exception,Non-Transferable License,13,75,0.1733
+word_char_tfidf,Competitive Restriction Exception,Affiliate License-Licensee,6,75,0.08
+word_char_tfidf,Competitive Restriction Exception,No-Solicit Of Employees,5,75,0.0667
+word_char_tfidf,Competitive Restriction Exception,No-Solicit Of Customers,4,75,0.0533
+word_char_tfidf,Competitive Restriction Exception,Rofr/Rofo/Rofn,4,75,0.0533
+word_char_tfidf,Competitive Restriction Exception,Anti-Assignment,3,75,0.04
+word_char_tfidf,Competitive Restriction Exception,Covenant Not To Sue,3,75,0.04
+word_char_tfidf,Competitive Restriction Exception,Parties,3,75,0.04
+word_char_tfidf,Competitive Restriction Exception,Post-Termination Services,3,75,0.04
+word_char_tfidf,Competitive Restriction Exception,Affiliate License-Licensor,2,75,0.0267
+word_char_tfidf,Competitive Restriction Exception,Agreement Date,2,75,0.0267
+word_char_tfidf,Competitive Restriction Exception,Change Of Control,2,75,0.0267
+word_char_tfidf,Competitive Restriction Exception,Document Name,2,75,0.0267
+word_char_tfidf,Competitive Restriction Exception,Expiration Date,2,75,0.0267
+word_char_tfidf,Competitive Restriction Exception,Irrevocable Or Perpetual License,2,75,0.0267
+word_char_tfidf,Competitive Restriction Exception,Minimum Commitment,2,75,0.0267
+word_char_tfidf,Competitive Restriction Exception,Unlimited/All-You-Can-Eat-License,2,75,0.0267
+word_char_tfidf,Competitive Restriction Exception,Effective Date,1,75,0.0133
+word_char_tfidf,Competitive Restriction Exception,Governing Law,1,75,0.0133
+word_char_tfidf,Competitive Restriction Exception,Ip Ownership Assignment,1,75,0.0133
+word_char_tfidf,Competitive Restriction Exception,Joint Ip Ownership,1,75,0.0133
+word_char_tfidf,Competitive Restriction Exception,Renewal Term,1,75,0.0133
+word_char_tfidf,Competitive Restriction Exception,Revenue/Profit Sharing,1,75,0.0133
+word_char_tfidf,Covenant Not To Sue,(no gold label),11,30,0.3667
+word_char_tfidf,Covenant Not To Sue,License Grant,11,30,0.3667
+word_char_tfidf,Covenant Not To Sue,Non-Transferable License,6,30,0.2
+word_char_tfidf,Covenant Not To Sue,Ip Ownership Assignment,4,30,0.1333
+word_char_tfidf,Covenant Not To Sue,Joint Ip Ownership,2,30,0.0667
+word_char_tfidf,Covenant Not To Sue,Cap On Liability,1,30,0.0333
+word_char_tfidf,Covenant Not To Sue,Expiration Date,1,30,0.0333
+word_char_tfidf,Covenant Not To Sue,Irrevocable Or Perpetual License,1,30,0.0333
+word_char_tfidf,Covenant Not To Sue,Non-Disparagement,1,30,0.0333
+word_char_tfidf,Covenant Not To Sue,Revenue/Profit Sharing,1,30,0.0333
+word_char_tfidf,Document Name,(no gold label),61,123,0.4959
+word_char_tfidf,Document Name,Parties,53,123,0.4309
+word_char_tfidf,Document Name,Agreement Date,22,123,0.1789
+word_char_tfidf,Document Name,Effective Date,17,123,0.1382
+word_char_tfidf,Document Name,License Grant,7,123,0.0569
+word_char_tfidf,Document Name,Volume Restriction,5,123,0.0407
+word_char_tfidf,Document Name,Expiration Date,3,123,0.0244
+word_char_tfidf,Document Name,Non-Transferable License,3,123,0.0244
+word_char_tfidf,Document Name,Exclusivity,1,123,0.0081
+word_char_tfidf,Document Name,Minimum Commitment,1,123,0.0081
+word_char_tfidf,Document Name,Unlimited/All-You-Can-Eat-License,1,123,0.0081
+word_char_tfidf,Effective Date,Parties,86,124,0.6935
+word_char_tfidf,Effective Date,Document Name,71,124,0.5726
+word_char_tfidf,Effective Date,Agreement Date,55,124,0.4435
+word_char_tfidf,Effective Date,(no gold label),25,124,0.2016
+word_char_tfidf,Effective Date,Expiration Date,14,124,0.1129
+word_char_tfidf,Effective Date,Notice Period To Terminate Renewal,6,124,0.0484
+word_char_tfidf,Effective Date,Renewal Term,6,124,0.0484
+word_char_tfidf,Effective Date,License Grant,5,124,0.0403
+word_char_tfidf,Effective Date,Exclusivity,3,124,0.0242
+word_char_tfidf,Effective Date,Governing Law,3,124,0.0242
+word_char_tfidf,Effective Date,Volume Restriction,3,124,0.0242
+word_char_tfidf,Effective Date,Change Of Control,2,124,0.0161
+word_char_tfidf,Effective Date,Non-Transferable License,2,124,0.0161
+word_char_tfidf,Effective Date,Non-Compete,1,124,0.0081
+word_char_tfidf,Effective Date,Post-Termination Services,1,124,0.0081
+word_char_tfidf,Effective Date,Termination For Convenience,1,124,0.0081
+word_char_tfidf,Effective Date,Unlimited/All-You-Can-Eat-License,1,124,0.0081
+word_char_tfidf,Exclusivity,License Grant,121,202,0.599
+word_char_tfidf,Exclusivity,Non-Transferable License,56,202,0.2772
+word_char_tfidf,Exclusivity,(no gold label),28,202,0.1386
+word_char_tfidf,Exclusivity,Irrevocable Or Perpetual License,27,202,0.1337
+word_char_tfidf,Exclusivity,Parties,21,202,0.104
+word_char_tfidf,Exclusivity,Agreement Date,18,202,0.0891
+word_char_tfidf,Exclusivity,Document Name,18,202,0.0891
+word_char_tfidf,Exclusivity,Affiliate License-Licensee,17,202,0.0842
+word_char_tfidf,Exclusivity,Effective Date,16,202,0.0792
+word_char_tfidf,Exclusivity,Rofr/Rofo/Rofn,12,202,0.0594
+word_char_tfidf,Exclusivity,Ip Ownership Assignment,11,202,0.0545
+word_char_tfidf,Exclusivity,Expiration Date,9,202,0.0446
+word_char_tfidf,Exclusivity,Post-Termination Services,9,202,0.0446
+word_char_tfidf,Exclusivity,Affiliate License-Licensor,8,202,0.0396
+word_char_tfidf,Exclusivity,Minimum Commitment,8,202,0.0396
+word_char_tfidf,Exclusivity,Unlimited/All-You-Can-Eat-License,7,202,0.0347
+word_char_tfidf,Exclusivity,Anti-Assignment,6,202,0.0297
+word_char_tfidf,Exclusivity,Covenant Not To Sue,5,202,0.0248
+word_char_tfidf,Exclusivity,Non-Compete,5,202,0.0248
+word_char_tfidf,Exclusivity,Audit Rights,3,202,0.0149
+word_char_tfidf,Exclusivity,Change Of Control,3,202,0.0149
+word_char_tfidf,Exclusivity,Competitive Restriction Exception,3,202,0.0149
+word_char_tfidf,Exclusivity,Governing Law,3,202,0.0149
+word_char_tfidf,Exclusivity,Joint Ip Ownership,3,202,0.0149
+word_char_tfidf,Exclusivity,Renewal Term,3,202,0.0149
+word_char_tfidf,Exclusivity,Revenue/Profit Sharing,3,202,0.0149
+word_char_tfidf,Exclusivity,Volume Restriction,3,202,0.0149
+word_char_tfidf,Exclusivity,No-Solicit Of Customers,2,202,0.0099
+word_char_tfidf,Exclusivity,Notice Period To Terminate Renewal,2,202,0.0099
+word_char_tfidf,Exclusivity,Termination For Convenience,2,202,0.0099
+word_char_tfidf,Exclusivity,Most Favored Nation,1,202,0.005
+word_char_tfidf,Expiration Date,Termination For Convenience,32,103,0.3107
+word_char_tfidf,Expiration Date,(no gold label),29,103,0.2816
+word_char_tfidf,Expiration Date,Post-Termination Services,25,103,0.2427
+word_char_tfidf,Expiration Date,Renewal Term,18,103,0.1748
+word_char_tfidf,Expiration Date,Change Of Control,12,103,0.1165
+word_char_tfidf,Expiration Date,Notice Period To Terminate Renewal,9,103,0.0874
+word_char_tfidf,Expiration Date,Effective Date,5,103,0.0485
+word_char_tfidf,Expiration Date,Exclusivity,4,103,0.0388
+word_char_tfidf,Expiration Date,Liquidated Damages,4,103,0.0388
+word_char_tfidf,Expiration Date,Rofr/Rofo/Rofn,4,103,0.0388
+word_char_tfidf,Expiration Date,Insurance,3,103,0.0291
+word_char_tfidf,Expiration Date,Minimum Commitment,3,103,0.0291
+word_char_tfidf,Expiration Date,Price Restrictions,3,103,0.0291
+word_char_tfidf,Expiration Date,Cap On Liability,2,103,0.0194
+word_char_tfidf,Expiration Date,License Grant,2,103,0.0194
+word_char_tfidf,Expiration Date,Revenue/Profit Sharing,2,103,0.0194
+word_char_tfidf,Expiration Date,Audit Rights,1,103,0.0097
+word_char_tfidf,Expiration Date,Document Name,1,103,0.0097
+word_char_tfidf,Expiration Date,Ip Ownership Assignment,1,103,0.0097
+word_char_tfidf,Expiration Date,Non-Compete,1,103,0.0097
+word_char_tfidf,Expiration Date,Parties,1,103,0.0097
+word_char_tfidf,Expiration Date,Volume Restriction,1,103,0.0097
+word_char_tfidf,Governing Law,(no gold label),25,34,0.7353
+word_char_tfidf,Governing Law,Anti-Assignment,6,34,0.1765
+word_char_tfidf,Governing Law,Change Of Control,4,34,0.1176
+word_char_tfidf,Governing Law,Effective Date,1,34,0.0294
+word_char_tfidf,Governing Law,Expiration Date,1,34,0.0294
+word_char_tfidf,Governing Law,Ip Ownership Assignment,1,34,0.0294
+word_char_tfidf,Governing Law,Parties,1,34,0.0294
+word_char_tfidf,Governing Law,Renewal Term,1,34,0.0294
+word_char_tfidf,Insurance,(no gold label),14,21,0.6667
+word_char_tfidf,Insurance,Cap On Liability,4,21,0.1905
+word_char_tfidf,Insurance,Uncapped Liability,4,21,0.1905
+word_char_tfidf,Insurance,Termination For Convenience,2,21,0.0952
+word_char_tfidf,Insurance,Third Party Beneficiary,2,21,0.0952
+word_char_tfidf,Insurance,Audit Rights,1,21,0.0476
+word_char_tfidf,Ip Ownership Assignment,(no gold label),22,55,0.4
+word_char_tfidf,Ip Ownership Assignment,License Grant,20,55,0.3636
+word_char_tfidf,Ip Ownership Assignment,Joint Ip Ownership,10,55,0.1818
+word_char_tfidf,Ip Ownership Assignment,Non-Transferable License,7,55,0.1273
+word_char_tfidf,Ip Ownership Assignment,Covenant Not To Sue,6,55,0.1091
+word_char_tfidf,Ip Ownership Assignment,Irrevocable Or Perpetual License,6,55,0.1091
+word_char_tfidf,Ip Ownership Assignment,Exclusivity,5,55,0.0909
+word_char_tfidf,Ip Ownership Assignment,Affiliate License-Licensor,3,55,0.0545
+word_char_tfidf,Ip Ownership Assignment,Post-Termination Services,3,55,0.0545
+word_char_tfidf,Ip Ownership Assignment,Anti-Assignment,2,55,0.0364
+word_char_tfidf,Ip Ownership Assignment,Expiration Date,2,55,0.0364
+word_char_tfidf,Ip Ownership Assignment,Termination For Convenience,2,55,0.0364
+word_char_tfidf,Ip Ownership Assignment,Affiliate License-Licensee,1,55,0.0182
+word_char_tfidf,Ip Ownership Assignment,Audit Rights,1,55,0.0182
+word_char_tfidf,Ip Ownership Assignment,Rofr/Rofo/Rofn,1,55,0.0182
+word_char_tfidf,Irrevocable Or Perpetual License,License Grant,30,30,1.0
+word_char_tfidf,Irrevocable Or Perpetual License,Non-Transferable License,19,30,0.6333
+word_char_tfidf,Irrevocable Or Perpetual License,Exclusivity,14,30,0.4667
+word_char_tfidf,Irrevocable Or Perpetual License,Affiliate License-Licensee,4,30,0.1333
+word_char_tfidf,Irrevocable Or Perpetual License,Anti-Assignment,3,30,0.1
+word_char_tfidf,Irrevocable Or Perpetual License,Joint Ip Ownership,3,30,0.1
+word_char_tfidf,Irrevocable Or Perpetual License,Ip Ownership Assignment,2,30,0.0667
+word_char_tfidf,Irrevocable Or Perpetual License,Post-Termination Services,2,30,0.0667
+word_char_tfidf,Irrevocable Or Perpetual License,Unlimited/All-You-Can-Eat-License,2,30,0.0667
+word_char_tfidf,Irrevocable Or Perpetual License,Affiliate License-Licensor,1,30,0.0333
+word_char_tfidf,Irrevocable Or Perpetual License,Covenant Not To Sue,1,30,0.0333
+word_char_tfidf,Irrevocable Or Perpetual License,Non-Compete,1,30,0.0333
+word_char_tfidf,Irrevocable Or Perpetual License,Revenue/Profit Sharing,1,30,0.0333
+word_char_tfidf,Irrevocable Or Perpetual License,Source Code Escrow,1,30,0.0333
+word_char_tfidf,Joint Ip Ownership,Ip Ownership Assignment,13,31,0.4194
+word_char_tfidf,Joint Ip Ownership,(no gold label),11,31,0.3548
+word_char_tfidf,Joint Ip Ownership,License Grant,9,31,0.2903
+word_char_tfidf,Joint Ip Ownership,Exclusivity,4,31,0.129
+word_char_tfidf,Joint Ip Ownership,Irrevocable Or Perpetual License,4,31,0.129
+word_char_tfidf,Joint Ip Ownership,Affiliate License-Licensee,2,31,0.0645
+word_char_tfidf,Joint Ip Ownership,Non-Transferable License,2,31,0.0645
+word_char_tfidf,Joint Ip Ownership,Affiliate License-Licensor,1,31,0.0323
+word_char_tfidf,Joint Ip Ownership,Covenant Not To Sue,1,31,0.0323
+word_char_tfidf,Joint Ip Ownership,Insurance,1,31,0.0323
+word_char_tfidf,Joint Ip Ownership,Revenue/Profit Sharing,1,31,0.0323
+word_char_tfidf,Joint Ip Ownership,Rofr/Rofo/Rofn,1,31,0.0323
+word_char_tfidf,License Grant,(no gold label),33,85,0.3882
+word_char_tfidf,License Grant,Exclusivity,12,85,0.1412
+word_char_tfidf,License Grant,Ip Ownership Assignment,9,85,0.1059
+word_char_tfidf,License Grant,Covenant Not To Sue,8,85,0.0941
+word_char_tfidf,License Grant,Non-Transferable License,7,85,0.0824
+word_char_tfidf,License Grant,Irrevocable Or Perpetual License,6,85,0.0706
+word_char_tfidf,License Grant,Affiliate License-Licensee,5,85,0.0588
+word_char_tfidf,License Grant,Competitive Restriction Exception,5,85,0.0588
+word_char_tfidf,License Grant,Expiration Date,5,85,0.0588
+word_char_tfidf,License Grant,Non-Compete,5,85,0.0588
+word_char_tfidf,License Grant,Anti-Assignment,4,85,0.0471
+word_char_tfidf,License Grant,Joint Ip Ownership,4,85,0.0471
+word_char_tfidf,License Grant,Rofr/Rofo/Rofn,4,85,0.0471
+word_char_tfidf,License Grant,Post-Termination Services,3,85,0.0353
+word_char_tfidf,License Grant,Effective Date,2,85,0.0235
+word_char_tfidf,License Grant,Minimum Commitment,2,85,0.0235
+word_char_tfidf,License Grant,No-Solicit Of Customers,2,85,0.0235
+word_char_tfidf,License Grant,Parties,2,85,0.0235
+word_char_tfidf,License Grant,Renewal Term,2,85,0.0235
+word_char_tfidf,License Grant,Termination For Convenience,2,85,0.0235
+word_char_tfidf,License Grant,Unlimited/All-You-Can-Eat-License,2,85,0.0235
+word_char_tfidf,License Grant,Agreement Date,1,85,0.0118
+word_char_tfidf,License Grant,Document Name,1,85,0.0118
+word_char_tfidf,License Grant,Source Code Escrow,1,85,0.0118
+word_char_tfidf,Liquidated Damages,(no gold label),26,62,0.4194
+word_char_tfidf,Liquidated Damages,Termination For Convenience,17,62,0.2742
+word_char_tfidf,Liquidated Damages,Expiration Date,11,62,0.1774
+word_char_tfidf,Liquidated Damages,Change Of Control,7,62,0.1129
+word_char_tfidf,Liquidated Damages,Post-Termination Services,5,62,0.0806
+word_char_tfidf,Liquidated Damages,Minimum Commitment,4,62,0.0645
+word_char_tfidf,Liquidated Damages,Notice Period To Terminate Renewal,4,62,0.0645
+word_char_tfidf,Liquidated Damages,Price Restrictions,4,62,0.0645
+word_char_tfidf,Liquidated Damages,Anti-Assignment,3,62,0.0484
+word_char_tfidf,Liquidated Damages,Renewal Term,3,62,0.0484
+word_char_tfidf,Liquidated Damages,Rofr/Rofo/Rofn,3,62,0.0484
+word_char_tfidf,Liquidated Damages,Cap On Liability,2,62,0.0323
+word_char_tfidf,Liquidated Damages,Effective Date,2,62,0.0323
+word_char_tfidf,Liquidated Damages,No-Solicit Of Employees,2,62,0.0323
+word_char_tfidf,Liquidated Damages,Insurance,1,62,0.0161
+word_char_tfidf,Liquidated Damages,Non-Compete,1,62,0.0161
+word_char_tfidf,Liquidated Damages,Non-Disparagement,1,62,0.0161
+word_char_tfidf,Minimum Commitment,(no gold label),66,95,0.6947
+word_char_tfidf,Minimum Commitment,Revenue/Profit Sharing,9,95,0.0947
+word_char_tfidf,Minimum Commitment,Expiration Date,6,95,0.0632
+word_char_tfidf,Minimum Commitment,Volume Restriction,5,95,0.0526
+word_char_tfidf,Minimum Commitment,Exclusivity,4,95,0.0421
+word_char_tfidf,Minimum Commitment,Renewal Term,4,95,0.0421
+word_char_tfidf,Minimum Commitment,Post-Termination Services,3,95,0.0316
+word_char_tfidf,Minimum Commitment,Termination For Convenience,3,95,0.0316
+word_char_tfidf,Minimum Commitment,Liquidated Damages,2,95,0.0211
+word_char_tfidf,Minimum Commitment,No-Solicit Of Customers,2,95,0.0211
+word_char_tfidf,Minimum Commitment,Notice Period To Terminate Renewal,2,95,0.0211
+word_char_tfidf,Minimum Commitment,Price Restrictions,2,95,0.0211
+word_char_tfidf,Minimum Commitment,Audit Rights,1,95,0.0105
+word_char_tfidf,Minimum Commitment,Competitive Restriction Exception,1,95,0.0105
+word_char_tfidf,Minimum Commitment,Effective Date,1,95,0.0105
+word_char_tfidf,Minimum Commitment,Insurance,1,95,0.0105
+word_char_tfidf,Minimum Commitment,Rofr/Rofo/Rofn,1,95,0.0105
+word_char_tfidf,Minimum Commitment,Unlimited/All-You-Can-Eat-License,1,95,0.0105
+word_char_tfidf,Minimum Commitment,Warranty Duration,1,95,0.0105
+word_char_tfidf,Most Favored Nation,(no gold label),13,40,0.325
+word_char_tfidf,Most Favored Nation,Rofr/Rofo/Rofn,8,40,0.2
+word_char_tfidf,Most Favored Nation,Exclusivity,5,40,0.125
+word_char_tfidf,Most Favored Nation,Revenue/Profit Sharing,5,40,0.125
+word_char_tfidf,Most Favored Nation,Expiration Date,3,40,0.075
+word_char_tfidf,Most Favored Nation,Minimum Commitment,3,40,0.075
+word_char_tfidf,Most Favored Nation,Price Restrictions,3,40,0.075
+word_char_tfidf,Most Favored Nation,Cap On Liability,2,40,0.05
+word_char_tfidf,Most Favored Nation,Change Of Control,2,40,0.05
+word_char_tfidf,Most Favored Nation,Effective Date,2,40,0.05
+word_char_tfidf,Most Favored Nation,License Grant,2,40,0.05
+word_char_tfidf,Most Favored Nation,Non-Compete,2,40,0.05
+word_char_tfidf,Most Favored Nation,Post-Termination Services,2,40,0.05
+word_char_tfidf,Most Favored Nation,Affiliate License-Licensee,1,40,0.025
+word_char_tfidf,Most Favored Nation,Affiliate License-Licensor,1,40,0.025
+word_char_tfidf,Most Favored Nation,Anti-Assignment,1,40,0.025
+word_char_tfidf,Most Favored Nation,Audit Rights,1,40,0.025
+word_char_tfidf,Most Favored Nation,Competitive Restriction Exception,1,40,0.025
+word_char_tfidf,Most Favored Nation,Covenant Not To Sue,1,40,0.025
+word_char_tfidf,Most Favored Nation,Insurance,1,40,0.025
+word_char_tfidf,Most Favored Nation,Ip Ownership Assignment,1,40,0.025
+word_char_tfidf,Most Favored Nation,Liquidated Damages,1,40,0.025
+word_char_tfidf,Most Favored Nation,No-Solicit Of Customers,1,40,0.025
+word_char_tfidf,Most Favored Nation,Non-Transferable License,1,40,0.025
+word_char_tfidf,Most Favored Nation,Notice Period To Terminate Renewal,1,40,0.025
+word_char_tfidf,Most Favored Nation,Renewal Term,1,40,0.025
+word_char_tfidf,Most Favored Nation,Termination For Convenience,1,40,0.025
+word_char_tfidf,Most Favored Nation,Volume Restriction,1,40,0.025
+word_char_tfidf,Most Favored Nation,Warranty Duration,1,40,0.025
+word_char_tfidf,No-Solicit Of Customers,(no gold label),17,54,0.3148
+word_char_tfidf,No-Solicit Of Customers,Exclusivity,11,54,0.2037
+word_char_tfidf,No-Solicit Of Customers,Non-Compete,11,54,0.2037
+word_char_tfidf,No-Solicit Of Customers,No-Solicit Of Employees,10,54,0.1852
+word_char_tfidf,No-Solicit Of Customers,Competitive Restriction Exception,5,54,0.0926
+word_char_tfidf,No-Solicit Of Customers,License Grant,5,54,0.0926
+word_char_tfidf,No-Solicit Of Customers,Post-Termination Services,5,54,0.0926
+word_char_tfidf,No-Solicit Of Customers,Agreement Date,3,54,0.0556
+word_char_tfidf,No-Solicit Of Customers,Audit Rights,3,54,0.0556
+word_char_tfidf,No-Solicit Of Customers,Document Name,3,54,0.0556
+word_char_tfidf,No-Solicit Of Customers,Effective Date,3,54,0.0556
+word_char_tfidf,No-Solicit Of Customers,Non-Transferable License,3,54,0.0556
+word_char_tfidf,No-Solicit Of Customers,Parties,3,54,0.0556
+word_char_tfidf,No-Solicit Of Customers,Minimum Commitment,2,54,0.037
+word_char_tfidf,No-Solicit Of Customers,Non-Disparagement,2,54,0.037
+word_char_tfidf,No-Solicit Of Customers,Rofr/Rofo/Rofn,2,54,0.037
+word_char_tfidf,No-Solicit Of Customers,Anti-Assignment,1,54,0.0185
+word_char_tfidf,No-Solicit Of Customers,Ip Ownership Assignment,1,54,0.0185
+word_char_tfidf,No-Solicit Of Customers,Notice Period To Terminate Renewal,1,54,0.0185
+word_char_tfidf,No-Solicit Of Customers,Renewal Term,1,54,0.0185
+word_char_tfidf,No-Solicit Of Customers,Revenue/Profit Sharing,1,54,0.0185
+word_char_tfidf,No-Solicit Of Employees,(no gold label),8,10,0.8
+word_char_tfidf,No-Solicit Of Employees,No-Solicit Of Customers,2,10,0.2
+word_char_tfidf,No-Solicit Of Employees,Non-Compete,2,10,0.2
+word_char_tfidf,Non-Compete,Exclusivity,35,118,0.2966
+word_char_tfidf,Non-Compete,License Grant,30,118,0.2542
+word_char_tfidf,Non-Compete,(no gold label),28,118,0.2373
+word_char_tfidf,Non-Compete,Competitive Restriction Exception,14,118,0.1186
+word_char_tfidf,Non-Compete,Non-Transferable License,14,118,0.1186
+word_char_tfidf,Non-Compete,Rofr/Rofo/Rofn,11,118,0.0932
+word_char_tfidf,Non-Compete,Covenant Not To Sue,6,118,0.0508
+word_char_tfidf,Non-Compete,Anti-Assignment,5,118,0.0424
+word_char_tfidf,Non-Compete,Minimum Commitment,5,118,0.0424
+word_char_tfidf,Non-Compete,No-Solicit Of Customers,5,118,0.0424
+word_char_tfidf,Non-Compete,Agreement Date,4,118,0.0339
+word_char_tfidf,Non-Compete,Change Of Control,4,118,0.0339
+word_char_tfidf,Non-Compete,Document Name,4,118,0.0339
+word_char_tfidf,Non-Compete,No-Solicit Of Employees,4,118,0.0339
+word_char_tfidf,Non-Compete,Parties,4,118,0.0339
+word_char_tfidf,Non-Compete,Affiliate License-Licensee,3,118,0.0254
+word_char_tfidf,Non-Compete,Post-Termination Services,3,118,0.0254
+word_char_tfidf,Non-Compete,Effective Date,2,118,0.0169
+word_char_tfidf,Non-Compete,Expiration Date,2,118,0.0169
+word_char_tfidf,Non-Compete,Governing Law,2,118,0.0169
+word_char_tfidf,Non-Compete,Joint Ip Ownership,2,118,0.0169
+word_char_tfidf,Non-Compete,Non-Disparagement,2,118,0.0169
+word_char_tfidf,Non-Compete,Audit Rights,1,118,0.0085
+word_char_tfidf,Non-Compete,Insurance,1,118,0.0085
+word_char_tfidf,Non-Compete,Ip Ownership Assignment,1,118,0.0085
+word_char_tfidf,Non-Compete,Liquidated Damages,1,118,0.0085
+word_char_tfidf,Non-Compete,Price Restrictions,1,118,0.0085
+word_char_tfidf,Non-Compete,Revenue/Profit Sharing,1,118,0.0085
+word_char_tfidf,Non-Compete,Third Party Beneficiary,1,118,0.0085
+word_char_tfidf,Non-Compete,Unlimited/All-You-Can-Eat-License,1,118,0.0085
+word_char_tfidf,Non-Disparagement,(no gold label),25,67,0.3731
+word_char_tfidf,Non-Disparagement,Covenant Not To Sue,20,67,0.2985
+word_char_tfidf,Non-Disparagement,License Grant,13,67,0.194
+word_char_tfidf,Non-Disparagement,Non-Transferable License,9,67,0.1343
+word_char_tfidf,Non-Disparagement,Ip Ownership Assignment,5,67,0.0746
+word_char_tfidf,Non-Disparagement,No-Solicit Of Employees,3,67,0.0448
+word_char_tfidf,Non-Disparagement,Non-Compete,3,67,0.0448
+word_char_tfidf,Non-Disparagement,Exclusivity,2,67,0.0299
+word_char_tfidf,Non-Disparagement,Expiration Date,2,67,0.0299
+word_char_tfidf,Non-Disparagement,Joint Ip Ownership,2,67,0.0299
+word_char_tfidf,Non-Disparagement,Termination For Convenience,2,67,0.0299
+word_char_tfidf,Non-Disparagement,Affiliate License-Licensee,1,67,0.0149
+word_char_tfidf,Non-Disparagement,Effective Date,1,67,0.0149
+word_char_tfidf,Non-Disparagement,Irrevocable Or Perpetual License,1,67,0.0149
+word_char_tfidf,Non-Disparagement,Minimum Commitment,1,67,0.0149
+word_char_tfidf,Non-Disparagement,No-Solicit Of Customers,1,67,0.0149
+word_char_tfidf,Non-Disparagement,Revenue/Profit Sharing,1,67,0.0149
+word_char_tfidf,Non-Transferable License,License Grant,41,47,0.8723
+word_char_tfidf,Non-Transferable License,Exclusivity,12,47,0.2553
+word_char_tfidf,Non-Transferable License,Irrevocable Or Perpetual License,9,47,0.1915
+word_char_tfidf,Non-Transferable License,Affiliate License-Licensee,8,47,0.1702
+word_char_tfidf,Non-Transferable License,(no gold label),3,47,0.0638
+word_char_tfidf,Non-Transferable License,Affiliate License-Licensor,3,47,0.0638
+word_char_tfidf,Non-Transferable License,Joint Ip Ownership,3,47,0.0638
+word_char_tfidf,Non-Transferable License,Post-Termination Services,3,47,0.0638
+word_char_tfidf,Non-Transferable License,Anti-Assignment,2,47,0.0426
+word_char_tfidf,Non-Transferable License,Change Of Control,2,47,0.0426
+word_char_tfidf,Non-Transferable License,Rofr/Rofo/Rofn,2,47,0.0426
+word_char_tfidf,Non-Transferable License,Source Code Escrow,2,47,0.0426
+word_char_tfidf,Non-Transferable License,Audit Rights,1,47,0.0213
+word_char_tfidf,Non-Transferable License,Covenant Not To Sue,1,47,0.0213
+word_char_tfidf,Non-Transferable License,Expiration Date,1,47,0.0213
+word_char_tfidf,Non-Transferable License,Ip Ownership Assignment,1,47,0.0213
+word_char_tfidf,Non-Transferable License,Minimum Commitment,1,47,0.0213
+word_char_tfidf,Non-Transferable License,Non-Compete,1,47,0.0213
+word_char_tfidf,Non-Transferable License,Termination For Convenience,1,47,0.0213
+word_char_tfidf,Non-Transferable License,Unlimited/All-You-Can-Eat-License,1,47,0.0213
+word_char_tfidf,Notice Period To Terminate Renewal,Expiration Date,11,22,0.5
+word_char_tfidf,Notice Period To Terminate Renewal,Renewal Term,9,22,0.4091
+word_char_tfidf,Notice Period To Terminate Renewal,Termination For Convenience,6,22,0.2727
+word_char_tfidf,Notice Period To Terminate Renewal,Post-Termination Services,3,22,0.1364
+word_char_tfidf,Notice Period To Terminate Renewal,(no gold label),2,22,0.0909
+word_char_tfidf,Notice Period To Terminate Renewal,Change Of Control,2,22,0.0909
+word_char_tfidf,Notice Period To Terminate Renewal,Minimum Commitment,2,22,0.0909
+word_char_tfidf,Notice Period To Terminate Renewal,Ip Ownership Assignment,1,22,0.0455
+word_char_tfidf,Notice Period To Terminate Renewal,Irrevocable Or Perpetual License,1,22,0.0455
+word_char_tfidf,Notice Period To Terminate Renewal,No-Solicit Of Employees,1,22,0.0455
+word_char_tfidf,Notice Period To Terminate Renewal,Price Restrictions,1,22,0.0455
+word_char_tfidf,Notice Period To Terminate Renewal,Rofr/Rofo/Rofn,1,22,0.0455
+word_char_tfidf,Parties,(no gold label),70,91,0.7692
+word_char_tfidf,Parties,Document Name,13,91,0.1429
+word_char_tfidf,Parties,Agreement Date,9,91,0.0989
+word_char_tfidf,Parties,Effective Date,6,91,0.0659
+word_char_tfidf,Parties,Expiration Date,2,91,0.022
+word_char_tfidf,Parties,Anti-Assignment,1,91,0.011
+word_char_tfidf,Parties,Cap On Liability,1,91,0.011
+word_char_tfidf,Parties,Exclusivity,1,91,0.011
+word_char_tfidf,Parties,Governing Law,1,91,0.011
+word_char_tfidf,Post-Termination Services,(no gold label),98,257,0.3813
+word_char_tfidf,Post-Termination Services,Termination For Convenience,51,257,0.1984
+word_char_tfidf,Post-Termination Services,Expiration Date,49,257,0.1907
+word_char_tfidf,Post-Termination Services,Change Of Control,23,257,0.0895
+word_char_tfidf,Post-Termination Services,Renewal Term,21,257,0.0817
+word_char_tfidf,Post-Termination Services,Notice Period To Terminate Renewal,19,257,0.0739
+word_char_tfidf,Post-Termination Services,Cap On Liability,13,257,0.0506
+word_char_tfidf,Post-Termination Services,Audit Rights,11,257,0.0428
+word_char_tfidf,Post-Termination Services,License Grant,11,257,0.0428
+word_char_tfidf,Post-Termination Services,Anti-Assignment,9,257,0.035
+word_char_tfidf,Post-Termination Services,Effective Date,9,257,0.035
+word_char_tfidf,Post-Termination Services,Liquidated Damages,9,257,0.035
+word_char_tfidf,Post-Termination Services,Rofr/Rofo/Rofn,9,257,0.035
+word_char_tfidf,Post-Termination Services,Minimum Commitment,8,257,0.0311
+word_char_tfidf,Post-Termination Services,Non-Compete,8,257,0.0311
+word_char_tfidf,Post-Termination Services,Exclusivity,7,257,0.0272
+word_char_tfidf,Post-Termination Services,Insurance,7,257,0.0272
+word_char_tfidf,Post-Termination Services,Irrevocable Or Perpetual License,7,257,0.0272
+word_char_tfidf,Post-Termination Services,Ip Ownership Assignment,6,257,0.0233
+word_char_tfidf,Post-Termination Services,No-Solicit Of Customers,4,257,0.0156
+word_char_tfidf,Post-Termination Services,Revenue/Profit Sharing,4,257,0.0156
+word_char_tfidf,Post-Termination Services,Competitive Restriction Exception,3,257,0.0117
+word_char_tfidf,Post-Termination Services,No-Solicit Of Employees,3,257,0.0117
+word_char_tfidf,Post-Termination Services,Price Restrictions,3,257,0.0117
+word_char_tfidf,Post-Termination Services,Third Party Beneficiary,3,257,0.0117
+word_char_tfidf,Post-Termination Services,Governing Law,2,257,0.0078
+word_char_tfidf,Post-Termination Services,Joint Ip Ownership,2,257,0.0078
+word_char_tfidf,Post-Termination Services,Uncapped Liability,2,257,0.0078
+word_char_tfidf,Post-Termination Services,Warranty Duration,2,257,0.0078
+word_char_tfidf,Post-Termination Services,Non-Transferable License,1,257,0.0039
+word_char_tfidf,Price Restrictions,(no gold label),32,55,0.5818
+word_char_tfidf,Price Restrictions,Minimum Commitment,8,55,0.1455
+word_char_tfidf,Price Restrictions,Expiration Date,4,55,0.0727
+word_char_tfidf,Price Restrictions,Renewal Term,4,55,0.0727
+word_char_tfidf,Price Restrictions,Revenue/Profit Sharing,4,55,0.0727
+word_char_tfidf,Price Restrictions,Termination For Convenience,3,55,0.0545
+word_char_tfidf,Price Restrictions,Audit Rights,2,55,0.0364
+word_char_tfidf,Price Restrictions,Document Name,2,55,0.0364
+word_char_tfidf,Price Restrictions,Most Favored Nation,2,55,0.0364
+word_char_tfidf,Price Restrictions,Notice Period To Terminate Renewal,2,55,0.0364
+word_char_tfidf,Price Restrictions,Parties,2,55,0.0364
+word_char_tfidf,Price Restrictions,Warranty Duration,2,55,0.0364
+word_char_tfidf,Price Restrictions,Cap On Liability,1,55,0.0182
+word_char_tfidf,Price Restrictions,Exclusivity,1,55,0.0182
+word_char_tfidf,Price Restrictions,Volume Restriction,1,55,0.0182
+word_char_tfidf,Renewal Term,Expiration Date,17,30,0.5667
+word_char_tfidf,Renewal Term,(no gold label),4,30,0.1333
+word_char_tfidf,Renewal Term,Minimum Commitment,4,30,0.1333
+word_char_tfidf,Renewal Term,Post-Termination Services,4,30,0.1333
+word_char_tfidf,Renewal Term,Termination For Convenience,4,30,0.1333
+word_char_tfidf,Renewal Term,Cap On Liability,3,30,0.1
+word_char_tfidf,Renewal Term,Exclusivity,3,30,0.1
+word_char_tfidf,Renewal Term,Change Of Control,2,30,0.0667
+word_char_tfidf,Renewal Term,License Grant,2,30,0.0667
+word_char_tfidf,Renewal Term,Price Restrictions,2,30,0.0667
+word_char_tfidf,Renewal Term,Rofr/Rofo/Rofn,2,30,0.0667
+word_char_tfidf,Renewal Term,Anti-Assignment,1,30,0.0333
+word_char_tfidf,Renewal Term,Effective Date,1,30,0.0333
+word_char_tfidf,Renewal Term,Insurance,1,30,0.0333
+word_char_tfidf,Renewal Term,Irrevocable Or Perpetual License,1,30,0.0333
+word_char_tfidf,Renewal Term,Notice Period To Terminate Renewal,1,30,0.0333
+word_char_tfidf,Renewal Term,Uncapped Liability,1,30,0.0333
+word_char_tfidf,Revenue/Profit Sharing,(no gold label),70,124,0.5645
+word_char_tfidf,Revenue/Profit Sharing,Minimum Commitment,18,124,0.1452
+word_char_tfidf,Revenue/Profit Sharing,Audit Rights,11,124,0.0887
+word_char_tfidf,Revenue/Profit Sharing,License Grant,9,124,0.0726
+word_char_tfidf,Revenue/Profit Sharing,Expiration Date,8,124,0.0645
+word_char_tfidf,Revenue/Profit Sharing,Liquidated Damages,6,124,0.0484
+word_char_tfidf,Revenue/Profit Sharing,Post-Termination Services,6,124,0.0484
+word_char_tfidf,Revenue/Profit Sharing,Exclusivity,4,124,0.0323
+word_char_tfidf,Revenue/Profit Sharing,Renewal Term,4,124,0.0323
+word_char_tfidf,Revenue/Profit Sharing,Affiliate License-Licensee,3,124,0.0242
+word_char_tfidf,Revenue/Profit Sharing,Cap On Liability,3,124,0.0242
+word_char_tfidf,Revenue/Profit Sharing,Effective Date,3,124,0.0242
+word_char_tfidf,Revenue/Profit Sharing,Notice Period To Terminate Renewal,3,124,0.0242
+word_char_tfidf,Revenue/Profit Sharing,Price Restrictions,3,124,0.0242
+word_char_tfidf,Revenue/Profit Sharing,Competitive Restriction Exception,2,124,0.0161
+word_char_tfidf,Revenue/Profit Sharing,Rofr/Rofo/Rofn,2,124,0.0161
+word_char_tfidf,Revenue/Profit Sharing,Termination For Convenience,2,124,0.0161
+word_char_tfidf,Revenue/Profit Sharing,Volume Restriction,2,124,0.0161
+word_char_tfidf,Rofr/Rofo/Rofn,(no gold label),9,18,0.5
+word_char_tfidf,Rofr/Rofo/Rofn,Exclusivity,3,18,0.1667
+word_char_tfidf,Rofr/Rofo/Rofn,License Grant,3,18,0.1667
+word_char_tfidf,Rofr/Rofo/Rofn,Anti-Assignment,2,18,0.1111
+word_char_tfidf,Rofr/Rofo/Rofn,Post-Termination Services,2,18,0.1111
+word_char_tfidf,Rofr/Rofo/Rofn,Affiliate License-Licensee,1,18,0.0556
+word_char_tfidf,Rofr/Rofo/Rofn,Document Name,1,18,0.0556
+word_char_tfidf,Rofr/Rofo/Rofn,Non-Compete,1,18,0.0556
+word_char_tfidf,Rofr/Rofo/Rofn,Non-Transferable License,1,18,0.0556
+word_char_tfidf,Rofr/Rofo/Rofn,Revenue/Profit Sharing,1,18,0.0556
+word_char_tfidf,Source Code Escrow,License Grant,1,1,1.0
+word_char_tfidf,Termination For Convenience,Expiration Date,66,133,0.4962
+word_char_tfidf,Termination For Convenience,Renewal Term,42,133,0.3158
+word_char_tfidf,Termination For Convenience,(no gold label),37,133,0.2782
+word_char_tfidf,Termination For Convenience,Notice Period To Terminate Renewal,36,133,0.2707
+word_char_tfidf,Termination For Convenience,Change Of Control,20,133,0.1504
+word_char_tfidf,Termination For Convenience,Post-Termination Services,17,133,0.1278
+word_char_tfidf,Termination For Convenience,Effective Date,10,133,0.0752
+word_char_tfidf,Termination For Convenience,Cap On Liability,5,133,0.0376
+word_char_tfidf,Termination For Convenience,Anti-Assignment,4,133,0.0301
+word_char_tfidf,Termination For Convenience,Non-Compete,3,133,0.0226
+word_char_tfidf,Termination For Convenience,Agreement Date,2,133,0.015
+word_char_tfidf,Termination For Convenience,Audit Rights,2,133,0.015
+word_char_tfidf,Termination For Convenience,Covenant Not To Sue,2,133,0.015
+word_char_tfidf,Termination For Convenience,Insurance,2,133,0.015
+word_char_tfidf,Termination For Convenience,Liquidated Damages,2,133,0.015
+word_char_tfidf,Termination For Convenience,Minimum Commitment,2,133,0.015
+word_char_tfidf,Termination For Convenience,Document Name,1,133,0.0075
+word_char_tfidf,Termination For Convenience,Irrevocable Or Perpetual License,1,133,0.0075
+word_char_tfidf,Termination For Convenience,Parties,1,133,0.0075
+word_char_tfidf,Termination For Convenience,Revenue/Profit Sharing,1,133,0.0075
+word_char_tfidf,Termination For Convenience,Rofr/Rofo/Rofn,1,133,0.0075
+word_char_tfidf,Termination For Convenience,Uncapped Liability,1,133,0.0075
+word_char_tfidf,Third Party Beneficiary,(no gold label),37,73,0.5068
+word_char_tfidf,Third Party Beneficiary,Anti-Assignment,22,73,0.3014
+word_char_tfidf,Third Party Beneficiary,Governing Law,9,73,0.1233
+word_char_tfidf,Third Party Beneficiary,Cap On Liability,5,73,0.0685
+word_char_tfidf,Third Party Beneficiary,Change Of Control,4,73,0.0548
+word_char_tfidf,Third Party Beneficiary,Document Name,2,73,0.0274
+word_char_tfidf,Third Party Beneficiary,Audit Rights,1,73,0.0137
+word_char_tfidf,Third Party Beneficiary,Effective Date,1,73,0.0137
+word_char_tfidf,Third Party Beneficiary,Expiration Date,1,73,0.0137
+word_char_tfidf,Third Party Beneficiary,Insurance,1,73,0.0137
+word_char_tfidf,Third Party Beneficiary,Joint Ip Ownership,1,73,0.0137
+word_char_tfidf,Third Party Beneficiary,Notice Period To Terminate Renewal,1,73,0.0137
+word_char_tfidf,Third Party Beneficiary,Parties,1,73,0.0137
+word_char_tfidf,Third Party Beneficiary,Post-Termination Services,1,73,0.0137
+word_char_tfidf,Third Party Beneficiary,Renewal Term,1,73,0.0137
+word_char_tfidf,Third Party Beneficiary,Termination For Convenience,1,73,0.0137
+word_char_tfidf,Third Party Beneficiary,Uncapped Liability,1,73,0.0137
+word_char_tfidf,Uncapped Liability,Cap On Liability,54,57,0.9474
+word_char_tfidf,Uncapped Liability,Expiration Date,3,57,0.0526
+word_char_tfidf,Uncapped Liability,Insurance,3,57,0.0526
+word_char_tfidf,Uncapped Liability,Renewal Term,2,57,0.0351
+word_char_tfidf,Uncapped Liability,(no gold label),1,57,0.0175
+word_char_tfidf,Uncapped Liability,Anti-Assignment,1,57,0.0175
+word_char_tfidf,Uncapped Liability,Exclusivity,1,57,0.0175
+word_char_tfidf,Uncapped Liability,Governing Law,1,57,0.0175
+word_char_tfidf,Uncapped Liability,Liquidated Damages,1,57,0.0175
+word_char_tfidf,Uncapped Liability,Notice Period To Terminate Renewal,1,57,0.0175
+word_char_tfidf,Uncapped Liability,Termination For Convenience,1,57,0.0175
+word_char_tfidf,Unlimited/All-You-Can-Eat-License,License Grant,19,30,0.6333
+word_char_tfidf,Unlimited/All-You-Can-Eat-License,(no gold label),8,30,0.2667
+word_char_tfidf,Unlimited/All-You-Can-Eat-License,Exclusivity,6,30,0.2
+word_char_tfidf,Unlimited/All-You-Can-Eat-License,Non-Transferable License,4,30,0.1333
+word_char_tfidf,Unlimited/All-You-Can-Eat-License,Irrevocable Or Perpetual License,3,30,0.1
+word_char_tfidf,Unlimited/All-You-Can-Eat-License,Agreement Date,2,30,0.0667
+word_char_tfidf,Unlimited/All-You-Can-Eat-License,Document Name,2,30,0.0667
+word_char_tfidf,Unlimited/All-You-Can-Eat-License,Expiration Date,2,30,0.0667
+word_char_tfidf,Unlimited/All-You-Can-Eat-License,Parties,2,30,0.0667
+word_char_tfidf,Unlimited/All-You-Can-Eat-License,Revenue/Profit Sharing,2,30,0.0667
+word_char_tfidf,Unlimited/All-You-Can-Eat-License,Effective Date,1,30,0.0333
+word_char_tfidf,Unlimited/All-You-Can-Eat-License,Non-Compete,1,30,0.0333
+word_char_tfidf,Unlimited/All-You-Can-Eat-License,Post-Termination Services,1,30,0.0333
+word_char_tfidf,Unlimited/All-You-Can-Eat-License,Volume Restriction,1,30,0.0333
+word_char_tfidf,Volume Restriction,(no gold label),104,175,0.5943
+word_char_tfidf,Volume Restriction,Minimum Commitment,29,175,0.1657
+word_char_tfidf,Volume Restriction,License Grant,12,175,0.0686
+word_char_tfidf,Volume Restriction,Exclusivity,11,175,0.0629
+word_char_tfidf,Volume Restriction,Revenue/Profit Sharing,8,175,0.0457
+word_char_tfidf,Volume Restriction,Document Name,5,175,0.0286
+word_char_tfidf,Volume Restriction,Non-Transferable License,5,175,0.0286
+word_char_tfidf,Volume Restriction,Parties,5,175,0.0286
+word_char_tfidf,Volume Restriction,Cap On Liability,4,175,0.0229
+word_char_tfidf,Volume Restriction,Effective Date,4,175,0.0229
+word_char_tfidf,Volume Restriction,Expiration Date,4,175,0.0229
+word_char_tfidf,Volume Restriction,Agreement Date,3,175,0.0171
+word_char_tfidf,Volume Restriction,Non-Compete,3,175,0.0171
+word_char_tfidf,Volume Restriction,Renewal Term,3,175,0.0171
+word_char_tfidf,Volume Restriction,Unlimited/All-You-Can-Eat-License,3,175,0.0171
+word_char_tfidf,Volume Restriction,Liquidated Damages,2,175,0.0114
+word_char_tfidf,Volume Restriction,Most Favored Nation,2,175,0.0114
+word_char_tfidf,Volume Restriction,Price Restrictions,2,175,0.0114
+word_char_tfidf,Volume Restriction,Rofr/Rofo/Rofn,2,175,0.0114
+word_char_tfidf,Volume Restriction,Anti-Assignment,1,175,0.0057
+word_char_tfidf,Volume Restriction,Audit Rights,1,175,0.0057
+word_char_tfidf,Volume Restriction,Change Of Control,1,175,0.0057
+word_char_tfidf,Volume Restriction,Ip Ownership Assignment,1,175,0.0057
+word_char_tfidf,Volume Restriction,No-Solicit Of Customers,1,175,0.0057
+word_char_tfidf,Volume Restriction,Non-Disparagement,1,175,0.0057
+word_char_tfidf,Volume Restriction,Notice Period To Terminate Renewal,1,175,0.0057
+word_char_tfidf,Volume Restriction,Post-Termination Services,1,175,0.0057
+word_char_tfidf,Volume Restriction,Termination For Convenience,1,175,0.0057
+word_char_tfidf,Volume Restriction,Warranty Duration,1,175,0.0057
+word_char_tfidf,Warranty Duration,(no gold label),24,31,0.7742
+word_char_tfidf,Warranty Duration,Cap On Liability,6,31,0.1935
+word_char_tfidf,Warranty Duration,Anti-Assignment,1,31,0.0323
+word_char_tfidf,Warranty Duration,Audit Rights,1,31,0.0323
+word_char_tfidf,Warranty Duration,Non-Compete,1,31,0.0323

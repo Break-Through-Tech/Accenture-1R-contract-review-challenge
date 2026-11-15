@@ -20,7 +20,7 @@ from src.chunking.token_chunker import TOKENIZER_NAME, TOKENIZER_REVISION
 from src.labels.categories import CATEGORIES
 from src.labels.loader import load_cuad
 from src.labels.splits import split_by_contract
-from src.metrics import compute_base_metrics, compute_aupr
+from src.metrics import add_aupr_column, compute_base_metrics
 from src.models.encoder.config import load_config
 from src.models.encoder.evaluate import tune_thresholds
 from src.models.encoder.predict import load_checkpoint, predict_proba
@@ -95,7 +95,7 @@ def main() -> None:
     thresholds = tune_thresholds(cal_labels, calibration_probs, CATEGORIES)
     predictions = apply_thresholds(evaluation_probs, CATEGORIES, thresholds)
     report = compute_base_metrics(eval_labels, predictions, CATEGORIES)
-    report["aupr"] = compute_aupr(eval_labels, evaluation_probs)
+    report = add_aupr_column(report, eval_labels, evaluation_probs, CATEGORIES)
     report["threshold"] = report["category"].map(thresholds)
     report.loc[report["support"] == 0, ["precision", "recall", "f1"]] = np.nan
     report.to_csv(args.output / "per_category_metrics.csv", index=False)
