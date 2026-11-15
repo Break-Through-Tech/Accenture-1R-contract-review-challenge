@@ -1,0 +1,42 @@
+category,support,both_caught,only_tfidf_caught,only_reranker_caught,both_missed,fp_only_tfidf,fp_only_reranker,fp_both
+Affiliate License-Licensee,62,17,1,22,22,11,91,17
+Affiliate License-Licensor,40,4,0,12,24,55,180,40
+Agreement Date,398,262,21,34,81,50,20,55
+Anti-Assignment,417,270,38,35,74,52,37,12
+Audit Rights,322,196,49,24,53,44,43,41
+Cap On Liability,417,211,49,46,111,61,108,21
+Change Of Control,129,36,15,25,53,40,50,15
+Competitive Restriction Exception,76,10,9,12,45,48,90,27
+Covenant Not To Sue,95,41,11,14,29,25,26,5
+Document Name,418,311,13,41,53,82,29,41
+Effective Date,374,189,29,31,125,74,49,50
+Exclusivity,280,105,40,50,85,153,70,49
+Expiration Date,408,240,29,55,84,82,39,21
+Governing Law,422,368,10,31,13,26,17,8
+Insurance,203,140,8,41,14,17,35,4
+Ip Ownership Assignment,136,59,22,16,39,39,70,16
+Irrevocable Or Perpetual License,77,43,9,15,10,29,5,1
+Joint Ip Ownership,85,27,12,13,33,25,43,6
+License Grant,444,271,49,35,89,75,42,10
+Liquidated Damages,79,19,11,6,43,58,18,4
+Minimum Commitment,285,96,25,54,110,55,128,40
+Most Favored Nation,27,3,6,2,16,31,111,9
+No-Solicit Of Customers,32,5,4,2,21,35,22,19
+No-Solicit Of Employees,44,24,9,2,9,8,11,2
+Non-Compete,150,41,17,28,64,94,57,24
+Non-Disparagement,34,6,4,7,17,58,5,9
+Non-Transferable License,173,98,16,25,34,34,34,13
+Notice Period To Terminate Renewal,102,61,8,14,19,9,31,13
+Parties,540,387,30,39,84,63,29,28
+Post-Termination Services,293,107,50,30,106,127,170,130
+Price Restrictions,29,4,7,8,10,43,167,12
+Renewal Term,158,89,22,16,31,17,24,13
+Revenue/Profit Sharing,240,98,46,36,60,88,70,36
+Rofr/Rofo/Rofn,130,36,20,18,56,14,33,4
+Source Code Escrow,28,5,0,9,14,1,17,0
+Termination For Convenience,213,67,42,25,79,83,63,50
+Third Party Beneficiary,38,8,5,10,15,56,16,17
+Uncapped Liability,118,67,16,17,18,15,72,42
+Unlimited/All-You-Can-Eat-License,33,1,5,7,20,30,73,0
+Volume Restriction,114,16,23,16,59,156,107,19
+Warranty Duration,116,42,16,19,39,20,57,11

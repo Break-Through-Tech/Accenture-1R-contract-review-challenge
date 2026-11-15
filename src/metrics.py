@@ -34,6 +34,20 @@ def compute_aupr(y_true: np.ndarray, y_prob: np.ndarray) -> np.ndarray:
     return scores
 
 
+def add_aupr_column(report: pd.DataFrame, y_true: np.ndarray, y_score: np.ndarray,
+                    categories: list[str]) -> pd.DataFrame:
+    """Attach per-category AUPR to a metrics report, matched by category name.
+
+    `compute_base_metrics` sorts rows by support, so assigning the raw AUPR array (which is in
+    `categories` order) row by row would give each category another category's AUPR. Mapping by
+    name keeps rows correct whatever order the report is in.
+    """
+    aupr_by_category = pd.Series(compute_aupr(y_true, y_score), index=categories)
+    report = report.copy()
+    report["aupr"] = report["category"].map(aupr_by_category)
+    return report
+
+
 def compute_transformer_metrics(eval_pred) -> dict[str, float]:
     """Trainer hook returning macro AUPR from multilabel logits and labels."""
     logits, labels = eval_pred

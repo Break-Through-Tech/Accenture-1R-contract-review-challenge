@@ -27,7 +27,7 @@ from src.chunking.token_chunker import TOKENIZER_NAME, TOKENIZER_REVISION
 from src.labels.categories import CATEGORIES
 from src.labels.loader import load_cuad
 from src.labels.splits import split_by_contract
-from src.metrics import compute_aupr, compute_base_metrics
+from src.metrics import add_aupr_column, compute_aupr, compute_base_metrics
 from src.models.encoder.category_descriptions import load_category_descriptions
 from src.models.encoder.category_query import CategoryQueryClassifier, build_category_query_model
 from src.models.encoder.contract_dataset import ContractChunkDataset
@@ -311,7 +311,7 @@ def main() -> None:
     thresholds = calibrate_thresholds(y_cal, score_cal)
     predictions = (score_eval >= np.asarray([thresholds[c] for c in CATEGORIES])).astype(np.uint8)
     metrics = compute_base_metrics(y_eval, predictions, CATEGORIES)
-    metrics["aupr"] = compute_aupr(y_eval, score_eval)
+    metrics = add_aupr_column(metrics, y_eval, score_eval, CATEGORIES)
     metrics["threshold"] = metrics["category"].map(thresholds)
     metrics.loc[metrics["support"] == 0, ["precision", "recall", "f1"]] = np.nan
     metrics.to_csv(args.output / "per_category_metrics.csv", index=False)

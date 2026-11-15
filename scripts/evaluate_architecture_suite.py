@@ -21,7 +21,7 @@ from src.chunking.token_chunker import TOKENIZER_NAME, TOKENIZER_REVISION
 from src.labels.categories import CATEGORIES
 from src.labels.loader import load_cuad
 from src.labels.splits import split_by_contract
-from src.metrics import compute_aupr, compute_base_metrics
+from src.metrics import add_aupr_column, compute_base_metrics
 from src.models.naive.classifier_chain import fit_word_char_chain, predict_word_char_chain
 from src.models.naive.context_tfidf import add_neighbor_context
 from src.models.naive.prototype_retrieval import fit_positive_prototype_retriever
@@ -109,7 +109,7 @@ def main() -> None:
         evaluation_scores = predict(eval_texts, context_eval)
         predictions = apply_thresholds(evaluation_scores, CATEGORIES, thresholds)
         report = compute_base_metrics(y_eval, predictions, CATEGORIES)
-        report["aupr"] = compute_aupr(y_eval, evaluation_scores)
+        report = add_aupr_column(report, y_eval, evaluation_scores, CATEGORIES)
         report.insert(0, "model", name)
         metric_frames.append(report)
         (args.output / f"{name}_thresholds.json").write_text(
