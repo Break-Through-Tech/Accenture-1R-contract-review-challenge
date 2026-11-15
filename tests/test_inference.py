@@ -112,3 +112,64 @@ def test_pipeline_rejects_invalid_chunk_configuration():
     with pytest.raises(ValueError, match="overlap_tokens"):
         ContractInferencePipeline(make_bundle(), tokenizer=object(), category_cues={},
                                   max_tokens=10, overlap_tokens=10)
+
+
+# ----- Risk scoring -----
+def _single_chunk_pipeline(monkeypatch, text, cues, **kwargs):
+    """A pipeline whose chunker returns the whole text as one chunk."""
+    import src.inference as inference
+
+    chunks = [Chunk(contract_id="c-1", start=0, end=len(text), text=text, chunk_index=0)]
+    monkeypatch.setattr(inference, "chunk_sentence_windows", lambda *args: chunks)
+    return ContractInferencePipeline(make_bundle(), tokenizer=object(), category_cues=cues, **kwargs)
+
+
+def test_contract_inference_scores_grounded_clause_and_contract(monkeypatch):
+    """A grounded prediction gets a ClauseScore, and one clause gives triage = 0.5c + 0.5c/3 = 2c/3."""
+    text = "This Agreement is governed by Delaware law."
+    result = _single_chunk_pipeline(monkeypatch, text, {"governinglaw": ["governed", "delaware"]}) \
+        .predict_contract("c-1", text)
+
+    (clause,) = result["clause_scores"]
+    assert clause.category == "Governing Law" and clause.has_evidence
+    assert clause.probability == pytest.approx(0.9)
+    contract = result["contract_score"]
+    assert contract.contract_id == "c-1" and contract.rank == 1 and contract.unknown_count == 0
+    assert contract.triage_score == pytest.approx(2 * clause.composite_score / 3, abs=1e-4)
+    assert contract.weight_version_id == clause.weight_version_id
+
+
+def test_contract_inference_scores_unknown_predictions(monkeypatch):
+    """An ungrounded prediction is still scored, without evidence, and counted as Unknown."""
+    text = "A clause with no helpful cue."
+    result = _single_chunk_pipeline(monkeypatch, text, {}).predict_contract("c-1", text)
+
+    (clause,) = result["clause_scores"]
+    assert not clause.has_evidence
+    assert result["contract_score"].unknown_count == 1
+    assert result["contract_score"].triage_score > 0
+
+
+def test_contract_inference_empty_contract_scores_zero(monkeypatch):
+    """A contract with no chunks still gets a ContractScore of 0."""
+    import src.inference as inference
+
+    monkeypatch.setattr(inference, "chunk_sentence_windows", lambda *args: [])
+    result = ContractInferencePipeline(make_bundle(), tokenizer=object(), category_cues={}) \
+        .predict_contract("c-empty", "")
+
+    assert result["clause_scores"] == []
+    assert result["contract_score"].triage_score == 0.0
+
+
+def test_contract_inference_uses_given_weight_set(monkeypatch):
+    """Scores record the weight version passed to the pipeline, not the default."""
+    from src.risk.schema import load_weight_set
+
+    custom = load_weight_set().model_copy(update={"weight_version_id": "test-v2", "triage_max_weight": 1.0})
+    text = "A clause with no helpful cue."
+    result = _single_chunk_pipeline(monkeypatch, text, {}, weight_set=custom).predict_contract("c-1", text)
+
+    (clause,) = result["clause_scores"]
+    assert clause.weight_version_id == "test-v2"
+    assert result["contract_score"].triage_score == pytest.approx(clause.composite_score)
