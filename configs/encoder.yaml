@@ -9,6 +9,9 @@ overlap_chars: 200
 overlap_tokens: 64
 
 # Split & optimization
+# val_fraction and seed drive src.models.encoder.train's single train/val split. The five-seed
+# comparison (scripts/evaluate_encoder_nested.py) overrides seed per run and uses the fixed
+# nested training/calibration/evaluation split of the saved TF-IDF results instead.
 val_fraction: 0.2
 seed: 42
 lr: 3.0e-5
