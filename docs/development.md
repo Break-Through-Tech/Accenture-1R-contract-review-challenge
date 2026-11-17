@@ -23,7 +23,7 @@ Pick the requirements file for where you are installing:
 | Windows or macOS laptop | `pip install -r requirements-dev.txt` (the PyPI torch wheel is CPU-only there) |
 | Linux without a GPU | `pip install torch==2.14.1 --index-url https://download.pytorch.org/whl/cpu` first, then `pip install -r requirements-dev.txt` (otherwise pip fetches the multi-gigabyte CUDA build) |
 | Google Colab GPU runtime | `pip install -r requirements-no-torch.txt` (keeps Colab's preinstalled CUDA torch) |
-| Demo UI only | `pip install -r requirements-demo.txt` (no torch, MLflow or test tools) |
+| Demo UI only | `pip install -r requirements-demo.txt` (no torch, MLflow, API server or test tools) |
 
 The tests and the token chunker read the `distilbert/distilroberta-base` tokenizer from two caches: the
 pinned revision in `.venv/hf-cache` under the repo root, and the default Hugging Face cache. Fill both,
@@ -45,7 +45,7 @@ so each version is written exactly once:
 | File | Adds | Used by |
 |---|---|---|
 | `requirements-demo.txt` | demo UI runtime: numpy, scikit-learn, scipy, joblib, pandas, pydantic, transformers, gradio, document readers | the demo-only install |
-| `requirements-no-torch.txt` | `-r requirements-demo.txt` plus MLflow, SQLAlchemy, accelerate, PyYAML, pytest | Colab, where torch is preinstalled |
+| `requirements-no-torch.txt` | `-r requirements-demo.txt` plus MLflow, SQLAlchemy, the API server (FastAPI, uvicorn, python-multipart), accelerate, PyYAML, pytest and httpx (FastAPI's test client) | Colab, where torch is preinstalled |
 | `requirements.txt` | `-r requirements-no-torch.txt` plus torch | the documented full install |
 | `requirements-dev.txt` | `-r requirements.txt` plus ruff | developers and CI |
 
@@ -61,6 +61,10 @@ cross-platform lock (for example with `uv`) is planned together with the package
   would replace it with a multi-gigabyte download. Use `requirements-no-torch.txt` on Colab instead;
   transformers and accelerate work with Colab's torch.
 - **ruff** lives only in `requirements-dev.txt`, so neither the demo nor the plain full install gets it.
+- **fastapi, uvicorn and python-multipart** are the API server's (`python -m src.api`, see
+  [api.md](api.md)). They sit in `requirements-no-torch.txt`, not the demo layer, because the API also
+  needs SQLAlchemy for the artifact store. Gradio depends on all three as well, so their pins must stay
+  inside Gradio's version ranges; `pip check` catches a mismatch.
 
 `pyproject.toml` holds project metadata and tool configuration (ruff) and declares no dependencies,
 so the requirements files cannot drift from a second list. It is not installable yet: code is
