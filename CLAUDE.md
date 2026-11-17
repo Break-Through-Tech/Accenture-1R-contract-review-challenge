@@ -10,16 +10,28 @@ Guidance for Claude Code in this repo. ARCHITECTURE.md is the source of truth fo
 
 ## Hard Constraints
 
-- **Input is CUAD JSON only** (`paragraphs[].context`, `qas[].answers[]`). No PDF parsing.
+- **Training and evaluation data is CUAD JSON** (`paragraphs[].context`, `qas[].answers[]`). Models are trained and scored on this text only.
+- **Uploaded contracts are in scope.** The advisor requires PDF upload (November 2026), which supersedes the original brief's "do not parse raw PDFs". PDF, Word and pasted text are accepted at inference time.
 - **Fixed splits:** train on `train_separate_questions.json` (408 contracts) and evaluate on `test.json` (102). Never re-split. Take validation out of train, grouped by contract, with a fixed seed. Touch `test.json` only for final evaluation.
-- **One text source, one chunker:** chunk the original `context` string unaltered so character offsets stay exact. If you normalize, keep an offset map back to the original text.
+- **One text source, one chunker:** chunk the original `context` string unaltered so character offsets stay exact. If you normalize, keep an offset map back to the original text. For an uploaded file, the one text source is the text extracted from it: offsets, evidence and page numbers all refer to that string.
 
 ## Repo Layout
 
-- `src/`: `metrics.py` (per-category P/R/F1), `thresholds.py` (per-class F1-optimal thresholds), `models/naive/tfid_baseline.py` (TF-IDF + one-vs-rest logistic regression), `evidence/` (`schema.py` holds the `Evidence` model, `cues.py` builds category cue words from `category_descriptions.csv`, `extractor.py` picks and validates evidence sentences), `chunking/` (`chunk.py` holds the `Chunk` model, `chunker.py` holds `chunk_contract`).
-- `tests/`: pytest modules, one `test_<module>.py` per `src/` module. `pytest.ini` at the repo root sets `pythonpath = .`, so run `pytest` or `python -m pytest` from the root.
+- `src/` pipeline stages:
+  - `labels/`: CUAD loader, the 41 `CATEGORIES`, span-to-chunk label projection, grouped contract split.
+  - `chunking/`: `chunk.py` holds the `Chunk` model. `token_chunker.py` holds `chunk_sentence_windows` (512 tokens, 64 overlap, pinned DistilRoBERTa tokenizer), the chunker every stage uses. `chunker.py` is the old fixed-window stub.
+  - `pipeline.py`: contracts to labeled chunks for training. `inference.py`: `ContractInferencePipeline` (chunk, classify, evidence, risk score, triage score).
+  - `models/naive/`: TF-IDF baselines (`word_tfidf.py` is the word+char control) and the retrieval reranker. `models/encoder/`: DistilRoBERTa training, prediction and the alternative architectures.
+  - `registry/`: `ClauseModelBundle`, the MLflow registry and the release-hosted demo model. `store/`: the SQLite artifact store.
+  - `evidence/`: `Evidence` schema, category cues, grounded extraction with an Unknown queue.
+  - `risk/`: weight sets (`weights/*.json`), the four signals, clause scoring, contract triage and sensitivity.
+  - `ui/`: the Gradio demo (`python -m src.ui.app`) and the PDF, Word and text readers.
+  - `metrics.py`, `thresholds.py`, `threshold_strategies.py`, `error_analysis.py`: evaluation helpers.
+- `scripts/`: runnable experiments and evaluations (`python -m scripts.<name>` from the repo root). `configs/`: one YAML per model.
+- `tests/`: pytest modules, one `test_<module>.py` per module. `pytest.ini` at the repo root sets `pythonpath = .`, so run `python -m pytest` from the root.
+- `docs/`: one guide per experiment, indexed in `docs/README.md`. `results/`: saved metrics, thresholds and raw probabilities for each experiment.
 - `notebooks/`: exploration and plots only. Pipeline logic belongs in `src/`, imported by the notebooks.
-- `data/cuad/`: dataset JSON, `category_descriptions.csv`, `eda.py`, `EDA_SUMMARY.md`. `results/` holds metric CSVs.
+- `data/cuad/`: dataset JSON, `category_descriptions.csv`, `eda.py`, `EDA_SUMMARY.md`. `data/demo_contracts/`: sample PDFs for the demo.
 
 ## Code Style
 
@@ -40,38 +52,57 @@ Guidance for Claude Code in this repo. ARCHITECTURE.md is the source of truth fo
 - **Risk scoring is rule-based,** with weights in a versioned config owned by the advisor. Every score records its `weight_version_id`, and edits create a new version.
 - **Respect scope tiers:** build core work (chunker, encoder, scoring, register export) before FastAPI/Gradio. React, Postgres and Alembic are deferred.
 
-## Planned Stack (not yet installed)
+## Stack
 
-- Models: DistilRoBERTa through the Hugging Face Trainer (BCE with `pos_weight`), trained on a Colab T4 and run on CPU for inference. MLflow on SQLite for tracking and the model registry.
-- Storage and API: SQLite with SQLAlchemy, then FastAPI with Gradio mounted inside it.
-- Tooling: migrate to an installable `clausetriage/` package (`pyproject.toml`, `uv`), with pytest golden tests, ruff and GitHub Actions.
+- Installed (pinned in `requirements.txt`): scikit-learn, `transformers` 4.57.6 with PyTorch, MLflow on SQLite, SQLAlchemy, Pydantic, Gradio, `pypdf` and `python-docx`.
+- Models: word+char TF-IDF with one-vs-rest logistic regression is the supported control. DistilRoBERTa goes through the Hugging Face Trainer (BCE with `pos_weight`), trained on a Colab T4 and run on CPU for inference.
+- Not yet in the repo: FastAPI (Gradio will be mounted inside it), `pyproject.toml`, ruff, GitHub Actions, Docker, and the installable `clausetriage/` package rename.
 
 ## Workflow
 
 - Name branches `<type>/<issue#>-<short-name>` using conventional types (`feature`, `fix`, `docs`, `refactor`, `test`, `chore`) and merge to `main` by PR. Example: `fix/41-threshold-indexing`.
 - Write commit messages in conventional-commit form: `<type>(<scope>): <summary>`, e.g. `fix(thresholds): index preds by category`.
-- Install with `pip install -r requirements.txt`. Add every new import to `requirements.txt`.
-- Don't commit `__pycache__/`, `.pyc` or `.DS_Store` files.
+- Install with `pip install -r requirements.txt` into a Python 3.12 venv, and reinstall after pulling. Add every new import to `requirements.txt`. A venv that has drifted from the pins fails tests for unrelated reasons (`transformers` 5.x breaks `tests/test_train.py`).
+- Run tests with `HF_HUB_OFFLINE=1 TOKENIZERS_PARALLELISM=false python -m pytest`. The README setup step caches the pinned tokenizer in `.venv/hf-cache`.
+- Don't commit `__pycache__/`, `.pyc`, `.DS_Store`, model weights, SQLite databases or anything under `outputs/` or `models/`.
 
 # Current Status of Project
 
-Status reflects `main` plus two unmerged branches: `feature/22-evidence-extraction` and the chunker branch (`init-chunker-data-pipeline`).
+Status reflects `main` at `7428dd3` (2026-11-17). The docs index in `docs/README.md` links every experiment report.
 
 **Done**
-- EDA: 408 training contracts, 41 categories, about 50% of questions answered. Category imbalance is documented in `EDA_SUMMARY.md`.
-- TF-IDF baseline with per-category metrics and per-class threshold tuning (`notebooks/baseline_test.ipynb`). The `apply_thresholds` indexing bug is fixed (PR #43) and `results/tfidf_baseline_metrics.csv` is regenerated.
-- Evidence extraction (`src/evidence/`, on `feature/22-evidence-extraction`, PR not yet merged): `Evidence` Pydantic schema with span validation, cue-word sentence selection, and `extract_for_predictions`, which converts offsets to absolute contract coordinates (`chunk.start + offset`), validates each result against the contract text, and routes failures to `Unknown`. Tested in `tests/test_schema.py`, `test_cues.py` and `test_extractor.py`.
-- `Chunk` Pydantic schema (`src/chunking/chunk.py`) with span validation, and a naive fixed-window chunker stub `chunk_contract(contract_id, text, window_chars, overlap_chars)` (`src/chunking/chunker.py`), on the chunker branch, PR not yet merged. `Chunk.start`/`end` are absolute, end-exclusive offsets into the original contract text, so `text[start:end] == chunk.text`.
-- Golden and invariant tests for the chunker in `tests/test_chunker.py` (18 tests, including real CUAD contracts), with `pytest` and `pydantic` added to `requirements.txt`.
-- `__pycache__` files are untracked and covered by `.gitignore`.
+- Data and labels: CUAD loader, any-overlap label projection, grouped contract splits. Experiments use train/calibration/evaluation contract partitions of the training file; `test.json` has never been read.
+- Chunking: the sentence-window chunker contains 98.8% of annotated spans on the development contracts (`docs/chunking-experiments.md`).
+- Baseline: word+char TF-IDF, mean macro-F1 0.505 and macro-AUPR 0.563 over five seeded splits (0.533 / 0.597 on seed 42). Released as the bundle `model-word-char-tfidf-v1`.
+- Alternatives screened against it: retrieval reranker, contract-wide Transformer, category-query, graph, contrastive, set prediction and sparse long context. None robustly beats TF-IDF; the reranker's +0.016 mean macro-F1 has bootstrap intervals that include zero.
+- Error analysis and threshold-strategy study (`docs/error-analysis.md`, `docs/threshold-robustness.md`).
+- Model registry: `ClauseModelBundle` plus MLflow on SQLite.
+- Evidence extraction with span validation and an Unknown queue.
+- Risk layer: four signals (`category_severity`, `one_sidedness`, `magnitude`, `contract_context`), versioned weight sets, clause scoring, contract triage score and sensitivity analysis (`scripts/evaluate_triage.py`).
+- End-to-end inference and the Gradio demo: upload PDF, Word or text, rank contracts, show risky clauses with page numbers and quotes, download a CSV clause register.
 
-**In progress / known issues**
-- The evidence heuristic is weak: given gold categories on 1500/200 chunks, ~55% of grounded quotes overlap a gold answer and ~23% of predictions go to Unknown. Evidence is chosen independently of the classifier, so a false-positive prediction still gets a plausible-looking quote. Sentences cut at chunk edges or at abbreviations ("Inc.") yield partial quotes.
-- The baseline uses a random 80/20 split with whole contracts as chunks. It needs a grouped-by-contract split and the chunker.
-- The chunker is a naive stub: it cuts every N characters and ignores sentence and clause boundaries, so it can split a clause. `chunk_contract` has no default window or overlap yet. The real chunker must keep the same signature and `Chunk` output and pass the same tests.
+**Gaps against ARCHITECTURE.md**
+- The plain DistilRoBERTa fine-tune has never been run at full scale (no GPU time yet), so the "encoder beats baseline" criterion is unmeasured.
+- There are no advisor hand-ranked clauses, so Spearman and bucket agreement against the advisor do not exist. The 0.81 Spearman in `results/contract_triage/` is against a perfect-detection reference built from CUAD annotations.
+- The `v1-placeholder` risk weights name a severity for only 9 of 41 categories and are not advisor-reviewed.
+- The artifact store is not called by the pipeline and lacks the `feedback` and `advisor_rankings` tables.
+- The clause register exists only as a CSV built inside the UI.
+- No FastAPI layer, editable weights panel, feedback capture or review queue.
+- No `pyproject.toml`, ruff, CI, Docker or license.
+- The final `test.json` evaluation has not been run, and there is no final report.
+- Evidence heuristic is weak: about 55% of grounded quotes overlap a gold answer, and a false-positive prediction still gets a plausible quote.
+- Rare categories (under 10 evaluation positives) swing 0.3 to 0.4 F1 between seeds; report them with intervals or as insufficient support.
+
+**In progress (branches opened 2026-11-17)**
+- `feature/25-risk-weights-v2`: team-proposed weights covering all 41 categories.
+- `feature/21-document-ingestion`: PDF, Word and text readers as a core stage.
+- `feature/29-clause-register-export`: core register with CSV and JSON.
+- `feature/32-artifact-store-integration`: missing tables, persistence, rescoring from cached probabilities.
+- `feature/18-advisor-agreement-eval`: advisor ranking packet and the agreement evaluation.
+- `feature/17-encoder-colab-run`: five-seed encoder runner and Colab notebook.
+- `chore/35-tooling-ci`: `pyproject.toml`, ruff and GitHub Actions.
 
 **Next**
-- CUAD loader that yields `(contract_id, text, answer_spans)`, then label projection (spans to multi-hot labels for each chunk), including how to treat spans that straddle chunks.
-- Choose default window and overlap sizes, then replace the stub with a boundary-aware chunker (paragraphs, numbered sections, sentences).
-- DistilRoBERTa fine-tuning script logged to MLflow.
-- Settle the 4 risk signals with the advisor ASAP. The scoring schema is blocked until then.
+- Serving: FastAPI backend with an upload endpoint, feedback and review queue, editable weights in the UI.
+- Run the advisor-agreement evaluation when rankings arrive, then freeze the model and make one sealed `test.json` evaluation.
+- Final report, license, Docker, and the `src` to `clausetriage` package rename.
