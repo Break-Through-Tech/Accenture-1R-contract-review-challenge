@@ -2,7 +2,8 @@
 
 ## Key Constraints (from provided Accenture brief)
 
-- Input is the CUAD JSON (`paragraphs[].context`, labeled spans in `paragraphs[].qas[].answers[]`). **No PDF parsing.**
+- Training and evaluation input is the CUAD JSON (`paragraphs[].context`, labeled spans in `paragraphs[].qas[].answers[]`).
+- **Uploaded contracts are in scope.** The advisor made PDF upload a requirement in November 2026, which supersedes the original brief's "do not parse raw PDFs". PDF, Word and pasted text are accepted at inference time; models are still trained and evaluated on the CUAD JSON text only.
 - Official splits are fixed: `train_separate_questions.json` (408 contracts) and `test.json` (102 contracts). **Do not re-split.** Carve validation out of the train file by contract. `test.json` is touched only for final evaluation.
 
 ## Core Deliverables
@@ -80,7 +81,7 @@ flowchart TB
 
 ## Guiding Principle: One Text Source, One Chunker
 
-Online & offline both read the same CUAD `context` string. We chunk the original text unaltered so that character offsets stay exact. If normalization is needed, preserve an offset map back to the original. Span labels, chunk offsets, and evidence validation will all depend on this.
+Online & offline both read the same CUAD `context` string. We chunk the original text unaltered so that character offsets stay exact. If normalization is needed, preserve an offset map back to the original. Span labels, chunk offsets, and evidence validation will all depend on this. For an uploaded document, the single text source is the text extracted from the file: chunk offsets, evidence offsets, and page numbers all refer to that string, and nothing alters it after extraction.
 
 ## Offline Track
 
@@ -124,8 +125,8 @@ Stores the trained checkpoint, calibrated thresholds, and training seeds as a ve
 Represents the raw contract document entering the pipeline (sourced from the CUAD JSON splits for evaluation, and potentially from new documents later). It is drawn as a database store rather than a process since it is the pipeline's external input boundary. This is the point where versioning starts.
 
 **Tech stack:**
-- CUAD JSON `paragraphs[].context`, selected by contract ID. No PDF extraction, per the Accenture brief.
-- Ingesting new or pasted documents is a stretch feature.
+- CUAD JSON `paragraphs[].context`, selected by contract ID, for training and evaluation.
+- Uploaded PDF, Word and pasted-text contracts for inference (required by the advisor). Each file is read into one extracted text string with page-start offsets; scanned PDFs go through optional OCR.
 - A data download script with a checksum handles dataset versioning, in place of DVC.
 
 ### Preprocessing and Chunking
@@ -226,7 +227,7 @@ Captures clauses that the NLP pipeline/evidence extraction could not ground, in 
 
 | Layer | Pick |
 |---|---|
-| Input | CUAD JSON, no PDF parsing |
+| Input | CUAD JSON for training and evaluation; PDF, Word and pasted text for uploaded contracts |
 | Chunking | Custom offset preservation module |
 | Training | sklearn, Hugging Face Trainer, scripts + notebooks |
 | Tracking / registry | MLflow (SQLite backend) |
