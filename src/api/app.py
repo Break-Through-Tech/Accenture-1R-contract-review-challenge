@@ -2,8 +2,9 @@
 Builds the FastAPI application around a ClauseTriageService.
 
 create_app(): attaches the service to app.state (handlers reach it through routers.get_service),
-              includes the contract, weight and server routers plus any extra routers, limits
-              request bodies, maps service errors to status codes, and mounts the Gradio page
+              includes the contract, weight and server routers plus any extra routers (python -m
+              src.api adds routers/review.py), limits request bodies, maps service errors to status
+              codes, and mounts the reviewer page (src/ui/reviewer.py), which calls the same service
 
 Errors never carry a stack trace to the client: service errors keep their message (it is written
 for reviewers), validation errors list the location and reason of each problem without echoing the
@@ -26,7 +27,7 @@ from src.api.service import (ClauseTriageService, ConflictError, InvalidInputErr
 logger = logging.getLogger(__name__)
 
 UI_PATH = "/ui"
-# Gradio's own upload cap for the mounted page, the same as the demo page's
+# Gradio's own upload cap for the mounted page, the same as the standalone demo page's
 UI_MAX_FILE_SIZE = "25mb"
 # Most specific first: the first matching class decides the status code
 _STATUS_OF: tuple[tuple[type[ServiceError], int], ...] = (
@@ -39,7 +40,7 @@ def create_app(service: ClauseTriageService, *, routers: Sequence[APIRouter] = (
                ui_path: str | None = UI_PATH, host: str = "127.0.0.1", port: int = 8000) -> FastAPI:
     """
     The API around service, with extra routers included after the built-in ones. ui_path mounts
-    the existing Gradio page (src.ui.app.build_app on the service's pipeline) there; None leaves it
+    the reviewer page (src.ui.reviewer.build_reviewer_app on the same service) there; None leaves it
     out. host and port only tell Gradio where it is served.
     """
     app = FastAPI(title="ClauseTriage API", version="0.1.0",
@@ -51,13 +52,13 @@ def create_app(service: ClauseTriageService, *, routers: Sequence[APIRouter] = (
     app.add_middleware(BodySizeLimitMiddleware, limit_for=default_limit_for(ui_path))
     _add_error_handlers(app)
 
-    # The existing demo page, unchanged, in the same process
+    # The reviewer page, in the same process and over the same service as the endpoints
     if ui_path is not None:
         import gradio as gr
 
-        from src.ui.app import build_app
+        from src.ui.reviewer import build_reviewer_app
 
-        app = gr.mount_gradio_app(app, build_app(service.pipeline), path=ui_path, server_name=host,
+        app = gr.mount_gradio_app(app, build_reviewer_app(service), path=ui_path, server_name=host,
                                   server_port=port, max_file_size=UI_MAX_FILE_SIZE)
     return app
 
