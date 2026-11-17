@@ -2,7 +2,7 @@
 
 Research project exploring automated identification of contract clauses and supporting evidence using the Contract Understanding Atticus Dataset (CUAD). The repository contains data preparation, classifier baselines, alternative model experiments, evaluation reports, and an early rule-based risk-scoring prototype.
 
-> **Status:** Research/prototype work, not a production legal-review system. The risk-scoring signals and weights are placeholders pending advisor/team approval; outputs must not be used as legal advice or operational triage.
+> **Status:** Research/prototype work, not a production legal-review system. The risk-scoring signals and weights are team-proposed and have not been reviewed by the advisor; outputs must not be used as legal advice or operational triage.
 
 ## Team Members
 
@@ -62,7 +62,7 @@ The evaluation command uses the CUAD training split, a fixed contract-level trai
 
 ### Demo UI
 
-A local demo page ranks uploaded contracts (PDF, Word, text, or pasted text) for review and shows each contract's risky clauses with page numbers, highlighted quotes and the signals behind each score. It is a prototype: scores use the placeholder `v1-placeholder` risk weights and are not legal advice.
+A local demo page ranks uploaded contracts (PDF, Word, text, or pasted text) for review and shows each contract's risky clauses with page numbers, highlighted quotes and the signals behind each score. It is a prototype: scores use the team-proposed `v2-team-proposed` risk weights, which the advisor has not reviewed, and are not legal advice.
 
 To run only the demo, a smaller install is enough (no PyTorch or MLflow; Python 3.12 or 3.13):
 
@@ -124,7 +124,7 @@ See the [chunking experiments guide](docs/chunking-experiments.md) for the archi
 
 - Confirm the official team roster and finish the draft project highlights with the team/advisor.
 - Seek alternatives that improve both macro-F1 and macro-AUPR robustly across predeclared contract-level splits before selecting a model.
-- Review the risk signals and weights with the advisor; do not use placeholder risk scores for real triage.
+- Review the risk signals and weights with the advisor ([docs/risk-weights-v2.md](docs/risk-weights-v2.md)); do not use the unreviewed risk scores for real triage.
 - Confirm deployment, data-governance, and licensing requirements before proposing production use.
 
 ## License
