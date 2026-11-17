@@ -1,0 +1,4 @@
+# Development tools on top of the full environment: python -m pip install -r requirements-dev.txt
+# Never included by requirements.txt or requirements-demo.txt.
+-r requirements.txt
+ruff==0.17.5

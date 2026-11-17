@@ -1,20 +1,10 @@
-numpy==2.5.1
-pandas
-scikit-learn==1.9.0
-scipy==1.18.0
-pydantic
-typing_extensions
-pytest
-transformers==4.57.6
-tokenizers==0.22.2
-nupunkt==0.8.0
-
-mlflow==3.17.2
-SQLAlchemy==2.1.6
-torch
-accelerate
-pyyaml
-joblib
-gradio==6.17.3
-pypdf==7.1.0
-python-docx==1.2.0
+# Full environment (training, experiments, tests and the demo): python -m pip install -r requirements.txt
+# The requirements files are layered so each version is pinned exactly once (see docs/development.md):
+#   requirements-demo.txt      demo UI runtime
+#   requirements-no-torch.txt  + training, tracking and test tools, without torch (Colab)
+#   requirements.txt           + torch (this file)
+#   requirements-dev.txt       + lint tools (ruff)
+-r requirements-no-torch.txt
+# No local build tag, so both 2.14.1+cpu from the PyTorch CPU index (CI, CPU-only Linux) and the plain
+# PyPI wheel (CPU on Windows/macOS, CUDA on Linux) satisfy the pin.
+torch==2.14.1
