@@ -4,7 +4,7 @@ there, and this stage says how worried a reviewer should be about it. Keeping th
 separate means the scoring logic can be retuned without retraining the model.
 
 This module holds the Pydantic models that cross the risk-scoring stage boundary:
-- WeightSet: the advisor-owned, versioned config that scoring reads (signal weights,
+- WeightSet: the versioned config that scoring reads, to be owned by the advisor (signal weights,
   rating thresholds, category severities, context rules, phrase lists, magnitude rules)
 - ClauseInput: one detected clause, i.e. a cached classifier probability plus the
   Evidence from src/evidence/ (or None if the clause went to the Unknown queue)
@@ -13,17 +13,25 @@ This module holds the Pydantic models that cross the risk-scoring stage boundary
 The weight set also holds the contract-level triage settings (triage_top_k, triage_max_weight)
 read by contract.py, so a weight version covers the contract ranking too.
 
-PLACEHOLDER: the four signals in SignalName are proposals until they are settled with
-the advisor. See signals.py for what each one measures and how to add, remove or rename one.
+The four signals in SignalName and the shipped weight sets are team-proposed and pending advisor
+review; none of the values have been validated against advisor judgement. The default is
+v2-team-proposed (docs/risk-weights-v2.md explains every value); v1-placeholder stays loadable
+so scores recorded under it can be reproduced. See signals.py for what each signal measures and
+how to add, remove or rename one.
+
+Weight sets can carry plain-language reasons next to their values (severity_rationale, and a
+rationale on each rule) so a reviewer can read and correct the config directly. Reasons are part
+of the version: they count toward content_sha256 whenever they are filled in.
 
 Detection confidence is deliberately not a signal: a confident detection is not a riskier
 clause. The classifier's per-class thresholds already gate which clauses reach scoring,
 and ClauseScore carries the probability so the UI can still show it.
 
 Creating a new weight version:
-1. Copy src/risk/weights/default_weights_v1.json to a new file
+1. Copy the current default (src/risk/weights/default_weights_v2.json) to a new file
 2. Give it a new, unique weight_version_id and set created_by
-3. Edit the values; load_weight_set() validates bounds, the weight sum and threshold order
+3. Edit the values and their reasons; load_weight_set() validates bounds, the weight sum and threshold order
+4. Point DEFAULT_WEIGHTS_PATH at it only once it should become the default
 Never edit a version in place: scores record their weight_version_id, so changing the
 values behind an existing id would make old scores unreproducible.
 """
@@ -42,9 +50,11 @@ from src.evidence.cues import normalize_category
 from src.evidence.schema import Evidence
 from src.labels.categories import CATEGORIES
 
-DEFAULT_WEIGHTS_PATH = Path(__file__).resolve().parent / "weights" / "default_weights_v1.json"
+WEIGHTS_DIR = Path(__file__).resolve().parent / "weights"
+DEFAULT_WEIGHTS_PATH = WEIGHTS_DIR / "default_weights_v2.json"
+V1_WEIGHTS_PATH = WEIGHTS_DIR / "default_weights_v1.json"
 
-# PLACEHOLDER signals pending advisor sign-off; every name here needs a function in signals.SIGNALS
+# Team-proposed signals pending advisor review; every name here needs a function in signals.SIGNALS
 SignalName = Literal["category_severity", "one_sidedness", "magnitude", "contract_context"]
 SIGNAL_NAMES: tuple[str, ...] = get_args(SignalName)
 
@@ -79,6 +89,7 @@ class CooccurrenceRule(BaseModel):
     other_category: str
     when: Literal["present", "absent"] = "present"
     adjustment: float = Field(ge=-1.0, le=1.0)
+    rationale: str = ""
 
     @field_validator("target_category", "other_category")
     @classmethod
@@ -98,6 +109,7 @@ class MagnitudeRule(BaseModel):
     low_days: float = Field(ge=0.0)
     high_days: float
     longer_is_riskier: bool = True
+    rationale: str = ""
 
     @field_validator("category")
     @classmethod
@@ -113,7 +125,7 @@ class MagnitudeRule(BaseModel):
 
 class WeightSet(BaseModel):
     """
-    One immutable, versioned set of scoring parameters, owned by the advisor.
+    One immutable, versioned set of scoring parameters, to be owned by the advisor once reviewed.
     Unknown keys are rejected so a misspelled field in the JSON can't be silently ignored.
     Deeply immutable after validation: mappings are read-only proxies and collections are tuples.
     To make a new version, create a new validated WeightSet; model_copy(update=...) revalidates
@@ -128,6 +140,8 @@ class WeightSet(BaseModel):
     medium_threshold: UnitFloat
     high_threshold: UnitFloat
     category_severity: Mapping[str, UnitFloat] = Field(default_factory=dict)
+    # Plain-language reason per category; documentation only, scoring never reads it
+    severity_rationale: Mapping[str, str] = Field(default_factory=dict)
     default_severity: UnitFloat
     cooccurrence_rules: tuple[CooccurrenceRule, ...] = ()
     aggravating_phrases: tuple[Phrase, ...] = ()
@@ -138,12 +152,21 @@ class WeightSet(BaseModel):
     triage_top_k: int = Field(default=3, ge=1)
     triage_max_weight: UnitFloat = 0.5
 
-    @field_validator("category_severity")
+    @field_validator("category_severity", "severity_rationale")
     @classmethod
-    def check_severity_categories(cls, severity: Mapping[str, float]) -> Mapping[str, float]:
+    def check_severity_categories(cls, severity: Mapping[str, Any]) -> Mapping[str, Any]:
         for name in severity:
             _check_category(name)
         return severity
+
+    # A reason must explain a severity that is actually set, so the two tables can't drift apart
+    @model_validator(mode="after")
+    def check_rationale_has_severity(self) -> Self:
+        listed = {_check_category(name) for name in self.category_severity}
+        orphans = sorted(name for name in self.severity_rationale if _check_category(name) not in listed)
+        if orphans:
+            raise ValueError(f"severity_rationale names categories with no category_severity: {orphans}")
+        return self
 
     # Every signal needs a weight, the weights must sum to 1, and Medium must sit below High
     @model_validator(mode="after")
@@ -158,7 +181,7 @@ class WeightSet(BaseModel):
             raise ValueError("medium_threshold must be below high_threshold")
         return self
 
-    @field_serializer("signal_weights", "category_severity")
+    @field_serializer("signal_weights", "category_severity", "severity_rationale")
     def serialize_immutable_mappings(self, value: Mapping) -> dict:
         """Serialize read-only runtime mappings as ordinary JSON objects."""
         return dict(value)
@@ -168,6 +191,7 @@ class WeightSet(BaseModel):
         """Prevent mutation through nested references, not just assignment to model fields."""
         object.__setattr__(self, "signal_weights", MappingProxyType(dict(self.signal_weights)))
         object.__setattr__(self, "category_severity", MappingProxyType(dict(self.category_severity)))
+        object.__setattr__(self, "severity_rationale", MappingProxyType(dict(self.severity_rationale)))
         for name in (
             "cooccurrence_rules", "aggravating_phrases", "mitigating_phrases",
             "scope_phrases", "magnitude_rules",
@@ -189,11 +213,18 @@ class WeightSet(BaseModel):
 
     @property
     def content_sha256(self) -> str:
-        """Stable fingerprint of the complete validated config for score-level provenance."""
-        canonical = json.dumps(
-            self.model_dump(mode="json"), sort_keys=True, separators=(",", ":"),
-            ensure_ascii=False, allow_nan=False,
-        )
+        """
+        Stable fingerprint of the complete validated config for score-level provenance.
+        Empty reason fields are left out, so weight sets written before reasons existed
+        (v1-placeholder) keep the hash their recorded scores carry; filled-in reasons count.
+        """
+        data = self.model_dump(mode="json")
+        if not data["severity_rationale"]:
+            del data["severity_rationale"]
+        for rule in (*data["cooccurrence_rules"], *data["magnitude_rules"]):
+            if not rule["rationale"]:
+                del rule["rationale"]
+        canonical = json.dumps(data, sort_keys=True, separators=(",", ":"), ensure_ascii=False, allow_nan=False)
         return hashlib.sha256(canonical.encode("utf-8")).hexdigest()
 
 

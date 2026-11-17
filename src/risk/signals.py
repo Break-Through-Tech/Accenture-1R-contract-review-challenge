@@ -2,8 +2,9 @@
 Each risk signal is one small pure function that turns a detected clause into a float in [0, 1].
 scoring.py combines them into a composite score using the WeightSet's signal_weights.
 
-PLACEHOLDER: these four signals are proposals until they are settled with the advisor.
-    category_severity: how bad this clause type is on its own (advisor lookup table), lowered
+The four signals are team-proposed and pending advisor review; they have not been validated
+against advisor judgement. docs/risk-weights-v2.md explains them in plain language.
+    category_severity: how bad this clause type is on its own (a per-category tier table), lowered
                        when a protective clause elsewhere in the contract softens it
     one_sidedness: whether the quote hands one party unchecked power ("sole discretion",
                    "without notice") rather than mutual, qualified terms ("each party", "reasonable")
@@ -15,6 +16,12 @@ PLACEHOLDER: these four signals are proposals until they are settled with the ad
 Apart from category_severity, every signal is 0 when nothing risky is found, so a plain clause
 scores on its severity alone and ratings spread across Low / Medium / High. one_sidedness and
 magnitude read the evidence quote, so they are 0 for Unknown-queue clauses (evidence=None).
+
+Known limitation: magnitude scores every duration in the quote against the category's rule and
+keeps the worst, so a quote that mentions two periods (e.g. a one-year renewal term and a 90-day
+notice window) is scored on whichever is worse. v2 drops the Notice Period To Terminate Renewal
+rule for this reason. Changing that behaviour would change scores under existing weight versions,
+so it needs a deliberate, versioned change rather than an edit here.
 
 Every signal function has the same signature, (clause, contract_categories, weight_set) -> float,
 so scoring.py can loop over the SIGNALS registry without knowing which signals exist.

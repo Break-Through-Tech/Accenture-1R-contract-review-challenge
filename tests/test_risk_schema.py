@@ -4,7 +4,14 @@ import pytest
 from pydantic import ValidationError
 
 from src.evidence.schema import Evidence
-from src.risk.schema import DEFAULT_WEIGHTS_PATH, ClauseInput, ClauseScore, WeightSet, load_weight_set
+from src.risk.schema import (
+    DEFAULT_WEIGHTS_PATH,
+    V1_WEIGHTS_PATH,
+    ClauseInput,
+    ClauseScore,
+    WeightSet,
+    load_weight_set,
+)
 
 VALID = {
     "weight_version_id": "test-v1",
@@ -50,10 +57,49 @@ def test_weight_set_sum_within_tolerance_constructs():
 
 
 def test_default_weights_file_loads():
-    """The shipped placeholder weight set validates and carries the placeholder version id."""
+    """The default weight set is v2-team-proposed and validates with its own thresholds."""
     ws = load_weight_set(DEFAULT_WEIGHTS_PATH)
+    assert ws.weight_version_id == "v2-team-proposed"
+    assert (ws.medium_threshold, ws.high_threshold) == (0.25, 0.525)
+
+
+def test_v1_weights_file_still_loads_unchanged():
+    """v1-placeholder stays loadable with its original values and the content hash its recorded scores carry."""
+    ws = load_weight_set(V1_WEIGHTS_PATH)
     assert ws.weight_version_id == "v1-placeholder"
     assert (ws.medium_threshold, ws.high_threshold) == (0.35, 0.55)
+    assert ws.content_sha256 == "583a5591d0e47fb02e96a8fae0db4212f33dd74916755e29923cb4c3e111985b"
+
+
+# ----- Reasons (documentation fields) -----
+def test_weight_set_empty_reasons_leave_content_hash_unchanged():
+    """Explicitly empty reasons hash like a weight set written before reasons existed."""
+    explicit = _with(
+        severity_rationale={},
+        cooccurrence_rules=[{**VALID["cooccurrence_rules"][0], "rationale": ""}],
+        magnitude_rules=[{**VALID["magnitude_rules"][0], "rationale": ""}],
+    )
+    assert WeightSet(**explicit).content_sha256 == WeightSet(**VALID).content_sha256
+
+
+@pytest.mark.parametrize(
+    "changes",
+    [
+        {"severity_rationale": {"Uncapped Liability": "Critical: no ceiling."}},
+        {"cooccurrence_rules": [{**VALID["cooccurrence_rules"][0], "rationale": "A cap softens it."}]},
+        {"magnitude_rules": [{**VALID["magnitude_rules"][0], "rationale": "Three years is long."}]},
+    ],
+)
+def test_weight_set_filled_reasons_change_content_hash(changes):
+    """A filled-in reason is part of the version, so editing it changes the content hash."""
+    assert WeightSet(**_with(**changes)).content_sha256 != WeightSet(**VALID).content_sha256
+
+
+def test_weight_set_reasons_are_read_only():
+    """severity_rationale is frozen like the other mappings."""
+    ws = WeightSet(**_with(severity_rationale={"Uncapped Liability": "Critical: no ceiling."}))
+    with pytest.raises(TypeError):
+        ws.severity_rationale["Uncapped Liability"] = "edited"
 
 
 def test_load_weight_set_invalid_file_raises(tmp_path):
@@ -151,6 +197,9 @@ def test_weight_set_copy_requires_new_id_when_values_change():
         {"weight_version_id": ""},
         {"aggravating_phrases": [""]},
         {"scope_phrases": [""]},
+        # a reason for an unknown category, or for a category with no severity set
+        {"severity_rationale": {"Uncaped Liability": "typo"}},
+        {"severity_rationale": {"Parties": "None: no severity is set for Parties in VALID."}},
     ],
 )
 def test_weight_set_invalid_raises(changes):

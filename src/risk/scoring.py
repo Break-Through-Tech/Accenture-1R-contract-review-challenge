@@ -17,8 +17,8 @@ Inputs from other modules:
 probabilities and the evidence stage's output (evidence=None for Unknowns)
 'WeightSet' from schema.load_weight_set()
 
-PLACEHOLDER: the signals and the default weights are placeholders pending advisor sign-off.
-Clauses with no evidence are still scored (one_sidedness and magnitude are 0 for them) and
+The signals and the default weights (v2-team-proposed) are team-proposed and pending advisor
+review; they have not been validated against advisor judgement. Clauses with no evidence are still scored (one_sidedness and magnitude are 0 for them) and
 flagged with has_evidence=False; whether they should count toward the contract score is an
 open question.
 """

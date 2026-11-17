@@ -2,9 +2,9 @@
   "inputs": {
     "probabilities": "results/word_char_tfidf_nested/word_char_tfidf_evaluation.npz",
     "thresholds": "results/word_char_tfidf_nested/word_char_tfidf_thresholds.json",
-    "weights": "src/risk/weights/default_weights_v1.json",
-    "weight_version_id": "v1-placeholder",
-    "weight_set_sha256": "583a5591d0e47fb02e96a8fae0db4212f33dd74916755e29923cb4c3e111985b",
+    "weights": "src/risk/weights/default_weights_v2.json",
+    "weight_version_id": "v2-team-proposed",
+    "weight_set_sha256": "8d8e8e264b8c4ffe07c7e22cab7be70c4524ce7759e62c64432b83214e690995",
     "triage_top_k": 3,
     "triage_max_weight": 0.5,
     "split": {
@@ -26,148 +26,148 @@
     "chunks": 2196,
     "predicted_clauses": 1529,
     "gold_spans": 2005,
-    "distinct_triage_scores": 46,
+    "distinct_triage_scores": 51,
     "base_ratings": {
-      "High": 40,
-      "Medium": 225,
-      "Low": 1264
+      "High": 62,
+      "Medium": 581,
+      "Low": 886
     }
   },
   "gold_reference_note": "Gold = CUAD annotations scored as if detected perfectly, with the full annotated answer as evidence. It measures how much detection and evidence errors move the ranking, not whether the ranking matches a reviewer's judgement.",
   "agreement_with_gold": {
     "triage_score": {
-      "spearman": 0.8091,
-      "max_rank_move": 55,
-      "top_10_overlap": 5
+      "spearman": 0.7768,
+      "max_rank_move": 50,
+      "top_10_overlap": 2
     },
     "high_count": {
-      "spearman": 0.5852,
-      "max_rank_move": 54,
-      "top_10_overlap": 6
+      "spearman": 0.6449,
+      "max_rank_move": 47,
+      "top_10_overlap": 2
     },
     "worst_clause": {
-      "spearman": 0.7858,
-      "max_rank_move": 59,
-      "top_10_overlap": 5
+      "spearman": 0.7428,
+      "max_rank_move": 52,
+      "top_10_overlap": 1
     }
   },
   "weight_sensitivity": [
     {
       "variant": "category_severity-0.10",
-      "spearman": 0.9935,
-      "max_rank_move": 8,
-      "top_10_overlap": 9,
-      "spearman_vs_gold": 0.7862
+      "spearman": 0.9966,
+      "max_rank_move": 9,
+      "top_10_overlap": 8,
+      "spearman_vs_gold": 0.7802
     },
     {
       "variant": "category_severity+0.10",
-      "spearman": 0.9893,
-      "max_rank_move": 13,
-      "top_10_overlap": 7,
-      "spearman_vs_gold": 0.8058
+      "spearman": 0.9946,
+      "max_rank_move": 9,
+      "top_10_overlap": 8,
+      "spearman_vs_gold": 0.7879
     },
     {
       "variant": "one_sidedness-0.10",
-      "spearman": 0.9899,
-      "max_rank_move": 15,
-      "top_10_overlap": 9,
-      "spearman_vs_gold": 0.8528
+      "spearman": 0.9805,
+      "max_rank_move": 21,
+      "top_10_overlap": 7,
+      "spearman_vs_gold": 0.8066
     },
     {
       "variant": "one_sidedness+0.10",
-      "spearman": 0.9676,
+      "spearman": 0.9748,
       "max_rank_move": 19,
       "top_10_overlap": 7,
-      "spearman_vs_gold": 0.7072
+      "spearman_vs_gold": 0.7109
     },
     {
       "variant": "magnitude-0.10",
-      "spearman": 0.985,
-      "max_rank_move": 18,
-      "top_10_overlap": 8,
-      "spearman_vs_gold": 0.7615
+      "spearman": 0.9936,
+      "max_rank_move": 11,
+      "top_10_overlap": 10,
+      "spearman_vs_gold": 0.7678
     },
     {
       "variant": "magnitude+0.10",
-      "spearman": 0.9817,
-      "max_rank_move": 15,
-      "top_10_overlap": 8,
-      "spearman_vs_gold": 0.8108
+      "spearman": 0.9797,
+      "max_rank_move": 21,
+      "top_10_overlap": 6,
+      "spearman_vs_gold": 0.7633
     },
     {
       "variant": "contract_context-0.10",
-      "spearman": 0.9924,
-      "max_rank_move": 14,
-      "top_10_overlap": 9,
-      "spearman_vs_gold": 0.8057
+      "spearman": 0.9868,
+      "max_rank_move": 18,
+      "top_10_overlap": 7,
+      "spearman_vs_gold": 0.7661
     },
     {
       "variant": "contract_context+0.10",
-      "spearman": 0.9971,
+      "spearman": 0.9975,
       "max_rank_move": 7,
-      "top_10_overlap": 8,
-      "spearman_vs_gold": 0.8231
+      "top_10_overlap": 9,
+      "spearman_vs_gold": 0.7837
     },
     {
       "variant": "triage_top_k=1",
-      "spearman": 0.9853,
-      "max_rank_move": 16,
+      "spearman": 0.9816,
+      "max_rank_move": 21,
       "top_10_overlap": 8,
-      "spearman_vs_gold": 0.7545
+      "spearman_vs_gold": 0.7205
     },
     {
       "variant": "triage_top_k=5",
-      "spearman": 0.9973,
-      "max_rank_move": 5,
-      "top_10_overlap": 9,
-      "spearman_vs_gold": 0.8286
+      "spearman": 0.9942,
+      "max_rank_move": 9,
+      "top_10_overlap": 8,
+      "spearman_vs_gold": 0.7822
     },
     {
       "variant": "triage_max_weight=0.25",
-      "spearman": 0.9973,
-      "max_rank_move": 9,
-      "top_10_overlap": 9,
-      "spearman_vs_gold": 0.822
+      "spearman": 0.9955,
+      "max_rank_move": 10,
+      "top_10_overlap": 8,
+      "spearman_vs_gold": 0.7967
     },
     {
       "variant": "triage_max_weight=0.75",
-      "spearman": 0.9981,
+      "spearman": 0.9967,
       "max_rank_move": 7,
       "top_10_overlap": 9,
-      "spearman_vs_gold": 0.8027
+      "spearman_vs_gold": 0.7574
     },
     {
       "variant": "triage_max_weight=1.0",
-      "spearman": 0.9853,
-      "max_rank_move": 16,
+      "spearman": 0.9816,
+      "max_rank_move": 21,
       "top_10_overlap": 8,
-      "spearman_vs_gold": 0.7545
+      "spearman_vs_gold": 0.7205
     }
   ],
   "threshold_sensitivity": [
     {
       "variant": "medium_threshold-0.05",
-      "clause_ratings_changed": 90,
-      "high_clauses": 40,
-      "medium_clauses": 315
+      "clause_ratings_changed": 42,
+      "high_clauses": 62,
+      "medium_clauses": 623
     },
     {
       "variant": "medium_threshold+0.05",
-      "clause_ratings_changed": 39,
-      "high_clauses": 40,
-      "medium_clauses": 186
+      "clause_ratings_changed": 36,
+      "high_clauses": 62,
+      "medium_clauses": 545
     },
     {
       "variant": "high_threshold-0.05",
-      "clause_ratings_changed": 1,
-      "high_clauses": 41,
-      "medium_clauses": 224
+      "clause_ratings_changed": 7,
+      "high_clauses": 69,
+      "medium_clauses": 574
     },
     {
       "variant": "high_threshold+0.05",
-      "clause_ratings_changed": 14,
-      "high_clauses": 26,
-      "medium_clauses": 239
+      "clause_ratings_changed": 29,
+      "high_clauses": 33,
+      "medium_clauses": 610
     }
   ]
 }
