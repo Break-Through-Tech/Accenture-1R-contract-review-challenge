@@ -1,0 +1,67 @@
+# Project metadata and tool configuration (see docs/development.md).
+# Dependencies are NOT declared here: the requirements*.txt files are their single source of truth,
+# and `pip install -r requirements.txt` stays the install path. Pytest is configured in pytest.ini.
+
+[project]
+name = "clausetriage"
+version = "0.1.0"
+description = "Detects the 41 CUAD clause categories, scores clause risk with rules and ranks contracts for review."
+readme = "README.md"
+requires-python = ">=3.12"
+
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+# Not installable yet: code is imported as `src.<module>` and `scripts.<module>` from the repo root
+# (pytest.ini sets pythonpath = .). Packaging comes with the planned rename to `clausetriage/`. Until
+# then `pip install .` installs no code, instead of scattering src/'s subpackages into site-packages.
+packages = []
+
+[tool.ruff]
+# Matches what the code already uses (about 30 of ~18,000 lines are longer); E501 is not enforced
+# and there is no formatter, so this only guides editors.
+line-length = 120
+# Agent worktrees live under .claude/worktrees/ in the main checkout; .venv, venv, .git and caches
+# are excluded by ruff's defaults.
+extend-exclude = [".claude"]
+# .gitignore's `models/` rule also matches the tracked src/models/, which ruff would then skip.
+respect-gitignore = false
+
+[tool.ruff.lint]
+# Bug-finding rules only, no import sorting or restyling:
+#   E4/E7/E9  ruff's defaults: import placement, comparisons, bare except, syntax and IO errors
+#   F         pyflakes: undefined names, unused imports and variables, redefinitions, bad f-strings
+#   B         flake8-bugbear: mutable defaults, loop-variable closures, unreachable asserts...
+#   W605      invalid escape sequences
+#   PLE       pylint errors (bad format strings, return outside function, bad dunder signatures...)
+#   T10       leftover debugger calls (breakpoint, pdb)
+select = ["E4", "E7", "E9", "F", "B", "W605", "PLE", "T10"]
+# B905 (zip() without strict=) fires 35 times across 20+ files; worth enabling once the branches merge.
+ignore = ["B905"]
+
+[tool.ruff.lint.flake8-bugbear]
+# Gradio's documented idiom is `progress=gr.Progress()` as a default argument (B008).
+extend-immutable-calls = ["gradio.Progress"]
+
+[tool.ruff.lint.per-file-ignores]
+# Existing findings, suppressed per file and rule instead of edited while parallel branches touch
+# these files. Fix each one later and delete its entry (docs/development.md lists them).
+"notebooks/baseline_test.ipynb" = ["F401"]
+"scripts/evaluate_encoder_nested.py" = ["F401"]
+"scripts/repair_per_category_aupr.py" = ["B023"]
+"scripts/train_category_query.py" = ["F401"]
+"scripts/train_contract_graph.py" = ["F401", "F811"]
+"scripts/train_long_context.py" = ["F401"]
+"scripts/train_set_prediction.py" = ["F401"]
+"scripts/train_sparse_long_context.py" = ["F841"]
+"src/chunking/token_chunker.py" = ["F401", "F811"]
+"src/inference.py" = ["F401"]
+"src/models/encoder/long_context.py" = ["F401"]
+"src/models/encoder/set_prediction.py" = ["F401"]
+"src/models/encoder/sparse_long_context.py" = ["F401"]
+"src/models/encoder/train.py" = ["B028"]
+"src/store/artifact_store.py" = ["F401"]
+"tests/test_demo_model.py" = ["B028"]
+"tests/test_retrieval_reranker.py" = ["F401"]
