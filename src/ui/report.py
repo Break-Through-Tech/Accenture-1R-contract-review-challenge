@@ -6,15 +6,21 @@ How everything comes together:
 ScoredContract: one uploaded Document with its ContractInferencePipeline.predict_contract result
 rank_contracts(): ranks several scored contracts together with risk.contract.aggregate_contracts
 contract_table(), clause_table(), highlighted_text(), clause_register(): the page's views
+clause_register() delegates to src/register/export.py, the core register that scripts and the API share
 """
 from dataclasses import dataclass
 
 import pandas as pd
 
+from src.register.export import build_register, register_frame
 from src.risk.contract import ContractScore, aggregate_contracts
-from src.risk.schema import ClauseScore, WeightSet
+from src.risk.schema import SIGNAL_NAMES, ClauseScore, WeightSet
 from src.ui.documents import Document
 
+# The download's original column names, kept so existing CSV consumers still find them
+REGISTER_RENAMES = {"contract_id": "contract", "composite_score": "risk_score", "model_name": "model"}
+REGISTER_COLUMNS = ["contract", "contract_rank", "category", "rating", "risk_score", *SIGNAL_NAMES, "probability",
+                    "chunk_index", "page", "start", "end", "quote", "model", "weight_version_id"]
 CONTRACT_COLUMNS = ["Rank", "Contract", "Verdict", "Triage score", "High", "Medium", "Low", "No quote",
                     "Riskiest clause"]
 CLAUSE_COLUMNS = ["Rating", "Risk score", "Category", "Page", "Evidence", "Why (signals)", "Model probability"]
@@ -122,21 +128,18 @@ def highlighted_text(item: ScoredContract) -> list[tuple[str, str | None]]:
 
 
 def clause_register(scored: list[ScoredContract], ranked: list[ContractScore]) -> pd.DataFrame:
-    """Every scored clause of every contract, for download: contract rank, clause, signals, page and quote."""
-    rank_of = {c.contract_id: c.rank for c in ranked}
-    rows = []
-    for item in scored:
-        evidence = _evidence_by_clause(item.result)
-        for clause in item.result["clause_scores"]:
-            found = evidence.get((clause.chunk_index, clause.category))
-            rows.append({
-                "contract": clause.contract_id, "contract_rank": rank_of[clause.contract_id],
-                "category": clause.category, "rating": clause.rating, "risk_score": clause.composite_score,
-                **clause.signals, "probability": clause.probability, "chunk_index": clause.chunk_index,
-                "page": item.document.page_of(found.start) if found else None,
-                "start": found.start if found else None, "end": found.end if found else None,
-                "quote": found.quote if found else None,
-                "model": item.result["model_name"], "weight_version_id": clause.weight_version_id,
-            })
-    return pd.DataFrame(rows).sort_values(["contract_rank", "contract", "risk_score"], ascending=[True, True, False]) \
-        if rows else pd.DataFrame(rows)
+    """
+    Every scored clause of every contract, for download: contract rank, clause, signals, page and quote.
+    Built by the core src/register module (which re-checks each quote against the document text); its
+    columns are renamed to the page's original names (contract, risk_score, model) and listed first,
+    followed by the core register's extra columns (triage score, manual-review flag and reason, hash).
+    """
+    score_of = {c.contract_id: c for c in ranked}
+    registers = [
+        build_register(item.result, score_of[item.result["contract_id"]], text=item.document.text,
+                       page_starts=item.document.page_starts, ranked_out_of=len(ranked))
+        for item in scored
+    ]
+    registers.sort(key=lambda register: (register.header.rank, register.header.contract_id))
+    frame = register_frame(registers).rename(columns=REGISTER_RENAMES)
+    return frame[[*REGISTER_COLUMNS, *(column for column in frame.columns if column not in REGISTER_COLUMNS)]]
