@@ -345,6 +345,30 @@ def test_read_document_docx_reads_merged_cells_once(tmp_path):
     assert read_document(tmp_path / "m.docx").text == "Payment terms | Net 30\na | b | c\nParty | Acme\nBeta"
 
 
+def test_read_document_docx_accepts_tracked_changes_and_reads_content_controls(tmp_path):
+    """Insertions are kept, deletions dropped, content controls read; text boxes and headers are skipped."""
+    from docx.oxml import parse_xml
+
+    w = 'xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"'
+    v = 'xmlns:v="urn:schemas-microsoft-com:vml"'
+
+    def build(word):
+        """A redlined fee, an inline and a block content control, a text box and a header."""
+        fee = word.add_paragraph("Fee is ")
+        fee._p.append(parse_xml(f'<w:ins {w} w:id="1" w:author="a"><w:r><w:t>$200</w:t></w:r></w:ins>'))
+        fee._p.append(parse_xml(f'<w:del {w} w:id="2" w:author="a"><w:r><w:delText>$100</w:delText></w:r></w:del>'))
+        party = word.add_paragraph("Party: ")
+        party._p.append(parse_xml(f"<w:sdt {w}><w:sdtContent><w:r><w:t>Acme Corp</w:t></w:r></w:sdtContent></w:sdt>"))
+        party._p.append(parse_xml(f"<w:r {w} {v}><w:pict><v:shape><v:textbox><w:txbxContent><w:p><w:r>"
+                                  "<w:t>TEXT BOX</w:t></w:r></w:p></w:txbxContent></v:textbox></v:shape></w:pict></w:r>"))
+        party._p.addnext(parse_xml(f"<w:sdt {w}><w:sdtContent><w:p><w:r><w:t>Governing law: Delaware</w:t></w:r>"
+                                   "</w:p></w:sdtContent></w:sdt>"))
+        word.sections[0].header.paragraphs[0].text = "CONFIDENTIAL"
+
+    (tmp_path / "r.docx").write_bytes(_docx_bytes(build))
+    assert read_document(tmp_path / "r.docx").text == "Fee is $200\nParty: Acme Corp\nGoverning law: Delaware"
+
+
 def test_read_document_docx_flattens_nested_tables_into_their_cell(tmp_path):
     """A table inside a cell is read into that cell's text, keeping one line per outer row."""
     def build(word):

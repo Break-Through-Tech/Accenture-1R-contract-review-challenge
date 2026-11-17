@@ -58,6 +58,8 @@ LOCKED_DOCX = ("This Word file is password-protected, or is an old .doc file ren
 _LOOKS_LIKE = {"pdf": "a PDF", "zip": "a ZIP-based Office file (such as .docx or .xlsx)",
                "ole": "an old-format or password-protected Office file", "rtf": "an RTF file"}
 _POSITIONAL = ("name", "text", "page_starts", "ocr")
+# WordprocessingML namespace, as lxml writes it in element tags
+_W = "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}"
 
 
 def text_sha256(text: str) -> str:
@@ -335,14 +337,40 @@ def _check_docx_archive(data: bytes) -> None:
                          "limit. Remove large images or split it, then upload again.")
 
 
-def _cell_text(cell: Any) -> str:
-    """A table cell's paragraphs (and any nested table) on one line, whitespace runs collapsed."""
-    from docx.table import Table
+def _paragraph_text(paragraph: Any, parent: Any) -> str:
+    """
+    A <w:p>'s text with tracked changes accepted: runs inside insertions, hyperlinks and content
+    controls count, deleted or moved-away runs don't, and text-box runs (their own <w:p>) are left out.
+    """
+    from docx.text.run import Run
 
     parts = []
-    for block in cell.iter_inner_content():
-        parts.extend(_table_lines(block) if isinstance(block, Table) else [block.text])
-    return " ".join(" ".join(parts).split())
+    for run in paragraph.iter(f"{_W}r"):
+        # The nearest of these ancestors decides: this paragraph keeps it, a deletion or a nested <w:p> doesn't
+        owner = next(run.iterancestors(f"{_W}p", f"{_W}del", f"{_W}moveFrom"), None)
+        if owner is paragraph:
+            parts.append(Run(run, parent).text)
+    return "".join(parts)
+
+
+def _block_lines(container: Any, parent: Any) -> list[str]:
+    """Paragraphs and table rows of a body or cell element in order, looking inside content controls."""
+    from docx.table import Table
+
+    lines = []
+    for child in container.iterchildren():
+        if child.tag == f"{_W}p":
+            lines.append(_paragraph_text(child, parent))
+        elif child.tag == f"{_W}tbl":
+            lines.extend(_table_lines(Table(child, parent)))
+        elif child.tag in (f"{_W}sdt", f"{_W}sdtContent", f"{_W}customXml"):
+            lines.extend(_block_lines(child, parent))
+    return lines
+
+
+def _cell_text(cell: Any) -> str:
+    """A table cell's paragraphs (and any nested table) on one line, whitespace runs collapsed."""
+    return " ".join(" ".join(_block_lines(cell._tc, cell)).split())
 
 
 def _table_lines(table: Any) -> list[str]:
@@ -361,23 +389,17 @@ def _table_lines(table: Any) -> list[str]:
     return lines
 
 
-def _docx_lines(word: Any) -> list[str]:
-    """Body paragraphs and table rows in document order, one per line."""
-    from docx.table import Table
-
-    lines = []
-    for block in word.iter_inner_content():
-        lines.extend(_table_lines(block) if isinstance(block, Table) else [block.text])
-    return lines
-
-
 def _read_docx(name: str, data: bytes) -> Document:
-    """Read a .docx body (paragraphs and tables, in order); headers, footers, notes and text boxes are skipped."""
+    """
+    Read a .docx body: paragraphs and tables in order, tracked changes accepted. Headers, footers,
+    footnotes, comments and text boxes are not read.
+    """
     from docx import Document as open_word
 
     _check_docx_archive(data)
     try:
-        text = "\n".join(_docx_lines(open_word(io.BytesIO(data))))
+        word = open_word(io.BytesIO(data))
+        text = "\n".join(_block_lines(word.element.body, word._body))
     except Exception as error:  # untrusted bytes: any parser failure means the file can't be read
         raise ValueError(DAMAGED_DOCX) from error
     _check_text_length(len(text))
