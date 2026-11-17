@@ -11,6 +11,7 @@ from src.labels.projection import LabeledChunk
 from src.metrics import compute_transformer_metrics
 from src.models.encoder.config import TrainConfig
 from src.models.encoder.dataset import ChunkCollator
+from src.models.encoder.hub import load_pinned_tokenizer
 from src.models.encoder.loss import WeightedBCETrainer
 from src.models.encoder.train import (
     DEFAULT_CONFIG_PATH,
@@ -199,11 +200,7 @@ def test_sentence_token_training_mode_uses_shared_token_chunker(tmp_path):
     assert {lc.chunk.contract_id for lc in train}.isdisjoint(
         {lc.chunk.contract_id for lc in val}
     )
-    tokenizer = AutoTokenizer.from_pretrained(
-        config.model_name, revision=config.model_revision, use_fast=True,
-        cache_dir=Path(__file__).resolve().parents[1] / ".venv/hf-cache",
-        local_files_only=True,
-    )
+    tokenizer = load_pinned_tokenizer(config.model_name, config.model_revision)
     assert all(len(tokenizer(lc.chunk.text)["input_ids"]) <= config.max_length for lc in train + val)
 
 
@@ -327,8 +324,10 @@ def test_fit_trains_evaluates_and_saves_the_best_checkpoint(tmp_path, tokenizer,
 
 
 def test_fit_saved_train_config_round_trips_to_the_same_config(tmp_path, tokenizer, monkeypatch):
-    """Checks the saved config round-trips and fit requests the matching pinned fast tokenizer."""
+    """Checks the saved config round-trips and fit requests the pinned fast tokenizer with the hub settings."""
     monkeypatch.setattr("src.models.encoder.train.build_model", lambda config: make_tiny_model())
+    monkeypatch.setenv("CLAUSETRIAGE_HF_CACHE", str(tmp_path / "hf"))
+    monkeypatch.setenv("CLAUSETRIAGE_HF_OFFLINE", "1")
     config = make_config(
         output_dir=tmp_path / "run", epochs=1, batch_size=4, grad_accum=1, max_length=32,
         model_revision="fb53ab8802853c8e4fbdbcd0529f21fc6f459b2b",
@@ -346,7 +345,43 @@ def test_fit_saved_train_config_round_trips_to_the_same_config(tmp_path, tokeniz
     assert TrainConfig.model_validate_json(saved) == config
     assert tokenizer_calls == [(config.model_name, {
         "revision": config.model_revision, "use_fast": True,
+        "local_files_only": True, "cache_dir": str(tmp_path / "hf"),
     })]
+
+
+def test_fit_passes_resume_checkpoint_to_the_trainer_and_saves_log_history(tmp_path, tokenizer, monkeypatch):
+    """Checks resume_from_checkpoint reaches Trainer.train and the epoch log is saved next to the model."""
+    monkeypatch.setattr("src.models.encoder.train.build_model", lambda config: make_tiny_model())
+    resumed_from = []
+    original_train = WeightedBCETrainer.train
+
+    def recording_train(self, resume_from_checkpoint=None, **kwargs):
+        """Record the resume argument, then train from scratch (the path is a placeholder)."""
+        resumed_from.append(resume_from_checkpoint)
+        return original_train(self, **kwargs)
+
+    monkeypatch.setattr(WeightedBCETrainer, "train", recording_train)
+    config = make_config(output_dir=tmp_path / "run", epochs=1, batch_size=4, grad_accum=1, max_length=32)
+
+    fit(config, make_labeled_chunks(8, 4), make_labeled_chunks(8, 4), resume_from_checkpoint="run/checkpoint-3")
+
+    history = json.loads((tmp_path / "run" / "best" / "log_history.json").read_text(encoding="utf-8"))
+    assert resumed_from == ["run/checkpoint-3"]
+    assert any("eval_macro_aupr" in entry for entry in history)
+
+
+def test_build_model_passes_hub_settings_to_from_pretrained(monkeypatch, tmp_path):
+    """Checks build_model honours the configured cache folder and offline flag."""
+    calls = []
+    monkeypatch.setattr(AutoModelForSequenceClassification, "from_pretrained",
+                        lambda *args, **kwargs: calls.append(kwargs) or "model")
+    monkeypatch.setenv("CLAUSETRIAGE_HF_CACHE", str(tmp_path / "hf"))
+    monkeypatch.setenv("CLAUSETRIAGE_HF_OFFLINE", "1")
+
+    build_model(make_config(model_name="some/model"))
+
+    assert calls[0]["cache_dir"] == str(tmp_path / "hf")
+    assert calls[0]["local_files_only"] is True
 
 
 def test_fit_prints_the_final_macro_aupr(tmp_path, tokenizer, monkeypatch, capsys):

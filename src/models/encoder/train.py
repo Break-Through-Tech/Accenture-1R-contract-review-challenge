@@ -1,3 +1,4 @@
+import json
 import warnings
 import argparse
 from pathlib import Path
@@ -8,6 +9,7 @@ from transformers import (TrainingArguments, PreTrainedModel,
                           PreTrainedTokenizerBase, AutoTokenizer,
                           set_seed)
 from src.models.encoder.config import TrainConfig, load_config
+from src.models.encoder.hub import resolve_hub_options
 from src.models.encoder.dataset import ChunkDataset, ChunkCollator, build_labeled_chunks
 from src.pipeline import prepare_train_val
 from src.models.encoder.loss import WeightedBCETrainer, compute_pos_weight
@@ -74,7 +76,8 @@ def load_data(config: TrainConfig, train_path: Path = TRAIN_PATH) -> tuple[list[
     Splits whole contracts with the config's seeded val_fraction, so no contract is in both,
     In sentence_token mode, uses the shared online pipeline and pinned tokenizer; in
     legacy character mode, uses configured character windows. Only the train file is read;
-    test.json is never touched. train_path can be overridden for tests.
+    test.json is never touched. train_path can be overridden for tests. The tokenizer cache
+    and offline mode come from resolve_hub_options (CLAUSETRIAGE_HF_CACHE/_OFFLINE).
     """
     # Load every contract in the official train file
     contracts = load_cuad(train_path)
@@ -85,7 +88,7 @@ def load_data(config: TrainConfig, train_path: Path = TRAIN_PATH) -> tuple[list[
             config.model_name,
             revision=config.model_revision,
             use_fast=True,
-            cache_dir=Path(__file__).resolve().parents[3] / ".venv/hf-cache",
+            **resolve_hub_options().as_kwargs(),
         )
         return prepare_train_val(
             contracts, tokenizer, val_fraction=config.val_fraction, seed=config.seed,
@@ -106,7 +109,7 @@ def build_model(config: TrainConfig) -> PreTrainedModel:
     Load the pretrained encoder with a new multi-label classification head over CATEGORIES.
     The head has one logit per category and starts untrained. The category names are stored
     in the model config, so a saved checkpoint knows its own column order. The first call
-    downloads the weights.
+    downloads the weights, unless offline mode is set (see resolve_hub_options).
     """
     # Map column index <-> category name so the saved model is self describing
     id2label = dict(enumerate(CATEGORIES))
@@ -119,6 +122,7 @@ def build_model(config: TrainConfig) -> PreTrainedModel:
         problem_type="multi_label_classification",
         id2label=id2label,
         label2id=CATEGORY_TO_INDEX,
+        **resolve_hub_options().as_kwargs(),
     )
 
 
@@ -160,26 +164,30 @@ def fit(
     config: TrainConfig,
     train_chunks: list[LabeledChunk],
     val_chunks: list[LabeledChunk],
+    resume_from_checkpoint: str | None = None,
 ) -> dict:
     """
     Fine-tune the encoder on the given labeled chunks and return the final eval metrics.
     Seeds everything, trains, then evaluates the best epoch (by macro AUPR) on the
-    validation chunks. Saves the best model, tokenizer and the config used to
-    <output_dir>/best, and prints eval_macro_aupr. Takes the chunks as arguments so callers
-    such as the smoke script can pass a subset.
+    validation chunks. Saves the best model, tokenizer, the training log history and the
+    config used to <output_dir>/best (train_config.json is written last, so its presence
+    marks a finished fit), and prints eval_macro_aupr. Takes the chunks as arguments so
+    callers such as the smoke script can pass a subset. resume_from_checkpoint, a
+    <output_dir>/checkpoint-N folder, continues an interrupted run from that epoch.
     """
     # Seed first, since the new classification head is initialized randomly
     set_seed(config.seed)
 
     # Load the tokenizer and model, and assemble the trainer
     tokenizer = AutoTokenizer.from_pretrained(
-        config.model_name, revision=config.model_revision, use_fast=True
+        config.model_name, revision=config.model_revision, use_fast=True,
+        **resolve_hub_options().as_kwargs(),
     )
     model = build_model(config)
     trainer = build_trainer(config, model, tokenizer, train_chunks, val_chunks)
 
-    # Fine-tune; the best epoch's weights are reloaded when training ends
-    trainer.train()
+    # Fine-tune (or continue from a saved epoch); the best epoch's weights are reloaded at the end
+    trainer.train(resume_from_checkpoint=resume_from_checkpoint)
 
     # Evaluate the best weights on the validation set
     metrics = trainer.evaluate()
@@ -187,6 +195,7 @@ def fit(
     # Save the best model with the config it was trained with
     output_dir = Path(trainer.args.output_dir) / "best"
     trainer.save_model(str(output_dir))
+    (output_dir / "log_history.json").write_text(json.dumps(trainer.state.log_history, indent=2))
     (output_dir / "train_config.json").write_text(config.model_dump_json(indent=2))
 
     print(f"eval_macro_aupr: {metrics['eval_macro_aupr']:.4f}")
