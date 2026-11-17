@@ -26,6 +26,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+from functools import lru_cache
 from pathlib import Path
 
 import numpy as np
@@ -132,21 +133,37 @@ def contract_rows_from_chunks(chunks: pd.DataFrame) -> list[np.ndarray]:
     return [np.flatnonzero(contract_ids == contract_id) for contract_id in order]
 
 
+@lru_cache(maxsize=None)
+def _rechunk_inputs(hub_cache: Path | None, offline: bool | None) -> tuple:
+    """Load the pinned tokenizer and the CUAD training contracts once per process."""
+    from src.chunking.token_chunker import TOKENIZER_NAME, TOKENIZER_REVISION
+    from src.labels.loader import load_cuad
+    from src.models.encoder.experiment_utils import TRAIN_PATH
+    from src.models.encoder.hub import load_pinned_tokenizer, resolve_hub_options
+
+    tokenizer = load_pinned_tokenizer(TOKENIZER_NAME, TOKENIZER_REVISION, resolve_hub_options(hub_cache, offline))
+    return tokenizer, load_cuad(TRAIN_PATH)
+
+
+@lru_cache(maxsize=None)
+def _rechunked_rows(seed: int, hub_cache: Path | None, offline: bool | None) -> tuple[np.ndarray, list[np.ndarray]]:
+    """Re-chunk one seed's evaluation contracts once per process; returns (labels, contract rows)."""
+    from scripts.analyze_reranker_multiseed import _prepare_evaluation
+
+    tokenizer, contracts = _rechunk_inputs(hub_cache, offline)
+    rebuilt, _, rows = _prepare_evaluation(seed, tokenizer, contracts)
+    return rebuilt, rows
+
+
 def contract_rows_by_rechunking(seed: int, y_true: np.ndarray, hub_cache: Path | None,
                                 offline: bool | None) -> list[np.ndarray]:
     """
     Rebuild contract groups for runs that saved no chunk table, by re-chunking the evaluation
-    contracts with the pinned tokenizer (the reranker analysis does the same). Raises
-    PairingError if the rebuilt labels differ from the saved ones.
+    contracts with the pinned tokenizer (the reranker analysis does the same). Cached per seed,
+    so comparing against both baselines chunks once. Raises PairingError if the rebuilt labels
+    differ from the saved ones.
     """
-    from scripts.analyze_reranker_multiseed import _prepare_evaluation
-    from src.labels.loader import load_cuad
-    from src.models.encoder.experiment_utils import TRAIN_PATH
-    from src.models.encoder.hub import load_pinned_tokenizer, resolve_hub_options
-    from src.chunking.token_chunker import TOKENIZER_NAME, TOKENIZER_REVISION
-
-    tokenizer = load_pinned_tokenizer(TOKENIZER_NAME, TOKENIZER_REVISION, resolve_hub_options(hub_cache, offline))
-    rebuilt, _, rows = _prepare_evaluation(seed, tokenizer, load_cuad(TRAIN_PATH))
+    rebuilt, rows = _rechunked_rows(seed, hub_cache, offline)
     if not np.array_equal(rebuilt, y_true):
         raise PairingError(f"Seed {seed}: re-chunked evaluation labels differ from the saved labels")
     return rows

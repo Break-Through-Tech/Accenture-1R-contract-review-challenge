@@ -5,6 +5,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
+from scripts import compare_encoder_tfidf as compare_module
 from scripts.compare_encoder_tfidf import (
     PairingError,
     compare,
@@ -93,6 +94,26 @@ def test_contract_rows_from_chunks_groups_rows_by_contract_in_first_seen_order()
     rows = contract_rows_from_chunks(chunks)
 
     assert [group.tolist() for group in rows] == [[0, 1], [2, 3], [4]]
+
+
+def test_contract_rows_by_rechunking_returns_rows_when_labels_match(monkeypatch):
+    """Checks the re-chunked contract groups are used when the rebuilt labels equal the saved ones."""
+    y_true = synthetic_arrays()[0]
+    rows = [np.array([0, 1]), np.array([2, 3, 4, 5, 6, 7])]
+    monkeypatch.setattr(compare_module, "_rechunked_rows", lambda seed, cache, offline: (y_true.copy(), rows))
+
+    assert compare_module.contract_rows_by_rechunking(1, y_true, None, True) is rows
+
+
+def test_contract_rows_by_rechunking_label_mismatch_raises(monkeypatch):
+    """Checks re-chunked labels that differ from the saved labels are refused."""
+    y_true = synthetic_arrays()[0]
+    changed = y_true.copy()
+    changed[7, 2] = 1
+    monkeypatch.setattr(compare_module, "_rechunked_rows", lambda seed, cache, offline: (changed, []))
+
+    with pytest.raises(PairingError, match="re-chunked"):
+        compare_module.contract_rows_by_rechunking(1, y_true, None, True)
 
 
 # ----- per-seed comparison -----
