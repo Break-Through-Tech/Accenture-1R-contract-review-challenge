@@ -1,0 +1,84 @@
+# Lint and test on every pull request and every push to main (see docs/development.md).
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+# A newer push to a PR cancels the run it supersedes; every push to main is checked
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  PIP_DISABLE_PIP_VERSION_CHECK: "1"
+  PYTHONUNBUFFERED: "1"
+
+jobs:
+  lint:
+    name: Ruff
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      # Only ruff, at the version pinned in requirements-dev.txt, so lint results arrive in seconds
+      - name: Install ruff
+        run: python -m pip install "$(grep -E '^ruff==' requirements-dev.txt)"
+
+      - name: Ruff check
+        run: ruff check --output-format=github .
+
+  test:
+    name: Pytest (Linux, Python 3.12, CPU torch)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    env:
+      TOKENIZERS_PARALLELISM: "false"
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements*.txt
+
+      # torch first, from the PyTorch CPU index at the version pinned in requirements.txt: about 200 MB
+      # instead of several GB of CUDA wheels. 2.14.1+cpu then satisfies requirements.txt's torch==2.14.1.
+      - name: Install CPU torch
+        run: python -m pip install "$(grep -E '^torch==' requirements.txt)" --index-url https://download.pytorch.org/whl/cpu
+
+      - name: Install dependencies
+        run: |
+          python -m pip install -r requirements-dev.txt
+          python -m pip check
+          python -c "import torch; print('torch', torch.__version__); assert not torch.version.cuda"
+
+      # The tests read only the DistilRoBERTa tokenizer files (about 3 MB, no model weights), from the
+      # default Hugging Face cache and from the pinned-revision cache in .venv/hf-cache
+      - name: Cache Hugging Face tokenizer
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/huggingface/hub
+            .venv/hf-cache
+          key: hf-tokenizer-${{ hashFiles('src/chunking/token_chunker.py', '.github/scripts/prefetch_hf_assets.py') }}
+          restore-keys: hf-tokenizer-
+
+      - name: Prefetch Hugging Face tokenizer
+        run: python .github/scripts/prefetch_hf_assets.py
+
+      # Offline, so a test that needs anything not prefetched fails loudly instead of downloading it
+      - name: Pytest
+        env:
+          HF_HUB_OFFLINE: "1"
+        run: python -m pytest -ra --durations=10

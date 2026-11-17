@@ -1,11 +1,15 @@
-# Just what the demo UI needs (python -m src.ui.app): no PyTorch, MLflow or training extras.
-# Versions match requirements.txt; numpy/scikit-learn/scipy must match the released model file.
+# Demo UI runtime (python -m src.ui.app): no PyTorch, MLflow or training extras. Python 3.12 or 3.13.
+# This is the base layer of the requirements files (see docs/development.md): requirements-no-torch.txt
+# includes it, so every version below is written exactly once.
+# numpy/scikit-learn/scipy/joblib must stay at the versions the released model file was built with
+# (src/registry/demo_model.py); change them only together with a new model release.
 numpy==2.5.1
 scikit-learn==1.9.0
 scipy==1.18.0
-pandas
-pydantic
-joblib
+joblib==1.6.0
+pandas==3.0.6
+pydantic==2.14.0
+typing_extensions==4.16.0
 transformers==4.57.6
 tokenizers==0.22.2
 nupunkt==0.8.0
