@@ -4,9 +4,13 @@ import pytest
 from src.risk.contract import aggregate_contracts
 from src.risk.scoring import score_contract_clauses
 from src.store.rescoring import rescore_contracts
-from tests.test_artifact_store import (  # noqa: F401  (make_pipeline and store are fixtures)
-    CONTRACTS, MODEL_VERSION, by_key, make_pipeline, row_counts, save_all, store, weights_a, weights_b,
-)
+from tests import test_artifact_store as store_tests
+from tests.test_artifact_store import CONTRACTS, MODEL_VERSION, by_key, row_counts, save_all, weights_a, weights_b
+
+# Reuse the store test fixtures under their own names; binding them here (rather than importing the
+# names) keeps the linter from reading each test's fixture argument as a redefined import
+make_pipeline = store_tests.make_pipeline
+store = store_tests.store
 
 
 def fresh_results(make_pipeline, weight_set) -> dict[str, dict]:
