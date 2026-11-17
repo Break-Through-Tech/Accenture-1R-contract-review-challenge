@@ -26,8 +26,8 @@ from transformers import AutoTokenizer
 from src.chunking.token_chunker import TOKENIZER_NAME, TOKENIZER_REVISION
 from src.evidence.cues import load_category_cues
 from src.inference import ContractInferencePipeline
-from src.registry.demo_model import TOKENIZER_CACHE, load_demo_bundle
 from src.ingest.documents import SUPPORTED_SUFFIXES, Document, pasted_document, read_document
+from src.registry.demo_model import TOKENIZER_CACHE, load_demo_bundle
 from src.ui.report import (CLAUSE_COLUMNS, CONTRACT_COLUMNS, ScoredContract, clause_register, clause_table,
                            contract_table, highlighted_text, rank_contracts, verdict)
 

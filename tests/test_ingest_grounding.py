@@ -22,8 +22,8 @@ DEMO_DIR = Path(__file__).resolve().parents[1] / "data" / "demo_contracts"
 DEMO_PDFS = sorted(DEMO_DIR.glob("*.pdf"))
 # Three pages, the middle one blank, so page numbers after it must not shift
 FIXTURE_PAGES = [
-    "MASTER SERVICES AGREEMENT\nThis Agreement is signed by the parties named below.\n"
-    "Either party may terminate this Agreement without cause by giving thirty days notice.",
+    ("MASTER SERVICES AGREEMENT\nThis Agreement is signed by the parties named below.\n"
+     "Either party may terminate this Agreement without cause by giving thirty days notice."),
     None,
     "Payment is due within thirty days.\nThis Agreement is governed by the laws of the State of Delaware.",
 ]

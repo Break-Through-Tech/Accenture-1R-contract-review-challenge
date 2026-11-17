@@ -6,7 +6,7 @@ import zipfile
 import pytest
 from pydantic import ValidationError
 
-import src.ingest.documents as documents
+from src.ingest import documents
 from src.ingest.documents import (DAMAGED_DOCX, DAMAGED_PDF, EMPTY_FILE, LOCKED_DOCX, LOCKED_PDF, PAGE_SEPARATOR,
                                   Document, document_from_bytes, ocr_pages, pasted_document, read_document,
                                   text_sha256)

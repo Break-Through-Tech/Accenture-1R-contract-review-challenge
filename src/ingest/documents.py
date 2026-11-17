@@ -21,6 +21,7 @@ kept as __cause__ for debugging). See docs/document-ingestion.md.
 import bisect
 import hashlib
 import io
+import itertools
 import zipfile
 from pathlib import Path
 from typing import Any, Literal
@@ -113,7 +114,7 @@ class Document(BaseModel):
         starts = self.page_starts
         if starts and starts[0] != 0:
             raise ValueError("page_starts must begin at 0")
-        if any(later <= earlier for earlier, later in zip(starts, starts[1:])):
+        if any(later <= earlier for earlier, later in itertools.pairwise(starts)):
             raise ValueError("page_starts must be strictly increasing")
         if starts and starts[-1] > len(self.text):
             raise ValueError("page_starts must fall inside the text")
@@ -259,7 +260,7 @@ def _open_pdf(data: bytes) -> PdfReader:
     if encrypted:
         try:
             unlocked = bool(reader.decrypt(""))
-        except Exception:
+        except Exception:  # a failed unlock is reported as locked below
             unlocked = False
         if not unlocked:
             raise ValueError(LOCKED_PDF)
