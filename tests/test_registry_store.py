@@ -40,7 +40,9 @@ def test_mlflow_registry_roundtrip(tmp_path):
     assert loaded.predict(["a", "b"]).shape == (2, len(CATEGORIES))
 
 
+# ----- Registry to artifact store -----
 def test_registered_bundle_predictions_can_be_persisted(tmp_path):
+    """Probabilities from an MLflow-loaded bundle round-trip through the store under its model key."""
     registered = register_bundle(
         _bundle(), experiment_name="end-to-end", registry_name="end-to-end-model",
         metrics={"macro_f1": 0.5}, metadata={"split_seed": 42},
@@ -62,6 +64,7 @@ def test_registered_bundle_predictions_can_be_persisted(tmp_path):
 
 
 def test_store_persists_predictions_idempotently(tmp_path):
+    """Row-level writes are idempotent, reject ungrounded evidence and refuse conflicting rewrites."""
     store = ArtifactStore(tmp_path / "artifacts.db")
     store.put_contract("contract-1", "abcdefgh")
     store.put_chunk(chunk_id="contract-1:0", contract_id="contract-1", chunk_index=0,
