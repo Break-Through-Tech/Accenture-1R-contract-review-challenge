@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import pandas as pd
 import pytest
 
@@ -7,10 +9,13 @@ from src.risk.contract import aggregate_contracts
 from src.risk.schema import ClauseInput, load_weight_set
 from src.risk.scoring import score_contract_clauses
 from src.ui.documents import Document
-from src.ui.report import (CLAUSE_COLUMNS, CONTRACT_COLUMNS, NO_QUOTE, ScoredContract, clause_register,
-                           clause_table, contract_table, highlighted_text, rank_contracts, verdict)
+from src.register.export import GroundingError
+from src.ui.report import (CLAUSE_COLUMNS, CONTRACT_COLUMNS, NO_QUOTE, REGISTER_COLUMNS, ScoredContract,
+                           clause_register, clause_table, contract_table, highlighted_text, rank_contracts,
+                           verdict)
 
-WEIGHTS = load_weight_set()
+# An explicit weight file, so a change of default weight set can't move these values
+WEIGHTS = load_weight_set(Path(__file__).resolve().parents[1] / "src" / "risk" / "weights" / "default_weights_v1.json")
 TEXT = "This Agreement is governed by Delaware law.\n\nThe liability of Supplier shall be unlimited."
 LAW = Evidence(quote="This Agreement is governed by Delaware law.", start=0, end=43)
 LIABILITY = Evidence(quote="The liability of Supplier shall be unlimited.", start=45, end=len(TEXT))
@@ -23,7 +28,7 @@ def _scored(contract_id: str, clauses: list[tuple[str, int, Evidence | None]]) -
     scores = score_contract_clauses(inputs, WEIGHTS)
     grounded = [GroundedEvidence(contract_id=contract_id, chunk_index=chunk, category=category, evidence=evidence)
                 for category, chunk, evidence in clauses if evidence]
-    return ScoredContract(Document(contract_id, TEXT, (0, 45)), {
+    return ScoredContract(Document(name=contract_id, text=TEXT, page_starts=(0, 45)), {
         "contract_id": contract_id, "model_name": "test", "grounded": grounded, "clause_scores": scores,
         "contract_score": aggregate_contracts(scores, WEIGHTS, [contract_id])[0],
     })
@@ -97,3 +102,25 @@ def test_clause_register_lists_every_clause_with_rank_and_page():
     assert register.iloc[0]["page"] == 2 and register.iloc[0]["category_severity"] == pytest.approx(1.0)
     parties = register[register["category"] == "Parties"].iloc[0]
     assert pd.isna(parties["quote"]) and parties["weight_version_id"] == WEIGHTS.weight_version_id
+
+
+def test_clause_register_keeps_original_columns_first_and_flags_unquoted_rows():
+    """The page's original columns come first, in order; the unquoted clause is flagged for manual review."""
+    register = clause_register([RISKY], rank_contracts([RISKY], WEIGHTS))
+    assert list(register.columns[:len(REGISTER_COLUMNS)]) == REGISTER_COLUMNS
+    parties = register[register["category"] == "Parties"].iloc[0]
+    assert bool(parties["needs_manual_review"]) and parties["review_reason"] == "no_evidence"
+    assert not register[register["category"] != "Parties"]["needs_manual_review"].any()
+
+
+def test_clause_register_empty_input_has_columns_and_no_rows():
+    """No contracts gives an empty table that still has the register's columns."""
+    register = clause_register([], [])
+    assert register.empty and list(register.columns[:len(REGISTER_COLUMNS)]) == REGISTER_COLUMNS
+
+
+def test_clause_register_rejects_quotes_not_in_the_document_text():
+    """A result paired with a different document text fails the grounding re-check instead of exporting."""
+    shifted = ScoredContract(Document(name="risky", text="x" + TEXT, page_starts=(0, 46)), RISKY.result)
+    with pytest.raises(GroundingError):
+        clause_register([shifted], rank_contracts([shifted], WEIGHTS))
