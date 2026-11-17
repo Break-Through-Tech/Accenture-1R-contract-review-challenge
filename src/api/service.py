@@ -9,6 +9,8 @@ run_job(): runs the pipeline and saves the result to the artifact store (FastAPI
 get_job(), list_jobs(): scoring status
 list_ranked(), get_contract_detail(), get_register(): reads, each under a model and weight version
 list_weights(), get_weights(), create_weights(), preview(): weight versions and re-ranking
+review_queue(), submit_feedback(), list_feedback(), list_resolutions(): the human-in-the-loop
+           operations of src/review/, with its errors turned into the service's
 
 Scores under a weight version are filled in from cached probabilities, never by rerunning the
 model: create_weights() rescores every stored contract when it stores a new version, and every read
@@ -24,13 +26,16 @@ import logging
 import re
 import threading
 import unicodedata
-from collections.abc import Sequence
+from collections.abc import Mapping, Sequence
 from pathlib import Path
+from typing import Any, get_args
+
+from pydantic import ValidationError
 
 from src.api.jobs import JobRecord, JobStore
 from src.api.schemas import (MAX_NAME_CHARS, WEIGHT_VERSION_ID_PATTERN, ChunkDetail, ContractDetailResponse,
-                             ContractRanking, ModelVersionList, Prediction, RankedContract, WeightVersionCreated,
-                             WeightVersionDetail, WeightVersionList)
+                             ContractRanking, FeedbackRequest, ModelVersionList, Prediction, RankedContract,
+                             WeightVersionCreated, WeightVersionDetail, WeightVersionList)
 from src.evidence.extractor import GroundedEvidence, Unknown
 from src.evidence.schema import Evidence
 from src.inference import ContractInferencePipeline
@@ -38,9 +43,14 @@ from src.ingest.documents import (MAX_FILE_BYTES, MB, SUPPORTED_SUFFIXES, Docume
                                   pasted_document)
 from src.register.export import build_register
 from src.register.schema import ContractRegister
+from src.review.feedback import list_resolutions as resolve_stored_feedback
+from src.review.feedback import submit_feedback as record_feedback
+from src.review.queue import MAX_PAGE_SIZE, STATUS_ORDER, build_review_queue
+from src.review.schema import FeedbackSubmission, Resolution, ResolutionStatus, ReviewQueuePage, ReviewStatus
 from src.risk.contract import ContractScore
 from src.risk.schema import WeightSet
 from src.store.artifact_store import ArtifactStore
+from src.store.records import FeedbackRecord
 from src.store.rescoring import rescore_contracts
 
 logger = logging.getLogger(__name__)
@@ -89,6 +99,16 @@ def safe_filename(filename: str | None) -> str:
     name = " ".join(name.split())
     stem, suffix = (name[:-len(Path(name).suffix)], Path(name).suffix) if Path(name).suffix else (name, "")
     return stem[:MAX_NAME_CHARS].strip() + suffix
+
+
+def validation_message(error: ValidationError) -> str:
+    """A pydantic ValidationError as one readable line: where and why for each problem, never the input."""
+    problems = []
+    for item in error.errors():
+        where = ".".join(str(part) for part in item.get("loc", ()))
+        message = str(item.get("msg", "")).removeprefix("Value error, ")
+        problems.append(f"{where}: {message}" if where else message)
+    return "; ".join(problems)
 
 
 def upload_contract_id(name: str, text_sha256: str) -> str:
@@ -444,3 +464,90 @@ class ClauseTriageService:
                 raise NotFoundError(f"No scored contracts {unknown!r} under model version {model_version!r}.")
         scores = rescore_contracts(self.store, model_version, weight_set, contract_ids, save=False)
         return self._ranking(model_version, weight_set, scores, saved=False)
+
+    # ----- Review queue and feedback -----
+    def _review_model_version(self, model_version: str | None) -> str:
+        """Default (to the server's) and check the model version a review read or verdict refers to."""
+        model_version = model_version or self.model_version
+        if model_version != self.model_version and not self._model_version_stored(model_version):
+            raise NotFoundError(f"Unknown model version {model_version!r}.")
+        return model_version
+
+    def _check_contract(self, contract_id: str) -> None:
+        """NotFoundError if the store has no contract contract_id."""
+        try:
+            self.store.get_contract(contract_id)
+        except KeyError as error:
+            raise NotFoundError(f"No stored contract {contract_id!r}.") from error
+
+    def review_queue(self, contract_id: str | None = None, status: ReviewStatus | None = None, offset: int = 0,
+                     limit: int = 50, model_version: str | None = None) -> ReviewQueuePage:
+        """
+        One page of the review queue (src.review.queue.build_review_queue): Unknown predictions and
+        reviewer conflicts under the model version (default: the server's), optionally for one
+        contract and one status. An empty page while nothing is scored under the model version.
+        NotFoundError for an unknown contract or model version; InvalidInputError for a status
+        other than pending/reviewed/conflict, a negative offset or a limit outside 1..MAX_PAGE_SIZE.
+        """
+        model_version = self._review_model_version(model_version)
+        if status is not None and status not in get_args(ReviewStatus):
+            raise InvalidInputError(f"status must be one of {', '.join(get_args(ReviewStatus))}.")
+        if offset < 0 or not 1 <= limit <= MAX_PAGE_SIZE:
+            raise InvalidInputError(f"offset must be 0 or more and limit between 1 and {MAX_PAGE_SIZE}.")
+        if contract_id is not None:
+            self._check_contract(contract_id)
+        if not self._model_version_stored(model_version):
+            return ReviewQueuePage(model_version=model_version, contract_id=contract_id, status=status, offset=offset,
+                                   limit=limit, total=0, status_counts=dict.fromkeys(STATUS_ORDER, 0), items=[])
+        return build_review_queue(self.store, model_version, contract_id=contract_id, status=status, offset=offset,
+                                  limit=limit)
+
+    def submit_feedback(self, request: FeedbackRequest | Mapping[str, Any]) -> FeedbackRecord:
+        """
+        Record one verdict (accept, reject or missing) on a (chunk, category), timestamped now, through
+        src.review.feedback.submit_feedback; the store's rules decide what is allowed (see
+        docs/feedback-review-queue.md). Returns the stored record. NotFoundError for an unknown chunk
+        or model version; InvalidInputError with the reason for a malformed or refused verdict, in
+        which case nothing is written.
+        """
+        try:
+            request = FeedbackRequest.model_validate(request)
+            submission = FeedbackSubmission(
+                chunk_id=request.chunk_id, category=request.category,
+                model_version=self._review_model_version(request.model_version), verdict=request.verdict,
+                reviewer=request.reviewer, note=(request.note or "").strip() or None)
+        except ValidationError as error:
+            raise InvalidInputError(validation_message(error)) from error
+        with self._lock:
+            try:
+                return record_feedback(self.store, submission)
+            except KeyError as error:
+                raise NotFoundError(f"No stored chunk {submission.chunk_id!r}.") from error
+            except ValueError as error:
+                raise InvalidInputError(str(error)) from error
+
+    def list_feedback(self, contract_id: str | None = None, chunk_id: str | None = None,
+                      category: str | None = None, model_version: str | None = None) -> list[FeedbackRecord]:
+        """
+        Recorded verdicts given under the model version (default: the server's), oldest first,
+        optionally for one contract, chunk or category. NotFoundError for an unknown contract.
+        """
+        model_version = self._review_model_version(model_version)
+        if contract_id is not None:
+            self._check_contract(contract_id)
+        return self.store.list_feedback(contract_id=contract_id, model_version=model_version, chunk_id=chunk_id,
+                                        category=category)
+
+    def list_resolutions(self, contract_id: str | None = None, status: ResolutionStatus | None = None,
+                         model_version: str | None = None) -> list[Resolution]:
+        """
+        How the verdicts given under the model version (default: the server's) resolve, per
+        (chunk, category): resolved to a label, or a conflict between reviewers. NotFoundError for
+        an unknown contract; InvalidInputError for a status other than resolved/conflict.
+        """
+        model_version = self._review_model_version(model_version)
+        if status is not None and status not in get_args(ResolutionStatus):
+            raise InvalidInputError(f"status must be one of {', '.join(get_args(ResolutionStatus))}.")
+        if contract_id is not None:
+            self._check_contract(contract_id)
+        return resolve_stored_feedback(self.store, model_version=model_version, contract_id=contract_id, status=status)

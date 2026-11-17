@@ -13,13 +13,15 @@ from pydantic import BaseModel, Field
 from src.ingest.documents import MAX_TEXT_CHARS
 from src.risk.contract import ContractScore
 from src.risk.schema import ClauseScore, WeightSet
-from src.store.records import (ChunkRecord, ContractRecord, EvidenceRecord, ModelVersionRecord, UnknownItem,
+from src.store.records import (ChunkRecord, ContractRecord, EvidenceRecord, ModelVersionRecord, UnknownItem, Verdict,
                                WeightVersionRecord)
 
 # Longest display name accepted for pasted text or kept from an uploaded file name
 MAX_NAME_CHARS = 120
 # Weight version ids appear in URLs and file names, so new ones are limited to these characters
 WEIGHT_VERSION_ID_PATTERN = r"^[A-Za-z0-9][A-Za-z0-9._-]{0,99}$"
+# Longest note a reviewer can attach to a verdict
+MAX_NOTE_CHARS = 2000
 
 
 # ----- Requests -----
@@ -37,6 +39,20 @@ class PreviewRequest(BaseModel):
     """
     weight_set: WeightSet
     contract_ids: list[str] | None = None
+    model_version: str | None = None
+
+
+class FeedbackRequest(BaseModel):
+    """
+    A reviewer's verdict on one (chunk, category), as a client sends it. chunk_id comes from a review
+    queue item or a contract's chunks; model_version is the one the reviewer looked at (default: the
+    server's). The reviewer name is self-declared (there are no accounts). The server sets the time.
+    """
+    chunk_id: str = Field(min_length=1)
+    category: str
+    verdict: Verdict
+    reviewer: str = Field(max_length=MAX_NAME_CHARS)
+    note: str | None = Field(default=None, max_length=MAX_NOTE_CHARS)
     model_version: str | None = None
 
 

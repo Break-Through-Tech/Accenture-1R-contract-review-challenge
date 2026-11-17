@@ -18,7 +18,7 @@ MODEL_VERSION = "keyword-model:1"
 # Texts with keyword hits: c-1's grounded and Unknown clauses, and a second contract to rank against it
 TEXTS = {"alpha": TEXT_1, "beta": TEXT_2}
 
-__all__ = ["MODEL_VERSION", "TEXTS", "TEXT_1", "TEXT_2", "THRESHOLDS", "make_pipeline", "make_service",
+__all__ = ["MODEL_VERSION", "TEXTS", "TEXT_1", "TEXT_2", "THRESHOLDS", "add_text", "make_pipeline", "make_service",
            "weights_a", "weights_b"]
 
 
@@ -50,3 +50,12 @@ class FailingPredictor:
     def predict_proba(self, texts: list[str]):
         """Raise instead of predicting."""
         raise RuntimeError("model crashed at C:\\secret\\path")
+
+
+def add_text(service: ClauseTriageService, text: str, name: str | None = None) -> str:
+    """Submit pasted text, score it synchronously, check it completed, and return its contract id."""
+    job, queued = service.submit_text(text, name)
+    if queued:
+        job = service.run_job(job.contract_id)
+    assert job.status == "complete"
+    return job.contract_id
