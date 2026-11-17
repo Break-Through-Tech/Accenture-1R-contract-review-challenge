@@ -60,6 +60,25 @@ HF_HUB_OFFLINE=1 TOKENIZERS_PARALLELISM=false .venv/bin/python -m scripts.evalua
 
 The evaluation command uses the CUAD training split, a fixed contract-level train/calibration/evaluation protocol, and predeclared seeds. Individual architecture training commands and settings are documented in [`docs/README.md`](docs/README.md). Some neural experiments benefit from CUDA; CPU execution may be substantially slower.
 
+### Demo UI
+
+A local demo page ranks uploaded contracts (PDF, Word, text, or pasted text) for review and shows each contract's risky clauses with page numbers, highlighted quotes and the signals behind each score. It is a prototype: scores use the placeholder `v1-placeholder` risk weights and are not legal advice.
+
+To run only the demo, a smaller install is enough (no PyTorch or MLflow; Python 3.12 or 3.13):
+
+```bash
+python -m venv .venv
+source .venv/bin/activate              # Windows: .venv\Scripts\activate
+python -m pip install -r requirements-demo.txt
+python -m src.ui.app
+```
+
+If you already installed `requirements.txt`, just run `python -m src.ui.app`. Then open http://127.0.0.1:7860 and upload contracts, or click **Try the sample contracts** (from [`data/demo_contracts/`](data/demo_contracts/SOURCES.md)). Use **Clause register (CSV)** to download every scored clause.
+
+- **Model:** on first run, the trained word/character TF-IDF model is downloaded from the GitHub Release [`model-word-char-tfidf-v1`](https://github.com/Break-Through-Tech/Accenture-1R-contract-review-challenge/releases/tag/model-word-char-tfidf-v1) to `models/word_char_tfidf.joblib` and checked against its SHA-256; the tokenizer (a few MB) downloads too. If the download fails, or the file doesn't load with your scikit-learn version, the UI builds the same model from the CUAD training data in the repo instead (a few minutes, once). To build it yourself, run `python -m scripts.build_model_bundle`; add `--register` to also log it to a local MLflow registry, then start the UI with `--registry-version latest`.
+- **Scanned PDFs** need OCR, which is optional: `pip install pypdfium2 pytesseract` and install the [Tesseract](https://github.com/tesseract-ocr/tesseract) program. PDFs with a text layer need nothing extra.
+- Evidence positions and page numbers refer to the text extracted from the file. Only load model files you built or downloaded from this repository, since loading one can run code.
+
 ## Project Overview
 
 This Break Through Tech AI Studio project, hosted by Accenture, explores multi-label contract-clause detection across CUAD's 41 categories, with evidence spans grounded in the original contract text. The research compares sparse text-classification baselines with retrieval, graph, contrastive, set-prediction, and long-context neural approaches. A separate rule-based risk-scoring prototype explores how detected clauses might be prioritized; its signal definitions and weights are not approved risk policy.
