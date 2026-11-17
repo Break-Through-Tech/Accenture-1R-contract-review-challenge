@@ -128,7 +128,7 @@ def test_score_clause_composite_stays_in_unit_range():
 
 
 def test_default_weights_spread_ratings():
-    """The shipped v1-placeholder weights can produce all three ratings (v0 rated everything Medium)."""
+    """The default v2-team-proposed weights can produce all three ratings (v0 rated everything Medium)."""
     ws = load_weight_set()
     contract = {"Parties", "Non-Compete", "Uncapped Liability"}
     ratings = [
