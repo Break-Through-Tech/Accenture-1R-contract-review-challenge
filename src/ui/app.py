@@ -26,8 +26,8 @@ from transformers import AutoTokenizer
 from src.chunking.token_chunker import TOKENIZER_NAME, TOKENIZER_REVISION
 from src.evidence.cues import load_category_cues
 from src.inference import ContractInferencePipeline
+from src.ingest.documents import SUPPORTED_SUFFIXES, Document, pasted_document, read_document
 from src.registry.demo_model import TOKENIZER_CACHE, load_demo_bundle
-from src.ui.documents import SUPPORTED_SUFFIXES, Document, read_document
 from src.ui.report import (CLAUSE_COLUMNS, CONTRACT_COLUMNS, ScoredContract, clause_register, clause_table,
                            contract_table, highlighted_text, rank_contracts, verdict)
 
@@ -60,7 +60,10 @@ def build_app(pipeline: ContractInferencePipeline) -> gr.Blocks:
             except Exception as error:  # one unreadable file shouldn't stop the others
                 skipped.append(f"- **{Path(path).name}**: {error}")
         if pasted and pasted.strip():
-            documents.append(Document("Pasted text", pasted))
+            try:
+                documents.append(pasted_document(pasted))
+            except ValueError as error:  # e.g. over the length limit
+                skipped.append(f"- **Pasted text**: {error}")
         if not documents:
             note = "\n".join(["**Nothing to score.** Upload a contract or paste its text.", *skipped])
             return None, pd_empty(CONTRACT_COLUMNS), gr.Dropdown(choices=[], value=None), note, \
