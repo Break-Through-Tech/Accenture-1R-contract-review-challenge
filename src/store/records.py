@@ -18,6 +18,8 @@ from src.risk.schema import ClauseScore
 Verdict = Literal["accept", "reject", "missing"]
 Bucket = Literal["Low", "Medium", "High"]
 UnknownReason = Literal["no_cue_match", "span_mismatch"]
+# How a model version reported a (chunk, category): with stored evidence, or as an Unknown
+DetectionKind = Literal["grounded", "unknown"]
 
 
 class ContractSummary(BaseModel):

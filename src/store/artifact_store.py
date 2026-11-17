@@ -11,6 +11,8 @@ get_clause_inputs():     rebuilds the ClauseInput rows scoring reads, from store
 save_scores():           writes clause and contract scores under a weight version
 read methods:            list_contracts, get_contract, get_contract_detail, list_unknowns,
                          list_contract_scores (ranked), ... return the Pydantic models in records.py
+add_feedback():          appends a reviewer verdict after checking it fits what the model predicted
+                         (the review queue, resolution and export built on it live in src/review/)
 
 Every write is idempotent: writing the same content again is a no-op, and writing different
 content under an existing key raises ValueError and rolls the whole transaction back. Weight
@@ -27,7 +29,7 @@ import json
 import math
 from collections import defaultdict
 from collections.abc import Iterable, Mapping, Sequence
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, get_args
 
@@ -40,13 +42,13 @@ from src.labels.categories import CATEGORIES, CATEGORY_TO_INDEX
 from src.risk.contract import ContractScore
 from src.risk.schema import ClauseInput, ClauseScore, WeightSet
 from src.store.records import (
-    AdvisorRankingRecord, Bucket, ChunkRecord, ContractDetail, ContractRecord, ContractSummary,
+    AdvisorRankingRecord, Bucket, ChunkRecord, ContractDetail, ContractRecord, ContractSummary, DetectionKind,
     EvidenceRecord, FeedbackRecord, ModelVersionRecord, UnknownItem, Verdict, WeightVersionRecord,
 )
 from src.store.tables import (
     AdvisorRankingRow, Base, ChunkProbabilityRow, ChunkRow, ClauseScoreRow, ContractRow,
     ContractScoreRow, EvidenceRow, FeedbackRow, ModelVersionRow, UnknownPredictionRow,
-    WeightVersionRow, enable_sqlite_foreign_keys,
+    WeightVersionRow, enable_sqlite_foreign_keys, utc_now,
 )
 
 # Stored floats must match to this tolerance for a rewrite to count as identical
@@ -138,6 +140,16 @@ def _check_page_starts(page_starts: Sequence[int], text_length: int) -> tuple[in
     if any(later < earlier for earlier, later in zip(starts, starts[1:])):
         raise ValueError("page_starts must be non-decreasing")
     return starts
+
+
+def _as_utc(value: datetime) -> datetime:
+    """
+    A timezone-aware UTC datetime. Naive values are taken as UTC: SQLite drops the offset on the way
+    back, and the store only ever writes UTC, so a naive value read from the database is UTC.
+    """
+    if value.tzinfo is None:
+        return value.replace(tzinfo=timezone.utc)
+    return value.astimezone(timezone.utc)
 
 
 def _detection_order(chunk_index: int, category: str) -> tuple[int, int]:
@@ -750,44 +762,107 @@ class ArtifactStore:
         )
 
     # ----- Reviewer feedback -----
+    def get_chunk(self, chunk_id: str) -> ChunkRecord:
+        """One stored chunk; KeyError if missing."""
+        with self.Session() as session:
+            row = session.get(ChunkRow, chunk_id)
+            if row is None:
+                raise KeyError(f"unknown chunk {chunk_id!r}")
+            return ChunkRecord(chunk_id=row.chunk_id, contract_id=row.contract_id, chunk_index=row.chunk_index,
+                               start=row.start, end=row.end, text=row.text)
+
+    def get_detection(self, chunk_id: str, category: str, model_version: str) -> DetectionKind | None:
+        """
+        How the model reported (chunk, category) under model_version: "grounded" (stored evidence),
+        "unknown" (an Unknown-queue item) or None (no stored detection).
+        """
+        with self.Session() as session:
+            return self._detection(session, chunk_id, category, model_version)
+
+    @staticmethod
+    def _detection(session: Session, chunk_id: str, category: str, model_version: str) -> DetectionKind | None:
+        """get_detection inside an open session."""
+        if session.scalar(select(EvidenceRow.evidence_id).where(
+                EvidenceRow.chunk_id == chunk_id, EvidenceRow.category == category,
+                EvidenceRow.model_version == model_version)) is not None:
+            return "grounded"
+        if session.get(UnknownPredictionRow, (chunk_id, category, model_version)) is not None:
+            return "unknown"
+        return None
+
     def add_feedback(self, *, chunk_id: str, category: str, model_version: str, verdict: Verdict,
                      reviewer: str, note: str | None = None, timestamp: datetime | None = None) -> FeedbackRecord:
         """
-        Append a reviewer verdict ("accept", "reject" or "missing") on one (chunk, category).
-        KeyError for an unknown chunk; ValueError for an unknown category, verdict or empty reviewer.
+        Append a reviewer verdict on one (chunk, category) under the model version that was reviewed.
+        The chunk must have been run under model_version. "accept" needs a stored detection (grounded
+        evidence or an Unknown); "missing" needs there to be none; "reject" needs a detection or an
+        earlier "missing" verdict on the same key, so a reviewer can contradict a claimed miss.
+        The reviewer name is stripped of surrounding whitespace. timestamp defaults to now;
+        a naive timestamp is taken as UTC, and it may not be earlier than the same reviewer's last
+        verdict on the same (chunk, category), so log order and time order always agree per reviewer.
+        KeyError for an unknown chunk; ValueError for anything else invalid. Nothing is written on error.
         """
         if verdict not in get_args(Verdict):
             raise ValueError(f"verdict must be one of {get_args(Verdict)}, got {verdict!r}")
-        if not reviewer or not reviewer.strip():
+        if not isinstance(reviewer, str) or not reviewer.strip():
             raise ValueError("reviewer must be a non-empty string")
+        reviewer = reviewer.strip()
         _check_category(category)
+        timestamp = utc_now() if timestamp is None else _as_utc(timestamp)
         with self.Session.begin() as session:
             chunk = session.get(ChunkRow, chunk_id)
             if chunk is None:
                 raise KeyError(f"unknown chunk {chunk_id!r}")
+
+            # What the verdict refers to must exist: a detection (or a claimed miss, for reject), or none for missing
+            if session.get(ChunkProbabilityRow, (chunk_id, category, model_version)) is None:
+                raise ValueError(f"chunk {chunk_id!r} has no stored predictions under model version {model_version!r}")
+            detection = self._detection(session, chunk_id, category, model_version)
+            claimed_missing = verdict == "reject" and detection is None and session.scalar(
+                select(FeedbackRow.id).where(FeedbackRow.chunk_id == chunk_id, FeedbackRow.category == category,
+                                             FeedbackRow.model_version == model_version,
+                                             FeedbackRow.verdict == "missing").limit(1)) is not None
+            if verdict in ("accept", "reject") and detection is None and not claimed_missing:
+                raise ValueError(f"{verdict!r} needs a prediction, but {model_version!r} did not predict "
+                                 f"{category!r} in chunk {chunk_id!r}; use 'missing' for a clause the model missed")
+            if verdict == "missing" and detection is not None:
+                raise ValueError(f"'missing' is for clauses the model did not predict, but {model_version!r} "
+                                 f"predicted {category!r} in chunk {chunk_id!r} ({detection}); use accept or reject")
+
+            # One reviewer's verdicts on a key never go back in time
+            last = session.scalar(select(FeedbackRow.timestamp).where(
+                FeedbackRow.chunk_id == chunk_id, FeedbackRow.category == category,
+                FeedbackRow.reviewer == reviewer).order_by(FeedbackRow.id.desc()).limit(1))
+            if last is not None and timestamp < _as_utc(last):
+                raise ValueError(f"timestamp {timestamp.isoformat()} is earlier than {reviewer!r}'s last verdict on "
+                                 f"{(chunk_id, category)!r} at {_as_utc(last).isoformat()}")
             row = FeedbackRow(chunk_id=chunk_id, category=category, model_version=model_version, verdict=verdict,
-                              reviewer=reviewer, note=note, **({"timestamp": timestamp} if timestamp else {}))
+                              reviewer=reviewer, note=note, timestamp=timestamp)
             session.add(row)
             session.flush()
             return self._feedback_record(row, chunk.contract_id)
 
-    def list_feedback(self, *, contract_id: str | None = None,
-                      model_version: str | None = None) -> list[FeedbackRecord]:
-        """Stored feedback, optionally filtered by contract and model version, oldest first."""
+    def list_feedback(self, *, contract_id: str | None = None, model_version: str | None = None,
+                      chunk_id: str | None = None, category: str | None = None) -> list[FeedbackRecord]:
+        """Stored feedback, optionally filtered by contract, model version, chunk and category, oldest first."""
         with self.Session() as session:
             query = select(FeedbackRow, ChunkRow.contract_id).join(ChunkRow, FeedbackRow.chunk_id == ChunkRow.chunk_id)
             if contract_id is not None:
                 query = query.where(ChunkRow.contract_id == contract_id)
             if model_version is not None:
                 query = query.where(FeedbackRow.model_version == model_version)
+            if chunk_id is not None:
+                query = query.where(FeedbackRow.chunk_id == chunk_id)
+            if category is not None:
+                query = query.where(FeedbackRow.category == category)
             return [self._feedback_record(row, cid) for row, cid in session.execute(query.order_by(FeedbackRow.id))]
 
     @staticmethod
     def _feedback_record(row: FeedbackRow, contract_id: str) -> FeedbackRecord:
-        """Convert a feedback row to its record."""
+        """Convert a feedback row to its record; the timestamp is always timezone-aware UTC."""
         return FeedbackRecord(id=row.id, contract_id=contract_id, chunk_id=row.chunk_id, category=row.category,
                               model_version=row.model_version, verdict=row.verdict, reviewer=row.reviewer,
-                              timestamp=row.timestamp, note=row.note)
+                              timestamp=_as_utc(row.timestamp), note=row.note)
 
     # ----- Advisor rankings -----
     def add_advisor_rankings(self, rankings: Iterable[Mapping[str, Any]]) -> int:
