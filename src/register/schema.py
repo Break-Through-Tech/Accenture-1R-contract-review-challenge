@@ -18,7 +18,7 @@ Counting rules (the same as risk.contract.ContractScore):
 - clause_count and manual_review_count count rows, i.e. every detected (chunk, category) clause
 """
 from collections import Counter
-from typing import Literal
+from typing import Annotated, Literal
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 from typing_extensions import Self
@@ -27,7 +27,7 @@ from src.evidence.schema import Evidence
 from src.labels.categories import CATEGORIES
 from src.risk.schema import SIGNAL_NAMES, Rating, SignalName, UnitFloat
 
-Sha256 = Field(pattern=r"^[0-9a-f]{64}$")
+Sha256 = Annotated[str, Field(pattern=r"^[0-9a-f]{64}$")]
 # Why a clause needs manual review: the two evidence-extractor outcomes, or no evidence record at all
 ReviewReason = Literal["no_cue_match", "span_mismatch", "no_evidence"]
 
@@ -57,7 +57,7 @@ class RegisterRow(BaseModel):
     review_reason: ReviewReason | None = None
     model_name: str = Field(min_length=1)
     weight_version_id: str = Field(min_length=1)
-    weight_set_sha256: str = Sha256
+    weight_set_sha256: Sha256
 
     @field_validator("category")
     @classmethod
@@ -113,7 +113,7 @@ class RegisterHeader(BaseModel):
     model_name: str = Field(min_length=1)
     model_seed: int | None = None
     weight_version_id: str = Field(min_length=1)
-    weight_set_sha256: str = Sha256
+    weight_set_sha256: Sha256
 
     @model_validator(mode="after")
     def check_rank(self) -> Self:
