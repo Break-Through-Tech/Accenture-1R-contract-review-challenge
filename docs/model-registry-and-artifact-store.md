@@ -139,7 +139,16 @@ contract scores and ranks of a fresh pipeline run under the same weights.
 grounded evidence), `get_clause_scores`, `get_contract_score`, `list_contract_scores`
 (ranked), and `get_contract_detail`, which bundles all of them for one contract, model
 version and weight version. Feedback and advisor rankings have `add_*` / `list_*`
-pairs. Weight and model versions have `put_*` / `get_*` / `list_*`.
+pairs. Weight and model versions have `put_*` / `get_*` / `list_*`. `get_chunk` and
+`get_detection` (grounded, Unknown or none for a chunk, category and model version)
+serve the review queue.
+
+`add_feedback` refuses verdicts that don't fit what the model predicted: `accept`
+needs a stored detection, `missing` needs none, and `reject` needs a detection or an
+earlier `missing` on the same key. Timestamps are stored and returned as UTC, and one
+reviewer's verdicts on a (chunk, category) can't go back in time. The review queue,
+verdict resolution and the training-data export are in `src/review/`; see
+[Feedback and the review queue](feedback-review-queue.md).
 
 ### Schema changes
 
