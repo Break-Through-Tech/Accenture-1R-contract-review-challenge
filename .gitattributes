@@ -1,0 +1,2 @@
+# Keep PDFs byte-exact (line-ending conversion breaks their internal offsets)
+*.pdf binary

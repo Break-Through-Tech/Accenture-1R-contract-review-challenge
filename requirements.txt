@@ -1,6 +1,7 @@
-numpy
+numpy==2.5.1
 pandas
-scikit-learn
+scikit-learn==1.9.0
+scipy==1.18.0
 pydantic
 typing_extensions
 pytest
@@ -13,3 +14,7 @@ SQLAlchemy==2.1.6
 torch
 accelerate
 pyyaml
+joblib
+gradio==6.17.3
+pypdf==7.1.0
+python-docx==1.2.0

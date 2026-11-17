@@ -1,0 +1,14 @@
+# Just what the demo UI needs (python -m src.ui.app): no PyTorch, MLflow or training extras.
+# Versions match requirements.txt; numpy/scikit-learn/scipy must match the released model file.
+numpy==2.5.1
+scikit-learn==1.9.0
+scipy==1.18.0
+pandas
+pydantic
+joblib
+transformers==4.57.6
+tokenizers==0.22.2
+nupunkt==0.8.0
+gradio==6.17.3
+pypdf==7.1.0
+python-docx==1.2.0
