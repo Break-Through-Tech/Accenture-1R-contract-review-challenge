@@ -13,6 +13,7 @@ Guidance for Claude Code in this repo. ARCHITECTURE.md is the source of truth fo
 - **Training and evaluation data is CUAD JSON** (`paragraphs[].context`, `qas[].answers[]`). Models are trained and scored on this text only.
 - **Uploaded contracts are in scope.** The advisor requires PDF upload (November 2026), which supersedes the original brief's "do not parse raw PDFs". PDF, Word and pasted text are accepted at inference time.
 - **Fixed splits:** train on `train_separate_questions.json` (408 contracts) and evaluate on `test.json` (102). Never re-split. Take validation out of train, grouped by contract, with a fixed seed. Touch `test.json` only for final evaluation.
+- **`data/cuad/CUADv1.json` and `data/cuad/cuad-v1.zip` contain the test contracts.** Treat them like `test.json`: never load them for training, validation, manifests or demos.
 - **One text source, one chunker:** chunk the original `context` string unaltered so character offsets stay exact. If you normalize, keep an offset map back to the original text. For an uploaded file, the one text source is the text extracted from it: offsets, evidence and page numbers all refer to that string.
 
 ## Repo Layout
@@ -28,7 +29,9 @@ Guidance for Claude Code in this repo. ARCHITECTURE.md is the source of truth fo
   - `evidence/`: `Evidence` schema, category cues, grounded extraction with an Unknown queue.
   - `risk/`: weight sets (`weights/*.json`, default `v2-team-proposed`), the four signals, clause scoring, contract triage, sensitivity and advisor agreement (`agreement.py`).
   - `register/`: `ContractRegister` schema and the CSV and JSON clause-register export.
-  - `ui/`: the Gradio demo (`python -m src.ui.app`).
+  - `api/`: the FastAPI serving layer (`python -m src.api`, localhost only). `service.py` holds `ClauseTriageService`, the plain-Python layer the routers and the reviewer page both call. `jobs.py` is the scoring-job status table and `routers/` holds thin handlers; add a router through `create_app(routers=[...])`.
+  - `review/`: the review queue (Unknowns and reviewer conflicts), verdict resolution and the leakage-safe training export.
+  - `ui/`: `reviewer.py` is the store-backed reviewer page mounted at `/ui/` (`reviewer_views.py` holds its pure helpers). `app.py` stays the in-memory quick demo (`python -m src.ui.app`) for the demo-only install.
   - `metrics.py`, `thresholds.py`, `threshold_strategies.py`, `error_analysis.py`: evaluation helpers.
 - `scripts/`: runnable experiments and evaluations (`python -m scripts.<name>` from the repo root). `configs/`: one YAML per model.
 - `tests/`: pytest modules, one `test_<module>.py` per module. `pytest.ini` at the repo root sets `pythonpath = .`, so run `python -m pytest` from the root.
@@ -53,6 +56,9 @@ Guidance for Claude Code in this repo. ARCHITECTURE.md is the source of truth fo
 
 - **Evidence must be grounded:** `text[start:end] == quote`. Evidence that fails validation goes to the Unknown queue and is never guessed.
 - **Risk scoring is rule-based,** with weights in a versioned config owned by the advisor. Every score records its `weight_version_id`, and edits create a new version.
+- **Clients go through the service.** The reviewer page and the routers call `ClauseTriageService` (or HTTP) and never `ArtifactStore` directly. The API has no authentication, so it binds to 127.0.0.1 only.
+- **Feedback verdicts:** `accept` and `reject` need a model detection (`reject` also answers a reviewer's claimed miss); `missing` needs none. History is append-only. Reviewers who disagree are a conflict, which is reported and excluded from export, never settled by majority.
+- **Feedback export is allowlist-only:** a contract's feedback is exported only if its exact-text SHA-256 is in a `TrainingManifest`'s training set (default: the training partition of `train_separate_questions.json`, seed 42, fraction 0.2). Uploads and held-out contracts are excluded.
 - **Respect scope tiers:** build core work (chunker, encoder, scoring, register export) before FastAPI/Gradio. React, Postgres and Alembic are deferred.
 
 ## Stack
@@ -60,7 +66,8 @@ Guidance for Claude Code in this repo. ARCHITECTURE.md is the source of truth fo
 - Installed (pinned in the layered `requirements*.txt` files, see `docs/development.md`): scikit-learn, `transformers` 4.57.6 with PyTorch, MLflow on SQLite, SQLAlchemy, Pydantic, Gradio, `pypdf` and `python-docx`.
 - Models: word+char TF-IDF with one-vs-rest logistic regression is the supported control. DistilRoBERTa goes through the Hugging Face Trainer (BCE with `pos_weight`), trained on a Colab T4 and run on CPU for inference.
 - Tooling: `pyproject.toml` holds project metadata and the ruff config (check only, no reformatting). GitHub Actions runs ruff and pytest on every PR.
-- Not yet in the repo: FastAPI (Gradio will be mounted inside it), Docker, and the installable `clausetriage/` package rename.
+- Serving: FastAPI with the Gradio reviewer page mounted inside it, with job status and all pipeline outputs in one SQLite file.
+- Not yet in the repo: Docker and the installable `clausetriage/` package rename.
 
 ## Workflow
 
@@ -72,7 +79,7 @@ Guidance for Claude Code in this repo. ARCHITECTURE.md is the source of truth fo
 
 # Current Status of Project
 
-Status reflects `main` at `de8cc81` (2026-11-17). The docs index in `docs/README.md` links every guide.
+Status as of 2026-11-17, including the Wave 2 serving branches. The docs index in `docs/README.md` links every guide.
 
 **Done**
 - Data and labels: CUAD loader, any-overlap label projection, grouped contract splits. Experiments use train/calibration/evaluation contract partitions of the training file; `test.json` has never been read.
@@ -88,23 +95,23 @@ Status reflects `main` at `de8cc81` (2026-11-17). The docs index in `docs/README
 - Artifact store: persists inference results, Unknowns, scores and weight versions, with `feedback` and `advisor_rankings` tables and rescoring from cached probabilities.
 - Advisor agreement: blind ranking packet builder and the agreement evaluation (Spearman, bucket agreement, threshold sweep), ready for when rankings arrive (`docs/advisor-agreement.md`).
 - Encoder comparison: resumable five-seed runner, Colab notebook and a predeclared verdict rule (`docs/encoder-comparison.md`).
-- End-to-end inference and the Gradio demo: upload PDF, Word or text, rank contracts, show risky clauses with page numbers and quotes, download a CSV clause register.
+- End-to-end inference and the Gradio quick demo: upload PDF, Word or text, rank contracts, show risky clauses with page numbers and quotes, download a CSV clause register.
+- FastAPI backend (`docs/api.md`): background scoring with persisted job status, ranked reads, contract detail, `register.csv` and `register.json`, immutable weight versions rescored from cached probabilities, preview without saving, and review and feedback endpoints.
+- Human in the loop (`docs/feedback-review-queue.md`): review queue, validated verdicts with conflict handling, and a deterministic leakage-safe training export.
+- Reviewer page (`docs/reviewer-ui.md`): dataset contracts and uploads in one ranking, contract detail and registers, weight editing with preview and save-as-new-version, and the review tab.
 - Tooling: layered pinned requirements, ruff (check only) and GitHub Actions CI.
 
 **Gaps against ARCHITECTURE.md**
 - The DistilRoBERTa five-seed run has not been executed (it needs a Colab GPU), so the "encoder beats baseline" criterion is unmeasured. The notebook has never run on a real GPU.
 - There are no advisor hand-ranked clauses, so Spearman and bucket agreement against the advisor do not exist. The Spearman in `results/contract_triage/` is against a perfect-detection reference built from CUAD annotations.
-- No FastAPI layer, editable weights panel, feedback capture or review queue. The Gradio demo scores in memory and does not use the artifact store.
+- The reviewer page has been driven only through its handlers and `gradio_client`. Nobody has seen it rendered in a browser, and no real reviewer has used it.
+- The API has no authentication, no time limit on parsing or scoring, and has not been load-tested. Run it on localhost only.
+- On real contracts the review queue is dominated by `no_cue_match` Unknowns, a symptom of the weak evidence heuristic.
 - No Docker or license. `pyproject.toml` still has per-file lint suppressions to clear.
 - The final `test.json` evaluation has not been run, and there is no final report.
 - Evidence heuristic is weak: about 55% of grounded quotes overlap a gold answer, and a false-positive prediction still gets a plausible quote.
 - Rare categories (under 10 evaluation positives) swing 0.3 to 0.4 F1 between seeds; report them with intervals or as insufficient support.
 - PDF extraction rarely reproduces CUAD text verbatim (7 of 60 gold spans on the sample PDF, 60 of 60 ignoring whitespace and curly quotes). Grounding against the extracted text is unaffected. The OCR path is tested with mocks only.
-
-**In progress (branches opened 2026-11-17)**
-- `feature/27-fastapi-backend`: upload, contract, register and weights endpoints, with Gradio mounted inside.
-- `feature/33-feedback-review-queue`: feedback verdicts, the review queue for Unknowns, and export as training data.
-- `feature/30-ui-weights-review` (after those two): editable weights with preview ranking, dataset contract picker and review tab.
 
 **Next**
 - Run the encoder notebook on Colab and commit the results.
