@@ -2,8 +2,8 @@ from pathlib import Path
 
 import pytest
 
-from src.models.encoder import hub
-from src.models.encoder.hub import (
+from clausetriage.models.encoder import hub
+from clausetriage.models.encoder.hub import (
     CACHE_ENV,
     HF_OFFLINE_ENV,
     OFFLINE_ENV,

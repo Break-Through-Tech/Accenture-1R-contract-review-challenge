@@ -2,10 +2,10 @@
 
 import pytest
 
-from src.chunking.evaluation import evaluate_boundaries, evaluate_chunks, validate_chunks
-from src.chunking.chunk import Chunk
-from src.chunking.chunker import chunk_contract
-from src.labels.loader import AnswerSpan, Contract
+from clausetriage.chunking.evaluation import evaluate_boundaries, evaluate_chunks, validate_chunks
+from clausetriage.chunking.chunk import Chunk
+from clausetriage.chunking.chunker import chunk_contract
+from clausetriage.labels.loader import AnswerSpan, Contract
 
 
 def make_contract(spans: list[tuple[str, int, int]], contract_id: str = "T") -> Contract:

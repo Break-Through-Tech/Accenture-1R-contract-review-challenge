@@ -1,14 +1,14 @@
-"""Tests for src/api/service.py: scoring jobs, reads, registers, weight versions and preview over a real store."""
+"""Tests for clausetriage/api/service.py: scoring jobs, reads, registers, weight versions and preview over a real store."""
 import pytest
 
-from src.api.jobs import INTERRUPTED
-from src.api.service import (INTERNAL_ERROR, ClauseTriageService, ConflictError, InvalidInputError, NotFoundError,
+from clausetriage.api.jobs import INTERRUPTED
+from clausetriage.api.service import (INTERNAL_ERROR, ClauseTriageService, ConflictError, InvalidInputError, NotFoundError,
                              TooLargeError, UnsupportedTypeError, safe_filename, upload_contract_id)
-from src.ingest.documents import Document
-from src.register.export import build_register
-from src.risk.contract import aggregate_contracts
-from src.store.artifact_store import ArtifactStore
-from src.store.rescoring import rescore_contracts
+from clausetriage.ingest.documents import Document
+from clausetriage.register.export import build_register
+from clausetriage.risk.contract import aggregate_contracts
+from clausetriage.store.artifact_store import ArtifactStore
+from clausetriage.store.rescoring import rescore_contracts
 from tests.api_fixtures import (MODEL_VERSION, TEXT_1, TEXT_2, FailingPredictor, make_pipeline, make_service,
                                 weights_a, weights_b)
 from tests.pdf_fixtures import pdf_bytes
@@ -115,7 +115,7 @@ def test_submit_upload_bad_files_raise_reviewer_messages(service, data, filename
 
 def test_submit_upload_over_the_size_limit_raises(service, monkeypatch):
     """A file over MAX_FILE_BYTES is refused before it is parsed."""
-    monkeypatch.setattr("src.api.service.MAX_FILE_BYTES", 10)
+    monkeypatch.setattr("clausetriage.api.service.MAX_FILE_BYTES", 10)
     with pytest.raises(TooLargeError):
         service.submit_upload(b"x" * 11, "big.txt")
 

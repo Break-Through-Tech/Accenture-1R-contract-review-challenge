@@ -1,5 +1,5 @@
 """
-Shared fixtures for the src/review/ tests: a store holding three small contracts run through the
+Shared fixtures for the clausetriage/review/ tests: a store holding three small contracts run through the
 keyword pipeline of tests/test_artifact_store.py, and a helper that writes timed verdicts.
 
 What the store holds under MODEL_VERSION (thresholds 0.5, chunks of 80 characters every 40):
@@ -14,9 +14,9 @@ from datetime import datetime, timedelta, timezone
 
 import pytest
 
-from src.review.feedback import submit_feedback
-from src.store.artifact_store import ArtifactStore
-from src.store.records import FeedbackRecord
+from clausetriage.review.feedback import submit_feedback
+from clausetriage.store.artifact_store import ArtifactStore
+from clausetriage.store.records import FeedbackRecord
 from tests import test_artifact_store as store_tests
 from tests.test_artifact_store import MODEL_VERSION, THRESHOLDS, save_all, weights_a
 

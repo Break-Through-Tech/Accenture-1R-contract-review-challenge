@@ -5,8 +5,8 @@ import pytest
 import torch
 from torch import nn
 from transformers import Trainer, TrainingArguments
-from src.labels.categories import CATEGORIES
-from src.models.encoder.loss import WeightedBCETrainer, compute_pos_weight
+from clausetriage.labels.categories import CATEGORIES
+from clausetriage.models.encoder.loss import WeightedBCETrainer, compute_pos_weight
 
 
 def matrix_with_positives(num_rows: int, *pos_counts: int) -> np.ndarray:

@@ -1,0 +1,17 @@
+# The ClauseTriage API server and reviewer page in Docker (see docs/docker.md):
+#   docker compose up --build        then open http://127.0.0.1:8000/ui/
+services:
+  clausetriage:
+    build: .
+    image: clausetriage:local
+    ports:
+      # The API has no authentication: publish it on this machine's loopback address only.
+      # Never change this to "8000:8000", which listens on every network interface of the host
+      - "127.0.0.1:8000:8000"
+    volumes:
+      # The SQLite database (scored contracts, weight versions, feedback) survives restarts and rebuilds
+      - clausetriage-data:/data
+    restart: unless-stopped
+
+volumes:
+  clausetriage-data:

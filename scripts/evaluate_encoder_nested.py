@@ -35,16 +35,16 @@ import numpy as np
 import pandas as pd
 
 from scripts.analyze_reranker_multiseed import _macro_aupr, _macro_f1, _threshold_vector
-from src.chunking.token_chunker import TOKENIZER_NAME, TOKENIZER_REVISION
-from src.labels.categories import CATEGORIES
-from src.labels.loader import Contract, load_cuad
-from src.labels.projection import LabeledChunk
-from src.labels.splits import split_by_contract
-from src.models.encoder.config import TrainConfig, load_config
-from src.models.encoder.evaluate import build_report, tune_thresholds
-from src.models.encoder.experiment_utils import digest_contract_ids
-from src.models.encoder.hub import HubOptions, export_hub_options, load_pinned_tokenizer, resolve_hub_options
-from src.pipeline import prepare_contracts, to_model_inputs
+from clausetriage.chunking.token_chunker import TOKENIZER_NAME, TOKENIZER_REVISION
+from clausetriage.labels.categories import CATEGORIES
+from clausetriage.labels.loader import Contract, load_cuad
+from clausetriage.labels.projection import LabeledChunk
+from clausetriage.labels.splits import split_by_contract
+from clausetriage.models.encoder.config import TrainConfig, load_config
+from clausetriage.models.encoder.evaluate import build_report, tune_thresholds
+from clausetriage.models.encoder.experiment_utils import digest_contract_ids
+from clausetriage.models.encoder.hub import HubOptions, export_hub_options, load_pinned_tokenizer, resolve_hub_options
+from clausetriage.pipeline import prepare_contracts, to_model_inputs
 
 ROOT = Path(__file__).resolve().parents[1]
 TRAIN_PATH = ROOT / "data/cuad/train_separate_questions.json"
@@ -271,8 +271,8 @@ def environment_info() -> dict:
 
 def default_fit(config: TrainConfig, train_chunks: list[LabeledChunk], val_chunks: list[LabeledChunk],
                 resume_from_checkpoint: str | None = None) -> dict:
-    """Run src.models.encoder.train.fit (imported lazily so --dry-run never loads the Trainer)."""
-    from src.models.encoder.train import fit
+    """Run clausetriage.models.encoder.train.fit (imported lazily so --dry-run never loads the Trainer)."""
+    from clausetriage.models.encoder.train import fit
 
     return fit(config, train_chunks, val_chunks, resume_from_checkpoint=resume_from_checkpoint)
 
@@ -280,7 +280,7 @@ def default_fit(config: TrainConfig, train_chunks: list[LabeledChunk], val_chunk
 def default_score(checkpoint_dir: Path, partitions: dict[str, list[LabeledChunk]],
                   max_length: int, batch_size: int) -> dict[str, np.ndarray]:
     """Load a saved checkpoint on the GPU if there is one and score every partition's chunks."""
-    from src.models.encoder.predict import load_checkpoint, predict_proba
+    from clausetriage.models.encoder.predict import load_checkpoint, predict_proba
 
     model, tokenizer = load_checkpoint(checkpoint_dir)
     return {
@@ -498,10 +498,10 @@ def build_parser() -> argparse.ArgumentParser:
 
 def register_seed(config: TrainConfig, seed: int, result_dir: Path, work_root: Path, batch_size: int) -> dict:
     """Register one finished seed's checkpoint and thresholds in the local MLflow registry."""
-    from src.models.encoder.predict import load_checkpoint
-    from src.registry.bundle import ClauseModelBundle
-    from src.registry.mlflow_registry import register_bundle
-    from src.registry.predictors import EncoderPredictor
+    from clausetriage.models.encoder.predict import load_checkpoint
+    from clausetriage.registry.bundle import ClauseModelBundle
+    from clausetriage.registry.mlflow_registry import register_bundle
+    from clausetriage.registry.predictors import EncoderPredictor
 
     report = json.loads((result_dir / "report.json").read_text(encoding="utf-8"))
     thresholds = json.loads((result_dir / "thresholds.json").read_text(encoding="utf-8"))

@@ -1,0 +1,18 @@
+# An allowlist: the build context holds only what the Dockerfile copies. Everything else stays out,
+# above all data/cuad/test.json, CUADv1.json and cuad-v1.zip, which contain the test contracts.
+*
+!pyproject.toml
+!README.md
+!requirements-demo.txt
+!requirements-server.txt
+!clausetriage/
+!scripts/
+!.github/scripts/prefetch_hf_assets.py
+!data/cuad/category_descriptions.csv
+!data/cuad/train_separate_questions.json
+!data/demo_contracts/
+!results/word_char_tfidf_nested/word_char_tfidf_thresholds.json
+# The released model file, if you have it (it is git-ignored); otherwise the build downloads or builds it
+!models/word_char_tfidf.joblib
+**/__pycache__
+**/*.pyc

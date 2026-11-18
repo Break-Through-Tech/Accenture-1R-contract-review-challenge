@@ -1,8 +1,8 @@
 # API server
 
-`src/api/` is the HTTP layer of ClauseTriage: the one place clients read pipeline outputs from. It
+`clausetriage/api/` is the HTTP layer of ClauseTriage: the one place clients read pipeline outputs from. It
 uploads and scores contracts in the background, stores every result in the artifact store
-(`src/store/`), and serves rankings, contract details, clause registers, weight versions, the
+(`clausetriage/store/`), and serves rankings, contract details, clause registers, weight versions, the
 review queue and reviewer feedback. The reviewer page ([reviewer-ui.md](reviewer-ui.md)) runs in the
 same process at `/ui/` and calls the same service.
 
@@ -13,22 +13,23 @@ same process at `/ui/` and calls the same service.
 
 ## Running it
 
-From the repo root, after `pip install -r requirements.txt` (the server's packages are in
-`requirements-no-torch.txt`, see [development.md](development.md)):
+From the repo root, after `pip install -r requirements.txt` (the server alone needs only
+`requirements-server.txt`, see [development.md](development.md)). To run it in Docker instead, see
+[docker.md](docker.md).
 
 ```bash
-python -m src.api                                        # http://127.0.0.1:8000
-python -m src.api --port 8080 --database outputs/api/try.sqlite
-python -m src.api --bundle models/word_char_tfidf.joblib --weights path/to/weights.json
-python -m src.api --registry-version 3                   # a numbered version from the local MLflow registry
-python -m src.api --no-ui                                # API only, no Gradio page
+python -m clausetriage.api                                   # http://127.0.0.1:8000
+python -m clausetriage.api --port 8080 --database outputs/api/try.sqlite
+python -m clausetriage.api --bundle models/word_char_tfidf.joblib --weights path/to/weights.json
+python -m clausetriage.api --registry-version 3              # a numbered version from the local MLflow registry
+python -m clausetriage.api --no-ui                           # API only, no Gradio page
 ```
 
 - Interactive API docs: `http://127.0.0.1:8000/docs` (OpenAPI schema at `/openapi.json`).
 - The reviewer page: `http://127.0.0.1:8000/ui/` ([reviewer-ui.md](reviewer-ui.md)). It reads and
   writes the same store through the same `ClauseTriageService` methods as the endpoints. (The
-  standalone in-memory demo, `python -m src.ui.app`, is a separate page and is not mounted here.)
-- The model is the demo model from `src/registry/demo_model.py` (downloaded from the GitHub Release on
+  standalone in-memory demo, `python -m clausetriage.ui.app`, is a separate page and is not mounted here.)
+- The model is the demo model from `clausetriage/registry/demo_model.py` (downloaded from the GitHub Release on
   first use, or built locally). The tokenizer comes from `.venv/hf-cache`; set `HF_HUB_OFFLINE=1` if
   it is already there.
 - The database defaults to `outputs/api/clausetriage.sqlite` (ignored by git), created on first run.
@@ -69,17 +70,17 @@ the server's model version and the default weight version (the weight set passed
 | `GET /contracts` | Every scored contract ranked for review (rank 1 = open first), with rating counts and source metadata | 200 |
 | `GET /contracts/{id}` | Text, source metadata, chunks with all 41 probabilities, detections with thresholds, evidence, Unknowns, clause scores, contract score, rank and `ranked_out_of` | 200 |
 | `GET /contracts/{id}/register.csv` | The clause register as CSV ([clause-register.md](clause-register.md)) | 200, download |
-| `GET /contracts/{id}/register.json` | The same register as JSON; read it back with `src.register.export.read_json` | 200, download |
+| `GET /contracts/{id}/register.json` | The same register as JSON; read it back with `clausetriage.register.export.read_json` | 200, download |
 | `GET /weights` | Every weight version (id, `created_by`, `created_at`, description, hash) and the default | 200 |
 | `GET /weights/{id}` | One weight version with its full `WeightSet` | 200 |
-| `POST /weights` | Body: a `WeightSet` JSON (the same format as `src/risk/weights/*.json`). Creates a new version and scores every stored contract with it | 201 (200 if identical content already exists) |
+| `POST /weights` | Body: a `WeightSet` JSON (the same format as `clausetriage/risk/weights/*.json`). Creates a new version and scores every stored contract with it | 201 (200 if identical content already exists) |
 | `POST /weights/preview` | Body `{"weight_set": {...}, "contract_ids": [...] or null, "model_version": null}`: the ranking under a candidate weight set. Saves nothing | 200, `saved: false` |
 | `GET /review/queue` | The review queue: Unknowns and reviewer conflicts, each with chunk text, pages, reason, probability, threshold, allowed verdicts and status. Query: `contract_id`, `status` (`pending`, `reviewed`, `conflict`), `offset`, `limit` (1 to 500, default 50), `model_version` | 200, a `ReviewQueuePage` |
 | `POST /feedback` | Body `{"chunk_id": ..., "category": ..., "verdict": "accept" \| "reject" \| "missing", "reviewer": "name", "note": null, "model_version": null}`: records a verdict, timestamped by the server | 201, the stored `FeedbackRecord` |
 | `GET /feedback` | Recorded verdicts, oldest first. Query: `contract_id`, `chunk_id`, `category`, `model_version` | 200 |
 | `GET /feedback/resolutions` | Each reviewed (chunk, category) with every reviewer's current verdict, resolved to a label or a conflict. Query: `contract_id`, `status` (`resolved`, `conflict`), `model_version` | 200 |
 
-The last four come from `src/api/routers/review.py`, which `python -m src.api` passes to
+The last four come from `clausetriage/api/routers/review.py`, which `python -m clausetriage.api` passes to
 `create_app(service, routers=[review.router])`; an app built with `create_app(service)` alone doesn't
 have them. Verdict rules and queue order are in [feedback-review-queue.md](feedback-review-queue.md).
 A verdict that doesn't fit what the model predicted (for example `missing` on a detected category) is
@@ -148,7 +149,7 @@ version, as in the artifact store.
 `contract_ids`) under the candidate weight set and writes nothing, not even the weight version. The
 candidate's `weight_version_id` is only a label in the response.
 
-**Registers** are built by `src.register.export.build_register` from the stored evidence, Unknowns,
+**Registers** are built by `clausetriage.register.export.build_register` from the stored evidence, Unknowns,
 clause scores and ranked contract score, with every quote re-checked against the stored text and
 page numbers from the stored page starts. They are identical to what `build_register` gives for a
 fresh pipeline result ranked among the same contracts.
@@ -162,13 +163,13 @@ shares rows with the released one. A registry bundle is `clause-classifier-tfidf
 
 | Limit | Value | Where |
 |---|---|---|
-| Upload request body | 26 MB (the 25 MB file limit plus 1 MB of multipart envelope) | `src/api/limits.py` |
-| Uploaded file | 25 MB | `src/ingest/documents.py` `MAX_FILE_BYTES` |
-| Pasted-text request body | 12,000,000 bytes + 1 MB (2,000,000 characters at up to 6 bytes each once JSON-escaped) | `src/api/limits.py` |
+| Upload request body | 26 MB (the 25 MB file limit plus 1 MB of multipart envelope) | `clausetriage/api/limits.py` |
+| Uploaded file | 25 MB | `clausetriage/ingest/documents.py` `MAX_FILE_BYTES` |
+| Pasted-text request body | 12,000,000 bytes + 1 MB (2,000,000 characters at up to 6 bytes each once JSON-escaped) | `clausetriage/api/limits.py` |
 | Pasted text | 2,000,000 characters | `MAX_TEXT_CHARS` |
-| Any other request body | 1 MB | `src/api/limits.py` |
-| PDF pages, `.docx` expansion | as in [document-ingestion.md](document-ingestion.md) | `src/ingest/documents.py` |
-| Gradio page uploads | 25 MB, enforced by Gradio | `src/api/app.py` |
+| Any other request body | 1 MB | `clausetriage/api/limits.py` |
+| PDF pages, `.docx` expansion | as in [document-ingestion.md](document-ingestion.md) | `clausetriage/ingest/documents.py` |
+| Gradio page uploads | 25 MB, enforced by Gradio | `clausetriage/api/app.py` |
 
 Body limits are checked before the body is read: a declared `Content-Length` over the limit is refused
 at once, and a body sent without one (chunked) is counted as it arrives and cut off with 413 as soon as
@@ -181,8 +182,8 @@ The follow-up UI work can call the same layer without HTTP. Every method returns
 the matching endpoint returns:
 
 ```python
-from src.api.service import ClauseTriageService
-from src.store.artifact_store import ArtifactStore
+from clausetriage.api.service import ClauseTriageService
+from clausetriage.store.artifact_store import ArtifactStore
 
 service = ClauseTriageService(ArtifactStore("outputs/api/clausetriage.sqlite"), pipeline, model_version)
 job, queued = service.submit_upload(data, "lease.pdf")      # or submit_text(text, name), submit_document(...)
@@ -198,21 +199,21 @@ service.list_feedback(contract_id), service.list_resolutions(status="conflict")
 ```
 
 New endpoints go in a new `APIRouter` whose handlers take `service: ServiceDep` (from
-`src.api.routers`), passed to `create_app(service, routers=[router])`. No existing handler changes.
+`clausetriage.api.routers`), passed to `create_app(service, routers=[router])`. No existing handler changes.
 
 ## Code
 
 | Module | Contents |
 |---|---|
-| `src/api/service.py` | `ClauseTriageService` and its errors; `safe_filename`, `upload_contract_id` |
-| `src/api/jobs.py` | `JobStore` and `JobRecord` (the `api_jobs` table) |
-| `src/api/schemas.py` | Request and response models |
-| `src/api/limits.py` | `BodySizeLimitMiddleware` and the body limits |
-| `src/api/routers/` | `contracts.py`, `weights.py`, `system.py`; `review.py` (queue and feedback, added by `python -m src.api`); `get_service` / `ServiceDep` |
-| `src/api/app.py` | `create_app` (routers, middleware, error handlers, the reviewer page mount) |
-| `src/ui/reviewer.py` | The reviewer page mounted at `/ui/` ([reviewer-ui.md](reviewer-ui.md)) |
-| `src/api/runtime.py` | Loads the model, tokenizer and weights; `build_service` |
-| `src/api/__main__.py` | `python -m src.api` |
+| `clausetriage/api/service.py` | `ClauseTriageService` and its errors; `safe_filename`, `upload_contract_id` |
+| `clausetriage/api/jobs.py` | `JobStore` and `JobRecord` (the `api_jobs` table) |
+| `clausetriage/api/schemas.py` | Request and response models |
+| `clausetriage/api/limits.py` | `BodySizeLimitMiddleware` and the body limits |
+| `clausetriage/api/routers/` | `contracts.py`, `weights.py`, `system.py`; `review.py` (queue and feedback, added by `python -m clausetriage.api`); `get_service` / `ServiceDep` |
+| `clausetriage/api/app.py` | `create_app` (routers, middleware, error handlers, the reviewer page mount) |
+| `clausetriage/ui/reviewer.py` | The reviewer page mounted at `/ui/` ([reviewer-ui.md](reviewer-ui.md)) |
+| `clausetriage/api/runtime.py` | Loads the model, tokenizer and weights; `build_service` |
+| `clausetriage/api/__main__.py` | `python -m clausetriage.api` |
 | `scripts/load_dataset_contracts.py` | Scores the CUAD validation contracts into the store |
 
 Tests: `tests/test_api_service.py`, `test_api_app.py` (every endpoint through FastAPI's test client,

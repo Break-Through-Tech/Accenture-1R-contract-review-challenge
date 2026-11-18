@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from src.threshold_strategies import (
+from clausetriage.threshold_strategies import (
     DEFAULT_THRESHOLD,
     global_threshold,
     per_category_f1,

@@ -1,7 +1,7 @@
 # Document ingestion: PDF, Word and text uploads
 
 The advisor has made PDF upload a required feature, so reading uploaded files is now a core
-pipeline stage (`src/ingest/documents.py`) rather than part of the demo page. This page describes
+pipeline stage (`clausetriage/ingest/documents.py`) rather than part of the demo page. This page describes
 what the stage accepts, what its offsets mean, how it treats untrusted files, and how much PDF
 extraction costs in grounding.
 
@@ -30,7 +30,7 @@ extracted text, so:
 ## Public interface
 
 ```python
-from src.ingest.documents import (Document, read_document, document_from_bytes, pasted_document,
+from clausetriage.ingest.documents import (Document, read_document, document_from_bytes, pasted_document,
                                   ocr_pages, text_sha256, PAGE_SEPARATOR, SUPPORTED_SUFFIXES)
 ```
 
@@ -48,9 +48,9 @@ start must be `<= len(text)`. A blank last page can start exactly at `len(text)`
 `ValueError` for an offset outside `[0, len(text))` rather than guessing a page.
 
 For backward compatibility `Document` still accepts the old dataclass's positional order,
-`Document(name, text, page_starts, ocr)`. `src/ui/report.py` and its tests build it that way through
-the shim `src/ui/documents.py`, which now only re-exports this module. New code should use keywords
-and import from `src.ingest.documents`.
+`Document(name, text, page_starts, ocr)`. `clausetriage/ui/report.py` and its tests build it that way through
+the shim `clausetriage/ui/documents.py`, which now only re-exports this module. New code should use keywords
+and import from `clausetriage.ingest.documents`.
 
 ## Supported formats
 
@@ -110,7 +110,7 @@ with mocked modules only (`tests/test_ingest_documents.py`). Real OCR quality ha
 | Extracted text | 2,000,000 characters (the longest contract in the CUAD training file has 338,211) | `MAX_TEXT_CHARS` |
 | `.docx` expanded size | 100 MB, at most 5,000 archive entries | `MAX_DOCX_UNCOMPRESSED_BYTES`, `MAX_DOCX_ENTRIES` |
 
-The demo page also caps uploads at `MAX_FILE_SIZE = "25mb"` in `src/ui/app.py`. The two values are
+The demo page also caps uploads at `MAX_FILE_SIZE = "25mb"` in `clausetriage/ui/app.py`. The two values are
 set independently.
 
 ## Untrusted files
@@ -201,4 +201,4 @@ What this means:
 - `tests/test_ingest_grounding.py`: the end-to-end grounding and page invariant described above.
   It needs the pinned DistilRoBERTa tokenizer in the local Hugging Face cache.
 - `tests/test_evaluate_pdf_ingestion.py`: the fidelity script on a synthetic CUAD file.
-- `tests/test_ui_documents.py`: the `src/ui/documents.py` re-export shim.
+- `tests/test_ui_documents.py`: the `clausetriage/ui/documents.py` re-export shim.

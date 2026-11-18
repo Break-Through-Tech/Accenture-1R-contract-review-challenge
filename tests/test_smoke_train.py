@@ -1,8 +1,8 @@
 import pytest
-from src.chunking.chunk import Chunk
-from src.labels.categories import CATEGORIES, CATEGORY_TO_INDEX
-from src.labels.projection import LabeledChunk
-from src.models.encoder.config import TrainConfig
+from clausetriage.chunking.chunk import Chunk
+from clausetriage.labels.categories import CATEGORIES, CATEGORY_TO_INDEX
+from clausetriage.labels.projection import LabeledChunk
+from clausetriage.models.encoder.config import TrainConfig
 from scripts.smoke_train import (
     CHUNKS_PER_GROUP,
     PASS_THRESHOLD,

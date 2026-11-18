@@ -2,13 +2,13 @@ import json
 
 import pytest
 
-from src.evidence.extractor import GroundedEvidence, Unknown
-from src.evidence.schema import Evidence
-from src.register.export import (CSV_COLUMNS, INDEX_COLUMNS, GroundingError, build_register, build_registers,
+from clausetriage.evidence.extractor import GroundedEvidence, Unknown
+from clausetriage.evidence.schema import Evidence
+from clausetriage.register.export import (CSV_COLUMNS, INDEX_COLUMNS, GroundingError, build_register, build_registers,
                                  check_page_starts, index_frame, page_of, read_json, register_file_stem,
                                  register_frame, to_json, write_csv, write_json, write_register)
-from src.risk.contract import aggregate_contracts
-from src.risk.schema import ClauseScore, WeightSet
+from clausetriage.risk.contract import aggregate_contracts
+from clausetriage.risk.schema import ClauseScore, WeightSet
 
 # An explicit weight set, so a change of the repo's default weights can't move these golden values
 WEIGHTS = WeightSet(

@@ -4,8 +4,8 @@ import json
 import pytest
 
 from scripts import export_feedback
-from src.review.export import text_sha256
-from src.review.schema import TrainingManifest
+from clausetriage.review.export import text_sha256
+from clausetriage.review.schema import TrainingManifest
 from tests import review_fixtures as fixtures
 from tests.review_fixtures import verdict
 from tests.test_artifact_store import TEXT_1, TEXT_2

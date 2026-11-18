@@ -12,5 +12,7 @@ mlflow.db
 mlruns/
 # Trained model bundles (rebuild with python -m scripts.build_model_bundle)
 /models/
-# Build metadata from pip install .
+# Build metadata and output from pip install . and pip wheel .
 *.egg-info/
+/build/
+/dist/

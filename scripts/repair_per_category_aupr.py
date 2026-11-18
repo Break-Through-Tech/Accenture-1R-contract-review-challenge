@@ -15,8 +15,8 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from src.labels.categories import CATEGORIES
-from src.metrics import compute_aupr
+from clausetriage.labels.categories import CATEGORIES
+from clausetriage.metrics import compute_aupr
 
 ROOT = Path(__file__).resolve().parents[1]
 SUITE_SEEDS = [7, 17, 23, 42]
@@ -64,7 +64,7 @@ def main() -> None:
     for name in SINGLE_MODEL_DIRS:
         directory = args.results / name
         aupr = _aupr_map(directory / "evaluation_predictions.npz")
-        changed = _repair(directory / "per_category_metrics.csv", lambda row: aupr[row["category"]])
+        changed = _repair(directory / "per_category_metrics.csv", lambda row, aupr=aupr: aupr[row["category"]])
         print(f"{name}/per_category_metrics.csv: {changed} rows corrected")
 
 

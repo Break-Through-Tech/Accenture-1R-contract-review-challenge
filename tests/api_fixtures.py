@@ -4,14 +4,14 @@ artifact store, wrapped in a ClauseTriageService. Reuses the store tests' fake p
 """
 from pathlib import Path
 
-import src.inference as inference
-from src.api.service import ClauseTriageService
-from src.chunking.chunker import chunk_contract
-from src.inference import ContractInferencePipeline
-from src.labels.categories import CATEGORIES
-from src.registry.bundle import ClauseModelBundle
-from src.risk.schema import WeightSet
-from src.store.artifact_store import ArtifactStore
+import clausetriage.inference as inference
+from clausetriage.api.service import ClauseTriageService
+from clausetriage.chunking.chunker import chunk_contract
+from clausetriage.inference import ContractInferencePipeline
+from clausetriage.labels.categories import CATEGORIES
+from clausetriage.registry.bundle import ClauseModelBundle
+from clausetriage.risk.schema import WeightSet
+from clausetriage.store.artifact_store import ArtifactStore
 from tests.test_artifact_store import CUES, TEXT_1, TEXT_2, THRESHOLDS, KeywordPredictor, weights_a, weights_b
 
 MODEL_VERSION = "keyword-model:1"

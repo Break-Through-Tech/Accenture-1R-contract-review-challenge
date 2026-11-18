@@ -5,11 +5,11 @@ import numpy as np
 import pandas as pd
 import pytest
 from transformers import AutoTokenizer, RobertaConfig, RobertaForSequenceClassification
-from src.chunking.chunk import Chunk
-from src.labels.categories import CATEGORIES, CATEGORY_TO_INDEX
-from src.labels.projection import LabeledChunk
-from src.models.encoder.config import TrainConfig
-from src.models.encoder.evaluate import (
+from clausetriage.chunking.chunk import Chunk
+from clausetriage.labels.categories import CATEGORIES, CATEGORY_TO_INDEX
+from clausetriage.labels.projection import LabeledChunk
+from clausetriage.models.encoder.config import TrainConfig
+from clausetriage.models.encoder.evaluate import (
     DEFAULT_THRESHOLD,
     MIN_VAL_POSITIVES,
     build_report,
@@ -19,7 +19,7 @@ from src.models.encoder.evaluate import (
     summarize,
     tune_thresholds,
 )
-from src.models.encoder.train import load_data
+from clausetriage.models.encoder.train import load_data
 
 # Three categories: "golden" (AP 5/6), "perfect" (AP 1.0) and "nopos" (no positives)
 GOLDEN_CATEGORIES = ["golden", "perfect", "nopos"]
@@ -350,7 +350,7 @@ def test_evaluate_checkpoint_writes_a_summary_with_unscored_categories(evaluated
 def test_main_passes_the_checkpoint_and_batch_size_to_evaluate_checkpoint(monkeypatch):
     """Checks --checkpoint is converted to a Path and --batch-size to an int."""
     calls = {}
-    monkeypatch.setattr("src.models.encoder.evaluate.evaluate_checkpoint",
+    monkeypatch.setattr("clausetriage.models.encoder.evaluate.evaluate_checkpoint",
                         lambda checkpoint, batch_size: calls.update(checkpoint=checkpoint, batch_size=batch_size))
 
     main(["--checkpoint", "outputs/encoder/best", "--batch-size", "64"])
@@ -361,7 +361,7 @@ def test_main_passes_the_checkpoint_and_batch_size_to_evaluate_checkpoint(monkey
 def test_main_uses_batch_size_32_by_default(monkeypatch):
     """Checks the default scoring batch size."""
     calls = {}
-    monkeypatch.setattr("src.models.encoder.evaluate.evaluate_checkpoint",
+    monkeypatch.setattr("clausetriage.models.encoder.evaluate.evaluate_checkpoint",
                         lambda checkpoint, batch_size: calls.update(batch_size=batch_size))
 
     main(["--checkpoint", "x"])

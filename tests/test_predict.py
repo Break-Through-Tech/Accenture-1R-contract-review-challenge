@@ -4,10 +4,10 @@ import pytest
 import torch
 from pydantic import ValidationError
 from transformers import AutoTokenizer, RobertaConfig, RobertaForSequenceClassification
-from src.chunking.chunk import Chunk
-from src.labels.categories import CATEGORIES, CATEGORY_TO_INDEX
-from src.models.encoder.config import TrainConfig
-from src.models.encoder.predict import load_checkpoint, load_train_config, predict_proba
+from clausetriage.chunking.chunk import Chunk
+from clausetriage.labels.categories import CATEGORIES, CATEGORY_TO_INDEX
+from clausetriage.models.encoder.config import TrainConfig
+from clausetriage.models.encoder.predict import load_checkpoint, load_train_config, predict_proba
 
 TEXTS = [
     "Short.",

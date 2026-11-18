@@ -1,13 +1,13 @@
 import numpy as np
 import pytest
 
-from src.chunking.chunk import Chunk
-from src.evidence.cues import normalize_category
-from src.labels.categories import CATEGORIES
-from src.labels.loader import AnswerSpan, Contract
-from src.risk.inputs import clauses_from_probabilities, gold_clauses, load_cached_probabilities
-from src.risk.schema import WeightSet
-from src.risk.scoring import score_contract_clauses
+from clausetriage.chunking.chunk import Chunk
+from clausetriage.evidence.cues import normalize_category
+from clausetriage.labels.categories import CATEGORIES
+from clausetriage.labels.loader import AnswerSpan, Contract
+from clausetriage.risk.inputs import clauses_from_probabilities, gold_clauses, load_cached_probabilities
+from clausetriage.risk.schema import WeightSet
+from clausetriage.risk.scoring import score_contract_clauses
 
 TEXT = "Licensee liability is uncapped. Either party may audit records. Nothing else here."
 CUES = {normalize_category("Uncapped Liability"): ["liability"], normalize_category("Audit Rights"): ["audit"]}

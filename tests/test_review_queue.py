@@ -1,10 +1,10 @@
-"""Tests for src/review/queue.py: queue contents, ordering, status and paging."""
+"""Tests for clausetriage/review/queue.py: queue contents, ordering, status and paging."""
 import json
 
 import pytest
 
-from src.review.queue import build_review_queue, unknown_candidates
-from src.review.schema import QueueCandidate, ReviewQueuePage
+from clausetriage.review.queue import build_review_queue, unknown_candidates
+from clausetriage.review.schema import QueueCandidate, ReviewQueuePage
 from tests import review_fixtures as fixtures
 from tests.review_fixtures import TEXT_3, verdict
 from tests.test_artifact_store import MODEL_VERSION, TEXT_1

@@ -21,10 +21,10 @@ from scripts.analyze_reranker_multiseed import (
     _run_dir, _threshold_vector,
 )
 from scripts.train_retrieval_reranker import _metrics_at_thresholds
-from src.chunking.token_chunker import TOKENIZER_NAME, TOKENIZER_REVISION
-from src.labels.categories import CATEGORIES
-from src.labels.loader import load_cuad
-from src.models.encoder.experiment_utils import ROOT, TRAIN_PATH, calibrate_thresholds
+from clausetriage.chunking.token_chunker import TOKENIZER_NAME, TOKENIZER_REVISION
+from clausetriage.labels.categories import CATEGORIES
+from clausetriage.labels.loader import load_cuad
+from clausetriage.models.encoder.experiment_utils import ROOT, TRAIN_PATH, calibrate_thresholds
 
 OUTPUT = ROOT / "results/tfidf_reranker_fusion"
 ALPHA_GRID = (0.0, 0.1, 0.2, 0.35, 0.5, 0.75, 1.0)

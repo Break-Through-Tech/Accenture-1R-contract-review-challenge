@@ -16,12 +16,12 @@ import pandas as pd
 from sklearn.metrics import average_precision_score
 from transformers import AutoTokenizer
 
-from src.chunking.token_chunker import TOKENIZER_NAME, TOKENIZER_REVISION
-from src.labels.categories import CATEGORIES
-from src.labels.loader import load_cuad
-from src.labels.splits import split_by_contract
-from src.models.encoder.experiment_utils import ROOT, TRAIN_PATH, calibrate_thresholds, digest_contract_ids
-from src.pipeline import prepare_contracts, to_model_inputs
+from clausetriage.chunking.token_chunker import TOKENIZER_NAME, TOKENIZER_REVISION
+from clausetriage.labels.categories import CATEGORIES
+from clausetriage.labels.loader import load_cuad
+from clausetriage.labels.splits import split_by_contract
+from clausetriage.models.encoder.experiment_utils import ROOT, TRAIN_PATH, calibrate_thresholds, digest_contract_ids
+from clausetriage.pipeline import prepare_contracts, to_model_inputs
 from scripts.train_retrieval_reranker import _metrics_at_thresholds
 
 SEEDS = (42, 7, 17, 23, 101)

@@ -2,11 +2,11 @@ import numpy as np
 import pytest
 from transformers import AutoTokenizer
 
-from src.chunking.chunk import Chunk
-from src.evidence.cues import load_category_cues
-from src.inference import ContractInferencePipeline
-from src.labels.categories import CATEGORIES
-from src.registry.bundle import ClauseModelBundle
+from clausetriage.chunking.chunk import Chunk
+from clausetriage.evidence.cues import load_category_cues
+from clausetriage.inference import ContractInferencePipeline
+from clausetriage.labels.categories import CATEGORIES
+from clausetriage.registry.bundle import ClauseModelBundle
 
 
 class FixedPredictor:
@@ -28,7 +28,7 @@ def make_bundle(predictor=None):
 
 
 def test_contract_inference_preserves_offsets_and_grounds_predictions(monkeypatch):
-    import src.inference as inference
+    import clausetriage.inference as inference
 
     text = "This Agreement is governed by Delaware law."
     chunks = [Chunk(contract_id="c-1", start=0, end=len(text), text=text, chunk_index=0)]
@@ -70,7 +70,7 @@ def test_contract_inference_runs_real_chunker_and_preserves_source_offsets():
 
 
 def test_contract_inference_routes_unmatched_prediction_to_unknown(monkeypatch):
-    import src.inference as inference
+    import clausetriage.inference as inference
 
     text = "A clause with no helpful cue."
     chunks = [Chunk(contract_id="c-1", start=0, end=len(text), text=text, chunk_index=0)]
@@ -85,7 +85,7 @@ def test_contract_inference_routes_unmatched_prediction_to_unknown(monkeypatch):
 
 
 def test_contract_inference_handles_empty_contract(monkeypatch):
-    import src.inference as inference
+    import clausetriage.inference as inference
 
     monkeypatch.setattr(inference, "chunk_sentence_windows", lambda *args: [])
     pipeline = ContractInferencePipeline(make_bundle(), tokenizer=object(), category_cues={})
@@ -117,7 +117,7 @@ def test_pipeline_rejects_invalid_chunk_configuration():
 # ----- Risk scoring -----
 def _single_chunk_pipeline(monkeypatch, text, cues, **kwargs):
     """A pipeline whose chunker returns the whole text as one chunk."""
-    import src.inference as inference
+    import clausetriage.inference as inference
 
     chunks = [Chunk(contract_id="c-1", start=0, end=len(text), text=text, chunk_index=0)]
     monkeypatch.setattr(inference, "chunk_sentence_windows", lambda *args: chunks)
@@ -152,7 +152,7 @@ def test_contract_inference_scores_unknown_predictions(monkeypatch):
 
 def test_contract_inference_empty_contract_scores_zero(monkeypatch):
     """A contract with no chunks still gets a ContractScore of 0."""
-    import src.inference as inference
+    import clausetriage.inference as inference
 
     monkeypatch.setattr(inference, "chunk_sentence_windows", lambda *args: [])
     result = ContractInferencePipeline(make_bundle(), tokenizer=object(), category_cues={}) \
@@ -164,7 +164,7 @@ def test_contract_inference_empty_contract_scores_zero(monkeypatch):
 
 def test_contract_inference_uses_given_weight_set(monkeypatch):
     """Scores record the weight version passed to the pipeline, not the default."""
-    from src.risk.schema import load_weight_set
+    from clausetriage.risk.schema import load_weight_set
 
     custom = load_weight_set().model_copy(update={"weight_version_id": "test-v2", "triage_max_weight": 1.0})
     text = "A clause with no helpful cue."

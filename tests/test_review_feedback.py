@@ -1,11 +1,11 @@
-"""Tests for src/review/feedback.py: verdict validation, append-only history, changed and conflicting verdicts."""
+"""Tests for clausetriage/review/feedback.py: verdict validation, append-only history, changed and conflicting verdicts."""
 from datetime import datetime, timedelta, timezone
 
 import pytest
 from pydantic import ValidationError
 
-from src.review.feedback import list_resolutions, resolve_feedback, submit_feedback
-from src.store.records import FeedbackRecord
+from clausetriage.review.feedback import list_resolutions, resolve_feedback, submit_feedback
+from clausetriage.store.records import FeedbackRecord
 from tests import review_fixtures as fixtures
 from tests.review_fixtures import T0, verdict
 from tests.test_artifact_store import MODEL_VERSION

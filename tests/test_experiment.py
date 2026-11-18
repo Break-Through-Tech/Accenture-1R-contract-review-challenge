@@ -2,11 +2,11 @@
 
 import pytest
 
-from src.chunking.chunk import Chunk
-from src.chunking.chunker import chunk_contract
-from src.chunking.experiment import compare_examples, describe_lengths, measure_chunks
-from src.chunking.token_chunker import SentenceFallback
-from src.labels.loader import AnswerSpan, Contract
+from clausetriage.chunking.chunk import Chunk
+from clausetriage.chunking.chunker import chunk_contract
+from clausetriage.chunking.experiment import compare_examples, describe_lengths, measure_chunks
+from clausetriage.chunking.token_chunker import SentenceFallback
+from clausetriage.labels.loader import AnswerSpan, Contract
 
 
 class CharacterTokenizer:

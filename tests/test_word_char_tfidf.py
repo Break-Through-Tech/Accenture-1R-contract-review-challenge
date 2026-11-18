@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from src.models.naive.word_tfidf import (
+from clausetriage.models.naive.word_tfidf import (
     fit_word_char_tfidf,
     predict_word_char_probabilities,
 )

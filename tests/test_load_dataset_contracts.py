@@ -3,7 +3,7 @@ import pytest
 
 from scripts import evaluate_triage
 from scripts.load_dataset_contracts import SOURCE_TYPE, load_contracts, parse_args
-from src.labels.loader import Contract
+from clausetriage.labels.loader import Contract
 from tests.api_fixtures import MODEL_VERSION, TEXT_1, TEXT_2, make_service
 
 CONTRACTS = [Contract(contract_id="ALPHA CORP - Supply Agreement", text=TEXT_1, spans=[]),

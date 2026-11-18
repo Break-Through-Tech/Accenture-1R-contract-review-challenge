@@ -64,7 +64,7 @@ page's contract list. `clause_count` and `manual_review_count` count **rows**. F
 whose *Insurance* clause was found unquoted in three sections has three manual-review rows but adds at
 most 1 to `unknown_count`.
 
-Programs should read a register back with `src.register.export.read_json`. It validates the file, for
+Programs should read a register back with `clausetriage.register.export.read_json`. It validates the file, for
 example that every quoted row has a consistent quote and position, that unquoted rows are flagged, and
 that the header's counts agree with the rows.
 
@@ -87,7 +87,7 @@ For these rows:
 
 ## How to produce registers
 
-**From the demo page.** Run `python -m src.ui.app`, upload or paste contracts, and download
+**From the demo page.** Run `python -m clausetriage.ui.app`, upload or paste contracts, and download
 **Clause register (CSV)**. That file holds every contract scored in the session in one table, using
 the same columns with three renamed for the page: `contract` (`contract_id`), `risk_score`
 (`composite_score`) and `model` (`model_name`). Page numbers are filled in for PDFs.
@@ -102,7 +102,7 @@ python -m scripts.export_registers --weights path/to/weights.json --output outpu
 
 The script scores the validation contracts of `train_separate_questions.json` (the same split
 `scripts/evaluate_triage.py` ranks; `test.json` is never read) with the demo model from
-`src/registry/demo_model.py`. That model is downloaded from the GitHub Release, or built locally into
+`clausetriage/registry/demo_model.py`. That model is downloaded from the GitHub Release, or built locally into
 `models/` if the download fails, which takes a few minutes. The script ranks all contracts together and
 writes to `outputs/registers/` by default (not committed):
 
@@ -119,7 +119,7 @@ run with different contracts are not deleted, so use a fresh `--output` folder w
 **From code.**
 
 ```python
-from src.register.export import build_register, build_registers, write_register
+from clausetriage.register.export import build_register, build_registers, write_register
 
 result = pipeline.predict_contract(contract_id, text)          # ContractInferencePipeline
 register = build_register(result, text=text, page_starts=document_page_starts)

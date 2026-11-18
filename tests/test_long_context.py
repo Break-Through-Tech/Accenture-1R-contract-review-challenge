@@ -4,12 +4,12 @@ import numpy as np
 import torch
 from torch import nn
 
-from src.chunking.chunk import Chunk
-from src.labels.projection import LabeledChunk
-from src.models.encoder.contract_dataset import ContractChunkDataset, collate_contract_sequences
-from src.models.encoder.category_query import CategoryQueryClassifier
-from src.models.encoder.long_context import LongContextClassifier
-from src.registry.predictors import CategoryQueryPredictor, LongContextPredictor
+from clausetriage.chunking.chunk import Chunk
+from clausetriage.labels.projection import LabeledChunk
+from clausetriage.models.encoder.contract_dataset import ContractChunkDataset, collate_contract_sequences
+from clausetriage.models.encoder.category_query import CategoryQueryClassifier
+from clausetriage.models.encoder.long_context import LongContextClassifier
+from clausetriage.registry.predictors import CategoryQueryPredictor, LongContextPredictor
 
 
 class FakeEncoder(nn.Module):

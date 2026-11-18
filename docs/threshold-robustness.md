@@ -17,7 +17,7 @@ inspected evaluation contracts, so it is a candidate for the holdout gate, not a
 ## Protocol
 
 - Every strategy is fit on **calibration contracts only** and scored on the held-out evaluation contracts of the CUAD training file. `data/cuad/test.json` was not read.
-- The settings were fixed in `src/threshold_strategies.py` before any evaluation score was computed: shrinkage prior 10, rare cut-off of 10 calibration positives, recall floor 0.5. None were tuned.
+- The settings were fixed in `clausetriage/threshold_strategies.py` before any evaluation score was computed: shrinkage prior 10, rare cut-off of 10 calibration positives, recall floor 0.5. None were tuned.
 - The current method reproduces the saved `thresholds.json` exactly (maximum difference 0.0 across 5 seeds and both models).
 - Rare / uncommon / common buckets here use **calibration** positives (<10, 10–29, 30+), since that is what each strategy reacts to. That differs from the error analysis, which bucketed by evaluation support.
 - These evaluation contracts were already used to compare models, so picking a strategy on them is a form of selection. A winner still has to pass [upgrade-validation-gate.md](upgrade-validation-gate.md).

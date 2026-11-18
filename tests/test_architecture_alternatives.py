@@ -1,10 +1,10 @@
 import numpy as np
 
-from src.chunking.chunk import Chunk
-from src.labels.projection import LabeledChunk
-from src.models.naive.classifier_chain import fit_word_char_chain, predict_word_char_chain
-from src.models.naive.context_tfidf import add_neighbor_context
-from src.models.naive.prototype_retrieval import fit_positive_prototype_retriever
+from clausetriage.chunking.chunk import Chunk
+from clausetriage.labels.projection import LabeledChunk
+from clausetriage.models.naive.classifier_chain import fit_word_char_chain, predict_word_char_chain
+from clausetriage.models.naive.context_tfidf import add_neighbor_context
+from clausetriage.models.naive.prototype_retrieval import fit_positive_prototype_retriever
 
 
 def _labeled(contract_id, index, text, label):

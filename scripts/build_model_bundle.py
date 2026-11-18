@@ -6,7 +6,7 @@ It reproduces the model behind results/word_char_tfidf_nested/: the same contrac
 (seed 42; 20% evaluation held out, 20% of the rest for calibration), trained on the training
 contracts only, with the thresholds that were tuned on the calibration contracts.
 Reads only train_separate_questions.json; test.json is never touched. The training itself is
-src.registry.demo_model.build_demo_bundle, which the UI also runs when it can't download the model.
+clausetriage.registry.demo_model.build_demo_bundle, which the UI also runs when it can't download the model.
 
 Run from the repo root (takes several minutes):
     python -m scripts.build_model_bundle
@@ -24,7 +24,7 @@ import argparse
 import json
 from pathlib import Path
 
-from src.registry.demo_model import (BUNDLE_PATH, EXPERIMENT_NAME, REGISTRY_NAME, THRESHOLDS_PATH, TRACKING_URI,
+from clausetriage.registry.demo_model import (BUNDLE_PATH, EXPERIMENT_NAME, REGISTRY_NAME, THRESHOLDS_PATH, TRACKING_URI,
                                      build_demo_bundle, file_sha256)
 
 
@@ -41,7 +41,7 @@ def main() -> None:
 
     # Optional: register it, with the held-out score from the evaluation that tuned its thresholds
     if args.register:
-        from src.registry.mlflow_registry import register_bundle
+        from clausetriage.registry.mlflow_registry import register_bundle
 
         report = json.loads((args.thresholds.parent / "report.json").read_text(encoding="utf-8"))
         registered = register_bundle(

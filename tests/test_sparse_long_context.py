@@ -4,8 +4,8 @@ import numpy as np
 import pytest
 import torch
 
-from src.chunking.chunk import Chunk
-from src.models.encoder.sparse_long_context import (
+from clausetriage.chunking.chunk import Chunk
+from clausetriage.models.encoder.sparse_long_context import (
     LocalGlobalSparseLayer,
     SparseLongContextClassifier,
     overlap_consensus_contract_scores,
