@@ -202,13 +202,15 @@ def test_spearman_is_nan_for_a_constant_input():
 # ----- Pre-registered reading against development -----
 @pytest.mark.parametrize("point, lower, upper, verdict, position", [
     (0.50, 0.45, 0.55, "consistent_with_development", "within_development_range"),
-    (0.44, 0.40, 0.48, "lower_than_development", "below_every_development_split"),
-    (0.49, 0.47, 0.499, "lower_than_development", "within_development_range"),
-    (0.56, 0.51, 0.60, "higher_than_development", "above_every_development_split"),
-    (0.504, 0.45, 0.504, "consistent_with_development", "within_development_range"),
+    (0.44, 0.40, 0.46, "lower_than_development", "below_every_development_split"),
+    (0.45, 0.42, 0.48, "consistent_with_development", "below_every_development_split"),
+    (0.49, 0.47, 0.499, "consistent_with_development", "within_development_range"),
+    (0.46, 0.44, 0.47, "consistent_with_development", "below_every_development_split"),
+    (0.533, 0.505, 0.569, "consistent_with_development", "above_every_development_split"),
+    (0.60, 0.54, 0.65, "higher_than_development", "above_every_development_split"),
 ])
 def test_compare_with_reference_wording_rule(point, lower, upper, verdict, position):
-    """Consistent when the development mean (0.504) is inside the interval; position against the range 0.47-0.53."""
+    """Consistent when the interval overlaps the development range 0.47-0.53 (ends included); gap to the mean 0.504."""
     result = compare_with_reference(point, lower, upper, reference=0.504, reference_min=0.47, reference_max=0.53)
     assert (result["verdict"], result["position"]) == (verdict, position)
     assert result["gap_to_development_mean"] == pytest.approx(point - 0.504)

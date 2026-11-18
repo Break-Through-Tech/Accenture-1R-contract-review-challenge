@@ -193,13 +193,14 @@ def spearman(a: Sequence[float], b: Sequence[float]) -> float:
 def compare_with_reference(point: float, lower: float, upper: float,
                            reference: float, reference_min: float, reference_max: float) -> dict:
     """
-    Pre-registered wording rule: "consistent" when the development mean lies inside the test 95%
-    interval, otherwise "lower" or "higher"; plus where the point estimate falls against the range
-    of the development splits.
+    Pre-registered wording rule (amended 2026-11-18): "consistent" when the test 95% interval
+    [lower, upper] overlaps the range of the development splits [reference_min, reference_max];
+    "lower" when upper < reference_min; "higher" when lower > reference_max. Also returns where the
+    point estimate falls against that range and its gap to the development mean (`reference`).
     """
-    if upper < reference:
+    if upper < reference_min:
         verdict = "lower_than_development"
-    elif lower > reference:
+    elif lower > reference_max:
         verdict = "higher_than_development"
     else:
         verdict = "consistent_with_development"

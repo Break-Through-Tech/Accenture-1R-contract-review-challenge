@@ -89,17 +89,20 @@ The five-seed mean is the reference. Seed 42 was the best of the five splits, so
 reranker analysis, where seeds 17 and 101 used re-fitted thresholds. The nested runs' own value is
 0.504.)
 
-For each of macro-F1 and macro-AUPR, with test value T and interval [L, U], the script assigns
-the reading mechanically (`compare_with_reference`) and the report uses the matching sentence:
+For each of macro-F1 and macro-AUPR, with test value T and interval [L, U], the reference is the
+**range of the five development splits** [min, max] (macro-F1 0.4727-0.5331, macro-AUPR
+0.5312-0.5971; amended 2026-11-18, see section 11). The script assigns the reading mechanically
+(`compare_with_reference`) and the report uses the matching sentence. The sentences below are for
+macro-F1; macro-AUPR uses the same wording with its own mean and range.
 
 | Condition | Reading | Sentence |
 |---|---|---|
-| L <= reference <= U | consistent | "On the 102 test contracts, macro-F1 was T (95% CI L-U), consistent with the development estimate of 0.504." |
-| U < reference | lower | "... was T (95% CI L-U), lower than the development estimate of 0.504: the development splits overestimated performance on new contracts by about 0.504 - T." |
-| L > reference | higher | "... was T (95% CI L-U), higher than the development estimate of 0.504; the development splits were conservative." |
+| [L, U] overlaps [min, max] (L <= max and U >= min) | consistent | "On the 102 test contracts, macro-F1 was T (95% CI L-U), consistent with development: the five development splits ranged from 0.473 to 0.533 (mean 0.504; difference T - 0.504)." |
+| U < min | lower | "On the 102 test contracts, macro-F1 was T (95% CI L-U), lower than development: the whole interval lies below the five development splits (0.473-0.533, mean 0.504), so the development splits overestimated performance on new contracts by about 0.504 - T." |
+| L > max | higher | "On the 102 test contracts, macro-F1 was T (95% CI L-U), higher than development: the whole interval lies above the five development splits (0.473-0.533, mean 0.504; difference T - 0.504), so the development splits were conservative." |
 
-Then add "and below every development split" (T < 0.4727) or "above every development split"
-(T > 0.5331) when that applies. Explanations for a gap (for example, different contract types in
+Under a "consistent" reading, add "the point estimate is below every development split" (T < 0.4727)
+or "... above every development split" (T > 0.5331) when that applies. Explanations for a gap (for example, different contract types in
 the test set) may only be offered as hypotheses, labelled as such, and are never tested on the
 test set.
 
@@ -188,7 +191,7 @@ references that test values are shown next to)
 
 | | Development dry run (82 contracts) |
 |---|---|
-| Primary macro-F1 | 0.533 [0.505, 0.569]; reading "higher than development" (seed 42 was the best of the five splits) |
+| Primary macro-F1 | 0.533 [0.505, 0.569]; reading "consistent", point above every development split (seed 42 is itself the top of the range). Under the original rule it read "higher than development", which prompted the amendment in section 11 |
 | Primary macro-AUPR | 0.597 [0.546, 0.617]; reading "consistent" |
 | S1 word-only macro-F1 / macro-AUPR | 0.476 [0.449, 0.508] / 0.508 [0.464, 0.526] |
 | S1 word+char minus word-only | macro-F1 +0.057 [0.033, 0.083]; macro-AUPR +0.090 [0.067, 0.114] |
@@ -251,7 +254,19 @@ git add results/final_test_evaluation && git commit -m "feat(eval): add the seal
 
 Then fill in section 12 from `summary.md` and `report.json` using the sentences in section 5.
 
-**Amendments:** none.
+**Amendments**
+
+- **2026-11-18, reading rule (section 5).** The team decided this before the preflight and before
+  any test data was read. The original rule compared the test interval with one fixed number, the
+  five-seed development mean, and ignored that the development splits themselves vary (macro-F1
+  0.473-0.533). On the development dry run, the seed-42 split read "higher than development" for
+  macro-F1, although it is one of the five splits. The reference is now the range of the five
+  splits: "consistent" when the test interval overlaps the range, "lower" when it lies entirely
+  below it, "higher" when it lies entirely above it, applied to macro-F1 and macro-AUPR with their
+  own ranges. The point estimate, the five-seed mean and their difference are still reported, and
+  the "below / above every development split" tag is kept for the point estimate. The per-category
+  rule is unchanged. The dry run was regenerated with the amended code: its numbers are unchanged,
+  and only the macro-F1 reading label changed.
 
 ## 12. Results
 
