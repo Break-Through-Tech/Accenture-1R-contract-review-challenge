@@ -169,7 +169,7 @@ run evaluates the 82 seed-42 development-evaluation contracts, written as CUAD J
 by `--write-development-holdout` (git-ignored, under `outputs/`). Results are in
 `results/final_test_dry_run/`.
 
-The dry run ran on 2026-11-18 at commit `20f7a1c` with a clean tree, 10,000 replicates and the
+The dry run ran on 2026-11-18 at commit `e892f34` (regenerated after the amendment in section 11; the first BCa run at `20f7a1c` gave identical numbers) with a clean tree, 10,000 replicates and the
 registered seed. (An earlier dry run at `c931157` used percentile intervals. It was discarded when the
 interval method changed, see section 3; its point estimates were identical.)
 
@@ -191,7 +191,7 @@ references that test values are shown next to)
 
 | | Development dry run (82 contracts) |
 |---|---|
-| Primary macro-F1 | 0.533 [0.505, 0.569]; reading "consistent", point above every development split (seed 42 is itself the top of the range). Under the original rule it read "higher than development", which prompted the amendment in section 11 |
+| Primary macro-F1 | 0.533 [0.505, 0.569]; reading "consistent", point within the development range (it equals the range maximum, because this is the seed-42 split itself). Under the original rule it read "higher than development", which prompted the amendment in section 11 |
 | Primary macro-AUPR | 0.597 [0.546, 0.617]; reading "consistent" |
 | S1 word-only macro-F1 / macro-AUPR | 0.476 [0.449, 0.508] / 0.508 [0.464, 0.526] |
 | S1 word+char minus word-only | macro-F1 +0.057 [0.033, 0.083]; macro-AUPR +0.090 [0.067, 0.114] |
