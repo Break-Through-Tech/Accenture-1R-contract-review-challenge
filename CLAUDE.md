@@ -102,6 +102,7 @@ Status as of 2026-11-18, including the Wave 2 serving branches and the sealed fi
 - Human in the loop (`docs/feedback-review-queue.md`): review queue, validated verdicts with conflict handling, and a deterministic leakage-safe training export.
 - Reviewer page (`docs/reviewer-ui.md`): dataset contracts and uploads in one ranking, contract detail and registers, weight editing with preview and save-as-new-version, and the review tab.
 - Tooling: layered pinned requirements, ruff (check only) and GitHub Actions CI.
+- Final report (`docs/final-report.md`): results, limitations and an estimate of reviewer time saved. The project's code is under the MIT License (`LICENSE`); CUAD keeps its own CC BY 4.0 license.
 
 **Gaps against ARCHITECTURE.md**
 - The encoder does not beat the baseline. On the five-seed run DistilRoBERTa lost to word+char TF-IDF on every seed (macro-F1 lower by 0.063 to 0.082), mostly on uncommon and rare categories. Word+char TF-IDF is the model to freeze.
@@ -109,11 +110,10 @@ Status as of 2026-11-18, including the Wave 2 serving branches and the sealed fi
 - The reviewer page loads, switches tabs and downloads registers in headless Chrome. Its other controls have been driven only through their handlers and `gradio_client`, and no real reviewer has used it.
 - The API has no authentication, no time limit on parsing or scoring, and has not been load-tested. Run it on localhost only.
 - On real contracts the review queue is dominated by `no_cue_match` Unknowns, a symptom of the weak evidence heuristic.
-- No Docker or license. `pyproject.toml` still has per-file lint suppressions to clear.
-- There is no final report yet.
+- No Docker. `pyproject.toml` still has per-file lint suppressions to clear.
 - Evidence heuristic is weak: about 55% of grounded quotes overlap a gold answer, and a false-positive prediction still gets a plausible quote.
 - Rare categories (under 10 evaluation positives) swing 0.3 to 0.4 F1 between seeds; report them with intervals or as insufficient support.
 - PDF extraction rarely reproduces CUAD text verbatim (7 of 60 gold spans on the sample PDF, 60 of 60 ignoring whitespace and curly quotes). Grounding against the extracted text is unaffected. The OCR path is tested with mocks only.
 
 **Next**
-- Final report, license, Docker, and the `src` to `clausetriage` package rename.
+- Docker, and the `src` to `clausetriage` package rename.
