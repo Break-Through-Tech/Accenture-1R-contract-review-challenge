@@ -1,0 +1,201 @@
+{
+  "candidate": "distilroberta",
+  "candidate_template": "/content/drive/MyDrive/clausetriage_encoder/results/encoder_nested_seed{seed}",
+  "baseline": "word_char_tfidf",
+  "seeds_requested": [
+    42,
+    7,
+    17,
+    23,
+    101
+  ],
+  "seeds_missing": [],
+  "bootstrap_replicates_per_seed": 1000,
+  "protocol": {
+    "splits": "candidate and baseline report identical contract-ID digests; evaluation labels identical row for row",
+    "thresholds": "each run's own saved thresholds, fit on calibration contracts only; nothing re-tuned here",
+    "macro_f1": "fixed 41-category macro; zero-support categories contribute F1=0",
+    "macro_aupr": "mean over categories with at least one evaluation positive",
+    "bootstrap": "paired resampling of evaluation contracts with replacement, numpy default_rng(20261105 + seed)",
+    "support_buckets": "mean evaluation positives per seed: rare <10 (not ranked), uncommon 10-29, common 30+",
+    "interpretation": "seeded evaluation sets overlap, so the seeds are not independent samples",
+    "test_data_used": false
+  },
+  "verdict": {
+    "verdict": "does_not_beat",
+    "seeds_compared": 5,
+    "seeds_expected": 5,
+    "macro_f1_wins": 0,
+    "seeds_with_f1_ci_above_zero": 0,
+    "mean_delta_macro_f1": -0.07238635158362142,
+    "mean_delta_macro_aupr": -0.10316028060389462,
+    "reason": "mean macro-F1 delta is not positive or the candidate wins at most half the seeds"
+  },
+  "aggregate": {
+    "baseline_macro_f1": {
+      "mean": 0.5040199355962056,
+      "std_between_seeds": 0.022611963421503917
+    },
+    "candidate_macro_f1": {
+      "mean": 0.4316335840125841,
+      "std_between_seeds": 0.023941839778967296
+    },
+    "delta_macro_f1": {
+      "mean": -0.07238635158362142,
+      "std_between_seeds": 0.00882890864661139
+    },
+    "baseline_macro_aupr": {
+      "mean": 0.5633449910819444,
+      "std_between_seeds": 0.028338430187227426
+    },
+    "candidate_macro_aupr": {
+      "mean": 0.4601847104780498,
+      "std_between_seeds": 0.0202236318390858
+    },
+    "delta_macro_aupr": {
+      "mean": -0.10316028060389462,
+      "std_between_seeds": 0.026301368918857985
+    },
+    "macro_f1_wins": 0,
+    "macro_aupr_wins": 0
+  },
+  "paired_contract_bootstrap_95pct": {
+    "42": {
+      "macro_f1_delta": {
+        "lower_95": -0.11210681660359623,
+        "median": -0.07922595919351347,
+        "upper_95": -0.04599975016580172
+      },
+      "macro_aupr_delta": {
+        "lower_95": -0.1506221422365929,
+        "median": -0.11871445072007136,
+        "upper_95": -0.08503953496300805
+      }
+    },
+    "7": {
+      "macro_f1_delta": {
+        "lower_95": -0.09272793591748954,
+        "median": -0.061289583366180345,
+        "upper_95": -0.026816862624712685
+      },
+      "macro_aupr_delta": {
+        "lower_95": -0.1605712761967758,
+        "median": -0.12834811877109298,
+        "upper_95": -0.09534941803224532
+      }
+    },
+    "17": {
+      "macro_f1_delta": {
+        "lower_95": -0.09754986834777997,
+        "median": -0.06275384517845439,
+        "upper_95": -0.02705761032104175
+      },
+      "macro_aupr_delta": {
+        "lower_95": -0.11032908812090367,
+        "median": -0.08062764246197751,
+        "upper_95": -0.047397832502285346
+      }
+    },
+    "23": {
+      "macro_f1_delta": {
+        "lower_95": -0.0982355471433359,
+        "median": -0.0659492867362953,
+        "upper_95": -0.03306279727568553
+      },
+      "macro_aupr_delta": {
+        "lower_95": -0.11188509826734136,
+        "median": -0.07428578767891886,
+        "upper_95": -0.03396867265459733
+      }
+    },
+    "101": {
+      "macro_f1_delta": {
+        "lower_95": -0.1062602769755058,
+        "median": -0.07883059576041834,
+        "upper_95": -0.05014123019127037
+      },
+      "macro_aupr_delta": {
+        "lower_95": -0.13278212344124057,
+        "median": -0.10167327443695967,
+        "upper_95": -0.0702065880896297
+      }
+    }
+  },
+  "per_seed": [
+    {
+      "seed": 42,
+      "evaluation_contracts": 82,
+      "evaluation_chunks": 2196,
+      "baseline_macro_f1": 0.5330673042557077,
+      "candidate_macro_f1": 0.45090461273317406,
+      "delta_macro_f1": -0.08216269152253364,
+      "delta_macro_f1_lower_95": -0.11210681660359623,
+      "delta_macro_f1_upper_95": -0.04599975016580172,
+      "baseline_macro_aupr": 0.5971198237476559,
+      "candidate_macro_aupr": 0.4762902885630293,
+      "delta_macro_aupr": -0.12082953518462664,
+      "delta_macro_aupr_lower_95": -0.1506221422365929,
+      "delta_macro_aupr_upper_95": -0.08503953496300805
+    },
+    {
+      "seed": 7,
+      "evaluation_contracts": 82,
+      "evaluation_chunks": 2453,
+      "baseline_macro_f1": 0.5149335380774824,
+      "candidate_macro_f1": 0.4505493756973156,
+      "delta_macro_f1": -0.06438416238016681,
+      "delta_macro_f1_lower_95": -0.09272793591748954,
+      "delta_macro_f1_upper_95": -0.026816862624712685,
+      "baseline_macro_aupr": 0.5854461459704445,
+      "candidate_macro_aupr": 0.4482944203826741,
+      "delta_macro_aupr": -0.13715172558777045,
+      "delta_macro_aupr_lower_95": -0.1605712761967758,
+      "delta_macro_aupr_upper_95": -0.09534941803224532
+    },
+    {
+      "seed": 17,
+      "evaluation_contracts": 82,
+      "evaluation_chunks": 2516,
+      "baseline_macro_f1": 0.4940752325012619,
+      "candidate_macro_f1": 0.4309207810745563,
+      "delta_macro_f1": -0.06315445142670562,
+      "delta_macro_f1_lower_95": -0.09754986834777997,
+      "delta_macro_f1_upper_95": -0.02705761032104175,
+      "baseline_macro_aupr": 0.5630627906108538,
+      "candidate_macro_aupr": 0.47764610584670847,
+      "delta_macro_aupr": -0.08541668476414538,
+      "delta_macro_aupr_lower_95": -0.11032908812090367,
+      "delta_macro_aupr_upper_95": -0.047397832502285346
+    },
+    {
+      "seed": 23,
+      "evaluation_contracts": 82,
+      "evaluation_chunks": 2421,
+      "baseline_macro_f1": 0.5053360461284743,
+      "candidate_macro_f1": 0.433645165163542,
+      "delta_macro_f1": -0.07169088096493226,
+      "delta_macro_f1_lower_95": -0.0982355471433359,
+      "delta_macro_f1_upper_95": -0.03306279727568553,
+      "baseline_macro_aupr": 0.5398869864923852,
+      "candidate_macro_aupr": 0.4679927205348506,
+      "delta_macro_aupr": -0.07189426595753462,
+      "delta_macro_aupr_lower_95": -0.11188509826734136,
+      "delta_macro_aupr_upper_95": -0.03396867265459733
+    },
+    {
+      "seed": 101,
+      "evaluation_contracts": 82,
+      "evaluation_chunks": 2993,
+      "baseline_macro_f1": 0.4726875570181015,
+      "candidate_macro_f1": 0.39214798539433277,
+      "delta_macro_f1": -0.08053957162376874,
+      "delta_macro_f1_lower_95": -0.1062602769755058,
+      "delta_macro_f1_upper_95": -0.05014123019127037,
+      "baseline_macro_aupr": 0.5312092085883828,
+      "candidate_macro_aupr": 0.4307000170629868,
+      "delta_macro_aupr": -0.10050919152539606,
+      "delta_macro_aupr_lower_95": -0.13278212344124057,
+      "delta_macro_aupr_upper_95": -0.0702065880896297
+    }
+  ]
+}

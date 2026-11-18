@@ -1,0 +1,77 @@
+{
+  "experiment": "distilroberta_nested_holdout",
+  "model": "distilroberta_multilabel",
+  "status": "complete",
+  "data": "data/cuad/train_separate_questions.json",
+  "data_sha256": "7de21d2bb741ac939e2a839ef9640634a5e0f9f40ea2b82c6833baf7db33dab4",
+  "split": {
+    "method": "split_by_contract",
+    "seed": 17,
+    "evaluation_fraction": 0.2,
+    "calibration_fraction_of_non_evaluation": 0.2,
+    "contract_counts": {
+      "training": 260,
+      "calibration": 66,
+      "evaluation": 82
+    },
+    "contract_id_sha256": {
+      "training": "e1971daa154d964ed368bcdc247c8069f73e819fd13582f078ae2d48e3f7e867",
+      "calibration": "6f7de8b0f2780627b92dcef554b6076659d82ec1833acb676e05c14b0fd03bb2",
+      "evaluation": "64df84d1c690f5575f4073e41d5cc8c5b8cf164b653917836be7b451838d94dc"
+    },
+    "chunk_counts": {
+      "training": 8817,
+      "calibration": 1787,
+      "evaluation": 2516
+    }
+  },
+  "baseline_verified_against": "word_char_tfidf_nested_seed17",
+  "chunking": {
+    "method": "chunk_sentence_windows",
+    "tokenizer": "distilbert/distilroberta-base",
+    "tokenizer_revision": "fb53ab8802853c8e4fbdbcd0529f21fc6f459b2b",
+    "max_tokens": 512,
+    "overlap_tokens": 64
+  },
+  "training": {
+    "config_sha256": "c14a6eeedc38cdaaf41592e9a337a8ee111cb983d334a3410ce2ca5d8d8474ef",
+    "config": {
+      "model_name": "distilbert/distilroberta-base",
+      "model_revision": "fb53ab8802853c8e4fbdbcd0529f21fc6f459b2b",
+      "chunking_method": "sentence_token",
+      "max_length": 512,
+      "window_chars": 800,
+      "overlap_chars": 200,
+      "overlap_tokens": 64,
+      "val_fraction": 0.2,
+      "seed": 17,
+      "lr": 3e-05,
+      "epochs": 4,
+      "batch_size": 16,
+      "grad_accum": 2,
+      "fp16": true,
+      "pos_weight_cap": 50.0,
+      "mlflow_experiment": "clausetriage-encoder"
+    },
+    "checkpoint_selection": "best epoch by macro AUPR on calibration contracts",
+    "trained_in_this_invocation": true,
+    "training_seconds_this_invocation": 584.3
+  },
+  "thresholds_fit_on": "calibration contracts only",
+  "metrics_on": "held-out evaluation contracts, never used for model/threshold fitting",
+  "macro_f1_convention": "fixed 41-category macro; zero-support categories contribute F1=0",
+  "macro_aupr_convention": "mean over categories with at least one evaluation positive",
+  "macro_metrics": {
+    "macro_f1": 0.4309207810745563,
+    "macro_aupr": 0.47764610584670847,
+    "macro_f1_supported_only": 0.44169374999999994
+  },
+  "environment": {
+    "python": "3.13.16",
+    "torch": "2.14.1+cu130",
+    "transformers": "4.57.6",
+    "cuda_device": "Tesla T4",
+    "git_commit": "0bf69ceced76e36859064cbc3a66adda5a5fe4f1"
+  },
+  "test_data_used": false
+}
