@@ -42,11 +42,11 @@ from src.labels.categories import CATEGORIES, CATEGORY_TO_INDEX
 from src.risk.contract import ContractScore
 from src.risk.schema import ClauseInput, ClauseScore, WeightSet
 from src.store.records import (
-    AdvisorRankingRecord, Bucket, ChunkRecord, ContractDetail, ContractRecord, ContractSummary, DetectionKind,
+    ChunkRecord, ContractDetail, ContractRecord, ContractSummary, DetectionKind,
     EvidenceRecord, FeedbackRecord, ModelVersionRecord, UnknownItem, Verdict, WeightVersionRecord,
 )
 from src.store.tables import (
-    AdvisorRankingRow, Base, ChunkProbabilityRow, ChunkRow, ClauseScoreRow, ContractRow,
+    Base, ChunkProbabilityRow, ChunkRow, ClauseScoreRow, ContractRow,
     ContractScoreRow, EvidenceRow, FeedbackRow, ModelVersionRow, UnknownPredictionRow,
     WeightVersionRow, enable_sqlite_foreign_keys, utc_now,
 )
@@ -160,7 +160,7 @@ def _detection_order(chunk_index: int, category: str) -> tuple[int, int]:
 class ArtifactStore:
     """
     Relational store for contracts, chunks, raw probabilities, evidence, Unknowns, weight versions,
-    risk scores, reviewer feedback and advisor rankings. Callers supply stable IDs and versions.
+    risk scores and reviewer feedback. Callers supply stable IDs and versions.
     """
 
     def __init__(self, database: str | Path) -> None:
@@ -863,54 +863,3 @@ class ArtifactStore:
         return FeedbackRecord(id=row.id, contract_id=contract_id, chunk_id=row.chunk_id, category=row.category,
                               model_version=row.model_version, verdict=row.verdict, reviewer=row.reviewer,
                               timestamp=_as_utc(row.timestamp), note=row.note)
-
-    # ----- Advisor rankings -----
-    def add_advisor_rankings(self, rankings: Iterable[Mapping[str, Any]]) -> int:
-        """
-        Store advisor-ranked clauses in one transaction and return how many were new. Each mapping
-        has contract_id, category, start, end, quote, advisor_rank (int >= 1 or None), advisor_bucket
-        ("Low"/"Medium"/"High" or None), reviewer, ranking_set and optionally timestamp. The quote must
-        equal the stored contract text at [start:end]. A row is identified by (ranking_set, reviewer,
-        contract_id, category, start, end): rewriting it identically is a no-op, differently is a ValueError.
-        """
-        rows = []
-        for item in rankings:
-            row = {field: item[field] for field in ("contract_id", "category", "start", "end", "quote", "reviewer",
-                                                    "ranking_set")}
-            row["category"] = _check_category(row["category"])
-            row["advisor_rank"] = None if item.get("advisor_rank") is None else int(item["advisor_rank"])
-            row["advisor_bucket"] = item.get("advisor_bucket")
-            if row["advisor_rank"] is not None and row["advisor_rank"] < 1:
-                raise ValueError("advisor_rank must be 1 or more")
-            if row["advisor_bucket"] is not None and row["advisor_bucket"] not in get_args(Bucket):
-                raise ValueError(f"advisor_bucket must be one of {get_args(Bucket)}, got {row['advisor_bucket']!r}")
-            if not row["reviewer"] or not row["ranking_set"]:
-                raise ValueError("reviewer and ranking_set must be non-empty")
-            if item.get("timestamp") is not None:
-                row["timestamp"] = item["timestamp"]
-            rows.append(row)
-        with self.Session.begin() as session:
-            for row in rows:
-                contract = session.get(ContractRow, row["contract_id"])
-                if contract is None:
-                    raise KeyError(f"unknown contract {row['contract_id']!r}")
-                start, end = row["start"], row["end"]
-                if not 0 <= start < end <= len(contract.text) or contract.text[start:end] != row["quote"]:
-                    raise ValueError(f"advisor quote does not match {row['contract_id']!r} at [{start}:{end}]")
-            key_fields = ["ranking_set", "reviewer", "contract_id", "category", "start", "end"]
-            existing = session.scalars(select(AdvisorRankingRow).where(
-                AdvisorRankingRow.ranking_set.in_(sorted({row["ranking_set"] for row in rows})))).all()
-            return _merge(session, AdvisorRankingRow, rows, key_fields, existing, "advisor ranking")
-
-    def list_advisor_rankings(self, *, ranking_set: str | None = None,
-                              contract_id: str | None = None) -> list[AdvisorRankingRecord]:
-        """Stored advisor rankings, optionally filtered, in insertion order."""
-        with self.Session() as session:
-            query = select(AdvisorRankingRow).order_by(AdvisorRankingRow.id)
-            if ranking_set is not None:
-                query = query.where(AdvisorRankingRow.ranking_set == ranking_set)
-            if contract_id is not None:
-                query = query.where(AdvisorRankingRow.contract_id == contract_id)
-            fields = AdvisorRankingRecord.model_fields
-            return [AdvisorRankingRecord(**{column: getattr(row, column) for column in fields})
-                    for row in session.scalars(query)]

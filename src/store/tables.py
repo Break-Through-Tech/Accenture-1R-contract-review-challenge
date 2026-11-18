@@ -14,7 +14,6 @@ weight_versions      immutable risk WeightSets, stored as canonical JSON plus a 
 clause_scores        one ClauseScore per detected clause, model version and weight version
 contract_scores      one ContractScore per contract, model version and weight version (rank is computed on read)
 feedback             reviewer verdicts (accept / reject / missing) on a (chunk, category) prediction
-advisor_rankings     the advisor's hand-ranked clauses, grouped into named ranking sets
 
 There are no migrations: a schema change means deleting and recreating a local database.
 """
@@ -200,27 +199,4 @@ class FeedbackRow(Base):
     note: Mapped[str | None] = mapped_column(Text)
     __table_args__ = (
         CheckConstraint("verdict IN ('accept', 'reject', 'missing')", name="ck_feedback_verdict"),
-    )
-
-
-class AdvisorRankingRow(Base):
-    """One advisor-ranked clause span; advisor_rank 1 is the riskiest."""
-    __tablename__ = "advisor_rankings"
-    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-    contract_id: Mapped[str] = mapped_column(ForeignKey("contracts.contract_id"), nullable=False, index=True)
-    category: Mapped[str] = mapped_column(String, nullable=False)
-    start: Mapped[int] = mapped_column(Integer, nullable=False)
-    end: Mapped[int] = mapped_column(Integer, nullable=False)
-    quote: Mapped[str] = mapped_column(Text, nullable=False)
-    advisor_rank: Mapped[int | None] = mapped_column(Integer)
-    advisor_bucket: Mapped[str | None] = mapped_column(String)
-    reviewer: Mapped[str] = mapped_column(String, nullable=False)
-    ranking_set: Mapped[str] = mapped_column(String, nullable=False, index=True)
-    timestamp: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=utc_now)
-    __table_args__ = (
-        UniqueConstraint("ranking_set", "reviewer", "contract_id", "category", "start", "end"),
-        CheckConstraint("advisor_rank IS NULL OR advisor_rank >= 1", name="ck_advisor_rank"),
-        CheckConstraint(
-            "advisor_bucket IS NULL OR advisor_bucket IN ('Low', 'Medium', 'High')", name="ck_advisor_bucket",
-        ),
     )
