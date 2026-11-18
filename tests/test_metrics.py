@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 from transformers import EvalPrediction
-from src.metrics import compute_aupr, compute_transformer_metrics
+from clausetriage.metrics import compute_aupr, compute_transformer_metrics
 
 
 def column(values: list[float]) -> np.ndarray:

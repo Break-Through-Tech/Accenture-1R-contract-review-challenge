@@ -2,17 +2,17 @@ from pathlib import Path
 
 import pytest
 
-from src.chunking.chunk import Chunk
-from src.chunking.chunker import chunk_contract
-from src.evidence.cues import CATEGORY_DESCRIPTIONS_PATH, load_category_cues
-from src.evidence.extractor import (
+from clausetriage.chunking.chunk import Chunk
+from clausetriage.chunking.chunker import chunk_contract
+from clausetriage.evidence.cues import CATEGORY_DESCRIPTIONS_PATH, load_category_cues
+from clausetriage.evidence.extractor import (
     GroundedEvidence,
     Unknown,
     _sentence_spans,
     extract_evidence,
     extract_for_predictions,
 )
-from src.labels.loader import load_cuad
+from clausetriage.labels.loader import load_cuad
 
 CUAD_TRAIN_PATH = Path(__file__).resolve().parent.parent / "data" / "cuad" / "train_separate_questions.json"
 

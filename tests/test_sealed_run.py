@@ -5,9 +5,9 @@ import subprocess
 
 import pytest
 
-from src.labels.categories import CATEGORIES
-from src.labels.loader import Contract
-from src.sealed_run import (
+from clausetriage.labels.categories import CATEGORIES
+from clausetriage.labels.loader import Contract
+from clausetriage.sealed_run import (
     ATTEMPTS_FILE, PREFLIGHT_FILE, REPORT_FILE, SealedRunError, check_mode, check_sealed_output,
     check_sealed_preconditions, classify_data_path, git_blob_id, git_history_has, git_state, git_tracked,
     ids_sha256,

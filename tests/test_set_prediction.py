@@ -1,8 +1,8 @@
 import torch
 
-from src.chunking.chunk import Chunk
-from src.labels.loader import AnswerSpan, Contract
-from src.models.encoder.set_prediction import (
+from clausetriage.chunking.chunk import Chunk
+from clausetriage.labels.loader import AnswerSpan, Contract
+from clausetriage.models.encoder.set_prediction import (
     ContractSetPredictor,
     GoldChunkSpan,
     SetPredictionOutput,

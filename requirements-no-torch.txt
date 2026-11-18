@@ -4,7 +4,7 @@
 -r requirements-demo.txt
 mlflow==3.17.2
 SQLAlchemy==2.1.6
-# FastAPI server (python -m src.api). gradio depends on these too, so keep the pins within its ranges
+# FastAPI server (python -m clausetriage.api). gradio depends on these too, so keep the pins within its ranges
 fastapi==0.143.0
 uvicorn==0.54.0
 python-multipart==0.0.34

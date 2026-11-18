@@ -1,5 +1,5 @@
 """
-Tests for src/api/routers/review.py and the review methods of src/api/service.py: the review queue,
+Tests for clausetriage/api/routers/review.py and the review methods of clausetriage/api/service.py: the review queue,
 verdicts and their resolution over FastAPI's test client, with the keyword pipeline.
 
 Stored contracts (tests/api_fixtures.py texts): 'alpha' (TEXT_1) has Governing Law grounded in chunk 0,
@@ -9,10 +9,10 @@ has an Insurance Unknown in chunk 0 and Governing Law grounded in chunk 1.
 import pytest
 from fastapi.testclient import TestClient
 
-import src.api.__main__ as server
-from src.api.app import create_app
-from src.api.routers import review
-from src.api.service import InvalidInputError, NotFoundError
+import clausetriage.api.__main__ as server
+from clausetriage.api.app import create_app
+from clausetriage.api.routers import review
+from clausetriage.api.service import InvalidInputError, NotFoundError
 from tests.api_fixtures import MODEL_VERSION, TEXT_1, TEXT_2, add_text, make_service
 from tests.test_artifact_store import row_counts
 
@@ -33,7 +33,7 @@ def ids(service):
 
 @pytest.fixture
 def client(service):
-    """A test client for the API with the review router, as python -m src.api builds it (no page)."""
+    """A test client for the API with the review router, as python -m clausetriage.api builds it (no page)."""
     with TestClient(create_app(service, routers=[review.router], ui_path=None),
                     raise_server_exceptions=False) as test_client:
         yield test_client
@@ -180,9 +180,9 @@ def test_review_routes_come_only_from_the_extra_router(service):
 
 
 def test_server_entry_point_includes_the_review_router(service, monkeypatch):
-    """python -m src.api serves the review endpoints."""
+    """python -m clausetriage.api serves the review endpoints."""
     served = {}
-    monkeypatch.setattr("src.api.runtime.build_service", lambda args: service)
+    monkeypatch.setattr("clausetriage.api.runtime.build_service", lambda args: service)
     monkeypatch.setattr("uvicorn.run", lambda app, **options: served.update(app=app))
     server.main(["--no-ui"])
     with TestClient(served["app"]) as client:

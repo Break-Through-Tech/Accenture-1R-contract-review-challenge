@@ -4,11 +4,11 @@ import pytest
 
 from scripts.export_registers import (DEFAULT_OUTPUT, parse_args, score_contracts, validation_contracts,
                                       write_registers)
-from src.evidence.extractor import GroundedEvidence, Unknown
-from src.evidence.schema import Evidence
-from src.labels.loader import Contract
-from src.register.export import build_registers, register_file_stem
-from src.risk.schema import DEFAULT_WEIGHTS_PATH, ClauseScore, WeightSet
+from clausetriage.evidence.extractor import GroundedEvidence, Unknown
+from clausetriage.evidence.schema import Evidence
+from clausetriage.labels.loader import Contract
+from clausetriage.register.export import build_registers, register_file_stem
+from clausetriage.risk.schema import DEFAULT_WEIGHTS_PATH, ClauseScore, WeightSet
 
 # An explicit weight set, so a change of the repo's default weights can't move these values
 WEIGHTS = WeightSet(

@@ -6,12 +6,12 @@ import pandas as pd
 import pytest
 
 import scripts.evaluate_final_test as final
-from src.labels.categories import CATEGORIES
-from src.labels.loader import AnswerSpan, Contract
-from src.registry import demo_model
-from src.registry.bundle import ClauseModelBundle
-from src.risk.schema import load_weight_set
-from src.sealed_run import ATTEMPTS_FILE, PREFLIGHT_FILE, REPORT_FILE, SealedRunError, ids_sha256
+from clausetriage.labels.categories import CATEGORIES
+from clausetriage.labels.loader import AnswerSpan, Contract
+from clausetriage.registry import demo_model
+from clausetriage.registry.bundle import ClauseModelBundle
+from clausetriage.risk.schema import load_weight_set
+from clausetriage.sealed_run import ATTEMPTS_FILE, PREFLIGHT_FILE, REPORT_FILE, SealedRunError, ids_sha256
 
 GOVERNING, PARTIES = CATEGORIES.index("Governing Law"), CATEGORIES.index("Parties")
 

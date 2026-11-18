@@ -1,0 +1,271 @@
+"""
+Risk scoring is a judgement layered on top of detection: the classifier says a clause is
+there, and this stage says how worried a reviewer should be about it. Keeping the two
+separate means the scoring logic can be retuned without retraining the model.
+
+This module holds the Pydantic models that cross the risk-scoring stage boundary:
+- WeightSet: the versioned config that scoring reads, owned by the team (signal weights,
+  rating thresholds, category severities, context rules, phrase lists, magnitude rules)
+- ClauseInput: one detected clause, i.e. a cached classifier probability plus the
+  Evidence from clausetriage/evidence/ (or None if the clause went to the Unknown queue)
+- ClauseScore: the scored row, which always records the weight_version_id it used
+
+The weight set also holds the contract-level triage settings (triage_top_k, triage_max_weight)
+read by contract.py, so a weight version covers the contract ranking too.
+
+The four signals in SignalName and the shipped weight sets are set by the team; none of the
+values have been validated against expert legal judgement. The default is
+v2-team-proposed (docs/risk-weights-v2.md explains every value); v1-placeholder stays loadable
+so scores recorded under it can be reproduced. See signals.py for what each signal measures and
+how to add, remove or rename one.
+
+Weight sets can carry plain-language reasons next to their values (severity_rationale, and a
+rationale on each rule) so a reviewer can read and correct the config directly. Reasons are part
+of the version: they count toward content_sha256 whenever they are filled in.
+
+Detection confidence is deliberately not a signal: a confident detection is not a riskier
+clause. The classifier's per-class thresholds already gate which clauses reach scoring,
+and ClauseScore carries the probability so the UI can still show it.
+
+Creating a new weight version:
+1. Copy the current default (clausetriage/risk/weights/default_weights_v2.json) to a new file
+2. Give it a new, unique weight_version_id and set created_by
+3. Edit the values and their reasons; load_weight_set() validates bounds, the weight sum and threshold order
+4. Point DEFAULT_WEIGHTS_PATH at it only once it should become the default
+Never edit a version in place: scores record their weight_version_id, so changing the
+values behind an existing id would make old scores unreproducible.
+"""
+import hashlib
+import json
+import math
+from collections.abc import Mapping
+from pathlib import Path
+from types import MappingProxyType
+from typing import Annotated, Any, Literal, get_args
+
+from typing_extensions import Self
+from pydantic import BaseModel, ConfigDict, Field, field_serializer, field_validator, model_validator
+
+from clausetriage.evidence.cues import normalize_category
+from clausetriage.evidence.schema import Evidence
+from clausetriage.labels.categories import CATEGORIES
+
+WEIGHTS_DIR = Path(__file__).resolve().parent / "weights"
+DEFAULT_WEIGHTS_PATH = WEIGHTS_DIR / "default_weights_v2.json"
+V1_WEIGHTS_PATH = WEIGHTS_DIR / "default_weights_v1.json"
+
+# Signals set by the team; every name here needs a function in signals.SIGNALS
+SignalName = Literal["category_severity", "one_sidedness", "magnitude", "contract_context"]
+SIGNAL_NAMES: tuple[str, ...] = get_args(SignalName)
+
+Rating = Literal["Low", "Medium", "High"]
+UnitFloat = Annotated[float, Field(ge=0.0, le=1.0)]
+Phrase = Annotated[str, Field(min_length=1)]
+
+# Allowed slack when checking that signal weights sum to 1.0 (JSON floats rarely sum exactly)
+WEIGHT_SUM_TOLERANCE = 1e-6
+
+_CATEGORY_BY_NORMALIZED = {normalize_category(category): category for category in CATEGORIES}
+
+
+def _check_category(name: str) -> str:
+    """Validate a CUAD category and return its canonical spelling (so typos cannot fall to defaults)."""
+    try:
+        return _CATEGORY_BY_NORMALIZED[normalize_category(name)]
+    except KeyError as exc:
+        raise ValueError(f"Unknown CUAD category: {name!r}") from exc
+
+
+class CooccurrenceRule(BaseModel):
+    """
+    A rule that fires for target_category when other_category is present in (or absent from) the
+    same contract. A positive adjustment raises the target's contract_context signal (e.g. Uncapped
+    Liability with no Insurance); a negative one lowers its category_severity, because a protection
+    elsewhere in the contract softens the clause's impact (e.g. Liquidated Damages with a Cap On Liability).
+    """
+    model_config = ConfigDict(extra="forbid", frozen=True)
+
+    target_category: str
+    other_category: str
+    when: Literal["present", "absent"] = "present"
+    adjustment: float = Field(ge=-1.0, le=1.0)
+    rationale: str = ""
+
+    @field_validator("target_category", "other_category")
+    @classmethod
+    def check_categories(cls, name: str) -> str:
+        return _check_category(name)
+
+
+class MagnitudeRule(BaseModel):
+    """
+    How long is too long for one category's durations, in days. A duration at or below low_days
+    scores 0 and one at or above high_days scores 1, linearly in between. Set longer_is_riskier
+    to False when a short duration is the risk (e.g. a 30-day warranty).
+    """
+    model_config = ConfigDict(extra="forbid", frozen=True)
+
+    category: str
+    low_days: float = Field(ge=0.0)
+    high_days: float
+    longer_is_riskier: bool = True
+    rationale: str = ""
+
+    @field_validator("category")
+    @classmethod
+    def check_category(cls, name: str) -> str:
+        return _check_category(name)
+
+    @model_validator(mode="after")
+    def check_range(self) -> Self:
+        if self.low_days >= self.high_days:
+            raise ValueError("low_days must be below high_days")
+        return self
+
+
+class WeightSet(BaseModel):
+    """
+    One immutable, versioned set of scoring parameters, owned by the team.
+    Unknown keys are rejected so a misspelled field in the JSON can't be silently ignored.
+    Deeply immutable after validation: mappings are read-only proxies and collections are tuples.
+    To make a new version, create a new validated WeightSet; model_copy(update=...) revalidates
+    the changed copy. The version id must not be reused for different values.
+    """
+    model_config = ConfigDict(extra="forbid", frozen=True)
+
+    weight_version_id: str = Field(min_length=1)
+    created_by: str = Field(min_length=1)
+    description: str = ""
+    signal_weights: Mapping[SignalName, UnitFloat]
+    medium_threshold: UnitFloat
+    high_threshold: UnitFloat
+    category_severity: Mapping[str, UnitFloat] = Field(default_factory=dict)
+    # Plain-language reason per category; documentation only, scoring never reads it
+    severity_rationale: Mapping[str, str] = Field(default_factory=dict)
+    default_severity: UnitFloat
+    cooccurrence_rules: tuple[CooccurrenceRule, ...] = ()
+    aggravating_phrases: tuple[Phrase, ...] = ()
+    mitigating_phrases: tuple[Phrase, ...] = ()
+    scope_phrases: tuple[Phrase, ...] = ()
+    magnitude_rules: tuple[MagnitudeRule, ...] = ()
+    # Contract triage: triage_max_weight * worst clause + (1 - it) * mean of the triage_top_k worst
+    triage_top_k: int = Field(default=3, ge=1)
+    triage_max_weight: UnitFloat = 0.5
+
+    @field_validator("category_severity", "severity_rationale")
+    @classmethod
+    def check_severity_categories(cls, severity: Mapping[str, Any]) -> Mapping[str, Any]:
+        for name in severity:
+            _check_category(name)
+        return severity
+
+    # A reason must explain a severity that is actually set, so the two tables can't drift apart
+    @model_validator(mode="after")
+    def check_rationale_has_severity(self) -> Self:
+        listed = {_check_category(name) for name in self.category_severity}
+        orphans = sorted(name for name in self.severity_rationale if _check_category(name) not in listed)
+        if orphans:
+            raise ValueError(f"severity_rationale names categories with no category_severity: {orphans}")
+        return self
+
+    # Every signal needs a weight, the weights must sum to 1, and Medium must sit below High
+    @model_validator(mode="after")
+    def check_weights_and_thresholds(self) -> Self:
+        missing = set(SIGNAL_NAMES) - set(self.signal_weights)
+        if missing:
+            raise ValueError(f"signal_weights is missing: {sorted(missing)}")
+        total = sum(self.signal_weights.values())
+        if not math.isclose(total, 1.0, abs_tol=WEIGHT_SUM_TOLERANCE):
+            raise ValueError(f"signal_weights must sum to 1.0, got {total}")
+        if self.medium_threshold >= self.high_threshold:
+            raise ValueError("medium_threshold must be below high_threshold")
+        return self
+
+    @field_serializer("signal_weights", "category_severity", "severity_rationale")
+    def serialize_immutable_mappings(self, value: Mapping) -> dict:
+        """Serialize read-only runtime mappings as ordinary JSON objects."""
+        return dict(value)
+
+    @model_validator(mode="after")
+    def freeze_nested_collections(self) -> Self:
+        """Prevent mutation through nested references, not just assignment to model fields."""
+        object.__setattr__(self, "signal_weights", MappingProxyType(dict(self.signal_weights)))
+        object.__setattr__(self, "category_severity", MappingProxyType(dict(self.category_severity)))
+        object.__setattr__(self, "severity_rationale", MappingProxyType(dict(self.severity_rationale)))
+        for name in (
+            "cooccurrence_rules", "aggravating_phrases", "mitigating_phrases",
+            "scope_phrases", "magnitude_rules",
+        ):
+            object.__setattr__(self, name, tuple(getattr(self, name)))
+        return self
+
+    def model_copy(self, *, update: Mapping[str, Any] | None = None, deep: bool = False) -> "WeightSet":
+        """Return self when unchanged; validate and deeply freeze any updated copy."""
+        if not update:
+            return self
+        updates = dict(update)
+        changed_values = {key: value for key, value in updates.items() if key != "weight_version_id"}
+        if changed_values and updates.get("weight_version_id", self.weight_version_id) == self.weight_version_id:
+            raise ValueError("changing weight-set values requires a new weight_version_id")
+        data = self.model_dump()
+        data.update(updates)
+        return type(self).model_validate(data)
+
+    @property
+    def content_sha256(self) -> str:
+        """
+        Stable fingerprint of the complete validated config for score-level provenance.
+        Empty reason fields are left out, so weight sets written before reasons existed
+        (v1-placeholder) keep the hash their recorded scores carry; filled-in reasons count.
+        """
+        data = self.model_dump(mode="json")
+        if not data["severity_rationale"]:
+            del data["severity_rationale"]
+        for rule in (*data["cooccurrence_rules"], *data["magnitude_rules"]):
+            if not rule["rationale"]:
+                del rule["rationale"]
+        canonical = json.dumps(data, sort_keys=True, separators=(",", ":"), ensure_ascii=False, allow_nan=False)
+        return hashlib.sha256(canonical.encode("utf-8")).hexdigest()
+
+
+class ClauseInput(BaseModel):
+    """
+    One detected clause to score: the cached classifier probability for (chunk, category)
+    plus its grounded Evidence, or None when the clause went to the Unknown queue.
+    Only pass clauses that cleared the classifier's per-class threshold (inputs.clauses_from_probabilities
+    does this): every input counts as detected when contract_context checks which categories are present.
+    """
+    contract_id: str
+    chunk_index: int = Field(ge=0)
+    category: str
+    probability: UnitFloat
+    evidence: Evidence | None = None
+
+    @field_validator("category")
+    @classmethod
+    def check_category(cls, name: str) -> str:
+        return _check_category(name)
+
+
+class ClauseScore(BaseModel):
+    """A scored clause with its rating, weight version id, and exact config content hash."""
+    contract_id: str
+    chunk_index: int
+    category: str
+    probability: UnitFloat
+    signals: dict[SignalName, UnitFloat]
+    composite_score: UnitFloat
+    rating: Rating
+    has_evidence: bool
+    weight_version_id: str
+    weight_set_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
+
+    @field_validator("category")
+    @classmethod
+    def check_category(cls, name: str) -> str:
+        return _check_category(name)
+
+
+def load_weight_set(path: str | Path = DEFAULT_WEIGHTS_PATH) -> WeightSet:
+    """Read a weight set JSON file and validate it; raises pydantic.ValidationError if it is invalid."""
+    return WeightSet.model_validate_json(Path(path).read_text(encoding="utf-8"))

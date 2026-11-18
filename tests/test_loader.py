@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 import pytest
-from src.labels.loader import AnswerSpan, load_cuad
+from clausetriage.labels.loader import AnswerSpan, load_cuad
 
 
 def write_cuad_json(tmp_path, context, qas, title="T") -> Path:

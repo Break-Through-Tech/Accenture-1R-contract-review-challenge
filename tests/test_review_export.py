@@ -1,4 +1,4 @@
-"""Tests for src/review/export.py: export contents, determinism, offset validation, conflicts and leakage."""
+"""Tests for clausetriage/review/export.py: export contents, determinism, offset validation, conflicts and leakage."""
 import json
 
 import numpy as np
@@ -6,12 +6,12 @@ import pytest
 from pydantic import ValidationError
 from sqlalchemy import text
 
-from src.labels.categories import CATEGORY_TO_INDEX
-from src.review.export import (
+from clausetriage.labels.categories import CATEGORY_TO_INDEX
+from clausetriage.review.export import (
     build_training_manifest, check_no_evaluation_overlap, export_training_examples, read_examples, text_sha256,
     to_partial_label_matrix, write_export,
 )
-from src.review.schema import TrainingManifest
+from clausetriage.review.schema import TrainingManifest
 from tests import review_fixtures as fixtures
 from tests.review_fixtures import T0, TEXT_3, verdict
 from tests.test_artifact_store import MODEL_VERSION, TEXT_1, TEXT_2, THRESHOLDS, weights_a

@@ -3,7 +3,7 @@ import pandas as pd
 import pytest
 
 from scripts.evaluate_triage import _load_cache, _reweighted, _top_overlap, _variants
-from src.risk.schema import load_weight_set
+from clausetriage.risk.schema import load_weight_set
 
 WEIGHTS = load_weight_set()
 

@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 import pytest
-from src.chunking.chunker import chunk_contract
+from clausetriage.chunking.chunker import chunk_contract
 
 CUAD_TRAIN_PATH = Path(__file__).resolve().parent.parent / "data" / "cuad" / "train_separate_questions.json"
 

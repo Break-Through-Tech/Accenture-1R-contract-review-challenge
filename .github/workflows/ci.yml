@@ -71,7 +71,7 @@ jobs:
           path: |
             ~/.cache/huggingface/hub
             .venv/hf-cache
-          key: hf-tokenizer-${{ hashFiles('src/chunking/token_chunker.py', '.github/scripts/prefetch_hf_assets.py') }}
+          key: hf-tokenizer-${{ hashFiles('clausetriage/chunking/token_chunker.py', '.github/scripts/prefetch_hf_assets.py') }}
           restore-keys: hf-tokenizer-
 
       - name: Prefetch Hugging Face tokenizer

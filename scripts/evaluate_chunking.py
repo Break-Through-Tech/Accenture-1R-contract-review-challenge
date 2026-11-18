@@ -5,8 +5,8 @@ import csv
 import json
 from pathlib import Path
 
-from src.chunking.evaluation import evaluate_boundaries
-from src.labels.loader import load_cuad
+from clausetriage.chunking.evaluation import evaluate_boundaries
+from clausetriage.labels.loader import load_cuad
 
 TRAIN_PATH = Path(__file__).resolve().parents[1] / "data/cuad/train_separate_questions.json"
 # Reference settings first; the remaining settings explore overlap and window size.

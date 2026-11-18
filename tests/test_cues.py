@@ -1,14 +1,14 @@
 import pandas as pd
 import pytest
 
-from src.evidence.cues import (
+from clausetriage.evidence.cues import (
     CATEGORY_DESCRIPTIONS_PATH,
     MANUAL_CUES,
     build_category_cues,
     load_category_cues,
     normalize_category,
 )
-from src.labels.categories import CATEGORIES
+from clausetriage.labels.categories import CATEGORIES
 
 
 def make_df(prefixed: bool = True) -> pd.DataFrame:

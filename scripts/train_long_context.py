@@ -18,19 +18,19 @@ import pandas as pd
 import torch
 from transformers import AutoModel, AutoTokenizer
 
-from src.chunking.token_chunker import TOKENIZER_NAME, TOKENIZER_REVISION
-from src.labels.categories import CATEGORIES
-from src.labels.loader import load_cuad
-from src.labels.splits import split_by_contract
-from src.metrics import add_aupr_column, compute_aupr, compute_base_metrics
-from src.models.encoder.contract_dataset import ContractChunkDataset
-from src.models.encoder.experiment_utils import (
+from clausetriage.chunking.token_chunker import TOKENIZER_NAME, TOKENIZER_REVISION
+from clausetriage.labels.categories import CATEGORIES
+from clausetriage.labels.loader import load_cuad
+from clausetriage.labels.splits import split_by_contract
+from clausetriage.metrics import add_aupr_column, compute_aupr, compute_base_metrics
+from clausetriage.models.encoder.contract_dataset import ContractChunkDataset
+from clausetriage.models.encoder.experiment_utils import (
     ROOT, TRAIN_PATH, align_chunk_predictions, calibrate_thresholds,
     digest_contract_ids, make_contract_loader,
 )
-from src.models.encoder.long_context import LongContextClassifier, build_long_context_model
-from src.pipeline import prepare_contracts
-from src.thresholds import apply_thresholds
+from clausetriage.models.encoder.long_context import LongContextClassifier, build_long_context_model
+from clausetriage.pipeline import prepare_contracts
+from clausetriage.thresholds import apply_thresholds
 
 
 def _predict_dataset(model, loader, device, amp_dtype) -> dict[tuple[str, int], np.ndarray]:
@@ -289,9 +289,9 @@ def main() -> None:
     }
     (args.output / "report.json").write_text(json.dumps(summary, indent=2, default=float) + "\n")
     if args.register:
-        from src.registry.bundle import ClauseModelBundle
-        from src.registry.mlflow_registry import register_bundle
-        from src.registry.predictors import LongContextPredictor
+        from clausetriage.registry.bundle import ClauseModelBundle
+        from clausetriage.registry.mlflow_registry import register_bundle
+        from clausetriage.registry.predictors import LongContextPredictor
 
         # Registry artifacts must load on CPU even when training ran on CUDA.
         model = model.to("cpu").eval()

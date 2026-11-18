@@ -2,7 +2,7 @@ from pathlib import Path
 import pytest
 import yaml
 from pydantic import ValidationError
-from src.models.encoder.config import TrainConfig, load_config
+from clausetriage.models.encoder.config import TrainConfig, load_config
 
 REAL_CONFIG_PATH = Path(__file__).resolve().parents[1] / "configs" / "encoder.yaml"
 

@@ -23,7 +23,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from src.error_analysis import (
+from clausetriage.error_analysis import (
     NO_LABEL,
     apply_category_thresholds,
     category_error_table,
@@ -31,7 +31,7 @@ from src.error_analysis import (
     model_disagreement,
     seed_stability,
 )
-from src.labels.categories import CATEGORIES
+from clausetriage.labels.categories import CATEGORIES
 
 ROOT = Path(__file__).resolve().parents[1]
 SEEDS = [7, 17, 23, 42, 101]

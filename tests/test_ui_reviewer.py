@@ -1,5 +1,5 @@
 """
-Tests for src/ui/reviewer.py: the reviewer page's handlers called directly over a real store, with the
+Tests for clausetriage/ui/reviewer.py: the reviewer page's handlers called directly over a real store, with the
 keyword pipeline of tests/api_fixtures.py and uploads scored synchronously.
 
 Contracts used for the weight previews (one clause each, so a severity-only weight set makes each
@@ -13,12 +13,12 @@ from fastapi.testclient import TestClient
 from sqlalchemy import select
 
 from scripts.load_dataset_contracts import load_contracts
-from src.api.app import create_app
-from src.api.service import INTERNAL_ERROR
-from src.labels.loader import Contract
-from src.store import tables
-from src.ui.reviewer import ReviewerPage, build_reviewer_app
-from src.ui.reviewer_views import ALL_CONTRACTS, DATASET_ONLY, UPLOADS_ONLY
+from clausetriage.api.app import create_app
+from clausetriage.api.service import INTERNAL_ERROR
+from clausetriage.labels.loader import Contract
+from clausetriage.store import tables
+from clausetriage.ui.reviewer import ReviewerPage, build_reviewer_app
+from clausetriage.ui.reviewer_views import ALL_CONTRACTS, DATASET_ONLY, UPLOADS_ONLY
 from tests.api_fixtures import TEXT_1, TEXT_2, FailingPredictor, add_text, make_service, weights_a, weights_b
 from tests.pdf_fixtures import pdf_bytes
 from tests.test_artifact_store import row_counts

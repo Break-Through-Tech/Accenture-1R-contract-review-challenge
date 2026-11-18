@@ -11,7 +11,7 @@ Run from the repo root:
 The contracts are the 20% validation split that scripts/evaluate_triage.py ranks (split_by_contract,
 seed 42), chunked the same way (chunk_sentence_windows 512 / 64). The demo model never trained on
 them: build_demo_bundle() trains on the other 80%, and its thresholds were tuned on a calibration
-slice of that 80%. The model comes from src/registry/demo_model.py (downloaded, or built locally
+slice of that 80%. The model comes from clausetriage/registry/demo_model.py (downloaded, or built locally
 into models/ in a few minutes if the download fails).
 
 Writes to --output (default outputs/registers/, which git ignores):
@@ -31,15 +31,15 @@ import pandas as pd
 from transformers import AutoTokenizer
 
 from scripts.evaluate_triage import MAX_TOKENS, OVERLAP_TOKENS, SEED, TRAIN_PATH, VAL_FRACTION
-from src.chunking.token_chunker import TOKENIZER_NAME, TOKENIZER_REVISION
-from src.evidence.cues import load_category_cues
-from src.inference import ContractInferencePipeline
-from src.labels.loader import Contract, load_cuad
-from src.labels.splits import split_by_contract
-from src.register.export import build_registers, index_frame, register_file_stem, write_register
-from src.register.schema import ContractRegister
-from src.registry.demo_model import TOKENIZER_CACHE, load_demo_bundle
-from src.risk.schema import DEFAULT_WEIGHTS_PATH, load_weight_set
+from clausetriage.chunking.token_chunker import TOKENIZER_NAME, TOKENIZER_REVISION
+from clausetriage.evidence.cues import load_category_cues
+from clausetriage.inference import ContractInferencePipeline
+from clausetriage.labels.loader import Contract, load_cuad
+from clausetriage.labels.splits import split_by_contract
+from clausetriage.register.export import build_registers, index_frame, register_file_stem, write_register
+from clausetriage.register.schema import ContractRegister
+from clausetriage.registry.demo_model import TOKENIZER_CACHE, load_demo_bundle
+from clausetriage.risk.schema import DEFAULT_WEIGHTS_PATH, load_weight_set
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUTPUT = ROOT / "outputs" / "registers"

@@ -1,8 +1,8 @@
 import pytest
-from src.chunking.chunk import Chunk
-from src.labels.categories import CATEGORIES, CATEGORY_TO_INDEX
-from src.labels.loader import AnswerSpan
-from src.labels.projection import (
+from clausetriage.chunking.chunk import Chunk
+from clausetriage.labels.categories import CATEGORIES, CATEGORY_TO_INDEX
+from clausetriage.labels.loader import AnswerSpan
+from clausetriage.labels.projection import (
     LabeledChunk,
     project_chunk_labels,
     project_labels,

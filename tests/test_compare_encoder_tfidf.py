@@ -21,7 +21,7 @@ from scripts.compare_encoder_tfidf import (
     write_outputs,
 )
 from scripts.evaluate_encoder_nested import baseline_dir_for
-from src.labels.categories import CATEGORIES
+from clausetriage.labels.categories import CATEGORIES
 
 N_CATEGORIES = len(CATEGORIES)
 DIGESTS = {"training": "a" * 64, "calibration": "b" * 64, "evaluation": "c" * 64}

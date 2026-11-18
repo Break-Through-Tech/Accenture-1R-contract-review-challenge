@@ -4,8 +4,8 @@ import numpy as np
 import torch
 from torch import nn
 
-from src.chunking.chunk import Chunk
-from src.models.naive.retrieval_reranker import (
+from clausetriage.chunking.chunk import Chunk
+from clausetriage.models.naive.retrieval_reranker import (
     PairCrossEncoder,
     PairExample,
     build_training_pairs,

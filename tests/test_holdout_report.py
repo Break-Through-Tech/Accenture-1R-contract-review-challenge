@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from src.holdout_report import bucket_frame, fmt, jsonable
+from clausetriage.holdout_report import bucket_frame, fmt, jsonable
 
 
 # ----- Number formatting -----

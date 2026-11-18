@@ -2,8 +2,8 @@ import subprocess
 import sys
 from pathlib import Path
 
-from src.ingest.documents import Document, pasted_document
-from src.ui.app import score_documents
+from clausetriage.ingest.documents import Document, pasted_document
+from clausetriage.ui.app import score_documents
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -38,8 +38,8 @@ def test_score_documents_scores_pasted_text_unchanged():
 
 # ----- The demo-only install -----
 def test_demo_page_imports_without_the_store_or_api_layers():
-    """python -m src.ui.app needs no SQLAlchemy (requirements-demo.txt has none): importing it loads neither layer."""
-    check = ("import sys, src.ui.app; "
-             "print(sorted(m for m in ('sqlalchemy', 'src.store', 'src.api', 'src.ui.reviewer') if m in sys.modules))")
+    """python -m clausetriage.ui.app needs no SQLAlchemy (requirements-demo.txt has none): importing it loads neither layer."""
+    check = ("import sys, clausetriage.ui.app; "
+             "print(sorted(m for m in ('sqlalchemy', 'clausetriage.store', 'clausetriage.api', 'clausetriage.ui.reviewer') if m in sys.modules))")
     result = subprocess.run([sys.executable, "-c", check], cwd=ROOT, capture_output=True, text=True, check=True)
     assert result.stdout.strip() == "[]"

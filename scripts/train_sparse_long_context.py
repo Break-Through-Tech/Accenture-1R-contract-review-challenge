@@ -22,21 +22,21 @@ import torch
 from torch.nn import functional as F
 from transformers import AutoModel, AutoTokenizer
 
-from src.chunking.token_chunker import TOKENIZER_NAME, TOKENIZER_REVISION
-from src.labels.categories import CATEGORIES, CATEGORY_TO_INDEX
-from src.labels.loader import load_cuad
-from src.labels.splits import split_by_contract
-from src.metrics import compute_aupr, compute_base_metrics
-from src.models.encoder.experiment_utils import (
+from clausetriage.chunking.token_chunker import TOKENIZER_NAME, TOKENIZER_REVISION
+from clausetriage.labels.categories import CATEGORIES, CATEGORY_TO_INDEX
+from clausetriage.labels.loader import load_cuad
+from clausetriage.labels.splits import split_by_contract
+from clausetriage.metrics import compute_aupr, compute_base_metrics
+from clausetriage.models.encoder.experiment_utils import (
     ROOT, TRAIN_PATH, calibrate_thresholds, digest_contract_ids,
 )
-from src.models.encoder.sparse_long_context import (
+from clausetriage.models.encoder.sparse_long_context import (
     SparseLongContextClassifier,
     overlap_consensus_contract_scores,
     sparse_attention_edge_count,
 )
-from src.models.naive.word_tfidf import fit_word_char_tfidf, predict_word_char_probabilities
-from src.pipeline import prepare_contracts
+from clausetriage.models.naive.word_tfidf import fit_word_char_tfidf, predict_word_char_probabilities
+from clausetriage.pipeline import prepare_contracts
 
 
 def _encode_chunks(encoder, tokenizer, chunks, device, batch_size, max_length):

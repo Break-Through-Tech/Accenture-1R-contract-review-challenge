@@ -22,18 +22,18 @@ import torch
 from torch.utils.data import DataLoader
 from transformers import AutoModel, AutoTokenizer
 
-from src.chunking.token_chunker import TOKENIZER_NAME, TOKENIZER_REVISION
-from src.labels.categories import CATEGORIES
-from src.labels.loader import load_cuad
-from src.labels.splits import split_by_contract
-from src.metrics import compute_aupr, compute_base_metrics
-from src.models.encoder.contract_dataset import ContractChunkDataset, collate_contract_sequences
-from src.models.encoder.contract_graph import ContractGraph, ContractGraphClassifier, build_contract_graphs
-from src.models.encoder.experiment_utils import (
+from clausetriage.chunking.token_chunker import TOKENIZER_NAME, TOKENIZER_REVISION
+from clausetriage.labels.categories import CATEGORIES
+from clausetriage.labels.loader import load_cuad
+from clausetriage.labels.splits import split_by_contract
+from clausetriage.metrics import compute_aupr, compute_base_metrics
+from clausetriage.models.encoder.contract_dataset import ContractChunkDataset, collate_contract_sequences
+from clausetriage.models.encoder.contract_graph import ContractGraph, ContractGraphClassifier, build_contract_graphs
+from clausetriage.models.encoder.experiment_utils import (
     ROOT, TRAIN_PATH, calibrate_thresholds, digest_contract_ids, align_chunk_predictions,
 )
-from src.models.naive.word_tfidf import fit_word_char_tfidf, predict_word_char_probabilities
-from src.pipeline import prepare_contracts, to_model_inputs
+from clausetriage.models.naive.word_tfidf import fit_word_char_tfidf, predict_word_char_probabilities
+from clausetriage.pipeline import prepare_contracts, to_model_inputs
 
 
 class GraphContractDataset(ContractChunkDataset):
@@ -360,7 +360,7 @@ def _graphs_with_vectorizer(vectorizer, chunks, semantic_neighbors):
     """Build contract graphs with a checkpoint's already-fitted train-only vocabulary."""
     from collections import defaultdict
 
-    from src.models.encoder.contract_graph import ContractGraph
+    from clausetriage.models.encoder.contract_graph import ContractGraph
 
     grouped = defaultdict(list)
     for item in chunks:

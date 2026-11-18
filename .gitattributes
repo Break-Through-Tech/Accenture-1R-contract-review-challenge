@@ -1,4 +1,4 @@
 # Keep PDFs byte-exact (line-ending conversion breaks their internal offsets)
 *.pdf binary
-# Byte-pinned source snapshot: src/chunking/gwen_adapter.py checks its SHA-256, so never convert line endings
+# Byte-pinned source snapshot: clausetriage/chunking/gwen_adapter.py checks its SHA-256, so never convert line endings
 experiments/archive/pr48_token_chunking.py -text

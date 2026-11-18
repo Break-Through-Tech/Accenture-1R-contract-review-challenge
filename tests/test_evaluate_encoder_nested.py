@@ -24,12 +24,12 @@ from scripts.evaluate_encoder_nested import (
     verify_chunks_against_baseline,
     verify_split_against_baseline,
 )
-from src.chunking.token_chunker import TOKENIZER_NAME, TOKENIZER_REVISION
-from src.labels.categories import CATEGORIES, CATEGORY_TO_INDEX
-from src.labels.loader import AnswerSpan, Contract, load_cuad
-from src.models.encoder.config import TrainConfig
-from src.models.encoder.hub import HubOptions, load_pinned_tokenizer
-from src.pipeline import prepare_contracts, to_model_inputs
+from clausetriage.chunking.token_chunker import TOKENIZER_NAME, TOKENIZER_REVISION
+from clausetriage.labels.categories import CATEGORIES, CATEGORY_TO_INDEX
+from clausetriage.labels.loader import AnswerSpan, Contract, load_cuad
+from clausetriage.models.encoder.config import TrainConfig
+from clausetriage.models.encoder.hub import HubOptions, load_pinned_tokenizer
+from clausetriage.pipeline import prepare_contracts, to_model_inputs
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA_SHA = "d" * 64

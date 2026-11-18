@@ -5,15 +5,15 @@ import pytest
 import torch
 from transformers import (AutoModelForSequenceClassification, AutoTokenizer,
                           RobertaConfig, RobertaForSequenceClassification, TrainingArguments)
-from src.chunking.chunk import Chunk
-from src.labels.categories import CATEGORIES, CATEGORY_TO_INDEX
-from src.labels.projection import LabeledChunk
-from src.metrics import compute_transformer_metrics
-from src.models.encoder.config import TrainConfig
-from src.models.encoder.dataset import ChunkCollator
-from src.models.encoder.hub import load_pinned_tokenizer
-from src.models.encoder.loss import WeightedBCETrainer
-from src.models.encoder.train import (
+from clausetriage.chunking.chunk import Chunk
+from clausetriage.labels.categories import CATEGORIES, CATEGORY_TO_INDEX
+from clausetriage.labels.projection import LabeledChunk
+from clausetriage.metrics import compute_transformer_metrics
+from clausetriage.models.encoder.config import TrainConfig
+from clausetriage.models.encoder.dataset import ChunkCollator
+from clausetriage.models.encoder.hub import load_pinned_tokenizer
+from clausetriage.models.encoder.loss import WeightedBCETrainer
+from clausetriage.models.encoder.train import (
     DEFAULT_CONFIG_PATH,
     DEFAULT_OUTPUT_DIR,
     TRAIN_PATH,
@@ -308,7 +308,7 @@ def test_build_trainer_pos_weight_is_capped_by_the_config(tmp_path, tokenizer):
 # ----- fit: end to end on a tiny model -----
 def test_fit_trains_evaluates_and_saves_the_best_checkpoint(tmp_path, tokenizer, monkeypatch):
     """Checks fit runs one epoch on a tiny model, returns macro AUPR and saves a reloadable checkpoint."""
-    monkeypatch.setattr("src.models.encoder.train.build_model", lambda config: make_tiny_model())
+    monkeypatch.setattr("clausetriage.models.encoder.train.build_model", lambda config: make_tiny_model())
     config = make_config(output_dir=tmp_path / "run", epochs=1, batch_size=4, grad_accum=1, max_length=32)
     chunks = make_labeled_chunks(16, 8)
 
@@ -325,7 +325,7 @@ def test_fit_trains_evaluates_and_saves_the_best_checkpoint(tmp_path, tokenizer,
 
 def test_fit_saved_train_config_round_trips_to_the_same_config(tmp_path, tokenizer, monkeypatch):
     """Checks the saved config round-trips and fit requests the pinned fast tokenizer with the hub settings."""
-    monkeypatch.setattr("src.models.encoder.train.build_model", lambda config: make_tiny_model())
+    monkeypatch.setattr("clausetriage.models.encoder.train.build_model", lambda config: make_tiny_model())
     monkeypatch.setenv("CLAUSETRIAGE_HF_CACHE", str(tmp_path / "hf"))
     monkeypatch.setenv("CLAUSETRIAGE_HF_OFFLINE", "1")
     config = make_config(
@@ -338,7 +338,7 @@ def test_fit_saved_train_config_round_trips_to_the_same_config(tmp_path, tokeniz
         tokenizer_calls.append((model_name, kwargs))
         return tokenizer
 
-    monkeypatch.setattr("src.models.encoder.train.AutoTokenizer.from_pretrained", get_fast_tokenizer)
+    monkeypatch.setattr("clausetriage.models.encoder.train.AutoTokenizer.from_pretrained", get_fast_tokenizer)
     fit(config, make_labeled_chunks(8, 4), make_labeled_chunks(8, 4))
 
     saved = (tmp_path / "run" / "best" / "train_config.json").read_text(encoding="utf-8")
@@ -351,7 +351,7 @@ def test_fit_saved_train_config_round_trips_to_the_same_config(tmp_path, tokeniz
 
 def test_fit_passes_resume_checkpoint_to_the_trainer_and_saves_log_history(tmp_path, tokenizer, monkeypatch):
     """Checks resume_from_checkpoint reaches Trainer.train and the epoch log is saved next to the model."""
-    monkeypatch.setattr("src.models.encoder.train.build_model", lambda config: make_tiny_model())
+    monkeypatch.setattr("clausetriage.models.encoder.train.build_model", lambda config: make_tiny_model())
     resumed_from = []
     original_train = WeightedBCETrainer.train
 
@@ -386,7 +386,7 @@ def test_build_model_passes_hub_settings_to_from_pretrained(monkeypatch, tmp_pat
 
 def test_fit_prints_the_final_macro_aupr(tmp_path, tokenizer, monkeypatch, capsys):
     """Checks fit reports eval_macro_aupr on stdout for the notebook and Colab logs."""
-    monkeypatch.setattr("src.models.encoder.train.build_model", lambda config: make_tiny_model())
+    monkeypatch.setattr("clausetriage.models.encoder.train.build_model", lambda config: make_tiny_model())
     config = make_config(output_dir=tmp_path / "run", epochs=1, batch_size=4, grad_accum=1, max_length=32)
 
     fit(config, make_labeled_chunks(8, 4), make_labeled_chunks(8, 4))
@@ -405,8 +405,8 @@ def test_train_loads_the_data_then_calls_fit_with_it(monkeypatch):
         calls["args"] = (cfg, train_chunks, val_chunks)
         return {"eval_macro_aupr": 0.5}
 
-    monkeypatch.setattr("src.models.encoder.train.load_data", lambda cfg: ("train-chunks", "val-chunks"))
-    monkeypatch.setattr("src.models.encoder.train.fit", fake_fit)
+    monkeypatch.setattr("clausetriage.models.encoder.train.load_data", lambda cfg: ("train-chunks", "val-chunks"))
+    monkeypatch.setattr("clausetriage.models.encoder.train.fit", fake_fit)
 
     result = train(config)
 
@@ -424,8 +424,8 @@ def test_main_without_arguments_loads_the_default_config_and_trains(monkeypatch)
         calls["path"] = path
         return "config"
 
-    monkeypatch.setattr("src.models.encoder.train.load_config", fake_load_config)
-    monkeypatch.setattr("src.models.encoder.train.train", lambda config: calls.update(config=config))
+    monkeypatch.setattr("clausetriage.models.encoder.train.load_config", fake_load_config)
+    monkeypatch.setattr("clausetriage.models.encoder.train.train", lambda config: calls.update(config=config))
 
     main([])
 
@@ -442,8 +442,8 @@ def test_main_config_option_loads_the_given_path(monkeypatch):
         calls["path"] = path
         return "config"
 
-    monkeypatch.setattr("src.models.encoder.train.load_config", fake_load_config)
-    monkeypatch.setattr("src.models.encoder.train.train", lambda config: None)
+    monkeypatch.setattr("clausetriage.models.encoder.train.load_config", fake_load_config)
+    monkeypatch.setattr("clausetriage.models.encoder.train.train", lambda config: None)
 
     main(["--config", "configs/other.yaml"])
 

@@ -2,11 +2,11 @@ import pytest
 import torch
 from torch.utils.data import DataLoader
 from transformers import AutoTokenizer
-from src.chunking.chunk import Chunk
-from src.labels.categories import CATEGORIES, CATEGORY_TO_INDEX
-from src.labels.loader import AnswerSpan, Contract
-from src.labels.projection import LabeledChunk
-from src.models.encoder.dataset import ChunkCollator, ChunkDataset, build_labeled_chunks
+from clausetriage.chunking.chunk import Chunk
+from clausetriage.labels.categories import CATEGORIES, CATEGORY_TO_INDEX
+from clausetriage.labels.loader import AnswerSpan, Contract
+from clausetriage.labels.projection import LabeledChunk
+from clausetriage.models.encoder.dataset import ChunkCollator, ChunkDataset, build_labeled_chunks
 
 TOKENIZER_NAME = "distilbert/distilroberta-base"
 

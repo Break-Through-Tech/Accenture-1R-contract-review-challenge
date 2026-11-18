@@ -22,20 +22,20 @@ import torch
 from scipy.optimize import linear_sum_assignment
 from transformers import AutoModel, AutoTokenizer
 
-from src.chunking.token_chunker import TOKENIZER_NAME, TOKENIZER_REVISION
-from src.labels.categories import CATEGORIES, CATEGORY_TO_INDEX
-from src.labels.loader import Contract, load_cuad
-from src.labels.splits import split_by_contract
-from src.metrics import compute_aupr, compute_base_metrics
-from src.models.encoder.experiment_utils import (
+from clausetriage.chunking.token_chunker import TOKENIZER_NAME, TOKENIZER_REVISION
+from clausetriage.labels.categories import CATEGORIES, CATEGORY_TO_INDEX
+from clausetriage.labels.loader import Contract, load_cuad
+from clausetriage.labels.splits import split_by_contract
+from clausetriage.metrics import compute_aupr, compute_base_metrics
+from clausetriage.models.encoder.experiment_utils import (
     ROOT, TRAIN_PATH, calibrate_thresholds, digest_contract_ids,
 )
-from src.models.encoder.set_prediction import (
+from clausetriage.models.encoder.set_prediction import (
     ContractSetPredictor, decode_contract_set, map_gold_spans_to_chunks,
     matched_set_loss, span_iou,
 )
-from src.models.naive.word_tfidf import fit_word_char_tfidf, predict_word_char_probabilities
-from src.pipeline import prepare_contracts, to_model_inputs
+from clausetriage.models.naive.word_tfidf import fit_word_char_tfidf, predict_word_char_probabilities
+from clausetriage.pipeline import prepare_contracts, to_model_inputs
 
 
 def _encode_chunk_embeddings(encoder, tokenizer, chunks, device, batch_size, max_length):

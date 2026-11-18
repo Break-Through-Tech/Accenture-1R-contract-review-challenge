@@ -1,6 +1,6 @@
 import pytest
-from src.labels.loader import Contract
-from src.labels.splits import split_by_contract
+from clausetriage.labels.loader import Contract
+from clausetriage.labels.splits import split_by_contract
 
 
 def make_contracts(n: int) -> list[Contract]:

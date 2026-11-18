@@ -3,8 +3,8 @@ import json
 import pytest
 from pydantic import ValidationError
 
-from src.evidence.schema import Evidence
-from src.risk.schema import (
+from clausetriage.evidence.schema import Evidence
+from clausetriage.risk.schema import (
     DEFAULT_WEIGHTS_PATH,
     V1_WEIGHTS_PATH,
     ClauseInput,

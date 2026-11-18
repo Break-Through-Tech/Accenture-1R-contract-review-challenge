@@ -23,22 +23,22 @@ import torch
 from torch.utils.data import DataLoader
 from transformers import AutoModel, AutoTokenizer
 
-from src.chunking.token_chunker import TOKENIZER_NAME, TOKENIZER_REVISION
-from src.labels.categories import CATEGORIES
-from src.labels.loader import load_cuad
-from src.labels.splits import split_by_contract
-from src.metrics import compute_aupr, compute_base_metrics
-from src.models.encoder.category_descriptions import load_category_descriptions
-from src.models.encoder.experiment_utils import (
+from clausetriage.chunking.token_chunker import TOKENIZER_NAME, TOKENIZER_REVISION
+from clausetriage.labels.categories import CATEGORIES
+from clausetriage.labels.loader import load_cuad
+from clausetriage.labels.splits import split_by_contract
+from clausetriage.metrics import compute_aupr, compute_base_metrics
+from clausetriage.models.encoder.category_descriptions import load_category_descriptions
+from clausetriage.models.encoder.experiment_utils import (
     ROOT, TRAIN_PATH, calibrate_thresholds, digest_contract_ids,
 )
-from src.models.naive.retrieval_reranker import (
+from clausetriage.models.naive.retrieval_reranker import (
     PairCrossEncoder, PairDataset, PairExample, build_pair_cross_encoder,
     build_training_pairs, candidate_recall, collate_pairs, dense_candidate_scores,
     retrieve_top_k,
 )
-from src.models.naive.word_tfidf import fit_word_char_tfidf, predict_word_char_probabilities
-from src.pipeline import prepare_contracts, to_model_inputs
+from clausetriage.models.naive.word_tfidf import fit_word_char_tfidf, predict_word_char_probabilities
+from clausetriage.pipeline import prepare_contracts, to_model_inputs
 
 DESCRIPTIONS_PATH = ROOT / "data/cuad/category_descriptions.csv"
 

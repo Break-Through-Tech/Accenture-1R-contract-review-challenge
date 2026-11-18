@@ -16,7 +16,7 @@ build-backend = "setuptools.build_meta"
 [tool.setuptools]
 # Not installable yet: code is imported as `src.<module>` and `scripts.<module>` from the repo root
 # (pytest.ini sets pythonpath = .). Packaging comes with the planned rename to `clausetriage/`. Until
-# then `pip install .` installs no code, instead of scattering src/'s subpackages into site-packages.
+# then `pip install .` installs no code, instead of scattering clausetriage/'s subpackages into site-packages.
 packages = []
 
 [tool.ruff]
@@ -26,7 +26,7 @@ line-length = 120
 # Agent worktrees live under .claude/worktrees/ in the main checkout; .venv, venv, .git and caches
 # are excluded by ruff's defaults.
 extend-exclude = [".claude"]
-# .gitignore's `models/` rule also matches the tracked src/models/, which ruff would then skip.
+# .gitignore's `models/` rule also matches the tracked clausetriage/models/, which ruff would then skip.
 respect-gitignore = false
 
 [tool.ruff.lint]
@@ -56,12 +56,12 @@ extend-immutable-calls = ["gradio.Progress"]
 "scripts/train_long_context.py" = ["F401"]
 "scripts/train_set_prediction.py" = ["F401"]
 "scripts/train_sparse_long_context.py" = ["F841"]
-"src/chunking/token_chunker.py" = ["F401", "F811"]
-"src/inference.py" = ["F401"]
-"src/models/encoder/long_context.py" = ["F401"]
-"src/models/encoder/set_prediction.py" = ["F401"]
-"src/models/encoder/sparse_long_context.py" = ["F401"]
-"src/models/encoder/train.py" = ["B028"]
-"src/store/artifact_store.py" = ["F401"]
+"clausetriage/chunking/token_chunker.py" = ["F401", "F811"]
+"clausetriage/inference.py" = ["F401"]
+"clausetriage/models/encoder/long_context.py" = ["F401"]
+"clausetriage/models/encoder/set_prediction.py" = ["F401"]
+"clausetriage/models/encoder/sparse_long_context.py" = ["F401"]
+"clausetriage/models/encoder/train.py" = ["B028"]
+"clausetriage/store/artifact_store.py" = ["F401"]
 "tests/test_demo_model.py" = ["B028"]
 "tests/test_retrieval_reranker.py" = ["F401"]

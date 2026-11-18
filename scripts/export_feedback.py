@@ -22,9 +22,9 @@ import argparse
 from collections.abc import Sequence
 from pathlib import Path
 
-from src.review.export import build_training_manifest, export_training_examples, write_export
-from src.review.schema import TrainingManifest
-from src.store.artifact_store import ArtifactStore
+from clausetriage.review.export import build_training_manifest, export_training_examples, write_export
+from clausetriage.review.schema import TrainingManifest
+from clausetriage.store.artifact_store import ArtifactStore
 
 ROOT = Path(__file__).resolve().parents[1]
 TRAIN_PATH = ROOT / "data" / "cuad" / "train_separate_questions.json"

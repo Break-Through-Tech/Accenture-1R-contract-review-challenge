@@ -1,9 +1,9 @@
-"""Tests for src/store/rescoring.py: rescoring from the store equals running the pipeline fresh."""
+"""Tests for clausetriage/store/rescoring.py: rescoring from the store equals running the pipeline fresh."""
 import pytest
 
-from src.risk.contract import aggregate_contracts
-from src.risk.scoring import score_contract_clauses
-from src.store.rescoring import rescore_contracts
+from clausetriage.risk.contract import aggregate_contracts
+from clausetriage.risk.scoring import score_contract_clauses
+from clausetriage.store.rescoring import rescore_contracts
 from tests import test_artifact_store as store_tests
 from tests.test_artifact_store import CONTRACTS, MODEL_VERSION, by_key, row_counts, save_all, weights_a, weights_b
 

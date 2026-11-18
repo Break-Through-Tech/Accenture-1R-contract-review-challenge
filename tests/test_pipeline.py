@@ -4,10 +4,10 @@ from pathlib import Path
 import pytest
 from transformers import AutoTokenizer
 
-from src.chunking.token_chunker import TOKENIZER_NAME, TOKENIZER_REVISION
-from src.labels.categories import CATEGORY_TO_INDEX, CATEGORIES
-from src.labels.loader import Contract, AnswerSpan
-from src.pipeline import (
+from clausetriage.chunking.token_chunker import TOKENIZER_NAME, TOKENIZER_REVISION
+from clausetriage.labels.categories import CATEGORY_TO_INDEX, CATEGORIES
+from clausetriage.labels.loader import Contract, AnswerSpan
+from clausetriage.pipeline import (
     prepare_contract,
     prepare_train_val,
     to_model_inputs,

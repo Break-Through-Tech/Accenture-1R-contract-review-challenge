@@ -1,9 +1,9 @@
-"""Tests for src/api/runtime.py and src/api/__main__.py: model version keys, options and the localhost default."""
+"""Tests for clausetriage/api/runtime.py and clausetriage/api/__main__.py: model version keys, options and the localhost default."""
 import pytest
 
-from src.api.__main__ import DEFAULT_HOST, is_loopback, parse_args
-from src.api.runtime import DEFAULT_DATABASE, file_model_version, load_pipeline
-from src.risk.schema import DEFAULT_WEIGHTS_PATH
+from clausetriage.api.__main__ import DEFAULT_HOST, is_loopback, parse_args
+from clausetriage.api.runtime import DEFAULT_DATABASE, file_model_version, load_pipeline
+from clausetriage.risk.schema import DEFAULT_WEIGHTS_PATH
 
 
 # ----- Model version keys -----

@@ -15,8 +15,8 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from src.labels.categories import CATEGORIES
-from src.metrics import compute_aupr
+from clausetriage.labels.categories import CATEGORIES
+from clausetriage.metrics import compute_aupr
 
 ROOT = Path(__file__).resolve().parents[1]
 SUITE_SEEDS = [7, 17, 23, 42]

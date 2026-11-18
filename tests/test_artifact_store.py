@@ -1,4 +1,4 @@
-"""Tests for src/store/artifact_store.py: idempotent writes, immutability, foreign keys and reads."""
+"""Tests for clausetriage/store/artifact_store.py: idempotent writes, immutability, foreign keys and reads."""
 import sqlite3
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -8,16 +8,16 @@ import pytest
 from sqlalchemy import func, select
 from sqlalchemy.exc import IntegrityError
 
-import src.inference as inference
-from src.chunking.chunker import chunk_contract
-from src.inference import ContractInferencePipeline
-from src.labels.categories import CATEGORIES, CATEGORY_TO_INDEX
-from src.registry.bundle import ClauseModelBundle
-from src.risk.schema import WeightSet, load_weight_set
-from src.store import tables
-from src.store.artifact_store import ArtifactStore, chunk_id_for, evidence_id_for
+import clausetriage.inference as inference
+from clausetriage.chunking.chunker import chunk_contract
+from clausetriage.inference import ContractInferencePipeline
+from clausetriage.labels.categories import CATEGORIES, CATEGORY_TO_INDEX
+from clausetriage.registry.bundle import ClauseModelBundle
+from clausetriage.risk.schema import WeightSet, load_weight_set
+from clausetriage.store import tables
+from clausetriage.store.artifact_store import ArtifactStore, chunk_id_for, evidence_id_for
 
-WEIGHTS_V1_PATH = Path(__file__).resolve().parents[1] / "src" / "risk" / "weights" / "default_weights_v1.json"
+WEIGHTS_V1_PATH = Path(__file__).resolve().parents[1] / "clausetriage" / "risk" / "weights" / "default_weights_v1.json"
 MODEL_VERSION = "keyword-model:1"
 THRESHOLDS = {category: 0.5 for category in CATEGORIES}
 

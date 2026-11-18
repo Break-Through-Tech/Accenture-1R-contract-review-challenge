@@ -4,7 +4,7 @@ import joblib
 import pytest
 from sklearn.exceptions import InconsistentVersionWarning
 
-from src.registry.demo_model import fetch_bundle_file, file_sha256, load_or_build_bundle
+from clausetriage.registry.demo_model import fetch_bundle_file, file_sha256, load_or_build_bundle
 
 
 def _warn_like_old_sklearn() -> str:

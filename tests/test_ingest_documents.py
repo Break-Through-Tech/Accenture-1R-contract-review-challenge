@@ -6,8 +6,8 @@ import zipfile
 import pytest
 from pydantic import ValidationError
 
-from src.ingest import documents
-from src.ingest.documents import (DAMAGED_DOCX, DAMAGED_PDF, EMPTY_FILE, LOCKED_DOCX, LOCKED_PDF, PAGE_SEPARATOR,
+from clausetriage.ingest import documents
+from clausetriage.ingest.documents import (DAMAGED_DOCX, DAMAGED_PDF, EMPTY_FILE, LOCKED_DOCX, LOCKED_PDF, PAGE_SEPARATOR,
                                   Document, document_from_bytes, ocr_pages, pasted_document, read_document,
                                   text_sha256)
 from tests.pdf_fixtures import pdf_bytes, write_encrypted_pdf, write_pdf

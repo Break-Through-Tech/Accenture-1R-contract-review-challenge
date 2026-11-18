@@ -1,8 +1,8 @@
 import pytest
 
-from src.risk.contract import _triage_score, aggregate_contracts, sensitivity
-from src.risk.schema import ClauseInput, ClauseScore, WeightSet
-from src.risk.scoring import rate
+from clausetriage.risk.contract import _triage_score, aggregate_contracts, sensitivity
+from clausetriage.risk.schema import ClauseInput, ClauseScore, WeightSet
+from clausetriage.risk.scoring import rate
 
 # Severity is the only weighted signal, so a clause's composite is just its category's severity
 WEIGHTS = WeightSet(

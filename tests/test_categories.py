@@ -2,8 +2,8 @@ from pathlib import Path
 
 import pytest
 
-from src.labels.categories import CATEGORIES, CATEGORY_TO_INDEX
-from src.labels.loader import load_cuad
+from clausetriage.labels.categories import CATEGORIES, CATEGORY_TO_INDEX
+from clausetriage.labels.loader import load_cuad
 
 TRAIN_PATH = Path("data/cuad/train_separate_questions.json")
 

@@ -16,15 +16,15 @@ import numpy as np
 import pandas as pd
 from transformers import AutoTokenizer
 
-from src.chunking.token_chunker import TOKENIZER_NAME, TOKENIZER_REVISION
-from src.labels.categories import CATEGORIES
-from src.labels.loader import Contract, load_cuad
-from src.labels.splits import split_by_contract
-from src.metrics import compute_base_metrics
-from src.models.naive.tfid_baseline import fit_tfidf_baseline
-from src.models.naive.word_tfidf import fit_word_char_tfidf, predict_word_char_probabilities
-from src.pipeline import prepare_contracts, to_model_inputs
-from src.thresholds import apply_thresholds, find_best_thresholds
+from clausetriage.chunking.token_chunker import TOKENIZER_NAME, TOKENIZER_REVISION
+from clausetriage.labels.categories import CATEGORIES
+from clausetriage.labels.loader import Contract, load_cuad
+from clausetriage.labels.splits import split_by_contract
+from clausetriage.metrics import compute_base_metrics
+from clausetriage.models.naive.tfid_baseline import fit_tfidf_baseline
+from clausetriage.models.naive.word_tfidf import fit_word_char_tfidf, predict_word_char_probabilities
+from clausetriage.pipeline import prepare_contracts, to_model_inputs
+from clausetriage.thresholds import apply_thresholds, find_best_thresholds
 
 ROOT = Path(__file__).resolve().parents[1]
 

@@ -5,7 +5,7 @@ contracts of the training file, using the saved scores in
 `results/retrieval_reranker_seed{N}/`. Nothing is retrained and test.json is never read.
 
 The strategy settings (shrinkage prior 10, rare cut-off 10 calibration positives, recall floor
-0.5) are fixed in `src/threshold_strategies.py` before any evaluation score was looked at.
+0.5) are fixed in `clausetriage/threshold_strategies.py` before any evaluation score was looked at.
 These evaluation contracts were already inspected in earlier experiments, so any winner here is
 a candidate for the untouched-holdout gate in docs/upgrade-validation-gate.md, not a final result.
 
@@ -25,9 +25,9 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from src.error_analysis import category_error_table
-from src.labels.categories import CATEGORIES
-from src.threshold_strategies import RARE_SUPPORT, STRATEGIES
+from clausetriage.error_analysis import category_error_table
+from clausetriage.labels.categories import CATEGORIES
+from clausetriage.threshold_strategies import RARE_SUPPORT, STRATEGIES
 
 ROOT = Path(__file__).resolve().parents[1]
 SEEDS = [7, 17, 23, 42, 101]

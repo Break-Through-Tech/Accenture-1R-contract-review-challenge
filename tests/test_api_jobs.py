@@ -1,10 +1,10 @@
-"""Tests for src/api/jobs.py: job status transitions, restart recovery and the schema check."""
+"""Tests for clausetriage/api/jobs.py: job status transitions, restart recovery and the schema check."""
 import sqlite3
 
 import pytest
 from sqlalchemy import create_engine
 
-from src.api.jobs import INTERRUPTED, JobStore
+from clausetriage.api.jobs import INTERRUPTED, JobStore
 
 
 @pytest.fixture
