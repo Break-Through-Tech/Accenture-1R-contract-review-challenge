@@ -1,6 +1,6 @@
 # Final held-out evaluation on `test.json`: pre-registered protocol
 
-**Status: registered, not run.** This page fixes every choice of the one sealed evaluation of the
+**Status: run once on 2026-11-18; results in section 12.** This page fixes every choice of the one sealed evaluation of the
 frozen model on the 102 CUAD test contracts before the test file is opened. The team authorised
 exactly one such evaluation. Nothing on this page may change after the preflight starts, except
 the Results section (section 12), which the run fills in, and dated amendments (section 11).
@@ -270,7 +270,62 @@ Then fill in section 12 from `summary.md` and `report.json` using the sentences 
 
 ## 12. Results
 
-_Not run. Filled in once, after the sealed run._
+Sealed run of 2026-11-18, commit `2ea0619`, one attempt. Outputs are in
+`results/final_test_evaluation/` (`summary.md`, `report.json`, per-category and contract-level CSVs,
+raw probabilities). Intervals are 95% BCa contract-bootstrap intervals (section 2).
+
+**Primary (section 5 sentences)**
+
+- On the 102 test contracts, macro-F1 was 0.539 (95% CI 0.514-0.595), consistent with development:
+  the five development splits ranged from 0.473 to 0.533 (mean 0.504; difference +0.035). The point
+  estimate is above every development split.
+- On the 102 test contracts, macro-AUPR was 0.608 (95% CI 0.567-0.641), consistent with development:
+  the five development splits ranged from 0.531 to 0.597 (mean 0.563; difference +0.044). The point
+  estimate is above every development split.
+
+| Development bucket | Categories | Test mean F1 | Dev mean F1 | Test mean AUPR | Dev mean AUPR |
+|---|---:|---:|---:|---:|---:|
+| Common (30+) | 19 | 0.650 | 0.653 | 0.702 | 0.696 |
+| Uncommon (10-29) | 13 | 0.500 | 0.480 | 0.559 | 0.511 |
+| Rare (<10) | 9 | 0.361 | 0.224 | 0.462 | 0.366 |
+
+Support on test: 35 categories reported; 5 with insufficient support (Joint Ip Ownership,
+Non-Disparagement, Unlimited/All-You-Can-Eat-License, Most Favored Nation, Source Code Escrow);
+1 unscorable (Price Restrictions, no test positives; it counts as F1 0 in macro-F1).
+
+Per-category rule (section 5): of the 35 reported categories, 2 are worse on test than in
+development (Document Name, Effective Date) and 3 are better (Affiliate License-Licensee,
+Affiliate License-Licensor, Non-Compete). With 41 intervals, about two will fall outside by chance.
+
+**Secondary (section 6 wording)**
+
+- S1: Word+char beats the original baseline on test. Word-only macro-F1 0.480 (0.459-0.524) and
+  macro-AUPR 0.524 (0.486-0.559); the paired difference is +0.058 macro-F1 (0.040-0.077) and +0.083
+  macro-AUPR (0.064-0.104). Development: +0.072 mean.
+- S2: Contract-level presence macro-F1 0.678 (0.651-0.736) and macro-AUPR 0.794 (0.751-0.823), over
+  40 categories present in at least one test contract. Development dry run: 0.670 / 0.779.
+- S3: Triage-score Spearman against perfect detection 0.777 (0.648-0.863), largest rank move 64,
+  top-10 overlap 4 over 102 contracts (high-count rule 0.546, worst-clause rule 0.729). This measures
+  how far detection errors move the ranking, not whether it matches a reviewer. Development: 0.777,
+  50, 2 over 82 contracts.
+- S4: Unknown rate 0.230 (462 of 2,013 detected clauses). A grounded quote overlaps a gold answer
+  0.364 of the time overall and 0.583 on correctly detected chunks. Development dry run: 0.192;
+  0.383 / 0.601.
+
+**Preflight:** passed on the first run (`preflight.json`, committed in `2ea0619` before the run).
+The file had 102 contracts with one paragraph each and 41 questions each (every category exactly
+once; question ids without the `_N` suffix). All 2,643 answers were grounded; none were empty or
+duplicated. The git blob equals the pinned one. No titles or texts are shared with any of the 408
+training-file contracts.
+
+**Integrity:** the pinned files, bundle hash, thresholds and partition digests all matched; the
+calibration reproduction was 3.6e-7 (bundle) and 1.4e-11 (word-only); serving parity held on 102
+of 102 contracts.
+
+**Deviations:** none. The run used the registered settings, on one attempt, without
+`--resume-after-crash`. The one change to this protocol, the reading rule, was a dated amendment
+made before the preflight (section 11). The machine was suspended for about nine and a half hours
+during the bootstrap. This lengthened the run but does not affect the seeded results.
 
 ## 13. Disclosures and known limitations, fixed before the run
 

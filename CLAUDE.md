@@ -13,7 +13,7 @@ Guidance for Claude Code in this repo. ARCHITECTURE.md is the source of truth fo
 
 - **Training and evaluation data is CUAD JSON** (`paragraphs[].context`, `qas[].answers[]`). Models are trained and scored on this text only.
 - **Uploaded contracts are in scope.** The advisor requires PDF upload (November 2026), which supersedes the original brief's "do not parse raw PDFs". PDF, Word and pasted text are accepted at inference time.
-- **Fixed splits:** train on `train_separate_questions.json` (408 contracts) and evaluate on `test.json` (102). Never re-split. Take validation out of train, grouped by contract, with a fixed seed. Touch `test.json` only for final evaluation.
+- **Fixed splits:** train on `train_separate_questions.json` (408 contracts) and evaluate on `test.json` (102). Never re-split. Take validation out of train, grouped by contract, with a fixed seed. Touch `test.json` only for final evaluation; that evaluation has been run (once, 2026-11-18), and `scripts/evaluate_final_test.py` refuses to run it again.
 - **`data/cuad/CUADv1.json` and `data/cuad/cuad-v1.zip` contain the test contracts.** Treat them like `test.json`: never load them for training, validation, manifests or demos.
 - **One text source, one chunker:** chunk the original `context` string unaltered so character offsets stay exact. If you normalize, keep an offset map back to the original text. For an uploaded file, the one text source is the text extracted from it: offsets, evidence and page numbers all refer to that string.
 
@@ -81,12 +81,13 @@ Guidance for Claude Code in this repo. ARCHITECTURE.md is the source of truth fo
 
 # Current Status of Project
 
-Status as of 2026-11-17, including the Wave 2 serving branches. The docs index in `docs/README.md` links every guide.
+Status as of 2026-11-18, including the Wave 2 serving branches and the sealed final evaluation. The docs index in `docs/README.md` links every guide.
 
 **Done**
-- Data and labels: CUAD loader, any-overlap label projection, grouped contract splits. Experiments use train/calibration/evaluation contract partitions of the training file; `test.json` has never been read.
+- Data and labels: CUAD loader, any-overlap label projection, grouped contract splits. Experiments use train/calibration/evaluation contract partitions of the training file; `test.json` was read only by the sealed final evaluation.
 - Chunking: the sentence-window chunker contains 98.8% of annotated spans on the development contracts (`docs/chunking-experiments.md`).
-- Baseline: word+char TF-IDF, mean macro-F1 0.505 and macro-AUPR 0.563 over five seeded splits (0.533 / 0.597 on seed 42). Released as the bundle `model-word-char-tfidf-v1`.
+- Baseline: word+char TF-IDF, mean macro-F1 0.504 and macro-AUPR 0.563 over five seeded splits (0.533 / 0.597 on seed 42), from the nested runs' own saved thresholds. The 0.505 quoted earlier came from the reranker analysis, which re-fitted thresholds for seeds 17 and 101. Released as the bundle `model-word-char-tfidf-v1`.
+- Sealed final evaluation on the 102 `test.json` contracts (`docs/final-test-evaluation.md`, `results/final_test_evaluation/`), pre-registered and run once on 2026-11-18. The frozen bundle scored macro-F1 0.539 (95% BCa CI 0.514-0.595) and macro-AUPR 0.608 (0.567-0.641). Both are consistent with the five development splits (0.473-0.533 and 0.531-0.597). It beats the original word-only baseline by +0.058 macro-F1 (0.040-0.077). Contract-level presence macro-F1 is 0.678; triage Spearman against perfect detection is 0.777; the Unknown rate is 0.230.
 - Alternatives screened against it: retrieval reranker, contract-wide Transformer, category-query, graph, contrastive, set prediction and sparse long context. None robustly beats TF-IDF; the reranker's +0.016 mean macro-F1 has bootstrap intervals that include zero.
 - Error analysis and threshold-strategy study (`docs/error-analysis.md`, `docs/threshold-robustness.md`).
 - Model registry: `ClauseModelBundle` plus MLflow on SQLite.
@@ -109,11 +110,10 @@ Status as of 2026-11-17, including the Wave 2 serving branches. The docs index i
 - The API has no authentication, no time limit on parsing or scoring, and has not been load-tested. Run it on localhost only.
 - On real contracts the review queue is dominated by `no_cue_match` Unknowns, a symptom of the weak evidence heuristic.
 - No Docker or license. `pyproject.toml` still has per-file lint suppressions to clear.
-- The final `test.json` evaluation has not been run, and there is no final report.
+- There is no final report yet.
 - Evidence heuristic is weak: about 55% of grounded quotes overlap a gold answer, and a false-positive prediction still gets a plausible quote.
 - Rare categories (under 10 evaluation positives) swing 0.3 to 0.4 F1 between seeds; report them with intervals or as insufficient support.
 - PDF extraction rarely reproduces CUAD text verbatim (7 of 60 gold spans on the sample PDF, 60 of 60 ignoring whitespace and curly quotes). Grounding against the extracted text is unaffected. The OCR path is tested with mocks only.
 
 **Next**
-- Freeze the model (word+char TF-IDF) and make one sealed `test.json` evaluation.
 - Final report, license, Docker, and the `src` to `clausetriage` package rename.
