@@ -1,6 +1,6 @@
 """Tests for src/store/artifact_store.py: idempotent writes, immutability, foreign keys and reads."""
 import sqlite3
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 import numpy as np
@@ -415,6 +415,67 @@ def test_add_feedback_invalid_input_raises(store, make_pipeline, changes, error)
                   verdict="reject", reviewer="ana")
     with pytest.raises(error):
         store.add_feedback(**{**values, **changes})
+
+
+@pytest.mark.parametrize("chunk_id,category,verdict,match", [
+    ("c-1:2", "Insurance", "accept", "needs a prediction"),
+    ("c-1:2", "Insurance", "reject", "needs a prediction"),
+    ("c-1:3", "Insurance", "missing", "predicted"),
+    ("c-empty:0", "Insurance", "missing", "unknown chunk"),
+])
+def test_add_feedback_verdict_must_fit_the_prediction(store, make_pipeline, chunk_id, category, verdict, match):
+    """Called directly, the store still refuses accept/reject without a detection and missing on one."""
+    save_all(store, make_pipeline, weights_a())
+    with pytest.raises((ValueError, KeyError), match=match):
+        store.add_feedback(chunk_id=chunk_id, category=category, model_version=MODEL_VERSION, verdict=verdict,
+                           reviewer="ana")
+    assert store.list_feedback() == []
+
+
+def test_add_feedback_on_chunk_not_run_under_model_raises(store, make_pipeline):
+    """A chunk with no probabilities under the given model version can't take any verdict."""
+    save_all(store, make_pipeline, weights_a())
+    with pytest.raises(ValueError, match="no stored predictions"):
+        store.add_feedback(chunk_id="c-1:3", category="Insurance", model_version="other-model:1",
+                           verdict="missing", reviewer="ana")
+
+
+def test_add_feedback_timestamp_is_utc_and_never_goes_back(store, make_pipeline):
+    """12:00+01:00 reads back as 11:00 UTC; ana's next verdict on the key can't be earlier, ben's can."""
+    save_all(store, make_pipeline, weights_a())
+    plus_one = timezone(timedelta(hours=1))
+    first = store.add_feedback(chunk_id="c-1:3", category="Insurance", model_version=MODEL_VERSION,
+                               verdict="accept", reviewer="ana", timestamp=datetime(2026, 11, 1, 12, tzinfo=plus_one))
+    (listed,) = store.list_feedback()
+    assert first.timestamp == listed.timestamp == datetime(2026, 11, 1, 11, tzinfo=timezone.utc)
+    with pytest.raises(ValueError, match="earlier"):
+        store.add_feedback(chunk_id="c-1:3", category="Insurance", model_version=MODEL_VERSION, verdict="reject",
+                           reviewer="ana", timestamp=datetime(2026, 11, 1, 10, 59, tzinfo=timezone.utc))
+    store.add_feedback(chunk_id="c-1:3", category="Insurance", model_version=MODEL_VERSION, verdict="reject",
+                       reviewer="ben", timestamp=datetime(2026, 11, 1, 10, 59, tzinfo=timezone.utc))
+
+
+def test_get_detection_and_get_chunk(store, make_pipeline):
+    """c-1:0 Governing Law is grounded, c-1:3 Insurance unknown, c-1:0's dropped Termination none."""
+    save_all(store, make_pipeline, weights_a())
+    assert [store.get_detection(chunk, category, MODEL_VERSION) for chunk, category in [
+        ("c-1:0", "Governing Law"), ("c-1:3", "Insurance"), ("c-1:0", "Termination For Convenience")]] == \
+        ["grounded", "unknown", None]
+    chunk = store.get_chunk("c-1:3")
+    assert (chunk.contract_id, chunk.chunk_index, chunk.start, chunk.end) == ("c-1", 3, 120, 167)
+    with pytest.raises(KeyError):
+        store.get_chunk("c-1:9")
+
+
+def test_list_feedback_filters_by_chunk_and_category(store, make_pipeline):
+    """chunk_id and category narrow the log to one key."""
+    save_all(store, make_pipeline, weights_a())
+    store.add_feedback(chunk_id="c-1:3", category="Insurance", model_version=MODEL_VERSION, verdict="accept",
+                       reviewer="ana")
+    store.add_feedback(chunk_id="c-1:0", category="Governing Law", model_version=MODEL_VERSION, verdict="accept",
+                       reviewer="ana")
+    assert [f.category for f in store.list_feedback(chunk_id="c-1:0")] == ["Governing Law"]
+    assert [f.chunk_id for f in store.list_feedback(category="Insurance")] == ["c-1:3"]
 
 
 # ----- Advisor rankings -----
