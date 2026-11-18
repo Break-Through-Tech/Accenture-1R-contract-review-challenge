@@ -166,7 +166,40 @@ run evaluates the 82 seed-42 development-evaluation contracts, written as CUAD J
 by `--write-development-holdout` (git-ignored, under `outputs/`). Results are in
 `results/final_test_dry_run/`.
 
-_Filled in by the dry run; see below._
+The dry run ran on 2026-11-18 at commit `20f7a1c` with a clean tree, 10,000 replicates and the
+registered seed. (An earlier dry run at `c931157` used percentile intervals. It was discarded when the
+interval method changed, see section 3; its point estimates were identical.)
+
+**The pipeline reproduces the saved development run exactly**
+
+| Check | Result |
+|---|---|
+| Labels of the 2,196 chunks vs. saved `word_char_tfidf_evaluation.npz` | identical |
+| Bundle probabilities vs. saved run | max difference 4.8e-7 (float32); 0 threshold decisions changed |
+| Macro-F1 / macro-AUPR vs. saved seed-42 run | 0.533067 / 0.597120, equal to the saved values to every digit |
+| Word-only refit vs. saved run | max difference 1.9e-11; 0 decisions changed; macro-F1 0.476024, macro-AUPR 0.507549 (equal) |
+| Triage vs. `results/contract_triage/report.json` | Spearman 0.7768, largest move 50, top-10 overlap 2 (identical, and identical for the high-count and worst-clause rules) |
+| Pre-data calibration check | bundle 3.6e-7 (0 decisions changed); word-only 1.4e-11 (13 of 77,859 decisions changed, all on calibration chunks whose probability *is* the threshold, so a 1e-11 shift flips them) |
+| Serving parity | 82 of 82 contracts identical through `ContractInferencePipeline` |
+| Gold spans inside one chunk | 1,994 of 2,005 (99.5%) |
+
+**Development values for the secondary analyses** (seed-42 development contracts; these are the
+references that test values are shown next to)
+
+| | Development dry run (82 contracts) |
+|---|---|
+| Primary macro-F1 | 0.533 [0.505, 0.569]; reading "higher than development" (seed 42 was the best of the five splits) |
+| Primary macro-AUPR | 0.597 [0.546, 0.617]; reading "consistent" |
+| S1 word-only macro-F1 / macro-AUPR | 0.476 [0.449, 0.508] / 0.508 [0.464, 0.526] |
+| S1 word+char minus word-only | macro-F1 +0.057 [0.033, 0.083]; macro-AUPR +0.090 [0.067, 0.114] |
+| S2 contract-level macro-F1 / macro-AUPR | 0.670 [0.641, 0.709] / 0.779 [0.726, 0.804] |
+| S3 triage Spearman / largest move / top-10 overlap | 0.777 [0.652, 0.862] / 50 / 2 |
+| S4 Unknown rate; grounded quote overlaps gold (all / correct chunks) | 0.192 (293 of 1,529); 0.383 / 0.601 |
+| Per-category rule (dev mean outside the interval) | 0 of 32 reported categories |
+
+On this machine, chunking took 19 s, bundle prediction 4.8 s, the serving-parity pass 25 s, and the
+bootstrap with the jackknife 15 minutes. The whole run, including the pre-data checks, took about
+18 minutes.
 
 ## 10. Guarding the run, failures and re-runs
 
