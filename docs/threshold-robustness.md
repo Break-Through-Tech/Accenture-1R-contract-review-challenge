@@ -19,7 +19,7 @@ inspected evaluation contracts, so it is a candidate for the holdout gate, not a
 - Every strategy is fit on **calibration contracts only** and scored on the held-out evaluation contracts of the CUAD training file. `data/cuad/test.json` was not read.
 - The settings were fixed in `clausetriage/threshold_strategies.py` before any evaluation score was computed: shrinkage prior 10, rare cut-off of 10 calibration positives, recall floor 0.5. None were tuned.
 - The current method reproduces the saved `thresholds.json` exactly (maximum difference 0.0 across 5 seeds and both models).
-- Rare / uncommon / common buckets here use **calibration** positives (<10, 10–29, 30+), since that is what each strategy reacts to. That differs from the error analysis, which bucketed by evaluation support.
+- Rare / uncommon / common buckets here use **calibration** positives (<10, 10 to 29, 30+), since that is what each strategy reacts to. That differs from the error analysis, which bucketed by evaluation support.
 - These evaluation contracts were already used to compare models, so picking a strategy on them is a form of selection. A winner still has to pass [upgrade-validation-gate.md](upgrade-validation-gate.md).
 
 ## Strategies
@@ -36,14 +36,14 @@ inspected evaluation contracts, so it is a candidate for the holdout gate, not a
 
 | Model | Strategy | Macro-F1 | Δ vs. current | Δ rare F1 | Δ common F1 | Seeds beating current | Worst seed Δ |
 |---|---|---:|---:|---:|---:|---:|---:|
-| TF-IDF | current | **0.505** | — | — | — | — | — |
+| TF-IDF | current | **0.505** | n/a | n/a | n/a | n/a | n/a |
 | TF-IDF | recall_floor | 0.500 | −0.004 | −0.016 | −0.001 | 2 / 5 | −0.015 |
 | TF-IDF | shrunk | 0.493 | −0.011 | −0.082 | +0.005 | 0 / 5 | −0.016 |
 | TF-IDF | rare_fallback | 0.487 | −0.017 | −0.096 | 0.000 | 2 / 5 | −0.042 |
 | TF-IDF | global | 0.478 | −0.027 | −0.096 | +0.004 | 0 / 5 | −0.064 |
 | Reranker | shrunk | **0.529** | **+0.009** | **+0.042** | +0.001 | **5 / 5** | +0.002 |
 | Reranker | rare_fallback | 0.525 | +0.004 | +0.024 | 0.000 | 4 / 5 | −0.002 |
-| Reranker | current | 0.520 | — | — | — | — | — |
+| Reranker | current | 0.520 | n/a | n/a | n/a | n/a | n/a |
 | Reranker | recall_floor | 0.518 | −0.002 | +0.005 | 0.000 | 3 / 5 | −0.022 |
 | Reranker | global | 0.509 | −0.012 | +0.024 | −0.022 | 1 / 5 | −0.028 |
 
@@ -64,7 +64,7 @@ removes misses. For example, TF-IDF No-Solicit of Customers precision drops to 7
 
 The 0.20 "threshold gap" for rare categories was measured against a cutoff chosen on the
 evaluation contracts themselves, so it is an optimistic ceiling. These results suggest that for
-TF-IDF most of it is not recoverable from 4–9 calibration positives with a simple rule. The noise
+TF-IDF most of it is not recoverable from 4 to 9 calibration positives with a simple rule. The noise
 is in the data, not in the method.
 
 ## Recommendation

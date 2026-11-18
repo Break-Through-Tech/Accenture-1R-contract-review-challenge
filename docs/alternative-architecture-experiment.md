@@ -5,7 +5,7 @@
 The original sparse baseline represents chunks with word-level unigrams and bigrams.
 Contract language contains lexical variants, inflections, punctuation-heavy references,
 and related forms that may be poorly matched by exact word features. This experiment
-adds a `char_wb` TF-IDF channel (3–5 character n-grams), concatenated with word TF-IDF
+adds a `char_wb` TF-IDF channel (3 to 5 character n-grams), concatenated with word TF-IDF
 and trained with the same one-vs-rest balanced logistic regression, to test whether
 clause recall and macro F1 improve without transformer training or inference cost.
 
