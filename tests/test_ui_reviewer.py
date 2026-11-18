@@ -230,6 +230,16 @@ def test_contract_downloads_are_the_api_registers_byte_for_byte(page, service, a
                 assert handle.read() == client.get(f"/contracts/{alpha}/register.{suffix}").content
 
 
+def test_contract_downloads_are_enabled_and_disabled_but_never_hidden(page, alpha_beta):
+    """The download buttons toggle `interactive` and never `visible`: showing both at once hangs Gradio 6.17.3."""
+    alpha, _ = alpha_beta
+    shown = page.contract_view(alpha, None, False)[3:5]
+    empty = page.contract_view(None, None, False)[3:5]
+    assert [download["interactive"] for download in shown] == [True, True]
+    assert [(download["value"], download["interactive"]) for download in empty] == [(None, False), (None, False)]
+    assert all("visible" not in download for download in (*shown, *empty))
+
+
 def test_contract_view_under_another_weight_version_names_it(page, service, alpha_beta):
     """Switching the version shown rescores from the store and the headline says which version."""
     service.create_weights(weights_b())

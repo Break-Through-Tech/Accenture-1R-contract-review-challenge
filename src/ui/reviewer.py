@@ -217,7 +217,7 @@ class ReviewerPage:
     def _empty_contract(self, message: str = "") -> tuple:
         """The contract outputs with nothing selected."""
         return (message, pd.DataFrame(columns=CLAUSE_COLUMNS), gr.HighlightedText(value=[]),
-                gr.update(value=None, visible=False), gr.update(value=None, visible=False),
+                gr.update(value=None, interactive=False), gr.update(value=None, interactive=False),
                 gr.update(choices=[], value=None), {}, "", pd.DataFrame(columns=FEEDBACK_COLUMNS))
 
     @staticmethod
@@ -251,8 +251,8 @@ class ReviewerPage:
         choices, views = detection_choices(detail)
         first = choices[0][1] if choices else None
         return (detail_summary(detail, self.disclaimer()), clause_table(item, show_harmless),
-                gr.HighlightedText(value=segments, color_map=colors), gr.update(value=csv_path, visible=True),
-                gr.update(value=json_path, visible=True), gr.update(choices=choices, value=first), views,
+                gr.HighlightedText(value=segments, color_map=colors), gr.update(value=csv_path, interactive=True),
+                gr.update(value=json_path, interactive=True), gr.update(choices=choices, value=first), views,
                 views.get(first, "*This contract has no detected clauses to give a verdict on.*"),
                 feedback_table(feedback))
 
@@ -541,8 +541,11 @@ def build_reviewer_app(service: ClauseTriageService, run_job: Callable[[str], An
                                                 scale=1)
                 summary = gr.Markdown()
                 with gr.Row():
-                    csv_download = gr.DownloadButton("Clause register (CSV)", visible=False)
-                    json_download = gr.DownloadButton("Clause register (JSON)", visible=False)
+                    # Always rendered and enabled only once a contract is shown. Hiding both and then
+                    # showing them in one update hangs the browser in Gradio 6.17.3: a Row whose
+                    # children all start hidden never finishes rendering when several appear together.
+                    csv_download = gr.DownloadButton("Clause register (CSV)", interactive=False)
+                    json_download = gr.DownloadButton("Clause register (JSON)", interactive=False)
                 clauses = gr.Dataframe(headers=CLAUSE_COLUMNS, label="Risky clauses (worst per type)", wrap=True,
                                        interactive=False)
                 text = gr.HighlightedText(label="Contract text with detected clauses highlighted", combine_adjacent=False)
