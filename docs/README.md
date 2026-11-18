@@ -22,13 +22,14 @@ Guides for the pipeline stages and the reproducible experiments:
 | Hungarian-matched span set prediction | [Set prediction](set-prediction-architecture.md) | `results/set_prediction_seed42/` |
 | Local/global sparse long context | [Sparse long context](sparse-long-context-architecture.md) | `results/sparse_long_context_seed42/` |
 | Chunking experiments | [Chunking evaluation](chunking-experiments.md) | `results/token_chunking_development/`, `results/token_chunking_comparison/` |
-| Risk weights (`v2-team-proposed`) | [Risk weights v2](risk-weights-v2.md) | `src/risk/weights/default_weights_v2.json`, `results/contract_triage/` |
+| Risk weights (`v2-team-proposed`) | [Risk weights v2](risk-weights-v2.md) | `clausetriage/risk/weights/default_weights_v2.json`, `results/contract_triage/` |
 | Uploaded contracts (PDF, Word, text) | [Document ingestion](document-ingestion.md) | `python -m scripts.evaluate_pdf_ingestion` |
 | Clause register (CSV and JSON) | [Clause register](clause-register.md) | `outputs/registers/` (git-ignored; `python -m scripts.export_registers`) |
-| FastAPI server (`python -m src.api`) | [API](api.md) | `outputs/api/clausetriage.sqlite` (git-ignored); local only, no authentication |
+| FastAPI server (`python -m clausetriage.api`) | [API](api.md) | `outputs/api/clausetriage.sqlite` (git-ignored); local only, no authentication |
 | Review queue, feedback and training export | [Feedback and the review queue](feedback-review-queue.md) | `outputs/feedback_export/` (git-ignored; `python -m scripts.export_feedback`) |
 | Reviewer page at `/ui/` | [Reviewer UI](reviewer-ui.md) | Loads in headless Chrome; not yet used by a real reviewer |
 | Setup, tests, lint and CI | [Development](development.md) | |
+| Running the server in Docker | [Docker](docker.md) | `Dockerfile`, `compose.yaml`; port published on 127.0.0.1 only |
 
 All candidate and development metrics use contract-level splits of the training file. The one
 exception is the sealed final evaluation, which read `data/cuad/test.json` once, under a

@@ -1,6 +1,6 @@
 # Additional architecture experiments
 
-`src/models/naive/` now contains three alternatives to word+character TF-IDF:
+`clausetriage/models/naive/` now contains three alternatives to word+character TF-IDF:
 
 1. **Neighbor-context TF-IDF** augments each center chunk with its previous and next
    chunk text while retaining center-chunk labels.

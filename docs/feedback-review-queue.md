@@ -1,6 +1,6 @@
 # Feedback and the review queue
 
-`src/review/` is the human-in-the-loop layer on top of the artifact store. It turns
+`clausetriage/review/` is the human-in-the-loop layer on top of the artifact store. It turns
 Unknown predictions into a queue a reviewer can work through, validates and records
 reviewer verdicts, resolves repeated and conflicting verdicts, and exports resolved
 feedback as labelled training examples without leaking held-out contracts into
@@ -141,7 +141,7 @@ examples are partial labels. `to_partial_label_matrix(examples)` returns
 `(chunk_ids, texts, labels, mask)`:
 
 - `texts` and `labels` (int8, `(chunks, 41)`) have the same shape as
-  `src.pipeline.to_model_inputs`;
+  `clausetriage.pipeline.to_model_inputs`;
 - `mask` marks the labels feedback actually gave.
 
 The other 40 entries of a row are unknown, not negative, so a loss must ignore them
@@ -177,7 +177,7 @@ uses an allowlist, not a blocklist.
   covers the validation contracts, any upload, and any contract from `test.json`,
   since none of their texts are in the training partition of the training file.
 - **Name check.** `build_training_manifest` refuses files named `test.json` or
-  `CUADv1.json` (which contains the test contracts). Nothing in `src/review/` or the
+  `CUADv1.json` (which contains the test contracts). Nothing in `clausetriage/review/` or the
   CLI reads either file.
 - **Recorded provenance.** Every export records the manifest's source file, its
   SHA-256, the split method, seed and fraction, and the manifest's own SHA-256. Every

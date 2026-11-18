@@ -77,7 +77,7 @@ MLflow registry).
 
 **Hugging Face cache and offline mode.** The encoder path (`evaluate_encoder_nested`, `train`,
 `smoke_train`) no longer hard-codes `.venv/hf-cache`. Settings come from
-`src/models/encoder/hub.py`, in this order: command-line flag, environment variable, default.
+`clausetriage/models/encoder/hub.py`, in this order: command-line flag, environment variable, default.
 
 | Setting | Flag | Environment variable | Default |
 |---|---|---|---|
