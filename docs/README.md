@@ -16,6 +16,7 @@ Guides for the pipeline stages and the reproducible experiments:
 | Error analysis (TF-IDF vs. reranker) | [Error analysis](error-analysis.md) | `results/error_analysis/` (also documents the per-category AUPR fix) |
 | Threshold strategies (rare categories) | [Threshold robustness](threshold-robustness.md) | `results/threshold_robustness/` (exploratory; reused evaluation contracts) |
 | Confirmation gate | [Upgrade validation protocol](upgrade-validation-gate.md) | Team data-source and success-criteria decision needed |
+| Final `test.json` evaluation (pre-registered, one run) | [Final test evaluation](final-test-evaluation.md) | `results/final_test_dry_run/` (development dry run); `results/final_test_evaluation/` (not yet run) |
 | Contract graph neural network | [Graph architecture](contract-graph-architecture.md) | `results/contract_graph_seed42/` |
 | Supervised contrastive prototypes | [Contrastive architecture](contrastive-architecture.md) | `results/contrastive_seed42/` |
 | Hungarian-matched span set prediction | [Set prediction](set-prediction-architecture.md) | `results/set_prediction_seed42/` |
