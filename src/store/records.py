@@ -16,7 +16,6 @@ from src.risk.contract import ContractScore
 from src.risk.schema import ClauseScore
 
 Verdict = Literal["accept", "reject", "missing"]
-Bucket = Literal["Low", "Medium", "High"]
 UnknownReason = Literal["no_cue_match", "span_mismatch"]
 # How a model version reported a (chunk, category): with stored evidence, or as an Unknown
 DetectionKind = Literal["grounded", "unknown"]
@@ -110,21 +109,6 @@ class FeedbackRecord(BaseModel):
     reviewer: str
     timestamp: datetime
     note: str | None = None
-
-
-class AdvisorRankingRecord(BaseModel):
-    """One advisor-ranked clause span; advisor_rank 1 is the riskiest."""
-    id: int
-    contract_id: str
-    category: str
-    start: int
-    end: int
-    quote: str
-    advisor_rank: int | None = None
-    advisor_bucket: Bucket | None = None
-    reviewer: str
-    ranking_set: str
-    timestamp: datetime
 
 
 class ContractDetail(BaseModel):

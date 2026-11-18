@@ -178,7 +178,7 @@ def test_new_weight_set_changes_rating_only_via_weights():
     assert score_clause(_clause(), contract, v2).rating == "Medium"
 
 
-@pytest.mark.parametrize("version", ["test-v1", "advisor-2026-11-01"])
+@pytest.mark.parametrize("version", ["test-v1", "team-2026-11-01"])
 def test_every_score_records_weight_version_id(version):
     """Every ClauseScore carries the weight_version_id it was scored with."""
     ws = WEIGHTS.model_copy(update={"weight_version_id": version})

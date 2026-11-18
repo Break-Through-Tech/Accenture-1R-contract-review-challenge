@@ -12,7 +12,7 @@ Run from the repo root (the model downloads from the GitHub Release on first run
     python -m src.ui.app --registry-version latest       # use the local MLflow registry instead
     python -m src.ui.app --bundle path/to/bundle.joblib   # use a specific bundle file (trusted files only)
 
-PROTOTYPE: scores use the team-proposed v2 weights, which the advisor has not reviewed; they are not a
+PROTOTYPE: scores use the team's v2 weights, which no legal expert has validated; they are not a
 real risk assessment.
 """
 import argparse
@@ -35,7 +35,7 @@ from src.ui.report import (CLAUSE_COLUMNS, CONTRACT_COLUMNS, ScoredContract, cla
 DEMO_DIR = Path(__file__).resolve().parents[2] / "data" / "demo_contracts"
 MAX_FILE_SIZE = "25mb"
 RATING_COLORS = {"High": "#e5484d", "Medium": "#f5a524", "Low": "#46a758"}
-DISCLAIMER = "> Research prototype with team-proposed weights the advisor has not reviewed: not legal advice or a real risk assessment."
+DISCLAIMER = "> Research prototype with team-set weights that no legal expert has validated: not legal advice or a real risk assessment."
 
 
 def score_documents(pipeline: ContractInferencePipeline, documents: list[Document],

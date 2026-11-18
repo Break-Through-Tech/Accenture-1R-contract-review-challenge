@@ -5,7 +5,8 @@ Guidance for Claude Code in this repo. ARCHITECTURE.md is the source of truth fo
 ## Project
 
 - **ClauseTriage**: Break Through Tech AI Studio × Accenture (Fall 2026). It detects the 41 CUAD clause categories, scores each clause Low/Medium/High risk, and rolls the scores up into a contract-level triage score.
-- **Success:** per-category P/R/F1 clearly beats the TF-IDF baseline. Risk rankings get a strong Spearman correlation and bucket agreement against the advisor's hand-ranked clauses.
+- **Success:** per-category P/R/F1 clearly beats the TF-IDF baseline. For risk rankings the brief asks for Spearman and bucket agreement against hand-ranked clauses; the team decided (2026-11-17) not to collect hand rankings, so the risk layer is judged by its sensitivity analysis and its ranking stability against a perfect-detection reference, and the missing human validation is reported as a limitation.
+- **Decisions are the team's.** The challenge advisor has limited input on the project. Do not gate work on advisor review, sign-off or rankings, and do not describe weights or results as pending advisor review.
 - **Deliverables:** a clause register for each contract, a clean documented repo, and a final report (limitations, estimated reviewer time saved).
 
 ## Hard Constraints
@@ -25,9 +26,9 @@ Guidance for Claude Code in this repo. ARCHITECTURE.md is the source of truth fo
   - `models/naive/`: TF-IDF baselines (`word_tfidf.py` is the word+char control) and the retrieval reranker. `models/encoder/`: DistilRoBERTa training, prediction and the alternative architectures.
   - `ingest/`: `Document` model and the hardened PDF, Word and text readers for uploaded contracts.
   - `registry/`: `ClauseModelBundle`, the MLflow registry and the release-hosted demo model.
-  - `store/`: the SQLite artifact store (`save_inference_result`, Unknowns, feedback and advisor-ranking tables) and `rescore_contracts`, which rescores from cached probabilities.
+  - `store/`: the SQLite artifact store (`save_inference_result`, Unknowns and feedback tables) and `rescore_contracts`, which rescores from cached probabilities.
   - `evidence/`: `Evidence` schema, category cues, grounded extraction with an Unknown queue.
-  - `risk/`: weight sets (`weights/*.json`, default `v2-team-proposed`), the four signals, clause scoring, contract triage, sensitivity and advisor agreement (`agreement.py`).
+  - `risk/`: weight sets (`weights/*.json`, default `v2-team-proposed`), the four signals, clause scoring, contract triage and sensitivity.
   - `register/`: `ContractRegister` schema and the CSV and JSON clause-register export.
   - `api/`: the FastAPI serving layer (`python -m src.api`, localhost only). `service.py` holds `ClauseTriageService`, the plain-Python layer the routers and the reviewer page both call. `jobs.py` is the scoring-job status table and `routers/` holds thin handlers; add a router through `create_app(routers=[...])`.
   - `review/`: the review queue (Unknowns and reviewer conflicts), verdict resolution and the leakage-safe training export.
@@ -55,7 +56,7 @@ Guidance for Claude Code in this repo. ARCHITECTURE.md is the source of truth fo
 ## Design Rules
 
 - **Evidence must be grounded:** `text[start:end] == quote`. Evidence that fails validation goes to the Unknown queue and is never guessed.
-- **Risk scoring is rule-based,** with weights in a versioned config owned by the advisor. Every score records its `weight_version_id`, and edits create a new version.
+- **Risk scoring is rule-based,** with weights in a versioned config owned by the team. Every score records its `weight_version_id`, and edits create a new version.
 - **Clients go through the service.** The reviewer page and the routers call `ClauseTriageService` (or HTTP) and never `ArtifactStore` directly. The API has no authentication, so it binds to 127.0.0.1 only.
 - **Feedback verdicts:** `accept` and `reject` need a model detection (`reject` also answers a reviewer's claimed miss); `missing` needs none. History is append-only. Reviewers who disagree are a conflict, which is reported and excluded from export, never settled by majority.
 - **Feedback export is allowlist-only:** a contract's feedback is exported only if its exact-text SHA-256 is in a `TrainingManifest`'s training set (default: the training partition of `train_separate_questions.json`, seed 42, fraction 0.2). Uploads and held-out contracts are excluded.
@@ -90,12 +91,11 @@ Status as of 2026-11-17, including the Wave 2 serving branches. The docs index i
 - Error analysis and threshold-strategy study (`docs/error-analysis.md`, `docs/threshold-robustness.md`).
 - Model registry: `ClauseModelBundle` plus MLflow on SQLite.
 - Evidence extraction with span validation and an Unknown queue.
-- Risk layer: four signals (`category_severity`, `one_sidedness`, `magnitude`, `contract_context`), versioned weight sets, clause scoring, contract triage score and sensitivity analysis (`scripts/evaluate_triage.py`). The default weight set is `v2-team-proposed`, which names a severity tier for all 41 categories (`docs/risk-weights-v2.md`). It is the team's proposal and the advisor has not reviewed it.
+- Risk layer: four signals (`category_severity`, `one_sidedness`, `magnitude`, `contract_context`), versioned weight sets, clause scoring, contract triage score and sensitivity analysis (`scripts/evaluate_triage.py`). The default weight set is `v2-team-proposed`, which names a severity tier for all 41 categories (`docs/risk-weights-v2.md`). The team set it; it has not been validated by a legal expert.
 - Document ingestion: PDF, Word and text readers with size, page and text limits (`docs/document-ingestion.md`).
 - Clause register: core schema with CSV and JSON export, and a batch export for the development contracts (`docs/clause-register.md`).
-- Artifact store: persists inference results, Unknowns, scores and weight versions, with `feedback` and `advisor_rankings` tables and rescoring from cached probabilities.
-- Advisor agreement: blind ranking packet builder and the agreement evaluation (Spearman, bucket agreement, threshold sweep), ready for when rankings arrive (`docs/advisor-agreement.md`).
-- Encoder comparison: resumable five-seed runner, Colab notebook and a predeclared verdict rule (`docs/encoder-comparison.md`).
+- Artifact store: persists inference results, Unknowns, scores and weight versions, with a `feedback` table and rescoring from cached probabilities.
+- Encoder comparison: resumable five-seed runner, Colab notebook and a predeclared verdict rule (`docs/encoder-comparison.md`). Run on a Colab T4 on 2026-11-17 with verdict `does_not_beat` (`results/encoder_vs_tfidf/`).
 - End-to-end inference and the Gradio quick demo: upload PDF, Word or text, rank contracts, show risky clauses with page numbers and quotes, download a CSV clause register.
 - FastAPI backend (`docs/api.md`): background scoring with persisted job status, ranked reads, contract detail, `register.csv` and `register.json`, immutable weight versions rescored from cached probabilities, preview without saving, and review and feedback endpoints.
 - Human in the loop (`docs/feedback-review-queue.md`): review queue, validated verdicts with conflict handling, and a deterministic leakage-safe training export.
@@ -103,8 +103,8 @@ Status as of 2026-11-17, including the Wave 2 serving branches. The docs index i
 - Tooling: layered pinned requirements, ruff (check only) and GitHub Actions CI.
 
 **Gaps against ARCHITECTURE.md**
-- The DistilRoBERTa five-seed run has not been executed (it needs a Colab GPU), so the "encoder beats baseline" criterion is unmeasured. The notebook has never run on a real GPU.
-- There are no advisor hand-ranked clauses, so Spearman and bucket agreement against the advisor do not exist. The Spearman in `results/contract_triage/` is against a perfect-detection reference built from CUAD annotations.
+- The encoder does not beat the baseline. On the five-seed run DistilRoBERTa lost to word+char TF-IDF on every seed (macro-F1 lower by 0.063 to 0.082), mostly on uncommon and rare categories. Word+char TF-IDF is the model to freeze.
+- Risk rankings have no human validation: the team decided not to collect hand-ranked clauses. The Spearman in `results/contract_triage/` is against a perfect-detection reference built from CUAD annotations, which measures detection error only.
 - The reviewer page loads, switches tabs and downloads registers in headless Chrome. Its other controls have been driven only through their handlers and `gradio_client`, and no real reviewer has used it.
 - The API has no authentication, no time limit on parsing or scoring, and has not been load-tested. Run it on localhost only.
 - On real contracts the review queue is dominated by `no_cue_match` Unknowns, a symptom of the weak evidence heuristic.
@@ -115,6 +115,5 @@ Status as of 2026-11-17, including the Wave 2 serving branches. The docs index i
 - PDF extraction rarely reproduces CUAD text verbatim (7 of 60 gold spans on the sample PDF, 60 of 60 ignoring whitespace and curly quotes). Grounding against the extracted text is unaffected. The OCR path is tested with mocks only.
 
 **Next**
-- Run the encoder notebook on Colab and commit the results.
-- Run the advisor-agreement evaluation when rankings arrive, then freeze the model and make one sealed `test.json` evaluation.
+- Freeze the model (word+char TF-IDF) and make one sealed `test.json` evaluation.
 - Final report, license, Docker, and the `src` to `clausetriage` package rename.

@@ -15,8 +15,7 @@ with several risky clauses outranks one with a single clause of the same score. 
 in the top k count as 0, and each category counts once, so a long contract that repeats a
 clause in many chunks isn't ranked higher for it.
 
-The defaults (k = 3, m = 0.5) are team-proposed engineering choices, kept unchanged in v2 and
-pending advisor review.
+The defaults (k = 3, m = 0.5) are engineering choices made by the team, kept unchanged in v2.
 
 Unknown-queue clauses (no evidence) are kept in the score and counted in unknown_count: dropping
 them would rank a contract lower just because its evidence couldn't be found.

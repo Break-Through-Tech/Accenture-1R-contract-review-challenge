@@ -15,7 +15,7 @@ Guides for the pipeline stages and the reproducible experiments:
 | TF-IDF + reranker score fusion | [Score fusion](tfidf-reranker-fusion.md) | `results/tfidf_reranker_fusion/`, `results/reranker_oof_fusion_seed42/` (exploratory; reused evaluation contracts) |
 | Error analysis (TF-IDF vs. reranker) | [Error analysis](error-analysis.md) | `results/error_analysis/` (also documents the per-category AUPR fix) |
 | Threshold strategies (rare categories) | [Threshold robustness](threshold-robustness.md) | `results/threshold_robustness/` (exploratory; reused evaluation contracts) |
-| Confirmation gate | [Upgrade validation protocol](upgrade-validation-gate.md) | Advisor/team data-source and success-criteria decision needed |
+| Confirmation gate | [Upgrade validation protocol](upgrade-validation-gate.md) | Team data-source and success-criteria decision needed |
 | Contract graph neural network | [Graph architecture](contract-graph-architecture.md) | `results/contract_graph_seed42/` |
 | Supervised contrastive prototypes | [Contrastive architecture](contrastive-architecture.md) | `results/contrastive_seed42/` |
 | Hungarian-matched span set prediction | [Set prediction](set-prediction-architecture.md) | `results/set_prediction_seed42/` |
@@ -24,7 +24,6 @@ Guides for the pipeline stages and the reproducible experiments:
 | Risk weights (`v2-team-proposed`) | [Risk weights v2](risk-weights-v2.md) | `src/risk/weights/default_weights_v2.json`, `results/contract_triage/` |
 | Uploaded contracts (PDF, Word, text) | [Document ingestion](document-ingestion.md) | `python -m scripts.evaluate_pdf_ingestion` |
 | Clause register (CSV and JSON) | [Clause register](clause-register.md) | `outputs/registers/` (git-ignored; `python -m scripts.export_registers`) |
-| Advisor agreement | [Advisor agreement](advisor-agreement.md) | No advisor rankings yet; the packet is built with `python -m scripts.build_advisor_packet` |
 | FastAPI server (`python -m src.api`) | [API](api.md) | `outputs/api/clausetriage.sqlite` (git-ignored); local only, no authentication |
 | Review queue, feedback and training export | [Feedback and the review queue](feedback-review-queue.md) | `outputs/feedback_export/` (git-ignored; `python -m scripts.export_feedback`) |
 | Reviewer page at `/ui/` | [Reviewer UI](reviewer-ui.md) | Loads in headless Chrome; not yet used by a real reviewer |

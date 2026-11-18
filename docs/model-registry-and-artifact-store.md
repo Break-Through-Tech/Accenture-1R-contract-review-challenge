@@ -67,7 +67,6 @@ and every contract rescored from cached probabilities without rerunning the clas
 | `clause_scores` | `chunk_id`, `category`, `model_version`, `weight_version_id` | `contract_id`, `signals_json`, `composite_score`, `rating`, `has_evidence`, `weight_set_sha256` |
 | `contract_scores` | `contract_id`, `model_version`, `weight_version_id` | `triage_score`, High/Medium/Low/Unknown counts, `top_clauses_json`, `weight_set_sha256` |
 | `feedback` | `id` | `chunk_id`, `category`, `model_version`, `verdict` (`accept` / `reject` / `missing`), `reviewer`, `timestamp`, `note` |
-| `advisor_rankings` | `id` (unique per ranking set, reviewer, contract, category, span) | `contract_id`, `category`, `start`, `end`, `quote`, `advisor_rank` (1 = riskiest), `advisor_bucket`, `reviewer`, `ranking_set`, `timestamp` |
 
 Foreign keys are enforced (`PRAGMA foreign_keys=ON` on the store's own engine).
 Evidence, Unknowns and clause scores point at their `chunk_probs` row, and scores
@@ -83,7 +82,7 @@ which other contracts are scored. The read side computes it with the same rule a
 - **Immutable versions:** a weight version or model version can't be reused for
   different content. Edits need a new `weight_version_id`. A stored `WeightSet` loads
   back with an identical `content_sha256`.
-- **Grounded:** chunk text, evidence quotes and advisor quotes must equal the stored
+- **Grounded:** chunk text and evidence quotes must equal the stored
   contract text at their offsets.
 - Use the registry-qualified model key (for example `clause-classifier:3`) as
   `model_version`, because separate models can each have a version `1`.
@@ -138,8 +137,8 @@ contract scores and ranks of a fresh pipeline run under the same weights.
 `get_evidence`, `list_unknowns` (the review queue: detections above threshold with no
 grounded evidence), `get_clause_scores`, `get_contract_score`, `list_contract_scores`
 (ranked), and `get_contract_detail`, which bundles all of them for one contract, model
-version and weight version. Feedback and advisor rankings have `add_*` / `list_*`
-pairs. Weight and model versions have `put_*` / `get_*` / `list_*`. `get_chunk` and
+version and weight version. Feedback has an `add_*` / `list_*`
+pair. Weight and model versions have `put_*` / `get_*` / `list_*`. `get_chunk` and
 `get_detection` (grounded, Unknown or none for a chunk, category and model version)
 serve the review queue.
 

@@ -2,7 +2,7 @@
 
 Research project exploring automated identification of contract clauses and supporting evidence using the Contract Understanding Atticus Dataset (CUAD). The repository contains data preparation, classifier baselines, alternative model experiments, evaluation reports, and an early rule-based risk-scoring prototype.
 
-> **Status:** Research/prototype work, not a production legal-review system. The risk-scoring signals and weights are team-proposed and have not been reviewed by the advisor; outputs must not be used as legal advice or operational triage.
+> **Status:** Research/prototype work, not a production legal-review system. The risk-scoring signals and weights are set by the team and have not been validated by a legal expert; outputs must not be used as legal advice or operational triage.
 
 ## Team Members
 
@@ -13,7 +13,7 @@ The role summaries combine work visible in merged PRs or commits with relevant G
 | Edward Hu | Built the project architecture and guidance docs, EDA documentation and visualizations, baseline correction, chunk schema, CUAD loader, labels, and grouped splits (PRs #38, #39, #40, #42, #43, #44, #45). Also assigned technical writing, model training/inference, API, testing, and final README work (#8, #17, #21, #27, #35, #36). |
 | Sebastian Bernal-Orta | Evaluated the word/character TF-IDF baseline with contract-level, multi-seed splits, then implemented five alternatives: retrieval/reranking, GraphSAGE, contrastive prototypes, set prediction, and sparse long-context. Added their training/evaluation code, tests, reports, MLflow registry, SQLite artifact-store foundation, and risk-weight provenance hardening in PR #51. Assigned alternative architecture, model registry, and artifact store work (#14, #19, #32); the implementations are submitted in PR #51, while team risk-signal decision #25 remains open. |
 | Stanley Huang | Built the TF-IDF baseline and thresholding, evidence extraction, and the rule-based risk-scoring prototype (#22, #23; baseline PR #37). Also assigned contract-level triage, team risk-signal decisions, and moving the baseline to the shared pipeline (#24, #25, #46). |
-| Areebah Iqbal | Completed the initial CUAD EDA (#1). Assigned advisor-owned risk weights, clause-register export, and reviewer UI work (#28, #29, #30). |
+| Areebah Iqbal | Completed the initial CUAD EDA (#1). Assigned risk weights, clause-register export, and reviewer UI work (#28, #29, #30). |
 | Nora Farhan | Assigned evaluation metrics, contract-level risk triage, team risk-signal decisions, and the human-review/feedback workflow (#18, #24, #25, #33). |
 | Osamwengumwenro Oni-Ojo | Integrated sentence-aware chunking into the CUAD pipeline, with optimization and tests (merged PR #50). Also assigned data-preprocessing, chunking, label preparation, and pipeline-architecture tasks (#11, #12, #13, #16); token-aware prototype PR #48 is open. |
 | Ruvarashe Nyabando | Evaluated token- and sentence-aware chunking (merged PR #49). Also assigned data-preprocessing/chunking, label preparation, and pipeline-architecture work (#11, #12, #13, #16). |
@@ -62,7 +62,7 @@ The evaluation command uses the CUAD training split, a fixed contract-level trai
 
 ### Demo UI
 
-There are two pages. Both are prototypes. Their scores use the team-proposed `v2-team-proposed` risk weights, which the advisor has not reviewed, and they are not legal advice.
+There are two pages. Both are prototypes. Their scores use the team-proposed `v2-team-proposed` risk weights, which have not been validated by a legal expert, and they are not legal advice.
 
 - **Quick demo** (`python -m src.ui.app`): upload contracts (PDF, Word, text, or pasted text) to rank them for review, and see each contract's risky clauses with page numbers, highlighted quotes and the signals behind each score. Everything is scored in memory and nothing is saved. It needs only the small demo install.
 - **Reviewer page** (`python -m src.api`, then http://127.0.0.1:8000/ui/): the full triage loop on stored data. Stored CUAD contracts and your uploads are ranked together, and you can open any contract's detail and download its clause register. You can edit and preview the risk weights, save them as a new version, and work through the review queue, recording verdicts. It needs the full install (it uses the SQLite artifact store). See [`docs/reviewer-ui.md`](docs/reviewer-ui.md).
@@ -134,12 +134,12 @@ See the [chunking experiments guide](docs/chunking-experiments.md) for the archi
 
 - Confirm the official team roster and finish the draft project highlights with the team/advisor.
 - Seek alternatives that improve both macro-F1 and macro-AUPR robustly across predeclared contract-level splits before selecting a model.
-- Review the risk signals and weights with the advisor ([docs/risk-weights-v2.md](docs/risk-weights-v2.md)); do not use the unreviewed risk scores for real triage.
+- Validate the risk signals and weights ([docs/risk-weights-v2.md](docs/risk-weights-v2.md)) against expert judgement before any real use; the risk scores are unvalidated.
 - Confirm deployment, data-governance, and licensing requirements before proposing production use.
 
 ## License
 
-No license for this project's code has been selected in the repository. Confirm an appropriate license with the advisor before reuse or redistribution. The CUAD dataset has its own license and attribution requirements; see [`data/cuad/README.md`](data/cuad/README.md). The dataset license does not automatically license this project's code.
+No license for this project's code has been selected in the repository. The team must choose one before reuse or redistribution. The CUAD dataset has its own license and attribution requirements; see [`data/cuad/README.md`](data/cuad/README.md). The dataset license does not automatically license this project's code.
 
 ## References
 

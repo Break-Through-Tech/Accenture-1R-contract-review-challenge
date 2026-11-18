@@ -83,7 +83,7 @@ To reproduce the cross-fit, train, and analyze stages (GPU training required):
 .venv/bin/python -m scripts.crossfit_reranker_fusion analyze
 ```
 
-For a stronger independent confirmation, the team/advisor must approve an untouched
+For a stronger independent confirmation, the team must approve an untouched
 evaluation source and the protocol before it is opened. Keep TF-IDF as the control and
 retain raw sparse scores for auditability and fallback. `data/cuad/test.json` remains
 unused.
