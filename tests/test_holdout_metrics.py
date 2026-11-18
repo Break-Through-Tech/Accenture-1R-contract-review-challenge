@@ -4,8 +4,8 @@ import pytest
 from sklearn.metrics import average_precision_score, precision_recall_fscore_support
 
 from src.holdout_metrics import (
-    bootstrap_replicates, category_counts, compare_with_reference, contract_groups, contract_presence,
-    detection_table, f1_from_counts, macro_aupr, macro_f1, per_category_aupr, percentile_interval,
+    bca_interval, bootstrap_replicates, category_counts, compare_with_reference, contract_groups, contract_presence,
+    detection_table, f1_from_counts, jackknife_replicates, macro_aupr, macro_f1, per_category_aupr, percentile_interval,
     predict_at_thresholds, spearman, support_bucket, support_status,
 )
 
@@ -128,6 +128,54 @@ def test_percentile_interval_golden_values_and_skips_nan():
     result = percentile_interval(np.append(np.arange(101.0), np.nan))
     assert (result["lower_95"], result["upper_95"], result["replicates_defined"]) == pytest.approx((2.5, 97.5, 101))
     assert percentile_interval(np.array([np.nan]))["replicates_defined"] == 0
+
+
+def test_jackknife_replicates_leave_each_contract_out_once():
+    """Leave-one-out means of [1, 2, 3] are [2.5, 2, 1.5]."""
+    values = np.array([1.0, 2.0, 3.0])
+    assert jackknife_replicates(3, lambda selected: {"mean": values[selected].mean()})["mean"].tolist() == [2.5, 2.0, 1.5]
+
+
+def test_bca_interval_equals_percentile_for_a_centred_symmetric_distribution():
+    """Point at the median and symmetric jackknife: z0 = 0, a = 0, so BCa bounds are the percentile bounds."""
+    result = bca_interval(np.arange(-50.0, 51.0), 0.0, np.array([-1.0, 0.0, 1.0]))
+    assert result["method"] == "bca" and (result["z0"], result["acceleration"]) == pytest.approx((0.0, 0.0))
+    assert (result["lower_95"], result["upper_95"]) == pytest.approx((-47.5, 47.5))
+    assert (result["lower_95"], result["upper_95"]) == pytest.approx((result["percentile_lower_95"],
+                                                                      result["percentile_upper_95"]))
+
+
+@pytest.mark.parametrize("jackknife, acceleration, lower, upper", [
+    (np.ones(5), 0.0, 0.04635612559526833, 72.21011231374175),
+    (np.array([0.0, 0.0, 0.0, 0.0, 1.0]), -0.11180339887498948, 0.0005143574716168465, 66.67124459855789),
+])
+def test_bca_interval_golden_values(jackknife, acceleration, lower, upper):
+    """Replicates 0..99, point 24.5: z0 = Phi^-1(0.25) = -0.6745; levels Phi(z0 + (z0 + z) / (1 - a(z0 + z)))."""
+    result = bca_interval(np.arange(100.0), 24.5, jackknife)
+    assert result["z0"] == pytest.approx(-0.6744897501960817)
+    assert result["acceleration"] == pytest.approx(acceleration)
+    assert (result["lower_95"], result["upper_95"]) == pytest.approx((lower, upper))
+    assert (result["percentile_lower_95"], result["percentile_upper_95"]) == pytest.approx((2.475, 96.525))
+
+
+def test_bca_interval_falls_back_to_percentile_when_every_replicate_is_below_the_point():
+    """z0 is infinite when no replicate reaches the point estimate, so the percentile bounds are used."""
+    result = bca_interval(np.arange(10.0), 50.0, np.ones(3))
+    assert result["method"] == "percentile"
+    assert (result["lower_95"], result["upper_95"]) == pytest.approx((0.225, 8.775))
+
+
+def test_bca_interval_of_a_constant_statistic_is_the_point():
+    """A category with F1 0 in every replicate gets the interval [0, 0]."""
+    result = bca_interval(np.zeros(20), 0.0, np.zeros(5))
+    assert (result["lower_95"], result["upper_95"], result["method"]) == (0.0, 0.0, "bca")
+
+
+def test_bca_interval_skips_nan_and_handles_an_undefined_point():
+    """NaN replicates are dropped; an undefined point estimate gives the percentile record."""
+    result = bca_interval(np.array([np.nan, *np.arange(-50.0, 51.0)]), 0.0, np.array([np.nan, -1.0, 1.0]))
+    assert result["replicates_defined"] == 101 and result["method"] == "bca"
+    assert bca_interval(np.arange(5.0), float("nan"), np.ones(3))["method"] == "percentile"
 
 
 # ----- Spearman -----

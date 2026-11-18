@@ -9,7 +9,8 @@ from src.labels.categories import CATEGORIES
 from src.labels.loader import Contract
 from src.sealed_run import (
     ATTEMPTS_FILE, PREFLIGHT_FILE, REPORT_FILE, SealedRunError, check_mode, check_sealed_output,
-    check_sealed_preconditions, classify_data_path, git_history_has, git_state, git_tracked, ids_sha256,
+    check_sealed_preconditions, classify_data_path, git_blob_id, git_history_has, git_state, git_tracked,
+    ids_sha256,
     preflight_failures, start_attempt, structure_report, text_file_sha256,
 )
 
@@ -175,6 +176,13 @@ def test_git_state_and_tracking_follow_uncommitted_changes(repo):
     (repo / "protocol.md").write_text("v2\n", encoding="utf-8")
     assert git_state(repo)["dirty"] is True and not git_tracked(repo, repo / "protocol.md")
     assert not git_tracked(repo, repo / "untracked.json")
+
+
+def test_git_blob_id_matches_the_index_entry(repo):
+    """The working file's object id equals the blob git recorded for it (what the preflight compares)."""
+    index = subprocess.run(["git", "ls-files", "-s", "protocol.md"], cwd=repo, capture_output=True, text=True,
+                           check=True).stdout.split()[1]
+    assert git_blob_id(repo, repo / "protocol.md") == index
 
 
 def test_git_history_has_finds_a_deleted_file(repo):

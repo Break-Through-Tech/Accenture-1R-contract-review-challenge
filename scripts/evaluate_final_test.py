@@ -40,7 +40,7 @@ from src.chunking.token_chunker import TOKENIZER_NAME, TOKENIZER_REVISION
 from src.evidence.cues import load_category_cues
 from src.holdout_metrics import (
     bootstrap_replicates, category_counts, compare_with_reference, contract_groups, contract_presence,
-    detection_table, f1_from_counts, macro_aupr, macro_f1, per_category_aupr, percentile_interval,
+    bca_interval, detection_table, f1_from_counts, jackknife_replicates, macro_aupr, macro_f1, per_category_aupr,
     predict_at_thresholds, spearman, support_bucket,
 )
 from src.holdout_report import bucket_frame, jsonable, per_category_frame, render_summary
@@ -401,11 +401,17 @@ def evaluate(contracts: list[Contract], bundle: ClauseModelBundle, word_predict,
 
     start = time.perf_counter()
     draws = bootstrap_replicates(len(groups), replicates, seed, statistic)
+    point = statistic(np.arange(len(groups)))
+    jackknife = jackknife_replicates(len(groups), statistic)
     timings["bootstrap_seconds"] = time.perf_counter() - start
+    if not np.isclose(point["word_char_tfidf/macro_f1"], macro_f1(tables["word_char_tfidf"]["f1"].to_numpy())):
+        raise IntegrityError("the bootstrap statistic does not reproduce the point estimate")
 
     def interval(key: str, column: int | None = None) -> dict:
-        """Percentile interval for one bootstrapped statistic (or one category's column of it)."""
-        return percentile_interval(draws[key] if column is None else draws[key][:, column])
+        """BCa interval (with percentile bounds) for one bootstrapped statistic, or one category's column of it."""
+        if column is None:
+            return bca_interval(draws[key], float(point[key]), jackknife[key])
+        return bca_interval(draws[key][:, column], float(point[key][column]), jackknife[key][:, column])
 
     # Per-category tables with intervals
     for table, prefix in ((tables["word_char_tfidf"], "word_char_tfidf"), (contract_table, "contract")):
@@ -413,6 +419,7 @@ def evaluate(contracts: list[Contract], bundle: ClauseModelBundle, word_predict,
             bounds = [interval(f"{prefix}/{metric}", i) for i in range(len(CATEGORIES))]
             table[f"{metric}_lower_95"] = [b["lower_95"] for b in bounds]
             table[f"{metric}_upper_95"] = [b["upper_95"] for b in bounds]
+            table[f"{metric}_interval_method"] = [b["method"] for b in bounds]
             if metric == "aupr":
                 table["aupr_replicates_defined"] = [b["replicates_defined"] for b in bounds]
 
@@ -459,7 +466,8 @@ def evaluate(contracts: list[Contract], bundle: ClauseModelBundle, word_predict,
                              "span_containment": _span_containment(contracts, chunks)},
         "serving_parity_contracts": parity, "timings": timings,
         "bootstrap": {"replicates": replicates, "seed": seed, "unit": "contract",
-                      "method": "percentile 2.5/97.5, numpy default_rng(seed).integers(0, n, size=n) per replicate, "
+                      "method": "BCa 95% (jackknife over contracts for the acceleration; percentile bounds kept "
+                                "alongside), numpy default_rng(seed).integers(0, n, size=n) per replicate, "
                                 "all statistics on the same draws"},
     }
 

@@ -33,7 +33,7 @@ the primary result.
 | Category order | `CATEGORIES` (41, alphabetical). |
 | Risk weights | `v2-team-proposed`, content SHA-256 `8d8e8e26...0995` (`src/risk/weights/default_weights_v2.json`). |
 | Pinned inputs | Line-ending-normalised SHA-256 of both threshold files, the weight file and `category_descriptions.csv` (`PINNED_FILES`); any difference stops the run before the data is read. |
-| Bootstrap | 10,000 replicates; each draws 102 contracts with replacement, `numpy.random.default_rng(20261147).integers(0, n, size=n)` (the project rule 20261105 + split seed 42); every statistic uses the same draws; 2.5th/97.5th percentiles. |
+| Bootstrap | 10,000 replicates; each draws 102 contracts with replacement, `numpy.random.default_rng(20261147).integers(0, n, size=n)` (the project rule 20261105 + split seed 42); every statistic uses the same draws. The registered interval is the **BCa 95% interval** (bias correction from the share of replicates below the estimate, acceleration from a leave-one-contract-out jackknife); plain 2.5th/97.5th percentile bounds are stored alongside. Where BCa is undefined (for example, every replicate on one side of the estimate) the percentile interval is used and marked. |
 | Libraries | As pinned in `requirements*.txt` (numpy 2.5.1, scikit-learn 1.9.0, scipy 1.18.0, pandas 3.0.6, joblib 1.6.0, transformers 4.57.6, tokenizers 0.22.2); the run records the installed versions. |
 
 The run also checks, before reading the data, that the bundle reproduces the saved seed-42
@@ -47,9 +47,18 @@ calibration probabilities within 1e-5 and that the bundle's thresholds and confi
 - **Macro-F1:** mean F1 over all 41 categories. A category with no test positives contributes 0
   (the project's fixed-41 convention).
 - **Macro-AUPR:** mean AUPR over categories with at least one test positive.
-- **Intervals:** contract-bootstrap percentile intervals as in section 2, with thresholds fixed. In
-  a replicate, macro-AUPR averages the categories that have positives in that replicate; per-category
+- **Intervals:** contract-bootstrap BCa intervals as in section 2, with thresholds fixed. Point
+  estimates are always computed on the full test set, never taken from the bootstrap. In a
+  replicate, macro-AUPR averages the categories that have positives in that replicate; per-category
   AUPR intervals use the replicates where the category is defined (the count is reported).
+- **Why BCa, not the percentile interval:** the development dry run (section 9) showed that the
+  bootstrap distribution of macro-AUPR sits about 0.019 above the point estimate. Rare, low-AUPR
+  categories drop out of 55% of replicates, and AP rises when contracts are duplicated. Macro-F1 sits
+  about 0.006 below it. On the dry run, the percentile interval for macro-AUPR, [0.578, 0.658] around
+  0.597, would have read "higher than development", although the five-seed mean 0.563 is plausible.
+  BCa corrects for that shift. The project's earlier intervals were percentile intervals on paired
+  *differences*, where the shift largely cancels; their percentile bounds are still reported here
+  for comparison. This choice was made on development data, before `test.json` was opened.
 - Also reported, descriptively: macro-F1 over categories with positives.
 
 ## 4. Low-support categories

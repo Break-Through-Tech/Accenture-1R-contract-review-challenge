@@ -63,7 +63,8 @@ def render_summary(report: dict, categories: pd.DataFrame, buckets: pd.DataFrame
              f"Model `{report['model']['path']}` (SHA-256 `{report['model']['sha256'][:12]}...`). "
              f"`test_data_used: {str(report['test_data_used']).lower()}`.", "",
              "## Primary: chunk-level detection, frozen bundle at its own thresholds", "",
-             "| Metric | Result [95% CI] | Development mean (range of 5 splits) | Seed 42 | Pre-registered reading |",
+             "Intervals: contract bootstrap, BCa 95% (percentile bounds are in report.json and the CSVs).", "",
+             "| Metric | Result [95% BCa CI] | Development mean (range of 5 splits) | Seed 42 | Pre-registered reading |",
              "|---|---|---|---|---|"]
     for metric, label in (("macro_f1", "Macro-F1 (41 categories)"),
                           ("macro_aupr", "Macro-AUPR (categories with positives)")):

@@ -10,7 +10,8 @@ per_category_aupr(): average precision per category, NaN for a category with no 
 macro_f1() / macro_aupr(): the project conventions (fixed 41 categories / supported categories only)
 detection_table(): per-category precision, recall, F1, AUPR, support and counts, in CATEGORIES order
 contract_groups() / contract_presence(): chunk rows per contract, and chunks collapsed to contracts
-bootstrap_replicates() / percentile_interval(): seeded contract resampling and 95% percentile bounds
+bootstrap_replicates() / jackknife_replicates(): seeded contract resampling, and leave-one-contract-out values
+bca_interval() / percentile_interval(): BCa 95% bounds (the registered interval) and plain percentile bounds
 spearman(): rank correlation with average ranks for ties (the same value pandas' DataFrame.corr gives)
 compare_with_reference(): the pre-registered wording rule for a test result against development
 support_status(): "unscorable", "insufficient support" or "reported" from test support
@@ -19,6 +20,7 @@ from collections.abc import Callable, Sequence
 
 import numpy as np
 import pandas as pd
+from scipy.stats import norm
 from sklearn.metrics import average_precision_score
 
 from src.labels.categories import CATEGORIES
@@ -135,6 +137,48 @@ def percentile_interval(values: np.ndarray) -> dict[str, float | int]:
         return {"lower_95": float("nan"), "upper_95": float("nan"), "replicates_defined": 0}
     lower, upper = np.quantile(defined, [0.025, 0.975])
     return {"lower_95": float(lower), "upper_95": float(upper), "replicates_defined": int(defined.size)}
+
+
+def jackknife_replicates(n_contracts: int,
+                        statistic: Callable[[np.ndarray], dict[str, np.ndarray | float]]) -> dict[str, np.ndarray]:
+    """statistic() with each contract left out once (n_contracts evaluations), for the BCa acceleration."""
+    everyone = np.arange(n_contracts)
+    collected: dict[str, list] = {}
+    for left_out in range(n_contracts):
+        for key, value in statistic(np.delete(everyone, left_out)).items():
+            collected.setdefault(key, []).append(value)
+    return {key: np.asarray(values, dtype=np.float64) for key, values in collected.items()}
+
+
+def bca_interval(replicates: np.ndarray, point: float, jackknife: np.ndarray) -> dict:
+    """
+    Bias-corrected and accelerated 95% bootstrap interval (Efron 1987), with the plain percentile
+    bounds alongside. z0 = Phi^-1(share of replicates below the point estimate, ties counted half);
+    acceleration a = sum(d^3) / (6 sum(d^2)^1.5) with d = jackknife mean - jackknife value. Falls back
+    to the percentile interval (method "percentile") when z0 or the adjusted levels are not finite.
+    NaN replicates and jackknife values are skipped.
+    """
+    percentile = percentile_interval(replicates)
+    result = {**percentile, "method": "percentile", "percentile_lower_95": percentile["lower_95"],
+              "percentile_upper_95": percentile["upper_95"]}
+    replicates = np.asarray(replicates, dtype=np.float64)
+    defined = replicates[~np.isnan(replicates)]
+    if defined.size == 0 or point is None or np.isnan(point):
+        return result
+    below = (np.sum(defined < point) + 0.5 * np.sum(defined == point)) / defined.size
+    jackknife = np.asarray(jackknife, dtype=np.float64)
+    jackknife = jackknife[~np.isnan(jackknife)]
+    deviations = jackknife.mean() - jackknife if jackknife.size else np.zeros(1)
+    denominator = 6 * np.sum(deviations ** 2) ** 1.5
+    acceleration = float(np.sum(deviations ** 3) / denominator) if denominator > 0 else 0.0
+    with np.errstate(divide="ignore", invalid="ignore"):
+        z0 = float(norm.ppf(below))
+        levels = [norm.cdf(z0 + (z0 + z) / (1 - acceleration * (z0 + z))) for z in norm.ppf([0.025, 0.975])]
+    if not (np.isfinite(z0) and np.all(np.isfinite(levels))):
+        return result
+    lower, upper = np.quantile(defined, levels)
+    return {**result, "lower_95": float(lower), "upper_95": float(upper), "method": "bca",
+            "z0": z0, "acceleration": acceleration}
 
 
 def spearman(a: Sequence[float], b: Sequence[float]) -> float:
