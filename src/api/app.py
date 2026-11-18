@@ -45,7 +45,7 @@ def create_app(service: ClauseTriageService, *, routers: Sequence[APIRouter] = (
     """
     app = FastAPI(title="ClauseTriage API", version="0.1.0",
                   description="Local research prototype without authentication. Do not expose it on a network. "
-                              "Scores use team-proposed weights pending advisor review; not legal advice.")
+                              "Scores use team-set weights that no legal expert has validated; not legal advice.")
     app.state.service = service
     for router in (system.router, contracts.router, weights.router, *routers):
         app.include_router(router)

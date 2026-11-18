@@ -67,7 +67,7 @@ REFUSAL_HINTS = (
                            "missing (and then disputed with Reject)."),
     ("is earlier than", "You already gave a later verdict on this item."),
 )
-# Weight sets shipped in src/risk/weights/: the team's proposals, which the advisor has not reviewed
+# Weight sets shipped in src/risk/weights/: set by the team and not validated by a legal expert
 TEAM_WEIGHT_FILES = (DEFAULT_WEIGHTS_PATH, V1_WEIGHTS_PATH)
 
 
@@ -95,14 +95,14 @@ class ReviewerPage:
 
     # ----- Header -----
     def disclaimer(self) -> str:
-        """The prototype, advisor-review and no-accounts notice shown at the top and with every contract."""
+        """The prototype, unvalidated-weights and no-accounts notice shown at the top and with every contract."""
         default = self.service.default_weight_set
         if default.content_sha256 in self._team_hashes:
-            status = (f"The default weights (`{default.weight_version_id}`) are the team's proposal and **have not been "
-                      "reviewed by the advisor**.")
+            status = (f"The default weights (`{default.weight_version_id}`) were set by the team and **have not been "
+                      "validated by a legal expert**.")
         else:
             status = (f"The default weights (`{default.weight_version_id}`, created by {default.created_by}) were "
-                      "given to the server as a file; ask the team whether the advisor has reviewed them.")
+                      "given to the server as a file and are not one of the team's shipped weight sets.")
         return (f"> **Research prototype, not legal advice.** Ratings come from rules with adjustable weights. {status} "
                 "Names typed on this page are self-declared; there are no accounts.")
 
@@ -114,17 +114,17 @@ class ReviewerPage:
                  record.weight_version_id) for record in listing.versions]
 
     def version_note(self, version_id: str | None) -> str:
-        """Who made the weight version shown, when, and whether the advisor has reviewed it."""
+        """Who made the weight version shown, when, and whether it is one of the team's shipped weight sets."""
         try:
             detail = self.service.get_weights(version_id or self.service.default_weight_set.weight_version_id)
         except ServiceError as error:
             return f"**Can't show this weight version:** {error}"
         record, weight_set = detail.version, detail.weight_set
         if weight_set.content_sha256 in self._team_hashes:
-            origin = "the team's proposal, **not reviewed by the advisor**"
+            origin = "set by the team, **not validated by a legal expert**"
         else:
-            origin = (f"created by **{record.created_by}** (a self-declared name); not reviewed by the advisor "
-                      "unless the advisor made it")
+            origin = (f"created by **{record.created_by}** (a self-declared name); not validated by a "
+                      "legal expert")
         default = " It is the default: new uploads are scored with it." if detail.is_default else ""
         return (f"Scores below use weight version **`{record.weight_version_id}`**: {origin}, stored "
                 f"{record.created_at:%Y-%m-%d %H:%M} UTC, hash `{record.content_sha256[:12]}`.{default}")
@@ -361,7 +361,7 @@ class ReviewerPage:
         if len(name) > MAX_NAME_CHARS:
             raise WeightEditError(f"Your name is longer than {MAX_NAME_CHARS} characters.")
         if saving and not new_id:
-            raise WeightEditError("Give the new version an id, for example `v3-advisor-draft`. Existing versions "
+            raise WeightEditError("Give the new version an id, for example `v3-team-draft`. Existing versions "
                                   "never change, so the id must be new.")
         *signals, medium, high, default_severity, top_k, max_weight, severities = values
         candidate = candidate_weight_set(
@@ -588,7 +588,7 @@ def build_reviewer_app(service: ClauseTriageService, run_job: Callable[[str], An
                                           interactive=True, static_columns=[0], wrap=True, max_height=420,
                                           datatype=["str", "number", "str"])
                 with gr.Row():
-                    new_id = gr.Textbox(label="New version id", placeholder="for example v3-advisor-draft",
+                    new_id = gr.Textbox(label="New version id", placeholder="for example v3-team-draft",
                                         info="Letters, digits, '.', '_' and '-'. Existing versions never change.")
                     description = gr.Textbox(label="Description (optional)",
                                              info="Left empty, it says which version it came from, who made it and "

@@ -1,4 +1,4 @@
-# Risk weights v2: team proposal for advisor review
+# Risk weights v2: the team's weight set
 
 **Version:** `v2-team-proposed` (replaces `v1-placeholder` as the default; v1 is kept unchanged so old scores can be reproduced)
 
@@ -10,7 +10,7 @@ correct, not a finding. The scores are not legal advice.
 
 This document is written so it can be corrected line by line. If you mark up the tables below
 (change a tier, strike a phrase, change a threshold), the team will turn your edits into a new
-version (for example `v3-advisor-reviewed`). Versions are never edited in place, because every
+version (for example `v3-team-revised`). Versions are never edited in place, because every
 score records which version produced it.
 
 ---
@@ -335,20 +335,20 @@ duration rules for Low-tier categories did nothing), and "worldwide" was removed
 7. The "fine" and "too long" cut-offs in section 5.
 8. Dropping "worldwide" from the broad-scope words.
 
-## 11. Questions for the advisor
+## 11. Open questions for the team
 
-1. **Tiers:** which rows in the section 2 table would you move, and to what?
+1. **Tiers:** which rows in the section 2 table should move, and to what?
 2. **Perspective:** should we score from one side (for example, always the customer or always
    Accenture's client)? That would change several tiers and is the biggest open design question.
 3. **Uncapped liability:** is an uncapped carve-out for IP infringement or confidentiality, inside a
-   contract that otherwise caps liability, a High or a Critical concern for you?
+   contract that otherwise caps liability, a High or a Critical concern?
 4. **Worldwide:** should territory count as broad scope for non-competes and exclusivity only?
    That needs category-specific phrase lists, a small code change.
-5. **Durations:** are the cut-offs in section 5 in line with what you see in practice? Is a
+5. **Durations:** are the cut-offs in section 5 in line with practice? Is a
    30-day convenience termination notice really the riskiest case?
-6. **Missing rules:** which combinations of clauses do you look for first when triaging a
+6. **Missing rules:** which combinations of clauses matter first when triaging a
    contract that the context rules don't cover?
 7. **High rate:** about 4% of clauses and 35% of contracts get at least one High. Is that the
    right proportion for "open this first"?
-8. **Validation:** could you rank 15 to 20 contracts (or rate 50 clauses) by hand, so we can measure
-   agreement with a real reviewer instead of with our own reference?
+8. **Validation:** the weights have no human validation. The team decided not to collect hand
+   rankings, so agreement with a real reviewer is unmeasured and is reported as a limitation.

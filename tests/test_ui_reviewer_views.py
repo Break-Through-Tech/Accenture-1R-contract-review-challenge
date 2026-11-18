@@ -163,7 +163,7 @@ def test_candidate_keeps_unchanged_defaults_implicit_and_records_changes():
 
 def test_candidate_with_typed_description_keeps_it():
     """A description the reviewer typed is used as given (stripped)."""
-    assert candidate_weight_set(weights_a(), **editor_args(description="  Advisor draft  ")).description == "Advisor draft"
+    assert candidate_weight_set(weights_a(), **editor_args(description="  Team draft  ")).description == "Team draft"
 
 
 @pytest.mark.parametrize(("changes", "message"), [

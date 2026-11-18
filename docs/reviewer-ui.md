@@ -6,8 +6,8 @@ and records your verdicts on what the model found. It is written for a legal pro
 last sections are for the team.
 
 > **Research prototype. Not legal advice.** Ratings come from rules with adjustable weights. The
-> default weights (`v2-team-proposed`) are the team's proposal and **have not been reviewed by the
-> advisor**. The page says so at the top and next to every contract.
+> default weights (`v2-team-proposed`) were set by the team and **have not been validated by a legal
+> expert**. The page says so at the top and next to every contract.
 
 ## Starting it
 
@@ -231,4 +231,4 @@ drive the page. The supported API for other clients is the HTTP API in [api.md](
   no ranks, because those contracts are far apart. The rank-change table was checked by tests with
   hand-computed moves, not on real data.
 - **Weights quality.** Whether any edited weights are better is not something the page can tell; see
-  [risk-weights-v2.md](risk-weights-v2.md) and [advisor-agreement.md](advisor-agreement.md).
+  [risk-weights-v2.md](risk-weights-v2.md).

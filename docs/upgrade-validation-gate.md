@@ -4,7 +4,7 @@ The current score-fusion results are exploratory because the CUAD training-file 
 splits have already been inspected. This protocol describes what must be agreed before
 claiming a real upgrade. It does not authorize use of `data/cuad/test.json`.
 
-## Decisions needed from the advisor/team
+## Decisions needed from the team
 
 1. **Evaluation source:** approve either new, independently annotated contracts with the
    41 CUAD categories mapped under documented guidelines, or explicitly authorize one
@@ -13,7 +13,7 @@ claiming a real upgrade. It does not authorize use of `data/cuad/test.json`.
 2. **Success criteria:** agree on primary metrics and practical minimum improvement. A
    proposed statistical gate is a paired contract-bootstrap 95% lower bound above zero for
    both macro-F1 and macro-AUPR, plus predeclared tolerances for per-category regressions
-   and inference cost. The advisor/team must approve or revise this gate before evaluation.
+   and inference cost. The team must approve or revise this gate before evaluation.
 3. **Scope:** decide whether target-domain calibration is allowed. If it is, provide a
    separate approved calibration partition that is not part of the final holdout.
 
@@ -42,5 +42,5 @@ claiming a real upgrade. It does not authorize use of `data/cuad/test.json`.
 
 Until these decisions are recorded and the protocol is frozen, score fusion remains a
 research prototype. The existing exploratory splits must not be represented as a clean
-confirmatory test. `data/cuad/test.json` remains untouched unless the team/advisor explicitly
+confirmatory test. `data/cuad/test.json` remains untouched unless the team explicitly
 authorizes its use under this one-time protocol.

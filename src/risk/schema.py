@@ -4,7 +4,7 @@ there, and this stage says how worried a reviewer should be about it. Keeping th
 separate means the scoring logic can be retuned without retraining the model.
 
 This module holds the Pydantic models that cross the risk-scoring stage boundary:
-- WeightSet: the versioned config that scoring reads, to be owned by the advisor (signal weights,
+- WeightSet: the versioned config that scoring reads, owned by the team (signal weights,
   rating thresholds, category severities, context rules, phrase lists, magnitude rules)
 - ClauseInput: one detected clause, i.e. a cached classifier probability plus the
   Evidence from src/evidence/ (or None if the clause went to the Unknown queue)
@@ -13,8 +13,8 @@ This module holds the Pydantic models that cross the risk-scoring stage boundary
 The weight set also holds the contract-level triage settings (triage_top_k, triage_max_weight)
 read by contract.py, so a weight version covers the contract ranking too.
 
-The four signals in SignalName and the shipped weight sets are team-proposed and pending advisor
-review; none of the values have been validated against advisor judgement. The default is
+The four signals in SignalName and the shipped weight sets are set by the team; none of the
+values have been validated against expert legal judgement. The default is
 v2-team-proposed (docs/risk-weights-v2.md explains every value); v1-placeholder stays loadable
 so scores recorded under it can be reproduced. See signals.py for what each signal measures and
 how to add, remove or rename one.
@@ -54,7 +54,7 @@ WEIGHTS_DIR = Path(__file__).resolve().parent / "weights"
 DEFAULT_WEIGHTS_PATH = WEIGHTS_DIR / "default_weights_v2.json"
 V1_WEIGHTS_PATH = WEIGHTS_DIR / "default_weights_v1.json"
 
-# Team-proposed signals pending advisor review; every name here needs a function in signals.SIGNALS
+# Signals set by the team; every name here needs a function in signals.SIGNALS
 SignalName = Literal["category_severity", "one_sidedness", "magnitude", "contract_context"]
 SIGNAL_NAMES: tuple[str, ...] = get_args(SignalName)
 
@@ -125,7 +125,7 @@ class MagnitudeRule(BaseModel):
 
 class WeightSet(BaseModel):
     """
-    One immutable, versioned set of scoring parameters, to be owned by the advisor once reviewed.
+    One immutable, versioned set of scoring parameters, owned by the team.
     Unknown keys are rejected so a misspelled field in the JSON can't be silently ignored.
     Deeply immutable after validation: mappings are read-only proxies and collections are tuples.
     To make a new version, create a new validated WeightSet; model_copy(update=...) revalidates

@@ -2,8 +2,8 @@
 Each risk signal is one small pure function that turns a detected clause into a float in [0, 1].
 scoring.py combines them into a composite score using the WeightSet's signal_weights.
 
-The four signals are team-proposed and pending advisor review; they have not been validated
-against advisor judgement. docs/risk-weights-v2.md explains them in plain language.
+The four signals are set by the team; they have not been validated against expert legal
+judgement. docs/risk-weights-v2.md explains them in plain language.
     category_severity: how bad this clause type is on its own (a per-category tier table), lowered
                        when a protective clause elsewhere in the contract softens it
     one_sidedness: whether the quote hands one party unchecked power ("sole discretion",
@@ -143,7 +143,7 @@ def magnitude(clause: ClauseInput, contract_categories: Set[str], weight_set: We
     Return 1.0 if the quote contains a broad-scope phrase, else the worst duration score from the
     category's MagnitudeRules (linear between low_days and high_days). 0.0 without evidence or matches.
     """
-    # shortcut: durations only, no dollar amounts (a cap's size only means something relative to fees); add when the advisor defines amount cutoffs
+    # shortcut: durations only, no dollar amounts (a cap's size only means something relative to fees); add when the team defines amount cutoffs
     if clause.evidence is None:
         return 0.0
     quote = clause.evidence.quote

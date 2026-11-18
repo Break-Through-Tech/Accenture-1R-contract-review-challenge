@@ -9,7 +9,7 @@
 ## Core Deliverables
 
 1. **Clause detection:** per-category precision, recall, and F1 clearly beating the TF-IDF baseline, with error analysis.
-2. **Risk layer:** 4-signal rule-based scoring validated against the advisor's hand-ranked clauses (Spearman, bucket agreement, sensitivity analysis).
+2. **Risk layer:** 4-signal rule-based scoring, checked with a sensitivity analysis and ranking stability against a perfect-detection reference. The team decided not to collect hand-ranked clauses, so agreement with human judgement is not measured.
 3. **Clause registers:** evaluated for risk, one per contract.
 4. **Repo:** clean and documented.
 5. **Report:** final technical report, including limitations and estimated reviewer time saved.
@@ -42,7 +42,7 @@ flowchart TB
   end
  
   DB[("Artifact Store<br/>Chunks, Predictions, Evidence, Scores")]
-  W1["Risk Weights<br/>Advisor-Owned Config"]
+  W1["Risk Weights<br/>Team-Owned Config"]
   W2["Human in the Loop<br/>Unknowns and Feedback"]
  
   O4 --> P3
@@ -74,7 +74,7 @@ flowchart TB
 
 | Tier | Items |
 |---|---|
-| Core (now through November) | Chunker module, TF-IDF baseline, DistilRoBERTa training script, MLflow, SQLite + SQLAlchemy, Pydantic schemas, pytest, scoring module, register export (CSV/JSON), Spearman and bucket agreement evaluation, sensitivity analysis |
+| Core (now through November) | Chunker module, TF-IDF baseline, DistilRoBERTa training script, MLflow, SQLite + SQLAlchemy, Pydantic schemas, pytest, scoring module, register export (CSV/JSON), sensitivity analysis |
 | Next | FastAPI thin layer, Gradio UI with editable weights, versioned weight rows, feedback table and review queue |
 | Defer | Postgres, Alembic, React, background job queues |
 | Add once the pipeline runs end to end | Docker compose (the README needs reproducible setup instructions) |
@@ -110,8 +110,7 @@ Scores the trained transformer encoder against the TF-IDF baseline using per-cat
 **Tech stack:**
 - A Python module computes metrics & a Jupyter notebook plots the comparisons.
 - **Classification:** per-category precision, recall, F1, plus per-class AUPR. Include an error analysis on the weakest categories.
-- **Risk:** Spearman correlation & bucket agreement against the advisor's given clauses, plus a sensitivity analysis on the High/Medium boundary.
-- Advisor rankings are stored as a table. So, these metrics can be recomputed on any weight version.
+- **Risk:** a sensitivity analysis on the High/Medium boundary and the weights, plus ranking stability against a perfect-detection reference built from CUAD annotations. The rankings are not validated against human judgement.
 
 ### Model Registry
 Stores the trained checkpoint, calibrated thresholds, and training seeds as a versioned artifact that the runtime pipeline can load. This decouples model training from inference. In other words, redeploying a new model becomes a pointer swap rather than a pipeline rewrite. Furthermore, every scored contract can be traced back to the exact model version that scored it.
@@ -158,7 +157,7 @@ Combines the 4 risk signals **(Note: Define these 4 signals with CA)** into an a
 **Tech stack:**
 - Pure Python module reading versioned weights and cached probabilities.
 - Pydantic-validated weight sets. Every score row records its `weight_version_id`.
-- The 4 signals must be settled with the advisor before November, since the scoring schema depends on them.
+- The 4 signals are set by the team (`docs/risk-weights-v2.md`); the scoring schema depends on them.
 
 ### Contract-Level Triage Score
 Aggregates the individual clause risk ratings into a single ranked score per contract. This is the deliverable specified in the brief. The goal is not simply to detect which clauses are risky in isolation, but to help reviewers prioritize which contracts to open first. 
@@ -200,10 +199,10 @@ Persists chunks, predictions, evidence, and scores from every pipeline run in qu
 
 **Tech stack:**
 - SQLite via SQLAlchemy. The data is relational and small (about 510 contracts), and rescoring needs joins between probabilities and weights. JSON columns cover any flexible fields.
-- Tables: `contracts`, `chunks`, `chunk_probs` (chunk, category, prob, model_version), `evidence`, `weight_versions`, `clause_scores` (with `weight_version_id`), `contract_scores`, `advisor_rankings`, `feedback`.
+- Tables: `contracts`, `chunks`, `chunk_probs` (chunk, category, prob, model_version), `evidence`, `weight_versions`, `clause_scores` (with `weight_version_id`), `contract_scores`, `feedback`.
 - Postgres and Alembic are optional polish.
 
-### Risk Weights (Advisor-Owned Config)
+### Risk Weights (Team-Owned Config)
 Holds the category severity & signal weighting values that risk scoring reads from (kept outside the code as a versioned config). This exists in isolation as these values are a domain judgement call beyond a pure engineering decision. Modularizing them lets the weights change without an entire code deployment.
 
 **Tech stack:**
@@ -224,7 +223,7 @@ Captures clauses that the NLP pipeline/evidence extraction could not ground, in 
 
 - One installable package (`clausetriage/`, `pyproject.toml`, `uv`) imported by notebooks, scripts, and the API. This is required so the chunker and schemas stay single sourced.
 - pytest with golden tests for chunk offsets, label projection, evidence validation, and the scoring function. ruff and GitHub Actions.
-- **README sections to fill:** setup and reproduction, data exploration, model development, results, next steps, and a license approved by the advisor.
+- **README sections to fill:** setup and reproduction, data exploration, model development, results, next steps, and a license chosen by the team.
 
 ## Final Stack
 

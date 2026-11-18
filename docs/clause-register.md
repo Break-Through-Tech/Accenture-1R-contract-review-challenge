@@ -5,7 +5,7 @@ type, its risk rating, why it got that rating, where it is in the contract, and 
 based on. One register is produced per contract, as a spreadsheet-friendly CSV file and a JSON file with
 the same content.
 
-> **Research prototype.** Ratings use team-proposed risk weights (`v2-team-proposed`) that the advisor has not yet signed off.
+> **Research prototype.** Ratings use team-proposed risk weights (`v2-team-proposed`) that have not been validated by a legal expert.
 > A register helps decide which contracts and clauses to read first. It is not legal advice and does not
 > replace reading the contract.
 

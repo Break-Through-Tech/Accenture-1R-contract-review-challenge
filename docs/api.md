@@ -9,7 +9,7 @@ same process at `/ui/` and calls the same service.
 > **No authentication. Do not expose this server on a network.** It is a local research prototype:
 > anyone who can reach the port can upload files, read every stored contract, create weight
 > versions and record verdicts under any name. It binds to `127.0.0.1` by default and prints a warning if `--host` is anything else.
-> Scores use team-proposed weights pending advisor review and are not legal advice.
+> Scores use weights set by the team, not validated by a legal expert, and are not legal advice.
 
 ## Running it
 

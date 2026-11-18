@@ -101,17 +101,17 @@ def queue_item(page: ReviewerPage, contract_id: str, category: str, status: str 
 
 # ----- Header and honest labelling -----
 def test_disclaimer_says_team_weights_are_unreviewed_and_not_legal_advice(page):
-    """With the shipped weights as default, the page says the advisor has not reviewed them."""
+    """With the shipped weights as default, the page says no legal expert has validated them."""
     text = page.disclaimer()
     assert "not legal advice" in text and "`v1-placeholder`" in text
-    assert "have not been reviewed by the advisor" in text and "no accounts" in text
+    assert "have not been validated by a legal expert" in text and "no accounts" in text
 
 
-def test_disclaimer_for_weights_given_as_a_file_asks_about_review(tmp_path, monkeypatch):
-    """A default the team did not ship is not called advisor-reviewed or team-proposed."""
+def test_disclaimer_for_weights_given_as_a_file_says_they_are_not_the_teams(tmp_path, monkeypatch):
+    """A default the team did not ship is not described as set by the team."""
     other = make_service(tmp_path / "other.db", monkeypatch, weight_set=weights_b())
     text = ReviewerPage(other, run_job=other.run_job).disclaimer()
-    assert "ask the team whether the advisor has reviewed them" in text and "team's proposal" not in text
+    assert "not one of the team's shipped weight sets" in text and "were set by the team" not in text
     other.store.close()
 
 
@@ -122,7 +122,7 @@ def test_start_lists_versions_and_shows_the_default(page, service):
     assert version["value"] == "v1-placeholder"
     assert [value for _, value in version["choices"]] == ["v1-placeholder", "test-b"]
     assert version["choices"][0][0].endswith("· default")
-    assert "the team's proposal, **not reviewed by the advisor**" in note and jobs.empty and seen == []
+    assert "set by the team, **not validated by a legal expert**" in note and jobs.empty and seen == []
 
 
 # ----- Dataset contracts and uploads in one ranking -----
@@ -208,7 +208,7 @@ def test_contract_view_shows_rank_quotes_signals_and_weight_version(page, alpha_
     summary, clauses, text, csv, json, detections, views, first, feedback = page.contract_view(alpha, None, False)
     assert "## alpha.txt" in summary and "rank 1 of 2" in summary
     assert "weights `v1-placeholder`" in summary and "Model `keyword-model`" in summary
-    assert "have not been reviewed by the advisor" in summary
+    assert "have not been validated by a legal expert" in summary
     rows = clauses.set_index("Category")
     assert rows.loc["Governing Law", "Evidence"] == TEXT_A
     assert rows.loc["Insurance", "Evidence"] == "(no quote found: needs manual review)"
