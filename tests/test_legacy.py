@@ -11,7 +11,7 @@ import pytest
 import clausetriage.registry.bundle
 import clausetriage.registry.predictors
 from clausetriage.labels.categories import CATEGORIES
-from clausetriage.legacy import current_name, legacy_src_imports, load_joblib
+from clausetriage.legacy import current_name, legacy_src_imports, load_joblib, remove_stale_package_folder
 from clausetriage.registry.bundle import ClauseModelBundle
 from clausetriage.registry.demo_model import BUNDLE_PATH, BUNDLE_SHA256, file_sha256
 from clausetriage.registry.predictors import VectorizedClassifier
@@ -123,6 +123,31 @@ def test_legacy_import_context_leaves_an_unrelated_src_module_alone(monkeypatch)
     with legacy_src_imports():
         pass
     assert sys.modules["src"] is other
+
+
+# ----- Leftover folder from before the rename -----
+def test_remove_stale_package_folder_deletes_a_bytecode_only_folder(tmp_path):
+    """A `src/` tree holding only __pycache__ files is deleted and reported."""
+    cache = tmp_path / "src" / "api" / "__pycache__"
+    cache.mkdir(parents=True)
+    (cache / "app.cpython-312.pyc").write_bytes(b"x")
+    assert remove_stale_package_folder(tmp_path) is True
+    assert not (tmp_path / "src").exists()
+
+
+def test_remove_stale_package_folder_keeps_a_folder_with_other_files(tmp_path):
+    """A `src/` tree with any file outside __pycache__ is someone's work and is left alone."""
+    cache = tmp_path / "src" / "__pycache__"
+    cache.mkdir(parents=True)
+    (cache / "mod.cpython-312.pyc").write_bytes(b"x")
+    (tmp_path / "src" / "notes.py").write_text("x = 1\n")
+    assert remove_stale_package_folder(tmp_path) is False
+    assert (tmp_path / "src" / "notes.py").exists() and (cache / "mod.cpython-312.pyc").exists()
+
+
+def test_remove_stale_package_folder_without_a_folder_does_nothing(tmp_path):
+    """With no `src/` folder there is nothing to delete."""
+    assert remove_stale_package_folder(tmp_path) is False
 
 
 # ----- Loading pickles -----

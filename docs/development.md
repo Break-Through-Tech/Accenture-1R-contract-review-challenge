@@ -91,8 +91,9 @@ part of it: run them from the repo root (`python -m scripts.<name>`, `python -m 
   imports it from outside the checkout.
 - **Renamed from `src`:** until November 2026 the package was called `src`. Saved results under
   `results/`, `docs/final-test-evaluation.md` (a registered record) and the git history still name
-  `src/` paths; they are left as they were. After pulling the rename, delete any leftover `src/`
-  folder in your checkout (it holds only ignored `__pycache__` files).
+  `src/` paths; they are left as they were. After pulling the rename, a checkout that ran
+  the old code keeps a `src/` folder holding only ignored `__pycache__` files. The test suite deletes
+  it at start-up (`tests/conftest.py`), because it would make `import src` succeed as an empty package.
 - **Pickles from before the rename:** a pickle records the module path of every class in it, and the
   released model file (`models/word_char_tfidf.joblib`) names `src.registry.bundle` and
   `src.registry.predictors`. That file is the frozen artifact of the sealed test evaluation and is

@@ -16,12 +16,15 @@ legacy_src_imports(): a context manager; inside it, importing `src` or `src.<mod
                       still an error
 load_joblib(): joblib.load inside legacy_src_imports(); use it for every bundle or other project
                pickle, old or new
+remove_stale_package_folder(): deletes a leftover `src/` folder that holds only bytecode, which a
+                               checkout that ran the old code keeps after pulling the rename
 """
 from __future__ import annotations
 
 import importlib
 import importlib.abc
 import importlib.util
+import shutil
 import sys
 import threading
 from collections.abc import Iterator
@@ -98,6 +101,23 @@ def legacy_src_imports() -> Iterator[None]:
             if _depth == 0:
                 sys.meta_path.remove(_FINDER)
                 _remove_aliases()
+
+
+def remove_stale_package_folder(root: str | Path) -> bool:
+    """
+    Delete `<root>/src` if it holds nothing but `__pycache__` bytecode, and return whether it was
+    deleted. Git removes the tracked files of the old package on pull but leaves its ignored bytecode
+    folders, and those make `import src` succeed as an empty namespace package. A folder with any
+    other file in it is someone's work and is left alone.
+    """
+    stale = Path(root) / LEGACY_PACKAGE
+    if not stale.is_dir():
+        return False
+    files = [path for path in stale.rglob("*") if path.is_file()]
+    if any(path.parent.name != "__pycache__" for path in files):
+        return False
+    shutil.rmtree(stale)
+    return True
 
 
 def load_joblib(path: str | Path) -> Any:
