@@ -7,8 +7,8 @@ comparison, what comes out, and how to read it.
 **Status: run on a Colab T4 on 2026-11-17. Verdict `does_not_beat`.** DistilRoBERTa scored lower
 macro-F1 than word+char TF-IDF on all five seeds (by 0.063 to 0.082). The results are in
 `results/encoder_nested_seed{42,7,17,23,101}/` and `results/encoder_vs_tfidf/`, and the
-[final report](final-report.md) summarizes them. The rest of this page was written before the run
-and describes the procedure.
+[final report](final-report.md) summarizes them. The rest of this page describes the procedure; the
+last section records what the run verified.
 
 ## What is compared
 
@@ -193,14 +193,20 @@ Even with `clearly_beats`, check `support_bucket_summary.csv` and `per_category_
 common or uncommon categories that got worse. Report them as limitations next to the headline
 result.
 
-## Not yet verified
+## What is verified and what is not
 
-No GPU was available when this was written, so these have not been exercised: the full
-four-epoch training, fp16 on CUDA, resuming a real Trainer checkpoint, GPU scoring, the Colab
-notebook end to end (clone with a secret, install on Colab's image, Drive mount, download), and
-the runtime estimate above.
+**Verified by the Colab run on 2026-11-17** (from the saved `results/encoder_nested_seed*/report.json`):
+all five seeds trained for four epochs with fp16 on a Tesla T4 (torch `2.14.1+cu130`, commit
+`0bf69ce`), passed the split check, and were scored on GPU; each `report.json` has
+`status: complete`. Training took 531 to 586 seconds per seed, about 47 minutes for all five,
+inside the 35 to 70 minute estimate above. The comparison was produced and the result folders were
+downloaded and committed (`e2708ec`).
 
-These were checked locally on CPU: the smoke test (`SMOKE PASS`, macro-AUPR 0.980 on the overfit
+**Not verified:** resuming from a real interrupted Trainer checkpoint (the saved reports do not
+show whether any seed was resumed), and which of the notebook's optional paths ran (Drive mount,
+cloning with the `GITHUB_TOKEN` secret or the prompt); the saved results do not record them.
+
+Before the run, these were checked locally on CPU: the smoke test (`SMOKE PASS`, macro-AUPR 0.980 on the overfit
 subset), the five-seed `--dry-run` split check, and the unit tests for the runner (seed handling,
 resume, split verification), the cache settings and the comparison on synthetic data. The
 comparison was also run on the saved retrieval-reranker runs, using the command above, as an

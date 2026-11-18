@@ -111,7 +111,7 @@ Status as of 2026-11-18, including the Wave 2 serving branches and the sealed fi
 - The API has no authentication, no time limit on parsing or scoring, and has not been load-tested. Run it on localhost only.
 - On real contracts the review queue is dominated by `no_cue_match` Unknowns, a symptom of the weak evidence heuristic.
 - No Docker. `pyproject.toml` still has per-file lint suppressions to clear.
-- Evidence heuristic is weak: about 55% of grounded quotes overlap a gold answer, and a false-positive prediction still gets a plausible quote.
+- Evidence heuristic is weak: on the test contracts 23% of detected clauses have no quote, and of the grounded quotes 36% overlap the annotated answer (58% on correctly detected chunks). A false-positive prediction still gets a plausible quote.
 - Rare categories (under 10 evaluation positives) swing 0.3 to 0.4 F1 between seeds; report them with intervals or as insufficient support.
 - PDF extraction rarely reproduces CUAD text verbatim (7 of 60 gold spans on the sample PDF, 60 of 60 ignoring whitespace and curly quotes). Grounding against the extracted text is unaffected. The OCR path is tested with mocks only.
 
