@@ -1,0 +1,103 @@
+rank,contract_id,triage_score,high,medium,low,unknown,top_clauses,gold_rank,gold_triage_score
+1,WOMENSGOLFUNLIMITEDINC_03_29_2000-EX-10.13-ENDORSEMENT AGREEMENT,0.626666667,1,8,11,4,Minimum Commitment (0.71 High); Exclusivity (0.46 Medium); Renewal Term (0.46 Medium),6,0.583351548
+2,"HEMISPHERX - Sales, Marketing, Distribution, and Supply Agreement",0.595,3,1,6,0,Minimum Commitment (0.61 High); Uncapped Liability (0.58 High); Exclusivity (0.55 High),10,0.575
+3,CENTRACKINTERNATIONALINC_10_29_1999-EX-10.3-WEB SITE HOSTING AGREEMENT,0.581111111,1,3,4,1,Uncapped Liability (0.68 High); Termination For Convenience (0.47 Medium); Renewal Term (0.30 Medium),60,0.386111111
+4,N2KINC_10_16_1997-EX-10.16-SPONSORSHIP AGREEMENT,0.58,2,11,15,4,Minimum Commitment (0.61 High); Uncapped Liability (0.58 High); Exclusivity (0.46 Medium),7,0.58
+5,"GOOSEHEADINSURANCE,INC_04_02_2018-EX-10.6-Franchise Agreement",0.575,2,14,13,3,Minimum Commitment (0.61 High); Ip Ownership Assignment (0.55 High); Exclusivity (0.46 Medium),21,0.528333333
+5,TEARDROPGOLFCO_10_23_1996-EX-10.12-ENDORSEMENT AGREEMENT,0.575,2,6,9,8,Minimum Commitment (0.61 High); Liquidated Damages (0.55 High); Exclusivity (0.46 Medium),2,0.59
+7,DovaPharmaceuticalsInc_20181108_10-Q_EX-10.2_11414857_EX-10.2_Promotion Agreement,0.563333333,1,12,14,3,Minimum Commitment (0.61 High); Uncapped Liability (0.48 Medium); Exclusivity (0.46 Medium),22,0.523333333
+8,"PAXMEDICA,INC_07_02_2020-EX-10.12-Master Service Agreement",0.561666667,2,2,4,0,Uncapped Liability (0.58 High); Non-Compete (0.55 High); Termination For Convenience (0.50 Medium),17,0.545
+9,SoupmanInc_20150814_8-K_EX-10.1_9230148_EX-10.1_Franchise Agreement1,0.56,1,13,12,3,Minimum Commitment (0.61 High); Exclusivity (0.46 Medium); Renewal Term (0.46 Medium),12,0.56
+10,AMBASSADOREYEWEARGROUPINC_11_17_1997-EX-10.28-ENDORSEMENT AGREEMENT,0.558333333,1,8,10,3,Minimum Commitment (0.61 High); Exclusivity (0.46 Medium); Ip Ownership Assignment (0.45 Medium),13,0.55
+10,MusclepharmCorp_20170208_10-KA_EX-10.38_9893581_EX-10.38_Co-Branding Agreement,0.558333333,1,11,12,1,Minimum Commitment (0.61 High); Exclusivity (0.46 Medium); Ip Ownership Assignment (0.45 Medium),10,0.575
+12,CYBERIANOUTPOSTINC_07_09_1998-EX-10.13-PROMOTION AGREEMENT,0.555,2,6,11,3,Uncapped Liability (0.58 High); Minimum Commitment (0.55 High); Exclusivity (0.46 Medium),49,0.432222222
+12,SEASPINEHOLDINGSCORP_10_10_2018-EX-10.1-SUPPLY AGREEMENT,0.555,2,9,12,1,Uncapped Liability (0.58 High); Minimum Commitment (0.55 High); Exclusivity (0.46 Medium),1,0.628333333
+14,IdeanomicsInc_20151124_8-K_EX-10.2_9354744_EX-10.2_Content License Agreement,0.545,2,7,10,2,Uncapped Liability (0.58 High); Exclusivity (0.55 High); Irrevocable Or Perpetual License (0.40 Medium),23,0.52
+15,IntegrityMediaInc_20010329_10-K405_EX-10.17_2373875_EX-10.17_Co-Branding Agreement,0.543333333,1,4,10,9,Minimum Commitment (0.61 High); Exclusivity (0.46 Medium); Non-Compete (0.36 Medium),2,0.59
+16,"DRIVENDELIVERIES,INC_05_22_2020-EX-10.4-CONSULTING AGREEMENT",0.533888889,1,10,11,0,Uncapped Liability (0.58 High); Ip Ownership Assignment (0.45 Medium); Termination For Convenience (0.43 Medium),29,0.483333333
+17,BIOPURECORP_06_30_1999-EX-10.13-AGENCY AGREEMENT,0.533333333,2,9,10,4,Exclusivity (0.55 High); Minimum Commitment (0.55 High); Non-Compete (0.45 Medium),55,0.418333333
+18,"PACIRA PHARMACEUTICALS, INC. - A_R STRATEGIC LICENSING, DISTRIBUTION AND MARKETING AGREEMENT ",0.523333333,1,11,15,4,Minimum Commitment (0.55 High); Uncapped Liability (0.48 Medium); Exclusivity (0.46 Medium),20,0.53
+18,RitterPharmaceuticalsInc_20200313_S-4A_EX-10.54_12055220_EX-10.54_Development Agreement,0.523333333,1,11,12,2,Minimum Commitment (0.55 High); Uncapped Liability (0.48 Medium); Exclusivity (0.46 Medium),13,0.55
+18,SigaTechnologiesInc_20190603_8-K_EX-10.1_11695818_EX-10.1_Promotion Agreement,0.523333333,1,9,16,2,Minimum Commitment (0.55 High); Uncapped Liability (0.48 Medium); Exclusivity (0.46 Medium),40,0.446666667
+21,INGEVITYCORP_05_16_2016-EX-10.5-INTELLECTUAL PROPERTY AGREEMENT,0.508333333,1,4,9,2,Exclusivity (0.55 High); Ip Ownership Assignment (0.45 Medium); Irrevocable Or Perpetual License (0.40 Medium),46,0.433333333
+22,PaperexchangeComInc_20000322_S-1A_EX-10.4_5202103_EX-10.4_Co-Branding Agreement,0.506666667,1,8,13,1,Uncapped Liability (0.58 High); Exclusivity (0.36 Medium); Non-Compete (0.36 Medium),7,0.58
+23,USASYNTHETICFUELCORP_10_21_2010-EX-10.10-STRATEGIC ALLIANCE AGREEMENT,0.493333333,1,4,7,3,Most Favored Nation (0.55 High); Renewal Term (0.46 Medium); Revenue/Profit Sharing (0.30 Medium),2,0.59
+24,"VAPOTHERM, INC. - Manufacturing and Supply Agreement",0.488333333,0,5,10,0,Minimum Commitment (0.51 Medium); Uncapped Liability (0.48 Medium); Renewal Term (0.41 Medium),27,0.488333333
+25,TUNIUCORP_03_06_2014-EX-10-COOPERATION AGREEMENT,0.476666667,1,2,5,2,Liquidated Damages (0.55 High); Non-Compete (0.36 Medium); Termination For Convenience (0.30 Medium),38,0.45
+26,STWRESOURCESHOLDINGCORP_08_06_2014-EX-10.1-COOPERATION AGREEMENT,0.466666667,0,6,4,0,Minimum Commitment (0.51 Medium); Renewal Term (0.46 Medium); Revenue/Profit Sharing (0.30 Medium),29,0.483333333
+27,TRICITYBANKSHARESCORP_05_15_1998-EX-10-OUTSOURCING AGREEMENT,0.464010417,0,9,13,0,Uncapped Liability (0.48 Medium); Minimum Commitment (0.45 Medium); Post-Termination Services (0.41 Medium),44,0.43734375
+28,HarpoonTherapeuticsInc_20200312_10-K_EX-10.18_12051356_EX-10.18_Development Agreement,0.461666667,0,14,13,2,Uncapped Liability (0.48 Medium); Ip Ownership Assignment (0.45 Medium); Irrevocable Or Perpetual License (0.40 Medium),33,0.47
+28,PhotronicsInc_20171219_10-QA_EX-10.28_10982650_EX-10.28_Outsourcing Agreement,0.461666667,1,1,6,1,Uncapped Liability (0.58 High); Post-Termination Services (0.30 Medium); Cap On Liability (0.15 Low),45,0.436666667
+28,TRIZETTOGROUPINC_08_18_1999-EX-10.17-TECHNICAL INFRASTRUCTURE MAINTENANCE AGREEMENT,0.461666667,1,1,5,4,Uncapped Liability (0.58 High); Volume Restriction (0.30 Medium); Anti-Assignment (0.15 Low),75,0.266969697
+31,GridironBionutrientsInc_20171206_8-K_EX-10.1_10972555_EX-10.1_Endorsement Agreement,0.45,0,9,11,5,Exclusivity (0.45 Medium); Ip Ownership Assignment (0.45 Medium); Most Favored Nation (0.45 Medium),15,0.548333333
+31,"HERTZGLOBALHOLDINGS,INC_07_07_2016-EX-10.4-INTELLECTUAL PROPERTY AGREEMENT",0.45,0,6,8,1,Exclusivity (0.45 Medium); Ip Ownership Assignment (0.45 Medium); Non-Compete (0.45 Medium),52,0.425
+33,"BABCOCK_WILCOXENTERPRISES,INC_08_04_2015-EX-10.17-INTELLECTUAL PROPERTY AGREEMENT between THE BABCOCK _ WILCOX COMPANY and BABCOCK _ WILCOX ENTERPRISES, INC.",0.448333333,0,7,8,0,Exclusivity (0.46 Medium); Ip Ownership Assignment (0.45 Medium); Irrevocable Or Perpetual License (0.40 Medium),25,0.508333333
+34,EMERALDHEALTHTHERAPEUTICSINC_06_10_2020-EX-4.5-CONSULTING AGREEMENT - DR. GAETANO MORELLO N.D. INC.,0.441666667,0,4,6,0,Ip Ownership Assignment (0.45 Medium); Non-Compete (0.45 Medium); No-Solicit Of Customers (0.40 Medium),61,0.383333333
+34,EbixInc_20010515_10-Q_EX-10.3_4049767_EX-10.3_Co-Branding Agreement,0.441666667,0,7,11,3,Ip Ownership Assignment (0.45 Medium); Non-Compete (0.45 Medium); No-Solicit Of Customers (0.40 Medium),52,0.425
+34,Monsanto Company - SECOND A_R EXCLUSIVE AGENCY AND MARKETING AGREEMENT ,0.441666667,0,14,14,3,Ip Ownership Assignment (0.45 Medium); Most Favored Nation (0.45 Medium); Irrevocable Or Perpetual License (0.40 Medium),42,0.44
+34,PROFOUNDMEDICALCORP_08_29_2019-EX-4.5-SUPPLY AGREEMENT,0.441666667,0,8,12,5,Ip Ownership Assignment (0.45 Medium); Minimum Commitment (0.45 Medium); Irrevocable Or Perpetual License (0.40 Medium),41,0.441666667
+38,"Columbia Laboratories, (Bermuda) Ltd. - AMEND NO. 2 TO MANUFACTURING AND SUPPLY AGREEMENT",0.44,0,4,8,1,Minimum Commitment (0.51 Medium); Post-Termination Services (0.30 Medium); Price Restrictions (0.30 Medium),42,0.44
+38,WestPharmaceuticalServicesInc_20200116_8-K_EX-10.1_11947529_EX-10.1_Supply Agreement,0.44,0,3,5,0,Minimum Commitment (0.51 Medium); Price Restrictions (0.30 Medium); Volume Restriction (0.30 Medium),37,0.456666667
+40,MERITLIFEINSURANCECO_06_19_2020-EX-10.(XIV)-MASTER SERVICES AGREEMENT,0.433333333,0,5,8,0,Ip Ownership Assignment (0.45 Medium); Irrevocable Or Perpetual License (0.40 Medium); Termination For Convenience (0.40 Medium),18,0.539444444
+41,AIRSPANNETWORKSINC_04_11_2000-EX-10.5-Distributor Agreement,0.426666667,0,8,12,1,Most Favored Nation (0.45 Medium); Covenant Not To Sue (0.40 Medium); Exclusivity (0.36 Medium),38,0.45
+41,BizzingoInc_20120322_8-K_EX-10.17_7504499_EX-10.17_Endorsement Agreement,0.426666667,0,5,10,1,Exclusivity (0.45 Medium); Unlimited/All-You-Can-Eat-License (0.40 Medium); Renewal Term (0.36 Medium),31,0.475
+41,PANDIONTHERAPEUTICSHOLDCOLLC_05_22_2020-EX-10.17-CONSULTING AGREEMENT,0.426666667,0,7,12,2,Ip Ownership Assignment (0.45 Medium); Irrevocable Or Perpetual License (0.40 Medium); Exclusivity (0.36 Medium),31,0.475
+44,"GSITECHNOLOGYINC_11_16_2009-EX-10.2-INTELLECTUAL PROPERTY AGREEMENT between SONY ELECTRONICS INC. and GSI TECHNOLOGY, INC.",0.42,0,6,12,3,Ip Ownership Assignment (0.45 Medium); Exclusivity (0.36 Medium); Non-Compete (0.36 Medium),58,0.4
+45,HfEnterprisesInc_20191223_S-1_EX-10.22_11931299_EX-10.22_Development Agreement,0.416666667,0,4,10,1,Ip Ownership Assignment (0.45 Medium); Termination For Convenience (0.40 Medium); Covenant Not To Sue (0.30 Medium),46,0.433333333
+45,VALENCETECHNOLOGYINC_02_14_2003-EX-10-JOINT VENTURE CONTRACT,0.416666667,1,0,6,2,Liquidated Damages (0.55 High); Audit Rights (0.15 Low); Governing Law (0.15 Low),36,0.465
+45,WEBHELPCOMINC_03_22_2000-EX-10.8-HOSTING AGREEMENT,0.416666667,0,5,8,2,Ip Ownership Assignment (0.45 Medium); Termination For Convenience (0.40 Medium); Post-Termination Services (0.30 Medium),26,0.496666667
+48,AFSALABANCORPINC_08_01_1996-EX-1.1-AGENCY AGREEMENT,0.415,0,2,5,3,Minimum Commitment (0.51 Medium); Revenue/Profit Sharing (0.30 Medium); Cap On Liability (0.15 Low),51,0.426666667
+48,KENTUCKYUTILITIESCO_03_25_2003-EX-10.65-TRANSPORTATION AGREEMENT,0.415,0,2,4,2,Minimum Commitment (0.51 Medium); Volume Restriction (0.30 Medium); Anti-Assignment (0.15 Low),56,0.415
+50,ArconicRolledProductsCorp_20191217_10-12B_EX-2.7_11923804_EX-2.7_Trademark License Agreement,0.4,0,4,13,1,Exclusivity (0.45 Medium); Change Of Control (0.30 Medium); Covenant Not To Sue (0.30 Medium),73,0.285
+50,ICORECONNECTINC_10_13_2010-EX-7.1-Strategic Alliance Agreement,0.4,0,5,6,0,Post-Termination Services (0.40 Medium); Renewal Term (0.40 Medium); Termination For Convenience (0.40 Medium),61,0.383333333
+50,PHLVARIABLEINSURANCECOCT_08_17_2009-EX-10.1-STRATEGIC ALLIANCE AGREEMENT,0.4,0,5,11,3,Ip Ownership Assignment (0.45 Medium); Change Of Control (0.30 Medium); Covenant Not To Sue (0.30 Medium),68,0.348333333
+50,PhoenixNewMediaLtd_20110421_F-1_EX-10.17_6958322_EX-10.17_Content License Agreement,0.4,0,2,6,2,Most Favored Nation (0.45 Medium); Non-Compete (0.45 Medium); Expiration Date (0.15 Low),52,0.425
+54,BerkshireHillsBancorpInc_20120809_10-Q_EX-10.16_7708169_EX-10.16_Endorsement Agreement,0.386666667,0,6,10,4,Post-Termination Services (0.40 Medium); Exclusivity (0.36 Medium); Non-Compete (0.36 Medium),59,0.386666667
+54,ElPolloLocoHoldingsInc_20200306_10-K_EX-10.16_12041700_EX-10.16_Development Agreement,0.386666667,0,4,10,1,Post-Termination Services (0.40 Medium); Exclusivity (0.36 Medium); Non-Compete (0.36 Medium),57,0.413406193
+54,IMPCOTECHNOLOGIESINC_04_15_2003-EX-10.65-JOINT VENTURE AGREEMENT,0.386666667,0,4,8,5,Post-Termination Services (0.40 Medium); Exclusivity (0.36 Medium); Non-Compete (0.36 Medium),2,0.59
+54,XinhuaSportsEntertainmentLtd_20070221_F-1_EX-99.4_645553_EX-99.4_Content License Agreement,0.386666667,0,6,7,6,Termination For Convenience (0.40 Medium); Exclusivity (0.36 Medium); Non-Compete (0.36 Medium),46,0.433333333
+58,AgapeAtpCorp_20191202_10-KA_EX-10.1_11911128_EX-10.1_Supply Agreement,0.375,0,3,3,1,Renewal Term (0.40 Medium); Termination For Convenience (0.40 Medium); Warranty Duration (0.25 Medium),9,0.576666667
+58,"SUCAMPOPHARMACEUTICALS,INC_11_04_2015-EX-10.2-STRATEGIC ALLIANCE AGREEMENT",0.375,0,2,7,1,Most Favored Nation (0.45 Medium); Third Party Beneficiary (0.30 Medium); Anti-Assignment (0.15 Low),77,0.25
+58,WESTERN COPPER - NON-COMPETITION AGREEMENT,0.375,0,2,3,1,Non-Compete (0.45 Medium); Rofr/Rofo/Rofn (0.30 Medium); Anti-Assignment (0.15 Low),50,0.431739527
+61,GpaqAcquisitionHoldingsInc_20200123_S-4A_EX-10.8_11951679_EX-10.8_Service Agreement,0.366666667,0,7,12,3,Exclusivity (0.39 Medium); Non-Compete (0.36 Medium); Covenant Not To Sue (0.30 Medium),19,0.5375
+62,"HALITRON,INC_03_01_2005-EX-10.15-SPONSORSHIP AND DEVELOPMENT AGREEMENT",0.358333333,0,5,11,4,Exclusivity (0.36 Medium); Non-Compete (0.36 Medium); Unlimited/All-You-Can-Eat-License (0.35 Medium),63,0.376666667
+62,MSCIINC_02_28_2008-EX-10.10-,0.358333333,0,3,7,3,Irrevocable Or Perpetual License (0.40 Medium); Unlimited/All-You-Can-Eat-License (0.30 Medium); Governing Law (0.25 Medium),69,0.333333333
+64,"CURAEGISTECHNOLOGIES,INC_05_26_2010-EX-1-CORPORATE SPONSORSHIP AGREEMENT",0.35,0,1,8,1,Most Favored Nation (0.45 Medium); Anti-Assignment (0.15 Low); Expiration Date (0.15 Low),81,0.15
+64,FreezeTagInc_20180411_8-K_EX-10.1_11139603_EX-10.1_Sponsorship Agreement,0.35,0,5,10,5,Exclusivity (0.36 Medium); Non-Compete (0.36 Medium); Covenant Not To Sue (0.30 Medium),70,0.322222222
+64,LOOKSMARTLTD_07_20_2012-EX-99.(D)(I)-SPONSORSHIP AGREEMENT,0.35,0,1,8,2,Most Favored Nation (0.45 Medium); Anti-Assignment (0.15 Low); Cap On Liability (0.15 Low),81,0.15
+67,Quaker Chemical Corporation - NON COMPETITION AND NON SOLICITATION AGREEMENT,0.34507286,0,1,9,1,Non-Compete (0.42 Medium); No-Solicit Of Customers (0.24 Low); Anti-Assignment (0.15 Low),64,0.371739527
+68,GRANTIERRAENERGYINC_05_07_2012-EX-10.6-TRANSPORTATION CONTRACT,0.34,0,3,3,0,Liquidated Damages (0.36 Medium); Price Restrictions (0.30 Medium); Volume Restriction (0.30 Medium),24,0.516666667
+68,"WASTE2ENERGYHOLDINGS,INC_06_03_2010-EX-10.2-STRATEGIC ALLIANCE AGREEMENT",0.34,0,3,8,2,Non-Compete (0.36 Medium); Post-Termination Services (0.30 Medium); Termination For Convenience (0.30 Medium),65,0.366666667
+70,"VIVINT SOLAR, INC. - NON-COMPETITION AGREEMENT",0.325,0,1,5,2,Non-Compete (0.45 Medium); Expiration Date (0.15 Low); Agreement Date (0.00 Low),89,0.1
+71,"OMINTO,INC_03_29_2004-EX-10-RESELLER AGREEMENT",0.3,0,3,10,0,Post-Termination Services (0.30 Medium); Renewal Term (0.30 Medium); Termination For Convenience (0.30 Medium),67,0.353333333
+72,ACCELERATEDTECHNOLOGIESHOLDINGCORP_04_24_2003-EX-10.13-JOINT VENTURE AGREEMENT,0.29,0,1,4,0,Non-Compete (0.36 Medium); Audit Rights (0.15 Low); Competitive Restriction Exception (0.15 Low),77,0.25
+72,BOLIVARMININGCORP_05_23_2003-EX-2.1-VISP WEB SITE BUILDING AND HOSTING AGREEMENT,0.29,0,1,4,2,Renewal Term (0.36 Medium); Anti-Assignment (0.15 Low); Expiration Date (0.15 Low),28,0.485
+74,CHIPMOSTECHNOLOGIESBERMUDALTD_04_18_2016-EX-4.72-Strategic Alliance Agreement,0.275,0,2,6,1,Post-Termination Services (0.30 Medium); Termination For Convenience (0.30 Medium); Anti-Assignment (0.15 Low),72,0.29
+75,MphaseTechnologiesInc_20030911_10-K_EX-10.15_1560667_EX-10.15_Co-Branding Agreement,0.25,0,1,8,2,Termination For Convenience (0.30 Medium); Anti-Assignment (0.15 Low); Cap On Liability (0.15 Low),65,0.366666667
+75,"NOVOINTEGRATEDSCIENCES,INC_12_23_2019-EX-10.1-JOINT VENTURE AGREEMENT",0.25,0,1,7,1,Revenue/Profit Sharing (0.30 Medium); Anti-Assignment (0.15 Low); Audit Rights (0.15 Low),34,0.466666667
+75,PLAYAHOTELS_RESORTSNV_03_14_2017-EX-10.22-STRATEGIC ALLIANCE AGREEMENT (Hyatt Ziva Cancun),0.25,0,1,6,1,Rofr/Rofo/Rofn (0.30 Medium); Anti-Assignment (0.15 Low); Governing Law (0.15 Low),76,0.261111111
+75,"SPOKHOLDINGS,INC_06_19_2020-EX-10.1-COOPERATION AGREEMENT",0.25,0,1,6,2,Third Party Beneficiary (0.30 Medium); Anti-Assignment (0.15 Low); Governing Law (0.15 Low),81,0.15
+79,"Reinsurance Group of America, Incorporated - A_R REMARKETING  AGREEMENT",0.172222222,0,0,6,2,Cap On Liability (0.18 Low); Expiration Date (0.15 Low); Governing Law (0.15 Low),15,0.548333333
+80,EcoScienceSolutionsInc_20180406_8-K_EX-10.1_11135398_EX-10.1_Sponsorship Agreement,0.15,0,0,3,1,Anti-Assignment (0.15 Low); Expiration Date (0.15 Low); Governing Law (0.15 Low),81,0.15
+80,"HC2HOLDINGS,INC_05_14_2020-EX-10.1-COOPERATION AGREEMENT",0.15,0,0,8,1,Anti-Assignment (0.15 Low); Governing Law (0.15 Low); Insurance (0.15 Low),81,0.15
+80,HPILHOLDING_01_07_2015-EX-99.1-COOPERATION AGREEMENT,0.15,0,0,6,1,Anti-Assignment (0.15 Low); Cap On Liability (0.15 Low); Governing Law (0.15 Low),71,0.316666667
+80,PcquoteComInc_19990721_S-1A_EX-10.11_6377149_EX-10.11_Co-Branding Agreement1,0.15,0,0,8,2,Anti-Assignment (0.15 Low); Cap On Liability (0.15 Low); Expiration Date (0.15 Low),81,0.15
+84,ALCOSTORESINC_12_14_2005-EX-10.26-AGENCY AGREEMENT,0.125,0,0,6,2,Audit Rights (0.15 Low); Expiration Date (0.15 Low); Agreement Date (0.00 Low),74,0.283333333
+84,CHERRYHILLMORTGAGEINVESTMENTCORP_09_26_2013-EX-10.1-Strategic Alliance Agreement,0.125,0,0,4,0,Anti-Assignment (0.15 Low); Governing Law (0.15 Low); Agreement Date (0.00 Low),81,0.15
+86,ScansourceInc_20190822_10-K_EX-10.39_11793959_EX-10.39_Distributor Agreement,0.1,0,0,5,0,Expiration Date (0.15 Low); Agreement Date (0.00 Low); Document Name (0.00 Low),89,0.1
+87,CardlyticsInc_20180112_S-1_EX-10.16_11002987_EX-10.16_Maintenance Agreement3,0.0,0,0,3,0,Agreement Date (0.00 Low); Document Name (0.00 Low); Parties (0.00 Low),94,0.0
+87,FEDERATEDGOVERNMENTINCOMESECURITIESINC_04_28_2020-EX-99.SERV AGREE-SERVICES AGREEMENT_POWEROF,0.0,0,0,1,1,Parties (0.00 Low),81,0.15
+87,"GALERATHERAPEUTICS,INC_02_14_2020-EX-99.A-JOINT FILING AGREEMENT",0.0,0,0,2,0,Agreement Date (0.00 Low); Parties (0.00 Low),94,0.0
+87,GridironBionutrientsInc_20171206_8-K_EX-10.2_10972556_EX-10.2_Endorsement Agreement,0.0,0,0,4,0,Agreement Date (0.00 Low); Document Name (0.00 Low); Effective Date (0.00 Low),80,0.2
+87,LohaCompanyltd_20191209_F-1_EX-10.16_11917878_EX-10.16_Supply Agreement,0.0,0,0,0,0,,79,0.216666667
+87,"MFAFINANCIAL,INC_07_06_2020-EX-99.D-JOINT FILING AGREEMENT",0.0,0,0,1,0,Document Name (0.00 Low),94,0.0
+87,"ONEMAINHOLDINGS,INC_02_20_2020-EX-99.D-JOINT FILING AGREEMENT",0.0,0,0,1,1,Parties (0.00 Low),94,0.0
+87,"PRECIGEN,INC_01_22_2020-EX-99.1-JOINT FILING AGREEMENT",0.0,0,0,0,0,,94,0.0
+87,PRIMEENERGYRESOURCESCORP_04_02_2007-EX-10.28-COMPLETION AND LIQUIDITY MAINTENANCE AGREEMENT,0.0,0,0,1,0,Parties (0.00 Low),89,0.1
+87,PcquoteComInc_19990721_S-1A_EX-10.11_6377149_EX-10.11_Co-Branding Agreement2,0.0,0,0,0,0,,94,0.0
+87,RMRGROUPINC_01_22_2020-EX-99.1-JOINT FILING AGREEMENT,0.0,0,0,1,0,Agreement Date (0.00 Low),94,0.0
+87,"SPIENERGYCO,LTD_07_10_2014-EX-10-Cooperation Agreement of 50MWp Photovoltaic Grid-connected Power Generation Project in Yangqiao of~1",0.0,0,0,0,0,,94,0.0
+87,ScansourceInc_20190509_10-Q_EX-10.2_11661422_EX-10.2_Distributor Agreement,0.0,0,0,4,0,Agreement Date (0.00 Low); Document Name (0.00 Low); Effective Date (0.00 Low),89,0.1
+87,SoupmanInc_20150814_8-K_EX-10.1_9230148_EX-10.1_Franchise Agreement4,0.0,0,0,0,0,,94,0.0
+87,ThriventVariableInsuranceAccountB_20190701_N-6_EX-99.D(IV)_11720968_EX-99.D(IV)_Endorsement Agreement,0.0,0,0,0,0,,89,0.1
+87,WatchitMediaInc_20061201_8-K_EX-10.1_4148672_EX-10.1_Content License Agreement,0.0,0,0,0,0,,34,0.466666667
