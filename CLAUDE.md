@@ -59,6 +59,7 @@ Guidance for Claude Code in this repo. ARCHITECTURE.md is the source of truth fo
 - **Clients go through the service.** The reviewer page and the routers call `ClauseTriageService` (or HTTP) and never `ArtifactStore` directly. The API has no authentication, so it binds to 127.0.0.1 only.
 - **Feedback verdicts:** `accept` and `reject` need a model detection (`reject` also answers a reviewer's claimed miss); `missing` needs none. History is append-only. Reviewers who disagree are a conflict, which is reported and excluded from export, never settled by majority.
 - **Feedback export is allowlist-only:** a contract's feedback is exported only if its exact-text SHA-256 is in a `TrainingManifest`'s training set (default: the training partition of `train_separate_questions.json`, seed 42, fraction 0.2). Uploads and held-out contracts are excluded.
+- **Never hide every child of a `gr.Row` and show several at once.** In Gradio 6.17.3 that hangs the browser. Keep the components rendered and toggle `interactive` instead.
 - **Respect scope tiers:** build core work (chunker, encoder, scoring, register export) before FastAPI/Gradio. React, Postgres and Alembic are deferred.
 
 ## Stack
@@ -104,7 +105,7 @@ Status as of 2026-11-17, including the Wave 2 serving branches. The docs index i
 **Gaps against ARCHITECTURE.md**
 - The DistilRoBERTa five-seed run has not been executed (it needs a Colab GPU), so the "encoder beats baseline" criterion is unmeasured. The notebook has never run on a real GPU.
 - There are no advisor hand-ranked clauses, so Spearman and bucket agreement against the advisor do not exist. The Spearman in `results/contract_triage/` is against a perfect-detection reference built from CUAD annotations.
-- The reviewer page has been driven only through its handlers and `gradio_client`. Nobody has seen it rendered in a browser, and no real reviewer has used it.
+- The reviewer page loads, switches tabs and downloads registers in headless Chrome. Its other controls have been driven only through their handlers and `gradio_client`, and no real reviewer has used it.
 - The API has no authentication, no time limit on parsing or scoring, and has not been load-tested. Run it on localhost only.
 - On real contracts the review queue is dominated by `no_cue_match` Unknowns, a symptom of the weak evidence heuristic.
 - No Docker or license. `pyproject.toml` still has per-file lint suppressions to clear.

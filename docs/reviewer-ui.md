@@ -213,10 +213,13 @@ drive the page. The supported API for other clients is the HTTP API in [api.md](
 
 **Not verified:**
 
-- **The page in a browser.** It has not been rendered or clicked in a browser: no layout, colour,
-  row-click or timer behaviour has been seen. All the checks above called the page's handlers through
-  Gradio's API. The chained refreshes (switching the version reloads the ranking, contract and
-  editor) are wired, but they have only been exercised one handler at a time.
+- **Most of the page in a browser.** On 2026-11-17 the page was loaded in headless Chrome with ten
+  stored contracts: it rendered, the three tabs opened, and both register buttons downloaded their
+  files. That check found and fixed a hang: the page froze the browser on load because the two
+  download buttons were hidden and then shown together (see the comment in `src/ui/reviewer.py`).
+  Row clicks, the upload flow, weight editing and verdict buttons have still only been exercised
+  through Gradio's API, not clicked in a browser, and nobody has checked the layout by eye on a
+  normal screen.
 - **A real reviewer.** No legal professional has used the page. The wording and the layout of the
   tabs are untested with users.
 - **Scale.** Exercised with 6 contracts. Opening a contract reads its probabilities with one query
