@@ -4,9 +4,11 @@ The project's first success criterion is that a fine-tuned transformer encoder c
 TF-IDF baseline on per-category precision, recall and F1. This page covers how to produce that
 comparison, what comes out, and how to read it.
 
-**Status: no encoder result exists yet.** The training, evaluation and comparison code is in
-place and the splits are verified, but the full four-epoch run needs a GPU and has not been
-executed. Nothing on this page is an encoder number.
+**Status: run on a Colab T4 on 2026-11-17. Verdict `does_not_beat`.** DistilRoBERTa scored lower
+macro-F1 than word+char TF-IDF on all five seeds (by 0.063 to 0.082). The results are in
+`results/encoder_nested_seed{42,7,17,23,101}/` and `results/encoder_vs_tfidf/`, and the
+[final report](final-report.md) summarizes them. The rest of this page was written before the run
+and describes the procedure.
 
 ## What is compared
 
