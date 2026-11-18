@@ -20,7 +20,7 @@ class ContractInferencePipeline:
 
     The bundle's predictor scores chunks in order. Returned evidence is verified against
     the exact input text; predictions without cue-grounded evidence are kept in `unknown`
-    and are still risk-scored. Scores use `weight_set` (default: the v1 placeholder weights).
+    and are still risk-scored. Scores use `weight_set` (default: the v2 team-proposed weights).
     """
 
     def __init__(

@@ -5,7 +5,7 @@ type, its risk rating, why it got that rating, where it is in the contract, and 
 based on. One register is produced per contract, as a spreadsheet-friendly CSV file and a JSON file with
 the same content.
 
-> **Research prototype.** Ratings use placeholder risk weights that the advisor has not yet signed off.
+> **Research prototype.** Ratings use team-proposed risk weights (`v2-team-proposed`) that the advisor has not yet signed off.
 > A register helps decide which contracts and clauses to read first. It is not legal advice and does not
 > replace reading the contract.
 
@@ -27,7 +27,7 @@ the same content.
 | `contract_rank` | The contract's place in the review order among the contracts scored together. 1 means open first. Contracts with the same triage score share a rank (1, 2, 2, 4). |
 | `triage_score` | The contract's overall risk score, from 0 to 1. It combines the contract's single worst clause with the average of its three worst clause types. Repeated clauses of the same type count once. |
 | `category` | The clause type, one of the 41 CUAD categories (for example *Uncapped Liability*, *Non-Compete*, *Governing Law*). |
-| `rating` | `High`, `Medium` or `Low`, from `composite_score` and the two thresholds set by the weight version (in `v1-placeholder`, Medium from 0.35 and High from 0.55). |
+| `rating` | `High`, `Medium` or `Low`, from `composite_score` and the two thresholds set by the weight version (in `v2-team-proposed`, Medium from 0.25 and High from 0.525). |
 | `composite_score` | The clause's risk score, from 0 to 1: a weighted sum of the four signals below. |
 | `category_severity` | How serious this clause type usually is (0 = harmless, such as the parties' names; 1 = critical, such as uncapped liability). Other clauses in the contract can lower it, for example a liability cap that softens liquidated damages. |
 | `one_sidedness` | Whether the quoted wording gives one party unchecked power ("sole discretion", "at any time") rather than mutual, qualified terms ("each party", "reasonable"). 0 when there is no quote. |
