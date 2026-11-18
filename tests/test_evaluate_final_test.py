@@ -6,12 +6,12 @@ import pandas as pd
 import pytest
 
 import scripts.evaluate_final_test as final
-from src.labels.categories import CATEGORIES
-from src.labels.loader import AnswerSpan, Contract
-from src.registry import demo_model
-from src.registry.bundle import ClauseModelBundle
-from src.risk.schema import load_weight_set
-from src.sealed_run import ATTEMPTS_FILE, PREFLIGHT_FILE, REPORT_FILE, SealedRunError, ids_sha256
+from clausetriage.labels.categories import CATEGORIES
+from clausetriage.labels.loader import AnswerSpan, Contract
+from clausetriage.registry import demo_model
+from clausetriage.registry.bundle import ClauseModelBundle
+from clausetriage.risk.schema import load_weight_set
+from clausetriage.sealed_run import ATTEMPTS_FILE, PREFLIGHT_FILE, REPORT_FILE, SealedRunError, ids_sha256
 
 GOVERNING, PARTIES = CATEGORIES.index("Governing Law"), CATEGORIES.index("Parties")
 
@@ -332,3 +332,11 @@ def test_load_frozen_bundle_refuses_a_file_with_another_hash(tmp_path):
     path.write_bytes(b"not the release")
     with pytest.raises(final.IntegrityError, match="pins"):
         final.load_frozen_bundle(path)
+
+
+@pytest.mark.skipif(not demo_model.BUNDLE_PATH.exists(), reason="the released model file is not in models/ (git-ignored)")
+def test_load_frozen_bundle_accepts_the_released_file_pickled_before_the_rename():
+    """The frozen bundle, which names the old `src.` module paths, passes every check and keeps its hash."""
+    bundle = final.load_frozen_bundle(demo_model.BUNDLE_PATH)
+    assert type(bundle) is ClauseModelBundle and bundle.model_name == "word_char_tfidf"
+    assert demo_model.file_sha256(demo_model.BUNDLE_PATH) == demo_model.BUNDLE_SHA256

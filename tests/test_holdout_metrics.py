@@ -3,7 +3,7 @@ import pandas as pd
 import pytest
 from sklearn.metrics import average_precision_score, precision_recall_fscore_support
 
-from src.holdout_metrics import (
+from clausetriage.holdout_metrics import (
     bca_interval, bootstrap_replicates, category_counts, compare_with_reference, contract_groups, contract_presence,
     detection_table, f1_from_counts, jackknife_replicates, macro_aupr, macro_f1, per_category_aupr, percentile_interval,
     predict_at_thresholds, spearman, support_bucket, support_status,

@@ -1,6 +1,6 @@
 # Demo contracts
 
-Sample inputs for the demo page's "Try the sample contracts" button (`python -m src.ui.app`).
+Sample inputs for the demo page's "Try the sample contracts" button (`python -m clausetriage.ui.app`).
 They are for showing the pipeline only; none of them is used for training or evaluation.
 
 | File | Source |

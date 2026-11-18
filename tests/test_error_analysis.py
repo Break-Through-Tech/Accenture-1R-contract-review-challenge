@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from src.error_analysis import (
+from clausetriage.error_analysis import (
     NO_LABEL,
     apply_category_thresholds,
     category_error_table,
@@ -12,7 +12,7 @@ from src.error_analysis import (
     seed_stability,
     support_bucket,
 )
-from src.metrics import add_aupr_column, compute_aupr, compute_base_metrics
+from clausetriage.metrics import add_aupr_column, compute_aupr, compute_base_metrics
 
 CATS = ["A", "B", "C"]
 

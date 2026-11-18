@@ -1,8 +1,8 @@
 import pytest
 
-from src.evidence.schema import Evidence
-from src.risk.schema import ClauseInput, WeightSet, load_weight_set
-from src.risk.scoring import rate, score_clause, score_contract_clauses
+from clausetriage.evidence.schema import Evidence
+from clausetriage.risk.schema import ClauseInput, WeightSet, load_weight_set
+from clausetriage.risk.scoring import rate, score_clause, score_contract_clauses
 
 WEIGHTS = WeightSet(
     weight_version_id="test-v1",

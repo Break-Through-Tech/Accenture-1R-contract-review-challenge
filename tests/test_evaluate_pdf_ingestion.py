@@ -5,8 +5,8 @@ import pytest
 
 from scripts.evaluate_pdf_ingestion import (count_recovered, evaluate, main, normalize_whitespace,
                                             remove_whitespace, straighten_quotes)
-from src.labels.loader import load_cuad
-from src.labels.splits import split_by_contract
+from clausetriage.labels.loader import load_cuad
+from clausetriage.labels.splits import split_by_contract
 from tests.pdf_fixtures import write_pdf
 
 CONTEXT = "This Agreement is governed by Delaware law. Either party may terminate."

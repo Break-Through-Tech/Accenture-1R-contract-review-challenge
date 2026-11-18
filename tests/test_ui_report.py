@@ -3,19 +3,19 @@ from pathlib import Path
 import pandas as pd
 import pytest
 
-from src.evidence.extractor import GroundedEvidence
-from src.evidence.schema import Evidence
-from src.risk.contract import aggregate_contracts
-from src.risk.schema import ClauseInput, load_weight_set
-from src.risk.scoring import score_contract_clauses
-from src.ui.documents import Document
-from src.register.export import GroundingError
-from src.ui.report import (CLAUSE_COLUMNS, CONTRACT_COLUMNS, NO_QUOTE, REGISTER_COLUMNS, ScoredContract,
+from clausetriage.evidence.extractor import GroundedEvidence
+from clausetriage.evidence.schema import Evidence
+from clausetriage.risk.contract import aggregate_contracts
+from clausetriage.risk.schema import ClauseInput, load_weight_set
+from clausetriage.risk.scoring import score_contract_clauses
+from clausetriage.ui.documents import Document
+from clausetriage.register.export import GroundingError
+from clausetriage.ui.report import (CLAUSE_COLUMNS, CONTRACT_COLUMNS, NO_QUOTE, REGISTER_COLUMNS, ScoredContract,
                            clause_register, clause_table, contract_table, highlighted_text, rank_contracts,
                            verdict)
 
 # An explicit weight file, so a change of default weight set can't move these values
-WEIGHTS = load_weight_set(Path(__file__).resolve().parents[1] / "src" / "risk" / "weights" / "default_weights_v1.json")
+WEIGHTS = load_weight_set(Path(__file__).resolve().parents[1] / "clausetriage" / "risk" / "weights" / "default_weights_v1.json")
 TEXT = "This Agreement is governed by Delaware law.\n\nThe liability of Supplier shall be unlimited."
 LAW = Evidence(quote="This Agreement is governed by Delaware law.", start=0, end=43)
 LIABILITY = Evidence(quote="The liability of Supplier shall be unlimited.", start=45, end=len(TEXT))

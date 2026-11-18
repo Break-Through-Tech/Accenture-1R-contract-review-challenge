@@ -8,7 +8,7 @@ and returns raw probabilities shaped `(chunks, 41)` in the exact canonical
 thresholds, model name, configuration, and seed. Thresholding is downstream of raw
 probabilities so rescoring does not require rerunning the classifier.
 
-`src/registry/mlflow_registry.py` stores each serialized bundle as a numbered MLflow
+`clausetriage/registry/mlflow_registry.py` stores each serialized bundle as a numbered MLflow
 registered-model version, using a SQLite tracking database and local artifact
 folder. Every version logs its evaluation metrics, seed, category schema hash,
 thresholds, config, and caller-supplied data/split metadata. Load a specific version
@@ -17,10 +17,10 @@ rather than implicitly using `latest` in reproducible scoring.
 Example after fitting a model and calibrating thresholds:
 
 ```python
-from src.labels.categories import CATEGORIES
-from src.registry.bundle import ClauseModelBundle
-from src.registry.mlflow_registry import register_bundle
-from src.registry.predictors import VectorizedClassifier
+from clausetriage.labels.categories import CATEGORIES
+from clausetriage.registry.bundle import ClauseModelBundle
+from clausetriage.registry.mlflow_registry import register_bundle
+from clausetriage.registry.predictors import VectorizedClassifier
 
 bundle = ClauseModelBundle(
     predictor=VectorizedClassifier(fitted_vectorizer, fitted_classifier),
@@ -43,7 +43,7 @@ partition and protocol in `metadata`.
 
 ## Artifact store
 
-`src/store/` is the persistence layer between the pipeline and its readers (the API,
+`clausetriage/store/` is the persistence layer between the pipeline and its readers (the API,
 the reviewer UI, the clause-register export). It exists so risk weights can be changed
 and every contract rescored from cached probabilities without rerunning the classifier.
 
@@ -92,11 +92,11 @@ which other contracts are scored. The read side computes it with the same rule a
 ### Saving a pipeline run
 
 ```python
-from src.risk.schema import load_weight_set
-from src.store.artifact_store import ArtifactStore
+from clausetriage.risk.schema import load_weight_set
+from clausetriage.store.artifact_store import ArtifactStore
 
 store = ArtifactStore("outputs/artifact_store.sqlite")
-weights = load_weight_set("src/risk/weights/default_weights_v1.json")
+weights = load_weight_set("clausetriage/risk/weights/default_weights_v1.json")
 pipeline = ContractInferencePipeline(bundle, tokenizer, cues, weight_set=weights)
 result = pipeline.predict_contract(document.name, document.text)
 store.save_inference_result(
@@ -115,7 +115,7 @@ so pass the exact text the pipeline ran on.
 ### Rescoring without the model
 
 ```python
-from src.store.rescoring import rescore_contracts
+from clausetriage.store.rescoring import rescore_contracts
 
 new_weights = weights.model_copy(update={"weight_version_id": "v1.1", "triage_max_weight": 0.7})
 ranked = rescore_contracts(store, registered.model_key, new_weights)             # writes scores
@@ -146,7 +146,7 @@ serve the review queue.
 needs a stored detection, `missing` needs none, and `reject` needs a detection or an
 earlier `missing` on the same key. Timestamps are stored and returned as UTC, and one
 reviewer's verdicts on a (chunk, category) can't go back in time. The review queue,
-verdict resolution and the training-data export are in `src/review/`; see
+verdict resolution and the training-data export are in `clausetriage/review/`; see
 [Feedback and the review queue](feedback-review-queue.md).
 
 ### Schema changes

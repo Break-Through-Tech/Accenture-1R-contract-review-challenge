@@ -1,4 +1,4 @@
-"""Tests for src/api/app.py and src/api/routers/: every endpoint over FastAPI's test client, with a keyword model."""
+"""Tests for clausetriage/api/app.py and clausetriage/api/routers/: every endpoint over FastAPI's test client, with a keyword model."""
 import io
 import json
 import zipfile
@@ -7,11 +7,11 @@ import pytest
 from fastapi import APIRouter
 from fastapi.testclient import TestClient
 
-from src.api import limits
-from src.api.app import create_app
-from src.api.routers import ServiceDep
-from src.register.export import build_register, read_json, register_file_stem, register_frame, to_json
-from src.risk.contract import aggregate_contracts
+from clausetriage.api import limits
+from clausetriage.api.app import create_app
+from clausetriage.api.routers import ServiceDep
+from clausetriage.register.export import build_register, read_json, register_file_stem, register_frame, to_json
+from clausetriage.risk.contract import aggregate_contracts
 from tests.api_fixtures import MODEL_VERSION, TEXT_1, TEXT_2, FailingPredictor, make_pipeline, make_service, weights_b
 from tests.pdf_fixtures import pdf_bytes
 from tests.test_artifact_store import row_counts, weights_a
@@ -160,8 +160,8 @@ def test_upload_over_declared_length_is_413_before_reading(client, monkeypatch):
 
 def test_upload_file_over_size_limit_is_413(client, monkeypatch):
     """A file part over MAX_FILE_BYTES is refused by the handler even when the body limit allows it."""
-    monkeypatch.setattr("src.api.routers.contracts.MAX_FILE_BYTES", 100)
-    monkeypatch.setattr("src.api.service.MAX_FILE_BYTES", 100)
+    monkeypatch.setattr("clausetriage.api.routers.contracts.MAX_FILE_BYTES", 100)
+    monkeypatch.setattr("clausetriage.api.service.MAX_FILE_BYTES", 100)
     response = upload(client, "big.txt", b"a" * 500)
     assert response.status_code == 413
 

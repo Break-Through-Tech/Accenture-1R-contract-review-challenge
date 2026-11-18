@@ -3,7 +3,7 @@
 import pytest
 from transformers import AutoTokenizer
 
-from src.chunking.token_chunker import (
+from clausetriage.chunking.token_chunker import (
     TOKENIZER_NAME, TOKENIZER_REVISION, chunk_token_windows, chunk_sentence_windows,
     sentence_spans, token_length,
 )

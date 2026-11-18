@@ -10,12 +10,12 @@ import pytest
 from pypdf import PdfReader
 from transformers import AutoTokenizer
 
-from src.chunking.token_chunker import TOKENIZER_NAME, TOKENIZER_REVISION
-from src.evidence.cues import load_category_cues
-from src.inference import ContractInferencePipeline
-from src.ingest.documents import PAGE_SEPARATOR, Document, read_document
-from src.labels.categories import CATEGORIES
-from src.registry.bundle import ClauseModelBundle
+from clausetriage.chunking.token_chunker import TOKENIZER_NAME, TOKENIZER_REVISION
+from clausetriage.evidence.cues import load_category_cues
+from clausetriage.inference import ContractInferencePipeline
+from clausetriage.ingest.documents import PAGE_SEPARATOR, Document, read_document
+from clausetriage.labels.categories import CATEGORIES
+from clausetriage.registry.bundle import ClauseModelBundle
 from tests.pdf_fixtures import write_pdf
 
 DEMO_DIR = Path(__file__).resolve().parents[1] / "data" / "demo_contracts"

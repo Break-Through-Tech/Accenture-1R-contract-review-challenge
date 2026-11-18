@@ -1,7 +1,7 @@
 from pathlib import Path
 
-from src.labels.categories import CATEGORIES
-from src.models.encoder.category_descriptions import load_category_descriptions
+from clausetriage.labels.categories import CATEGORIES
+from clausetriage.models.encoder.category_descriptions import load_category_descriptions
 
 
 def test_category_description_prompts_match_canonical_label_order():

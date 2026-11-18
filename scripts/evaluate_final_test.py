@@ -29,35 +29,35 @@ import warnings
 from collections import defaultdict
 from pathlib import Path
 
-import joblib
 import numpy as np
 import pandas as pd
 from sklearn.exceptions import InconsistentVersionWarning
 from transformers import AutoTokenizer
 
 from scripts.evaluate_triage import TOP_N, _agreement
-from src.chunking.token_chunker import TOKENIZER_NAME, TOKENIZER_REVISION
-from src.evidence.cues import load_category_cues
-from src.holdout_metrics import (
+from clausetriage.chunking.token_chunker import TOKENIZER_NAME, TOKENIZER_REVISION
+from clausetriage.evidence.cues import load_category_cues
+from clausetriage.holdout_metrics import (
     bootstrap_replicates, category_counts, compare_with_reference, contract_groups, contract_presence,
     bca_interval, detection_table, f1_from_counts, jackknife_replicates, macro_aupr, macro_f1, per_category_aupr,
     predict_at_thresholds, spearman, support_bucket,
 )
-from src.holdout_report import bucket_frame, jsonable, per_category_frame, render_summary
-from src.inference import ContractInferencePipeline
-from src.labels.categories import CATEGORIES, CATEGORY_TO_INDEX
-from src.labels.loader import Contract, load_cuad
-from src.labels.projection import spans_overlap
-from src.labels.splits import split_by_contract
-from src.models.naive.tfid_baseline import fit_tfidf_baseline
-from src.pipeline import prepare_contracts, to_model_inputs
-from src.registry.bundle import ClauseModelBundle
-from src.registry.demo_model import BUNDLE_PATH, BUNDLE_SHA256, file_sha256
-from src.risk.contract import aggregate_contracts
-from src.risk.inputs import clauses_from_probabilities, gold_clauses
-from src.risk.schema import DEFAULT_WEIGHTS_PATH, load_weight_set
-from src.risk.scoring import score_contract_clauses
-from src.sealed_run import (
+from clausetriage.holdout_report import bucket_frame, jsonable, per_category_frame, render_summary
+from clausetriage.inference import ContractInferencePipeline
+from clausetriage.legacy import load_joblib
+from clausetriage.labels.categories import CATEGORIES, CATEGORY_TO_INDEX
+from clausetriage.labels.loader import Contract, load_cuad
+from clausetriage.labels.projection import spans_overlap
+from clausetriage.labels.splits import split_by_contract
+from clausetriage.models.naive.tfid_baseline import fit_tfidf_baseline
+from clausetriage.pipeline import prepare_contracts, to_model_inputs
+from clausetriage.registry.bundle import ClauseModelBundle
+from clausetriage.registry.demo_model import BUNDLE_PATH, BUNDLE_SHA256, file_sha256
+from clausetriage.risk.contract import aggregate_contracts
+from clausetriage.risk.inputs import clauses_from_probabilities, gold_clauses
+from clausetriage.risk.schema import DEFAULT_WEIGHTS_PATH, load_weight_set
+from clausetriage.risk.scoring import score_contract_clauses
+from clausetriage.sealed_run import (
     ATTEMPTS_FILE, PREFLIGHT_FILE, REPORT_FILE, SealedRunError, check_mode, check_sealed_output,
     check_sealed_preconditions, classify_data_path, environment, git_blob_id, git_history_has, git_state,
     git_tracked, ids_sha256, last_commit_of, preflight_failures, start_attempt, structure_report, text_file_sha256,
@@ -89,7 +89,7 @@ WEIGHT_SET_SHA256 = "8d8e8e264b8c4ffe07c7e22cab7be70c4524ce7759e62c64432b83214e6
 PINNED_FILES = {
     SAVED_RUN / "word_char_tfidf_thresholds.json": "8025756b8f12c6fe4dc8b6782d71e714450e6ac218c9b3a03d137154d2f7db28",
     SAVED_RUN / "word_tfidf_thresholds.json": "aa419d2cc53e6884813448ec2ad3c723fd17aa9711998ab1a2ff5a69571cbe3e",
-    ROOT / "src" / "risk" / "weights" / "default_weights_v2.json":
+    ROOT / "clausetriage" / "risk" / "weights" / "default_weights_v2.json":
         "770313649a6a51572fb2c9ad90662023ff6c158c4b7f54bca176aa281a387c6c",
     ROOT / "data" / "cuad" / "category_descriptions.csv":
         "f80c236906f171649aebe98db9cdbcf8595854cf54667c2e4274ba77dcfd6e7b",
@@ -140,7 +140,7 @@ def load_frozen_bundle(path: Path = BUNDLE_PATH) -> ClauseModelBundle:
         raise IntegrityError(f"{path} has SHA-256 {actual}, the protocol pins {BUNDLE_SHA256}")
     with warnings.catch_warnings():
         warnings.simplefilter("error", InconsistentVersionWarning)
-        bundle = joblib.load(path)
+        bundle = load_joblib(path)
     expected_config = {"split_seed": SPLIT_SEED, "max_tokens": MAX_TOKENS, "overlap_tokens": OVERLAP_TOKENS,
                        "tokenizer": TOKENIZER_NAME, "tokenizer_revision": TOKENIZER_REVISION, "c": 1.0}
     problems = [key for key, value in expected_config.items() if bundle.config.get(key) != value]
@@ -216,7 +216,7 @@ def development_reference() -> dict:
 def fit_word_reference(training: list[Contract], tokenizer):
     """
     The original word-only baseline refitted on the same 260 training contracts with its default
-    settings (src/models/naive/tfid_baseline.py). Returns (predict function, training chunk count).
+    settings (clausetriage/models/naive/tfid_baseline.py). Returns (predict function, training chunk count).
     """
     texts, labels = to_model_inputs(prepare_contracts(training, tokenizer, max_tokens=MAX_TOKENS,
                                                       overlap_tokens=OVERLAP_TOKENS))
@@ -543,7 +543,7 @@ def provenance_record(*, mode: str, bundle: ClauseModelBundle, git: dict, integr
                   "thresholds_sha256": text_file_sha256(SAVED_RUN / "word_char_tfidf_thresholds.json")},
         "word_only_reference_model": {"fitted_on": "seed-42 training partition (260 contracts)",
                                       "training_chunks": word_training_chunks,
-                                      "settings": "src/models/naive/tfid_baseline.py defaults",
+                                      "settings": "clausetriage/models/naive/tfid_baseline.py defaults",
                                       "thresholds": _shown(SAVED_RUN / "word_tfidf_thresholds.json"),
                                       "thresholds_sha256": text_file_sha256(SAVED_RUN / "word_tfidf_thresholds.json")},
         "chunking": {"method": "chunk_sentence_windows", "tokenizer": TOKENIZER_NAME,

@@ -4,13 +4,14 @@ import joblib
 import pytest
 from sklearn.exceptions import InconsistentVersionWarning
 
-from src.registry.demo_model import fetch_bundle_file, file_sha256, load_or_build_bundle
+from clausetriage.registry.demo_model import fetch_bundle_file, file_sha256, load_demo_bundle, load_or_build_bundle
+from clausetriage.registry.predictors import VectorizedClassifier
 
 
 def _warn_like_old_sklearn() -> str:
     """Unpickled stand-in that warns the way scikit-learn does for a file from another version."""
     warnings.warn(InconsistentVersionWarning(estimator_name="Model", current_sklearn_version="2",
-                                             original_sklearn_version="1"))
+                                             original_sklearn_version="1"), stacklevel=2)
     return "stale model"
 
 
@@ -75,6 +76,18 @@ def test_load_or_build_bundle_loads_a_good_file_without_building(tmp_path):
     joblib.dump({"model": 1}, target)
     assert load_or_build_bundle(target, "https://invalid.example/never", "0" * 64, _builder(calls)) == {"model": 1}
     assert calls == []
+
+
+def test_load_or_build_bundle_loads_a_pre_rename_file_without_building(tmp_path):
+    """A file pickled when the package was still `src` (like the released model) loads instead of being rebuilt."""
+    target, calls = tmp_path / "bundle.joblib", []
+    joblib.dump(VectorizedClassifier("vectorizer", "classifier"), target, protocol=2)
+    # Protocol 2 stores module paths as text, so renaming them in place keeps the pickle valid
+    target.write_bytes(target.read_bytes().replace(b"clausetriage.registry.", b"src.registry."))
+    loaded = load_or_build_bundle(target, "https://invalid.example/never", "0" * 64, _builder(calls))
+    assert type(loaded) is VectorizedClassifier
+    assert (loaded.vectorizer, loaded.classifier, calls) == ("vectorizer", "classifier", [])
+    assert type(load_demo_bundle(target)) is VectorizedClassifier
 
 
 def test_load_or_build_bundle_builds_when_download_fails(tmp_path):

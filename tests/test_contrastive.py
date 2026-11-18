@@ -6,7 +6,7 @@ import torch
 from scipy.sparse import csr_matrix
 from torch import nn
 
-from src.models.encoder.contrastive import (
+from clausetriage.models.encoder.contrastive import (
     ContrastiveChunkEncoder,
     build_category_prototypes,
     sample_category_triplet_batch,

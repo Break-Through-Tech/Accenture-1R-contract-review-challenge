@@ -16,7 +16,7 @@ from huggingface_hub import snapshot_download
 # Import the pinned name and revision from the code instead of repeating them here
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
-from src.chunking.token_chunker import TOKENIZER_NAME, TOKENIZER_REVISION  # noqa: E402
+from clausetriage.chunking.token_chunker import TOKENIZER_NAME, TOKENIZER_REVISION  # noqa: E402
 
 # Everything AutoTokenizer reads for this model; the weights are deliberately left out
 TOKENIZER_FILES = ["config.json", "tokenizer_config.json", "tokenizer.json", "vocab.json", "merges.txt"]

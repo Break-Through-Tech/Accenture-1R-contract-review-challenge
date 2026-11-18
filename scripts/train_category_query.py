@@ -15,24 +15,23 @@ import random
 from pathlib import Path
 
 import numpy as np
-import pandas as pd
 import torch
 from transformers import AutoModel, AutoTokenizer
 
-from src.models.encoder.experiment_utils import (
+from clausetriage.models.encoder.experiment_utils import (
     ROOT, TRAIN_PATH, align_chunk_predictions, calibrate_thresholds,
     digest_contract_ids, make_contract_loader,
 )
-from src.chunking.token_chunker import TOKENIZER_NAME, TOKENIZER_REVISION
-from src.labels.categories import CATEGORIES
-from src.labels.loader import load_cuad
-from src.labels.splits import split_by_contract
-from src.metrics import add_aupr_column, compute_aupr, compute_base_metrics
-from src.models.encoder.category_descriptions import load_category_descriptions
-from src.models.encoder.category_query import CategoryQueryClassifier, build_category_query_model
-from src.models.encoder.contract_dataset import ContractChunkDataset
-from src.pipeline import prepare_contracts
-from src.registry.predictors import CategoryQueryPredictor
+from clausetriage.chunking.token_chunker import TOKENIZER_NAME, TOKENIZER_REVISION
+from clausetriage.labels.categories import CATEGORIES
+from clausetriage.labels.loader import load_cuad
+from clausetriage.labels.splits import split_by_contract
+from clausetriage.metrics import add_aupr_column, compute_aupr, compute_base_metrics
+from clausetriage.models.encoder.category_descriptions import load_category_descriptions
+from clausetriage.models.encoder.category_query import CategoryQueryClassifier, build_category_query_model
+from clausetriage.models.encoder.contract_dataset import ContractChunkDataset
+from clausetriage.pipeline import prepare_contracts
+from clausetriage.registry.predictors import CategoryQueryPredictor
 
 
 DESCRIPTIONS_PATH = ROOT / "data/cuad/category_descriptions.csv"
@@ -349,8 +348,8 @@ def main() -> None:
     }
     (args.output / "report.json").write_text(json.dumps(summary, indent=2, default=float) + "\n")
     if args.register:
-        from src.registry.bundle import ClauseModelBundle
-        from src.registry.mlflow_registry import register_bundle
+        from clausetriage.registry.bundle import ClauseModelBundle
+        from clausetriage.registry.mlflow_registry import register_bundle
 
         model = model.to("cpu").eval()
         bundle = ClauseModelBundle(

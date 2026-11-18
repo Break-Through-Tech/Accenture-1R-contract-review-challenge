@@ -8,12 +8,12 @@ v2 arithmetic used by the golden values: composite = 0.6 * severity + 0.1 * one_
 """
 import pytest
 
-from src.evidence.cues import normalize_category
-from src.evidence.schema import Evidence
-from src.labels.categories import CATEGORIES
-from src.risk.schema import DEFAULT_WEIGHTS_PATH, SIGNAL_NAMES, V1_WEIGHTS_PATH, ClauseInput, load_weight_set
-from src.risk.scoring import score_clause
-from src.risk.signals import magnitude
+from clausetriage.evidence.cues import normalize_category
+from clausetriage.evidence.schema import Evidence
+from clausetriage.labels.categories import CATEGORIES
+from clausetriage.risk.schema import DEFAULT_WEIGHTS_PATH, SIGNAL_NAMES, V1_WEIGHTS_PATH, ClauseInput, load_weight_set
+from clausetriage.risk.scoring import score_clause
+from clausetriage.risk.signals import magnitude
 
 V2 = load_weight_set(DEFAULT_WEIGHTS_PATH)
 V1 = load_weight_set(V1_WEIGHTS_PATH)

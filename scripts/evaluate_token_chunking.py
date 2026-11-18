@@ -9,16 +9,16 @@ from time import perf_counter
 
 from transformers import AutoTokenizer
 
-from src.chunking.chunker import chunk_contract
-from src.chunking.evaluation import evaluate_chunks, validate_chunks
-from src.chunking.experiment import annotation_lengths, compare_examples, measure_chunks
-from src.chunking.gwen_adapter import GWEN_COMMIT, GWEN_SOURCE_PATH, load_gwen_prototype, saved_development
-from src.chunking.token_chunker import (
+from clausetriage.chunking.chunker import chunk_contract
+from clausetriage.chunking.evaluation import evaluate_chunks, validate_chunks
+from clausetriage.chunking.experiment import annotation_lengths, compare_examples, measure_chunks
+from clausetriage.chunking.gwen_adapter import GWEN_COMMIT, GWEN_SOURCE_PATH, load_gwen_prototype, saved_development
+from clausetriage.chunking.token_chunker import (
     TOKENIZER_NAME, TOKENIZER_REVISION, chunk_sentence_windows, chunk_token_windows,
 )
-from src.labels.categories import CATEGORIES
-from src.labels.loader import load_cuad
-from src.labels.projection import project_labels
+from clausetriage.labels.categories import CATEGORIES
+from clausetriage.labels.loader import load_cuad
+from clausetriage.labels.projection import project_labels
 
 ROOT = Path(__file__).resolve().parents[1]
 TRAIN_PATH = ROOT / "data/cuad/train_separate_questions.json"

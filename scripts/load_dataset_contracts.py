@@ -23,12 +23,12 @@ from collections.abc import Callable, Sequence
 
 from scripts.evaluate_triage import MAX_TOKENS, OVERLAP_TOKENS
 from scripts.export_registers import validation_contracts
-from src.api.runtime import MAX_TOKENS as SERVER_MAX_TOKENS
-from src.api.runtime import OVERLAP_TOKENS as SERVER_OVERLAP_TOKENS
-from src.api.runtime import add_service_arguments
-from src.api.service import ClauseTriageService
-from src.ingest.documents import Document
-from src.labels.loader import Contract
+from clausetriage.api.runtime import MAX_TOKENS as SERVER_MAX_TOKENS
+from clausetriage.api.runtime import OVERLAP_TOKENS as SERVER_OVERLAP_TOKENS
+from clausetriage.api.runtime import add_service_arguments
+from clausetriage.api.service import ClauseTriageService
+from clausetriage.ingest.documents import Document
+from clausetriage.labels.loader import Contract
 
 SOURCE_TYPE = "cuad"
 
@@ -63,11 +63,11 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
 
 def main(argv: Sequence[str] | None = None) -> None:
     """Load the model and store, then score the validation contracts into the store."""
-    from src.api.runtime import build_service
+    from clausetriage.api.runtime import build_service
 
     # The server's chunking must be the one the split's evaluation used, or the contracts aren't comparable
     if (MAX_TOKENS, OVERLAP_TOKENS) != (SERVER_MAX_TOKENS, SERVER_OVERLAP_TOKENS):
-        raise SystemExit("scripts/evaluate_triage.py and src/api/runtime.py chunk differently")
+        raise SystemExit("scripts/evaluate_triage.py and clausetriage/api/runtime.py chunk differently")
     args = parse_args(argv)
     started = time.perf_counter()
     service = build_service(args)

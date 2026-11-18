@@ -6,15 +6,15 @@ import json
 import pytest
 from transformers import AutoTokenizer
 
-from src.chunking.evaluation import evaluate_chunks, validate_chunks
-from src.chunking.gwen_adapter import (
+from clausetriage.chunking.evaluation import evaluate_chunks, validate_chunks
+from clausetriage.chunking.gwen_adapter import (
     GWEN_COMMIT, GWEN_SOURCE_PATH, GWEN_SNAPSHOT_PATH, GWEN_SOURCE_SHA256,
     load_gwen_prototype, saved_development,
 )
-from src.chunking.token_chunker import TOKENIZER_NAME, TOKENIZER_REVISION, token_length
-from src.labels.categories import CATEGORY_TO_INDEX
-from src.labels.loader import AnswerSpan, Contract
-from src.labels.projection import project_labels
+from clausetriage.chunking.token_chunker import TOKENIZER_NAME, TOKENIZER_REVISION, token_length
+from clausetriage.labels.categories import CATEGORY_TO_INDEX
+from clausetriage.labels.loader import AnswerSpan, Contract
+from clausetriage.labels.projection import project_labels
 
 
 @pytest.fixture(scope="module")

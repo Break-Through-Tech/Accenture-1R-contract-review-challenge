@@ -1,15 +1,15 @@
-"""Tests for src/ui/reviewer_views.py: the reviewer page's pure tables, rank comparison, weight edits and passages."""
+"""Tests for clausetriage/ui/reviewer_views.py: the reviewer page's pure tables, rank comparison, weight edits and passages."""
 from datetime import datetime, timezone
 
 import pandas as pd
 import pytest
 
-from src.api.jobs import JobRecord
-from src.api.schemas import ContractRanking, RankedContract
-from src.labels.categories import CATEGORIES
-from src.review.schema import ReviewItem, ReviewQueuePage
-from src.store.records import ChunkRecord
-from src.ui.reviewer_views import (CHANGE_COLUMNS, DATASET_ONLY, QUOTE_LABEL, SEARCH_LABEL, UPLOADS_ONLY,
+from clausetriage.api.jobs import JobRecord
+from clausetriage.api.schemas import ContractRanking, RankedContract
+from clausetriage.labels.categories import CATEGORIES
+from clausetriage.review.schema import ReviewItem, ReviewQueuePage
+from clausetriage.store.records import ChunkRecord
+from clausetriage.ui.reviewer_views import (CHANGE_COLUMNS, DATASET_ONLY, QUOTE_LABEL, SEARCH_LABEL, UPLOADS_ONLY,
                                    USES_DEFAULT, WeightEditError, candidate_weight_set, category_descriptions,
                                    chunk_for_span, contract_choices, describe_changes, item_segments, jobs_table,
                                    locate_phrase, move_label, preview_summary, queue_table, rank_changes,

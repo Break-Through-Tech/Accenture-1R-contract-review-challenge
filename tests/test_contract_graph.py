@@ -4,8 +4,8 @@ import pytest
 import torch
 from torch import nn
 
-from src.chunking.chunk import Chunk
-from src.models.encoder.contract_graph import (
+from clausetriage.chunking.chunk import Chunk
+from clausetriage.models.encoder.contract_graph import (
     ContractGraphClassifier,
     WeightedGraphSAGELayer,
     build_contract_graphs,

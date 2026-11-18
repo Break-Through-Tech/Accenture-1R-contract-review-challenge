@@ -11,19 +11,19 @@ last sections are for the team.
 
 ## Starting it
 
-The page is served by the API server, which needs the full install
-(`pip install -r requirements.txt`, or `requirements-no-torch.txt`; see [development.md](development.md)).
-From the repo root:
+The page is served by the API server. Install `requirements.txt` (the server alone needs only
+`requirements-server.txt`, see [development.md](development.md)), or run it in Docker
+([docker.md](docker.md)). From the repo root:
 
 ```bash
 python -m scripts.load_dataset_contracts --limit 10   # optional: score CUAD validation contracts (server stopped)
-python -m src.api                                     # then open http://127.0.0.1:8000/ui/
+python -m clausetriage.api                            # then open http://127.0.0.1:8000/ui/
 ```
 
 - The page and the API share one process and one database (`outputs/api/clausetriage.sqlite` by
   default; `--database` picks another). See [api.md](api.md) for every server option.
 - The server listens on `127.0.0.1` only. There is no login: the names you type are taken as given.
-- The quick demo, `python -m src.ui.app`, is a different page. It scores uploads in memory, saves
+- The quick demo, `python -m clausetriage.ui.app`, is a different page. It scores uploads in memory, saves
   nothing, and has no weights editor or review queue. Use it for a demo without the full install.
 
 ## At the top of the page
@@ -170,11 +170,11 @@ refused, with a plain sentence and the store's own reason, and nothing is writte
 
 ## For the team
 
-**Code.** The page is `src/ui/reviewer.py`: `ReviewerPage` holds one handler per action and
+**Code.** The page is `clausetriage/ui/reviewer.py`: `ReviewerPage` holds one handler per action and
 `build_reviewer_app()` wires the handlers to components. Its views are pure helpers in
-`src/ui/reviewer_views.py`. The clause table and highlighting reuse `src/ui/report.py`, so they match
+`clausetriage/ui/reviewer_views.py`. The clause table and highlighting reuse `clausetriage/ui/report.py`, so they match
 the quick demo. `create_app()` mounts the page at `/ui/`. The page reads and writes only through
-`ClauseTriageService` (`src/api/service.py`), the same methods the endpoints call. It never touches
+`ClauseTriageService` (`clausetriage/api/service.py`), the same methods the endpoints call. It never touches
 `ArtifactStore` directly.
 
 **Background scoring.** Uploads from the page are scored one at a time on a background thread that
@@ -197,7 +197,7 @@ drive the page. The supported API for other clients is the HTTP API in [api.md](
 **Verified:**
 
 - **By tests.** Everything listed under *For the team*.
-- **Against a running server** (`python -m src.api` on a scratch database, the released TF-IDF
+- **Against a running server** (`python -m clausetriage.api` on a scratch database, the released TF-IDF
   model, and 4 CUAD validation contracts loaded with the dataset script), driven through
   `gradio_client`:
   - an upload of `data/demo_contracts/nasa_kbr_agreement.pdf` (16 pages), pasted text, and a damaged
@@ -216,7 +216,7 @@ drive the page. The supported API for other clients is the HTTP API in [api.md](
 - **Most of the page in a browser.** On 2026-11-17 the page was loaded in headless Chrome with ten
   stored contracts: it rendered, the three tabs opened, and both register buttons downloaded their
   files. That check found and fixed a hang: the page froze the browser on load because the two
-  download buttons were hidden and then shown together (see the comment in `src/ui/reviewer.py`).
+  download buttons were hidden and then shown together (see the comment in `clausetriage/ui/reviewer.py`).
   Row clicks, the upload flow, weight editing and verdict buttons have still only been exercised
   through Gradio's API, not clicked in a browser, and nobody has checked the layout by eye on a
   normal screen.

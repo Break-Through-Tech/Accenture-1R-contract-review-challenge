@@ -25,7 +25,7 @@ belonged to another category. For example, word+char TF-IDF seed 42 listed Licen
 AUPR 0.049 when the real value is 0.870.
 
 - **Macro AUPR was not affected,** because a mean does not depend on row order. The README tables are still correct.
-- **Fix:** `src.metrics.add_aupr_column` maps AUPR by category name. All four scripts now use it. Regression tests are in `tests/test_error_analysis.py`.
+- **Fix:** `clausetriage.metrics.add_aupr_column` maps AUPR by category name. All four scripts now use it. Regression tests are in `tests/test_error_analysis.py`.
 - **Saved tables repaired** from the saved `.npz` scores by `python -m scripts.repair_per_category_aupr`: `architecture_suite_seed{7,17,23,42}`, the multi-seed `per_category_metrics_by_seed.csv`, `category_query_seed42` and `long_context_transformer_seed42`. Only the `aupr` column changed. The script is idempotent.
 - The other experiment scripts (reranker, graph, contrastive, set prediction, sparse long context) already mapped AUPR by name and were correct.
 

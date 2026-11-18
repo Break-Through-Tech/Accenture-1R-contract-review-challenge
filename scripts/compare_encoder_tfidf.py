@@ -35,7 +35,7 @@ import pandas as pd
 from scripts.analyze_reranker_multiseed import _bootstrap_delta, _macro_aupr, _macro_f1, _threshold_vector
 from scripts.evaluate_encoder_nested import PARTITIONS, ROOT, SEEDS, baseline_dir_for
 from scripts.train_retrieval_reranker import _metrics_at_thresholds
-from src.labels.categories import CATEGORIES
+from clausetriage.labels.categories import CATEGORIES
 
 DEFAULT_TEMPLATE = "results/encoder_nested_seed{seed}"
 DEFAULT_OUTPUT = ROOT / "results/encoder_vs_tfidf"
@@ -136,10 +136,10 @@ def contract_rows_from_chunks(chunks: pd.DataFrame) -> list[np.ndarray]:
 @lru_cache(maxsize=None)
 def _rechunk_inputs(hub_cache: Path | None, offline: bool | None) -> tuple:
     """Load the pinned tokenizer and the CUAD training contracts once per process."""
-    from src.chunking.token_chunker import TOKENIZER_NAME, TOKENIZER_REVISION
-    from src.labels.loader import load_cuad
-    from src.models.encoder.experiment_utils import TRAIN_PATH
-    from src.models.encoder.hub import load_pinned_tokenizer, resolve_hub_options
+    from clausetriage.chunking.token_chunker import TOKENIZER_NAME, TOKENIZER_REVISION
+    from clausetriage.labels.loader import load_cuad
+    from clausetriage.models.encoder.experiment_utils import TRAIN_PATH
+    from clausetriage.models.encoder.hub import load_pinned_tokenizer, resolve_hub_options
 
     tokenizer = load_pinned_tokenizer(TOKENIZER_NAME, TOKENIZER_REVISION, resolve_hub_options(hub_cache, offline))
     return tokenizer, load_cuad(TRAIN_PATH)

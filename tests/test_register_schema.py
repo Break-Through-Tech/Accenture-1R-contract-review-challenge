@@ -1,7 +1,7 @@
 import pytest
 from pydantic import ValidationError
 
-from src.register.schema import ContractRegister, RegisterHeader, RegisterRow
+from clausetriage.register.schema import ContractRegister, RegisterHeader, RegisterRow
 
 SHA = "a" * 64
 SIGNALS = {"category_severity": 1.0, "one_sidedness": 0.5, "magnitude": 0.0, "contract_context": 0.0}

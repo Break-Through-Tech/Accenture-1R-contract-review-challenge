@@ -28,15 +28,15 @@ import numpy as np
 import pandas as pd
 from transformers import AutoTokenizer
 
-from src.chunking.token_chunker import TOKENIZER_NAME, TOKENIZER_REVISION
-from src.evidence.cues import load_category_cues
-from src.labels.loader import load_cuad
-from src.labels.splits import split_by_contract
-from src.pipeline import prepare_contracts, to_model_inputs
-from src.risk.contract import aggregate_contracts, sensitivity
-from src.risk.inputs import clauses_from_probabilities, gold_clauses
-from src.risk.schema import DEFAULT_WEIGHTS_PATH, SIGNAL_NAMES, WeightSet, load_weight_set
-from src.risk.scoring import score_contract_clauses
+from clausetriage.chunking.token_chunker import TOKENIZER_NAME, TOKENIZER_REVISION
+from clausetriage.evidence.cues import load_category_cues
+from clausetriage.labels.loader import load_cuad
+from clausetriage.labels.splits import split_by_contract
+from clausetriage.pipeline import prepare_contracts, to_model_inputs
+from clausetriage.risk.contract import aggregate_contracts, sensitivity
+from clausetriage.risk.inputs import clauses_from_probabilities, gold_clauses
+from clausetriage.risk.schema import DEFAULT_WEIGHTS_PATH, SIGNAL_NAMES, WeightSet, load_weight_set
+from clausetriage.risk.scoring import score_contract_clauses
 
 ROOT = Path(__file__).resolve().parents[1]
 TRAIN_PATH = ROOT / "data" / "cuad" / "train_separate_questions.json"

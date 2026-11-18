@@ -1,5 +1,5 @@
-from src.labels.loader import AnswerSpan, Contract
-from src.models.encoder.set_prediction import ContractSetScores, PredictedSpan
+from clausetriage.labels.loader import AnswerSpan, Contract
+from clausetriage.models.encoder.set_prediction import ContractSetScores, PredictedSpan
 from scripts.train_set_prediction import calibrate_span_thresholds
 
 

@@ -1,8 +1,8 @@
 import pytest
 
-from src.evidence.schema import Evidence
-from src.risk.schema import SIGNAL_NAMES, ClauseInput, WeightSet
-from src.risk.signals import (
+from clausetriage.evidence.schema import Evidence
+from clausetriage.risk.schema import SIGNAL_NAMES, ClauseInput, WeightSet
+from clausetriage.risk.signals import (
     SIGNALS,
     _durations_in_days,
     category_severity,

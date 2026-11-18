@@ -5,7 +5,7 @@ from types import SimpleNamespace
 import numpy as np
 import pytest
 
-from src.labels.categories import CATEGORIES
+from clausetriage.labels.categories import CATEGORIES
 from scripts.analyze_reranker_multiseed import _macro_f1
 from scripts.train_retrieval_reranker import _metrics_at_thresholds, _resolve_contract_groups
 

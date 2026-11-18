@@ -1,6 +1,6 @@
 """Measure how much PDF extraction costs in grounding, on a CUAD contract that was rendered to PDF.
 
-Reads the PDF with the core reader (src.ingest.documents.read_document), loads the same contract's
+Reads the PDF with the core reader (clausetriage.ingest.documents.read_document), loads the same contract's
 original `context` string and gold answer spans from the training file, and counts how many gold
 spans can still be found in the extracted text: verbatim, after collapsing whitespace runs to one
 space, ignoring whitespace entirely, and ignoring whitespace and curly-vs-straight quotes. The last
@@ -24,9 +24,9 @@ from pathlib import Path
 
 from pydantic import BaseModel
 
-from src.ingest.documents import read_document
-from src.labels.loader import load_cuad
-from src.labels.splits import split_by_contract
+from clausetriage.ingest.documents import read_document
+from clausetriage.labels.loader import load_cuad
+from clausetriage.labels.splits import split_by_contract
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_PDF = ROOT / "data" / "demo_contracts" / "cuad_validation_fuelcell_development_agreement.pdf"

@@ -1,7 +1,7 @@
 import pytest
 from pydantic import ValidationError
 
-from src.evidence.schema import Evidence
+from clausetriage.evidence.schema import Evidence
 
 SOURCE = "The laws of New York govern."
 

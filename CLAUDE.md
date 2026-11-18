@@ -19,7 +19,7 @@ Guidance for Claude Code in this repo. ARCHITECTURE.md is the source of truth fo
 
 ## Repo Layout
 
-- `src/` pipeline stages:
+- `clausetriage/` (the installable package) pipeline stages:
   - `labels/`: CUAD loader, the 41 `CATEGORIES`, span-to-chunk label projection, grouped contract split.
   - `chunking/`: `chunk.py` holds the `Chunk` model. `token_chunker.py` holds `chunk_sentence_windows` (512 tokens, 64 overlap, pinned DistilRoBERTa tokenizer), the chunker every stage uses. `chunker.py` is the old fixed-window stub.
   - `pipeline.py`: contracts to labeled chunks for training. `inference.py`: `ContractInferencePipeline` (chunk, classify, evidence, risk score, triage score).
@@ -30,22 +30,24 @@ Guidance for Claude Code in this repo. ARCHITECTURE.md is the source of truth fo
   - `evidence/`: `Evidence` schema, category cues, grounded extraction with an Unknown queue.
   - `risk/`: weight sets (`weights/*.json`, default `v2-team-proposed`), the four signals, clause scoring, contract triage and sensitivity.
   - `register/`: `ContractRegister` schema and the CSV and JSON clause-register export.
-  - `api/`: the FastAPI serving layer (`python -m src.api`, localhost only). `service.py` holds `ClauseTriageService`, the plain-Python layer the routers and the reviewer page both call. `jobs.py` is the scoring-job status table and `routers/` holds thin handlers; add a router through `create_app(routers=[...])`.
+  - `api/`: the FastAPI serving layer (`python -m clausetriage.api`, localhost only). `service.py` holds `ClauseTriageService`, the plain-Python layer the routers and the reviewer page both call. `jobs.py` is the scoring-job status table and `routers/` holds thin handlers; add a router through `create_app(routers=[...])`.
   - `review/`: the review queue (Unknowns and reviewer conflicts), verdict resolution and the leakage-safe training export.
-  - `ui/`: `reviewer.py` is the store-backed reviewer page mounted at `/ui/` (`reviewer_views.py` holds its pure helpers). `app.py` stays the in-memory quick demo (`python -m src.ui.app`) for the demo-only install.
+  - `ui/`: `reviewer.py` is the store-backed reviewer page mounted at `/ui/` (`reviewer_views.py` holds its pure helpers). `app.py` stays the in-memory quick demo (`python -m clausetriage.ui.app`) for the demo-only install.
   - `metrics.py`, `thresholds.py`, `threshold_strategies.py`, `error_analysis.py`: evaluation helpers.
+  - `legacy.py`: lets pickles saved under the old `src` package name load (`load_joblib`). The released model file needs it. Load every pickle through it.
 - `scripts/`: runnable experiments and evaluations (`python -m scripts.<name>` from the repo root). `configs/`: one YAML per model.
 - `tests/`: pytest modules, one `test_<module>.py` per module. `pytest.ini` at the repo root sets `pythonpath = .`, so run `python -m pytest` from the root.
 - `docs/`: one guide per experiment, indexed in `docs/README.md`. `results/`: saved metrics, thresholds and raw probabilities for each experiment.
-- `notebooks/`: exploration and plots only. Pipeline logic belongs in `src/`, imported by the notebooks.
+- `notebooks/`: exploration and plots only. Pipeline logic belongs in `clausetriage/`, imported by the notebooks.
 - `data/cuad/`: dataset JSON, `category_descriptions.csv`, `eda.py`, `EDA_SUMMARY.md`. `data/demo_contracts/`: sample PDFs for the demo.
+- `Dockerfile`, `compose.yaml`: the server in a container, published on 127.0.0.1 only (`docs/docker.md`).
 
 ## Code Style
 
 - `snake_case` for functions, variables and modules; `PascalCase` for classes. No camelCase.
 - Type-hint function signatures. Use a triple-quoted docstring (a one-line summary plus key behavior) for public functions and classes. Use a short `#` comment above each logical block.
 - Keep modules small and pure. Use Pydantic models for anything that crosses a pipeline stage boundary (chunks, evidence, weights, scores).
-- Document tests the same way as `src/`. Give every test function, fixture and helper a one-line docstring saying what it checks, and put a short `#` comment above each group of related tests. Name tests `test_<what is tested>_<expected behavior>`. Add hand-computed golden values for exact outputs and use `@pytest.mark.parametrize` for repeated cases.
+- Document tests the same way as `clausetriage/`. Give every test function, fixture and helper a one-line docstring saying what it checks, and put a short `#` comment above each group of related tests. Name tests `test_<what is tested>_<expected behavior>`. Add hand-computed golden values for exact outputs and use `@pytest.mark.parametrize` for repeated cases.
 
 ## ML Conventions
 
@@ -69,13 +71,13 @@ Guidance for Claude Code in this repo. ARCHITECTURE.md is the source of truth fo
 - Models: word+char TF-IDF with one-vs-rest logistic regression is the supported control. DistilRoBERTa goes through the Hugging Face Trainer (BCE with `pos_weight`), trained on a Colab T4 and run on CPU for inference.
 - Tooling: `pyproject.toml` holds project metadata and the ruff config (check only, no reformatting). GitHub Actions runs ruff and pytest on every PR.
 - Serving: FastAPI with the Gradio reviewer page mounted inside it, with job status and all pipeline outputs in one SQLite file.
-- Not yet in the repo: Docker and the installable `clausetriage/` package rename.
+- Packaging: `clausetriage` is an installable package (`pip install -e .`). Docker runs the server only, without PyTorch, with the port bound to 127.0.0.1 (`docs/docker.md`).
 
 ## Workflow
 
 - Name branches `<type>/<issue#>-<short-name>` using conventional types (`feature`, `fix`, `docs`, `refactor`, `test`, `chore`) and merge to `main` by PR. Example: `fix/41-threshold-indexing`.
 - Write commit messages in conventional-commit form: `<type>(<scope>): <summary>`, e.g. `fix(thresholds): index preds by category`.
-- Install with `pip install -r requirements-dev.txt` into a Python 3.12 venv, and reinstall after pulling. Pin every new import exactly, once, in the right requirements layer. A venv that has drifted from the pins fails tests for unrelated reasons (`transformers` 5.x breaks `tests/test_train.py`).
+- Install with `pip install -r requirements-dev.txt` then `pip install -e .` into a Python 3.12 venv, and reinstall after pulling. `requirements-server.txt` is the layer that runs the API without PyTorch. Pin every new import exactly, once, in the right requirements layer. A venv that has drifted from the pins fails tests for unrelated reasons (`transformers` 5.x breaks `tests/test_train.py`).
 - Run tests with `HF_HUB_OFFLINE=1 TOKENIZERS_PARALLELISM=false python -m pytest` and lint with `python -m ruff check .`. Both must pass before a PR. `python .github/scripts/prefetch_hf_assets.py` caches the pinned tokenizer in `.venv/hf-cache`; run it inside each git worktree.
 - Don't commit `__pycache__/`, `.pyc`, `.DS_Store`, model weights, SQLite databases or anything under `outputs/` or `models/`.
 
@@ -110,10 +112,10 @@ Status as of 2026-11-18, including the Wave 2 serving branches and the sealed fi
 - The reviewer page loads, switches tabs and downloads registers in headless Chrome. Its other controls have been driven only through their handlers and `gradio_client`, and no real reviewer has used it.
 - The API has no authentication, no time limit on parsing or scoring, and has not been load-tested. Run it on localhost only.
 - On real contracts the review queue is dominated by `no_cue_match` Unknowns, a symptom of the weak evidence heuristic.
-- No Docker. `pyproject.toml` still has per-file lint suppressions to clear.
+- The global ruff ignore for `B905` (`zip` without `strict=`) stays, because some loops truncate on purpose.
 - Evidence heuristic is weak: on the test contracts 23% of detected clauses have no quote, and of the grounded quotes 36% overlap the annotated answer (58% on correctly detected chunks). A false-positive prediction still gets a plausible quote.
 - Rare categories (under 10 evaluation positives) swing 0.3 to 0.4 F1 between seeds; report them with intervals or as insufficient support.
 - PDF extraction rarely reproduces CUAD text verbatim (7 of 60 gold spans on the sample PDF, 60 of 60 ignoring whitespace and curly quotes). Grounding against the extracted text is unaffected. The OCR path is tested with mocks only.
 
 **Next**
-- Docker, and the `src` to `clausetriage` package rename.
+- The roadmap is complete. Further work is listed in `docs/final-report.md`: collect reviewer judgement, improve evidence extraction and rare-category thresholds, measure detection on text extracted from PDFs, and add authentication and time limits before any use beyond a local machine.

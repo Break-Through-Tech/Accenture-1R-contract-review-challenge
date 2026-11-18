@@ -1,10 +1,10 @@
 import numpy as np
 import pytest
 
-from src.labels.categories import CATEGORIES
-from src.registry.bundle import ClauseModelBundle
-from src.registry.mlflow_registry import load_bundle, register_bundle
-from src.store.artifact_store import ArtifactStore
+from clausetriage.labels.categories import CATEGORIES
+from clausetriage.registry.bundle import ClauseModelBundle
+from clausetriage.registry.mlflow_registry import load_bundle, register_bundle
+from clausetriage.store.artifact_store import ArtifactStore
 
 
 class ConstantPredictor:

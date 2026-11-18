@@ -17,18 +17,18 @@ import numpy as np
 import pandas as pd
 from transformers import AutoTokenizer
 
-from src.chunking.token_chunker import TOKENIZER_NAME, TOKENIZER_REVISION
-from src.labels.categories import CATEGORIES
-from src.labels.loader import load_cuad
-from src.labels.splits import split_by_contract
-from src.metrics import add_aupr_column, compute_base_metrics
-from src.models.naive.classifier_chain import fit_word_char_chain, predict_word_char_chain
-from src.models.naive.context_tfidf import add_neighbor_context
-from src.models.naive.prototype_retrieval import fit_positive_prototype_retriever
-from src.models.naive.tfid_baseline import fit_tfidf_baseline
-from src.models.naive.word_tfidf import fit_word_char_tfidf, predict_word_char_probabilities
-from src.pipeline import prepare_contracts, to_model_inputs
-from src.thresholds import apply_thresholds, find_best_thresholds
+from clausetriage.chunking.token_chunker import TOKENIZER_NAME, TOKENIZER_REVISION
+from clausetriage.labels.categories import CATEGORIES
+from clausetriage.labels.loader import load_cuad
+from clausetriage.labels.splits import split_by_contract
+from clausetriage.metrics import add_aupr_column, compute_base_metrics
+from clausetriage.models.naive.classifier_chain import fit_word_char_chain, predict_word_char_chain
+from clausetriage.models.naive.context_tfidf import add_neighbor_context
+from clausetriage.models.naive.prototype_retrieval import fit_positive_prototype_retriever
+from clausetriage.models.naive.tfid_baseline import fit_tfidf_baseline
+from clausetriage.models.naive.word_tfidf import fit_word_char_tfidf, predict_word_char_probabilities
+from clausetriage.pipeline import prepare_contracts, to_model_inputs
+from clausetriage.thresholds import apply_thresholds, find_best_thresholds
 
 ROOT = Path(__file__).resolve().parents[1]
 MODEL_NAMES = ["word_tfidf", "word_char_tfidf", "context_word_char_tfidf",

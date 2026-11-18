@@ -36,14 +36,17 @@ python3.12 -m venv .venv
 source .venv/bin/activate
 python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
+python -m pip install -e .        # the clausetriage package itself, editable
 ```
+
+The code is the `clausetriage` package. Commands run from the repo root (`python -m clausetriage.api`, `python -m scripts.<name>`); the editable install also makes it importable from notebooks and other folders. It reads `data/`, `models/` and `results/` from the checkout, so install it with `-e`.
 
 Several model experiments require the pinned DistilRoBERTa tokenizer and encoder. Download them once to the cache used by the scripts:
 
 ```bash
 .venv/bin/python - <<'PY'
 from transformers import AutoModel, AutoTokenizer
-from src.chunking.token_chunker import TOKENIZER_NAME, TOKENIZER_REVISION
+from clausetriage.chunking.token_chunker import TOKENIZER_NAME, TOKENIZER_REVISION
 cache = ".venv/hf-cache"
 AutoTokenizer.from_pretrained(TOKENIZER_NAME, revision=TOKENIZER_REVISION, use_fast=True, cache_dir=cache)
 AutoModel.from_pretrained(TOKENIZER_NAME, revision=TOKENIZER_REVISION, cache_dir=cache)
@@ -63,8 +66,8 @@ The evaluation command uses the CUAD training split, a fixed contract-level trai
 
 There are two pages. Both are prototypes. Their scores use the team-proposed `v2-team-proposed` risk weights, which have not been validated by a legal expert, and they are not legal advice.
 
-- **Quick demo** (`python -m src.ui.app`): upload contracts (PDF, Word, text, or pasted text) to rank them for review, and see each contract's risky clauses with page numbers, highlighted quotes and the signals behind each score. Everything is scored in memory and nothing is saved. It needs only the small demo install.
-- **Reviewer page** (`python -m src.api`, then http://127.0.0.1:8000/ui/): the full triage loop on stored data. Stored CUAD contracts and your uploads are ranked together, and you can open any contract's detail and download its clause register. You can edit and preview the risk weights, save them as a new version, and work through the review queue, recording verdicts. It needs the full install (it uses the SQLite artifact store). See [`docs/reviewer-ui.md`](docs/reviewer-ui.md).
+- **Quick demo** (`python -m clausetriage.ui.app`): upload contracts (PDF, Word, text, or pasted text) to rank them for review, and see each contract's risky clauses with page numbers, highlighted quotes and the signals behind each score. Everything is scored in memory and nothing is saved. It needs only the small demo install.
+- **Reviewer page** (`python -m clausetriage.api`, then http://127.0.0.1:8000/ui/): the full triage loop on stored data. Stored CUAD contracts and your uploads are ranked together, and you can open any contract's detail and download its clause register. You can edit and preview the risk weights, save them as a new version, and work through the review queue, recording verdicts. It needs the full install (it uses the SQLite artifact store). See [`docs/reviewer-ui.md`](docs/reviewer-ui.md).
 
 To run only the quick demo, a smaller install is enough (no PyTorch, MLflow or SQLAlchemy; Python 3.12 or 3.13):
 
@@ -72,21 +75,32 @@ To run only the quick demo, a smaller install is enough (no PyTorch, MLflow or S
 python -m venv .venv
 source .venv/bin/activate              # Windows: .venv\Scripts\activate
 python -m pip install -r requirements-demo.txt
-python -m src.ui.app
+python -m pip install -e .
+python -m clausetriage.ui.app
 ```
 
-If you already installed `requirements.txt`, just run `python -m src.ui.app`. Then open http://127.0.0.1:7860 and upload contracts, or click **Try the sample contracts** (from [`data/demo_contracts/`](data/demo_contracts/SOURCES.md)). Use **Clause register (CSV)** to download every scored clause.
+If you already installed `requirements.txt`, just run `python -m clausetriage.ui.app`. Then open http://127.0.0.1:7860 and upload contracts, or click **Try the sample contracts** (from [`data/demo_contracts/`](data/demo_contracts/SOURCES.md)). Use **Clause register (CSV)** to download every scored clause.
 
 For the reviewer page, after `pip install -r requirements.txt`:
 
 ```bash
 python -m scripts.load_dataset_contracts --limit 10    # optional: score CUAD validation contracts into the store
-python -m src.api                                      # page at http://127.0.0.1:8000/ui/, API docs at /docs
+python -m clausetriage.api                             # page at http://127.0.0.1:8000/ui/, API docs at /docs
 ```
 
 - **Model:** on first run, the trained word/character TF-IDF model is downloaded from the GitHub Release [`model-word-char-tfidf-v1`](https://github.com/Break-Through-Tech/Accenture-1R-contract-review-challenge/releases/tag/model-word-char-tfidf-v1) to `models/word_char_tfidf.joblib` and checked against its SHA-256; the tokenizer (a few MB) downloads too. If the download fails, or the file doesn't load with your scikit-learn version, the UI builds the same model from the CUAD training data in the repo instead (a few minutes, once). To build it yourself, run `python -m scripts.build_model_bundle`; add `--register` to also log it to a local MLflow registry, then start the UI with `--registry-version latest`.
 - **Scanned PDFs** need OCR, which is optional: `pip install pypdfium2 pytesseract` and install the [Tesseract](https://github.com/tesseract-ocr/tesseract) program. PDFs with a text layer need nothing extra.
 - Evidence positions and page numbers refer to the text extracted from the file. Only load model files you built or downloaded from this repository, since loading one can run code.
+
+### Docker
+
+To try the reviewer page with only Docker installed:
+
+```bash
+docker compose up --build        # then open http://127.0.0.1:8000/ui/ (API docs at /docs)
+```
+
+The image has no PyTorch and holds the model and the tokenizer, so it starts without network access. The port is published on 127.0.0.1 only, because the API has no authentication, and the database is kept in a Docker volume across restarts. See [`docs/docker.md`](docs/docker.md) for how the model gets into the image, loading the CUAD development contracts, and removing everything again.
 
 ## Project Overview
 

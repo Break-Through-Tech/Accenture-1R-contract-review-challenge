@@ -1,13 +1,13 @@
-"""Tests for src/api/limits.py: body limits by path, declared lengths, and streamed bodies without a length."""
+"""Tests for clausetriage/api/limits.py: body limits by path, declared lengths, and streamed bodies without a length."""
 import asyncio
 
 import pytest
 from fastapi import FastAPI, Request
 from fastapi.testclient import TestClient
 
-from src.api.limits import (JSON_BODY_LIMIT, TEXT_BODY_LIMIT, UPLOAD_BODY_LIMIT, BodySizeLimitMiddleware,
+from clausetriage.api.limits import (JSON_BODY_LIMIT, TEXT_BODY_LIMIT, UPLOAD_BODY_LIMIT, BodySizeLimitMiddleware,
                             default_limit_for)
-from src.ingest.documents import MAX_FILE_BYTES, MAX_TEXT_CHARS, MB
+from clausetriage.ingest.documents import MAX_FILE_BYTES, MAX_TEXT_CHARS, MB
 
 
 def echo_app(limit: int) -> FastAPI:

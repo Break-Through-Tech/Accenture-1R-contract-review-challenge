@@ -10,9 +10,9 @@ import argparse
 import random
 import sys
 from pathlib import Path
-from src.labels.projection import LabeledChunk
-from src.models.encoder.config import TrainConfig, load_config
-from src.models.encoder.train import DEFAULT_CONFIG_PATH, fit, load_data
+from clausetriage.labels.projection import LabeledChunk
+from clausetriage.models.encoder.config import TrainConfig, load_config
+from clausetriage.models.encoder.train import DEFAULT_CONFIG_PATH, fit, load_data
 
 CHUNKS_PER_GROUP = 32
 PASS_THRESHOLD = 0.9
