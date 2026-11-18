@@ -7,7 +7,6 @@ from torch import nn
 from clausetriage.chunking.chunk import Chunk
 from clausetriage.models.naive.retrieval_reranker import (
     PairCrossEncoder,
-    PairExample,
     build_training_pairs,
     candidate_recall,
     dense_candidate_scores,

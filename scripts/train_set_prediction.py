@@ -24,7 +24,7 @@ from transformers import AutoModel, AutoTokenizer
 
 from clausetriage.chunking.token_chunker import TOKENIZER_NAME, TOKENIZER_REVISION
 from clausetriage.labels.categories import CATEGORIES, CATEGORY_TO_INDEX
-from clausetriage.labels.loader import Contract, load_cuad
+from clausetriage.labels.loader import load_cuad
 from clausetriage.labels.splits import split_by_contract
 from clausetriage.metrics import compute_aupr, compute_base_metrics
 from clausetriage.models.encoder.experiment_utils import (
@@ -35,7 +35,7 @@ from clausetriage.models.encoder.set_prediction import (
     matched_set_loss, span_iou,
 )
 from clausetriage.models.naive.word_tfidf import fit_word_char_tfidf, predict_word_char_probabilities
-from clausetriage.pipeline import prepare_contracts, to_model_inputs
+from clausetriage.pipeline import prepare_contracts
 
 
 def _encode_chunk_embeddings(encoder, tokenizer, chunks, device, batch_size, max_length):

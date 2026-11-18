@@ -361,8 +361,6 @@ def _graphs_with_vectorizer(vectorizer, chunks, semantic_neighbors):
     """Build contract graphs with a checkpoint's already-fitted train-only vocabulary."""
     from collections import defaultdict
 
-    from clausetriage.models.encoder.contract_graph import ContractGraph
-
     grouped = defaultdict(list)
     for item in chunks:
         grouped[item.chunk.contract_id].append(item)

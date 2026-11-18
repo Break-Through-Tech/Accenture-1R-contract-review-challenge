@@ -11,7 +11,7 @@ from clausetriage.registry.predictors import VectorizedClassifier
 def _warn_like_old_sklearn() -> str:
     """Unpickled stand-in that warns the way scikit-learn does for a file from another version."""
     warnings.warn(InconsistentVersionWarning(estimator_name="Model", current_sklearn_version="2",
-                                             original_sklearn_version="1"))
+                                             original_sklearn_version="1"), stacklevel=2)
     return "stale model"
 
 

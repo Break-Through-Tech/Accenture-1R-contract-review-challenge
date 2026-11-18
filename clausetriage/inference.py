@@ -7,7 +7,7 @@ from typing import Any
 import numpy as np
 
 from clausetriage.chunking.token_chunker import chunk_sentence_windows
-from clausetriage.evidence.extractor import GroundedEvidence, Unknown, extract_for_predictions
+from clausetriage.evidence.extractor import extract_for_predictions
 from clausetriage.registry.bundle import ClauseModelBundle
 from clausetriage.risk.contract import aggregate_contracts
 from clausetriage.risk.schema import ClauseInput, WeightSet, load_weight_set

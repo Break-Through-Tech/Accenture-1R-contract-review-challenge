@@ -34,7 +34,7 @@ def build_training_args(config: TrainConfig) -> TrainingArguments:
     # Mixed precision needs a GPU, so fall back to full precision without CUDA
     use_fp16 = config.fp16 and torch.cuda.is_available()
     if config.fp16 and not use_fp16:
-        warnings.warn("fp16 requested but CUDA is unavailable; training in full precision")
+        warnings.warn("fp16 requested but CUDA is unavailable; training in full precision", stacklevel=2)
 
     output_dir = config.output_dir if config.output_dir is not None else DEFAULT_OUTPUT_DIR
 

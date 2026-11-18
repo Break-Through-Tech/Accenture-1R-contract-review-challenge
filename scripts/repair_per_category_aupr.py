@@ -64,7 +64,7 @@ def main() -> None:
     for name in SINGLE_MODEL_DIRS:
         directory = args.results / name
         aupr = _aupr_map(directory / "evaluation_predictions.npz")
-        changed = _repair(directory / "per_category_metrics.csv", lambda row: aupr[row["category"]])
+        changed = _repair(directory / "per_category_metrics.csv", lambda row, aupr=aupr: aupr[row["category"]])
         print(f"{name}/per_category_metrics.csv: {changed} rows corrected")
 
 

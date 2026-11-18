@@ -208,7 +208,6 @@ def main():
     if torch.cuda.is_available():
         torch.cuda.manual_seed_all(args.seed)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    amp_enabled = device.type == "cuda"
     args.output.mkdir(parents=True, exist_ok=True)
     best_path = args.evaluate_checkpoint or args.checkpoint_dir
 

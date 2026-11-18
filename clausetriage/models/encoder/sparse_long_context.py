@@ -8,7 +8,6 @@ from typing import Sequence
 import numpy as np
 import torch
 from torch import Tensor, nn
-from torch.nn import functional as F
 
 
 class LocalGlobalSparseLayer(nn.Module):

@@ -12,7 +12,7 @@ from torch import Tensor, nn
 from torch.nn import functional as F
 
 from clausetriage.labels.categories import CATEGORY_TO_INDEX, CATEGORIES
-from clausetriage.labels.loader import AnswerSpan, Contract
+from clausetriage.labels.loader import Contract
 from clausetriage.labels.projection import LabeledChunk
 
 

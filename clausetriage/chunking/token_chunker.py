@@ -1,7 +1,6 @@
 """Experimental token windows over exact original-text slices (not the shared chunker)."""
 
 from bisect import bisect_right
-from pydoc import text
 
 from nupunkt import sent_spans
 from pydantic import BaseModel
