@@ -1,6 +1,7 @@
 # Full environment (training, experiments, tests and the demo): python -m pip install -r requirements.txt
 # The requirements files are layered so each version is pinned exactly once (see docs/development.md):
 #   requirements-demo.txt      demo UI runtime
+#   requirements-server.txt    + API server and reviewer page (Docker)
 #   requirements-no-torch.txt  + training, tracking and test tools, without torch (Colab)
 #   requirements.txt           + torch (this file)
 #   requirements-dev.txt       + lint tools (ruff)

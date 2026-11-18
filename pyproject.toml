@@ -1,6 +1,6 @@
-# Project metadata and tool configuration (see docs/development.md).
-# Dependencies are NOT declared here: the requirements*.txt files are their single source of truth,
-# and `pip install -r requirements.txt` stays the install path. Pytest is configured in pytest.ini.
+# Project metadata and tool configuration (see docs/development.md). Pytest is configured in pytest.ini.
+# The requirements*.txt files stay the single source of truth for dependencies: the package's own
+# dependencies are read from requirements-demo.txt, the base layer, and nothing is pinned here.
 
 [project]
 name = "clausetriage"
@@ -8,16 +8,27 @@ version = "0.1.0"
 description = "Detects the 41 CUAD clause categories, scores clause risk with rules and ranks contracts for review."
 readme = "README.md"
 requires-python = ">=3.12"
+dynamic = ["dependencies"]
 
 [build-system]
 requires = ["setuptools>=69"]
 build-backend = "setuptools.build_meta"
 
-[tool.setuptools]
-# Not installable yet: code is imported as `src.<module>` and `scripts.<module>` from the repo root
-# (pytest.ini sets pythonpath = .). Packaging comes with the planned rename to `clausetriage/`. Until
-# then `pip install .` installs no code, instead of scattering clausetriage/'s subpackages into site-packages.
-packages = []
+[tool.setuptools.dynamic]
+# The demo runtime. The API server, training and tests need the larger layers (requirements-server.txt,
+# requirements.txt), which pip installs with -r; setuptools can't read their -r lines.
+dependencies = { file = ["requirements-demo.txt"] }
+
+[tool.setuptools.packages.find]
+# Only the clausetriage package. scripts/ and tests/ are run from the repo root, not installed.
+# clausetriage/labels/ and clausetriage/models/ have no __init__.py, so namespace packages are included.
+include = ["clausetriage*"]
+namespaces = true
+
+[tool.setuptools.package-data]
+# The weight sets ship with the code. Everything else the code reads (data/, models/, results/,
+# .venv/hf-cache) is found relative to the checkout, so install with `pip install -e .`
+"clausetriage.risk.weights" = ["*.json"]
 
 [tool.ruff]
 # Matches what the code already uses (about 30 of ~18,000 lines are longer); E501 is not enforced

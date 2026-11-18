@@ -1,0 +1,9 @@
+# API server and reviewer page runtime (python -m clausetriage.api): the demo runtime plus the artifact
+# store and the web server, without PyTorch, MLflow or the training and test tools. The Docker image
+# installs this file; requirements-no-torch.txt includes it.
+-r requirements-demo.txt
+SQLAlchemy==2.1.6
+# FastAPI server. gradio depends on these too, so keep the pins within its ranges
+fastapi==0.143.0
+uvicorn==0.54.0
+python-multipart==0.0.34

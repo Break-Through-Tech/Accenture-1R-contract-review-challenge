@@ -1,6 +1,7 @@
 # Demo UI runtime (python -m clausetriage.ui.app): no PyTorch, MLflow or training extras. Python 3.12 or 3.13.
-# This is the base layer of the requirements files (see docs/development.md): requirements-no-torch.txt
-# includes it, so every version below is written exactly once.
+# This is the base layer of the requirements files (see docs/development.md): requirements-server.txt
+# includes it, so every version below is written exactly once. pyproject.toml reads it as the package's
+# dependencies, so keep it to plain `package==version` lines and comments (no -r or other options).
 # numpy/scikit-learn/scipy/joblib must stay at the versions the released model file was built with
 # (clausetriage/registry/demo_model.py); change them only together with a new model release.
 numpy==2.5.1

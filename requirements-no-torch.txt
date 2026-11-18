@@ -1,13 +1,8 @@
 # Everything in requirements.txt except torch, for environments that already ship their own torch
 # build, such as a Google Colab GPU runtime: pip install -r requirements-no-torch.txt
 # Installing requirements.txt there instead would replace Colab's CUDA torch with a multi-gigabyte download.
--r requirements-demo.txt
+-r requirements-server.txt
 mlflow==3.17.2
-SQLAlchemy==2.1.6
-# FastAPI server (python -m clausetriage.api). gradio depends on these too, so keep the pins within its ranges
-fastapi==0.143.0
-uvicorn==0.54.0
-python-multipart==0.0.34
 accelerate==1.15.0
 pyyaml==6.0.3
 pytest==9.1.1

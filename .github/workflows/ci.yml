@@ -60,8 +60,14 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install -r requirements-dev.txt
+          python -m pip install -e .
           python -m pip check
           python -c "import torch; print('torch', torch.__version__); assert not torch.version.cuda"
+
+      # The installed package imports from outside the checkout, where the repo root is not on sys.path
+      - name: Check the installed package
+        working-directory: ${{ runner.temp }}
+        run: python -c "import clausetriage.inference, clausetriage.api.app; print(clausetriage.__path__)"
 
       # The tests read only the DistilRoBERTa tokenizer files (about 3 MB, no model weights), from the
       # default Hugging Face cache and from the pinned-revision cache in .venv/hf-cache
