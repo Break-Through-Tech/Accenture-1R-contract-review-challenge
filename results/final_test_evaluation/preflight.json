@@ -1,0 +1,80 @@
+{
+  "passed": true,
+  "failures": [],
+  "sealed": true,
+  "data": {
+    "path": "data/cuad/test.json",
+    "sha256": "007b6a40b0c65247f881627375c3d2e9b6aeeb5dfa89957494feed0765a1a073",
+    "bytes": 7378232,
+    "git_blob": "16cb5c6aa4733bcaf46e24a1ee868b47a6731461",
+    "pinned_git_blob": "16cb5c6aa4733bcaf46e24a1ee868b47a6731461"
+  },
+  "structure": {
+    "top_level_keys": [
+      "data",
+      "version"
+    ],
+    "version": "aok_v1.0",
+    "contracts": 102,
+    "unique_titles": 102,
+    "paragraphs_per_contract": {
+      "1": 102
+    },
+    "entry_keys": [
+      "paragraphs",
+      "title"
+    ],
+    "paragraph_keys": [
+      "context",
+      "qas"
+    ],
+    "question_keys": [
+      "answers",
+      "id",
+      "is_impossible",
+      "question"
+    ],
+    "answer_keys": [
+      "answer_start",
+      "text"
+    ],
+    "questions": 4182,
+    "questions_per_contract": {
+      "41": 102
+    },
+    "question_ids_with_numeric_suffix": 0,
+    "categories_seen": 41,
+    "categories_missing": [],
+    "unknown_category_names": [],
+    "unknown_category_count": 0,
+    "contracts_with_each_category_once": 102,
+    "answered_questions": 1244,
+    "answers": 2643,
+    "answers_grounded": 2643,
+    "answers_empty": 0,
+    "duplicate_answers": 0,
+    "contexts_with_crlf": 0,
+    "overlap_with_training_file": {
+      "training": {
+        "titles": 0,
+        "texts": 0
+      },
+      "calibration": {
+        "titles": 0,
+        "texts": 0
+      },
+      "evaluation": {
+        "titles": 0,
+        "texts": 0
+      }
+    }
+  },
+  "git": {
+    "commit": "8712923da7494a5052413d922cc0a3ec899c16f5",
+    "branch": "feature/18-final-test-evaluation",
+    "dirty": false
+  },
+  "disclosures": [
+    "2026-11-17: a repository-wide text search for a word matched data/cuad/test.json and printed a match count for it. No content was displayed or used."
+  ]
+}
