@@ -332,11 +332,12 @@ def test_extra_router_is_included_and_reaches_the_service(service):
 
 # ----- Gradio page -----
 def test_gradio_page_is_mounted_in_the_same_app(service, monkeypatch):
-    """With ui_path set, the existing demo page is served under /ui/ next to the API."""
+    """With ui_path set, the store-backed reviewer page is served under /ui/ next to the API."""
     monkeypatch.setenv("GRADIO_ANALYTICS_ENABLED", "False")
     with TestClient(create_app(service)) as client:
         page = client.get("/ui/")
         assert page.status_code == 200 and "text/html" in page.headers["content-type"]
+        assert "ClauseTriage reviewer" in page.text
         assert client.get("/health").status_code == 200
         # The page's own upload route is outside the API's body limits (Gradio applies its own)
         assert limits.default_limit_for("/ui")("/ui/gradio_api/upload") is None

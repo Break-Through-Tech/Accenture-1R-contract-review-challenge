@@ -49,6 +49,7 @@ def main(argv: Sequence[str] | None = None) -> None:
     import uvicorn
 
     from src.api.app import UI_PATH, create_app
+    from src.api.routers import review
     from src.api.runtime import build_service
 
     args = parse_args(argv)
@@ -57,7 +58,8 @@ def main(argv: Sequence[str] | None = None) -> None:
         print(EXPOSED_WARNING.format(host=args.host), file=sys.stderr)
     service = build_service(args)
     ui_path = None if args.no_ui else UI_PATH
-    app = create_app(service, ui_path=ui_path, host=args.host, port=args.port)
+    # The review queue and feedback endpoints come in as an extra router
+    app = create_app(service, routers=[review.router], ui_path=ui_path, host=args.host, port=args.port)
     page = f"  page: http://{args.host}:{args.port}{ui_path}/" if ui_path else ""
     print(f"ClauseTriage API: http://{args.host}:{args.port}/docs{page}  model {service.model_version}, "
           f"weights {service.default_weight_set.weight_version_id}, database {args.database}", flush=True)

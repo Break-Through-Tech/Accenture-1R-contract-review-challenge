@@ -2,12 +2,13 @@
 
 `src/api/` is the HTTP layer of ClauseTriage: the one place clients read pipeline outputs from. It
 uploads and scores contracts in the background, stores every result in the artifact store
-(`src/store/`), and serves rankings, contract details, clause registers and weight versions. The
-existing Gradio demo page runs in the same process at `/ui/`.
+(`src/store/`), and serves rankings, contract details, clause registers, weight versions, the
+review queue and reviewer feedback. The reviewer page ([reviewer-ui.md](reviewer-ui.md)) runs in the
+same process at `/ui/` and calls the same service.
 
 > **No authentication. Do not expose this server on a network.** It is a local research prototype:
-> anyone who can reach the port can upload files, read every stored contract and create weight
-> versions. It binds to `127.0.0.1` by default and prints a warning if `--host` is anything else.
+> anyone who can reach the port can upload files, read every stored contract, create weight
+> versions and record verdicts under any name. It binds to `127.0.0.1` by default and prints a warning if `--host` is anything else.
 > Scores use team-proposed weights pending advisor review and are not legal advice.
 
 ## Running it
@@ -24,8 +25,9 @@ python -m src.api --no-ui                                # API only, no Gradio p
 ```
 
 - Interactive API docs: `http://127.0.0.1:8000/docs` (OpenAPI schema at `/openapi.json`).
-- The demo page: `http://127.0.0.1:8000/ui/`. It is mounted unchanged: it scores in memory and does
-  not read or write the store.
+- The reviewer page: `http://127.0.0.1:8000/ui/` ([reviewer-ui.md](reviewer-ui.md)). It reads and
+  writes the same store through the same `ClauseTriageService` methods as the endpoints. (The
+  standalone in-memory demo, `python -m src.ui.app`, is a separate page and is not mounted here.)
 - The model is the demo model from `src/registry/demo_model.py` (downloaded from the GitHub Release on
   first use, or built locally). The tokenizer comes from `.venv/hf-cache`; set `HF_HUB_OFFLINE=1` if
   it is already there.
@@ -72,6 +74,16 @@ the server's model version and the default weight version (the weight set passed
 | `GET /weights/{id}` | One weight version with its full `WeightSet` | 200 |
 | `POST /weights` | Body: a `WeightSet` JSON (the same format as `src/risk/weights/*.json`). Creates a new version and scores every stored contract with it | 201 (200 if identical content already exists) |
 | `POST /weights/preview` | Body `{"weight_set": {...}, "contract_ids": [...] or null, "model_version": null}`: the ranking under a candidate weight set. Saves nothing | 200, `saved: false` |
+| `GET /review/queue` | The review queue: Unknowns and reviewer conflicts, each with chunk text, pages, reason, probability, threshold, allowed verdicts and status. Query: `contract_id`, `status` (`pending`, `reviewed`, `conflict`), `offset`, `limit` (1 to 500, default 50), `model_version` | 200, a `ReviewQueuePage` |
+| `POST /feedback` | Body `{"chunk_id": ..., "category": ..., "verdict": "accept" \| "reject" \| "missing", "reviewer": "name", "note": null, "model_version": null}`: records a verdict, timestamped by the server | 201, the stored `FeedbackRecord` |
+| `GET /feedback` | Recorded verdicts, oldest first. Query: `contract_id`, `chunk_id`, `category`, `model_version` | 200 |
+| `GET /feedback/resolutions` | Each reviewed (chunk, category) with every reviewer's current verdict, resolved to a label or a conflict. Query: `contract_id`, `status` (`resolved`, `conflict`), `model_version` | 200 |
+
+The last four come from `src/api/routers/review.py`, which `python -m src.api` passes to
+`create_app(service, routers=[review.router])`; an app built with `create_app(service)` alone doesn't
+have them. Verdict rules and queue order are in [feedback-review-queue.md](feedback-review-queue.md).
+A verdict that doesn't fit what the model predicted (for example `missing` on a detected category) is
+a 400 with the reason, an unknown chunk, contract or model version a 404; nothing is written either way.
 
 Errors are JSON `{"detail": ...}`: 400 for a file or text that can't be read (the reader's message,
 for example "This file is named .pdf but isn't a PDF"), 404 for an unknown contract, job, model
@@ -91,6 +103,8 @@ curl -OJ $B/contracts/nasa-kbr-agreement-8ca1473f042e/register.csv
 curl $B/weights/v2-team-proposed > v2.json                                        # edit .weight_set, give it a new weight_version_id
 curl -X POST -H "content-type: application/json" --data @v3.json $B/weights
 curl "$B/contracts?weight_version_id=v3"
+curl "$B/review/queue?status=pending&limit=5"                                     # Unknowns to check
+curl -X POST -H "content-type: application/json" -d '{"chunk_id": "<chunk_id from the queue>", "category": "Insurance", "verdict": "accept", "reviewer": "Ana"}' $B/feedback
 ```
 
 ## How it behaves
@@ -178,6 +192,9 @@ service.list_ranked(weight_version_id="v2-team-proposed")
 service.get_contract_detail(job.contract_id)
 service.get_register(job.contract_id)                        # a ContractRegister
 service.preview(candidate_weight_set)
+service.review_queue(status="pending")                       # a ReviewQueuePage
+service.submit_feedback({"chunk_id": ..., "category": ..., "verdict": "accept", "reviewer": "Ana"})
+service.list_feedback(contract_id), service.list_resolutions(status="conflict")
 ```
 
 New endpoints go in a new `APIRouter` whose handlers take `service: ServiceDep` (from
@@ -191,15 +208,17 @@ New endpoints go in a new `APIRouter` whose handlers take `service: ServiceDep` 
 | `src/api/jobs.py` | `JobStore` and `JobRecord` (the `api_jobs` table) |
 | `src/api/schemas.py` | Request and response models |
 | `src/api/limits.py` | `BodySizeLimitMiddleware` and the body limits |
-| `src/api/routers/` | `contracts.py`, `weights.py`, `system.py`; `get_service` / `ServiceDep` |
-| `src/api/app.py` | `create_app` (routers, middleware, error handlers, Gradio mount) |
+| `src/api/routers/` | `contracts.py`, `weights.py`, `system.py`; `review.py` (queue and feedback, added by `python -m src.api`); `get_service` / `ServiceDep` |
+| `src/api/app.py` | `create_app` (routers, middleware, error handlers, the reviewer page mount) |
+| `src/ui/reviewer.py` | The reviewer page mounted at `/ui/` ([reviewer-ui.md](reviewer-ui.md)) |
 | `src/api/runtime.py` | Loads the model, tokenizer and weights; `build_service` |
 | `src/api/__main__.py` | `python -m src.api` |
 | `scripts/load_dataset_contracts.py` | Scores the CUAD validation contracts into the store |
 
 Tests: `tests/test_api_service.py`, `test_api_app.py` (every endpoint through FastAPI's test client,
-with a keyword model instead of the real one), `test_api_limits.py`, `test_api_jobs.py`,
-`test_api_runtime.py` and `test_load_dataset_contracts.py`.
+with a keyword model instead of the real one), `test_api_review.py` (the review and feedback
+endpoints and service methods), `test_api_limits.py`, `test_api_jobs.py`, `test_api_runtime.py` and
+`test_load_dataset_contracts.py`.
 
 ## What is not verified
 
@@ -212,7 +231,7 @@ with a keyword model instead of the real one), `test_api_limits.py`, `test_api_j
   contract score. This was exercised with about ten contracts, not hundreds.
 - **Real OCR** (scanned PDFs) has not been run through the API; it needs optional packages
   (see [document-ingestion.md](document-ingestion.md)).
-- **Browsers other than the test client and curl**, and the Gradio page beyond loading it and running
-  its scoring once through `gradio_client`.
+- **Browsers other than the test client and curl.** The reviewer page was driven through
+  `gradio_client`, never rendered in a browser (see [reviewer-ui.md](reviewer-ui.md)).
 - **Hostile clients beyond input handling:** there is no authentication, rate limiting, CORS policy or
   TLS. Keep it on `127.0.0.1`.

@@ -25,6 +25,9 @@ Guides for the pipeline stages and the reproducible experiments:
 | Uploaded contracts (PDF, Word, text) | [Document ingestion](document-ingestion.md) | `python -m scripts.evaluate_pdf_ingestion` |
 | Clause register (CSV and JSON) | [Clause register](clause-register.md) | `outputs/registers/` (git-ignored; `python -m scripts.export_registers`) |
 | Advisor agreement | [Advisor agreement](advisor-agreement.md) | No advisor rankings yet; the packet is built with `python -m scripts.build_advisor_packet` |
+| FastAPI server (`python -m src.api`) | [API](api.md) | `outputs/api/clausetriage.sqlite` (git-ignored); local only, no authentication |
+| Review queue, feedback and training export | [Feedback and the review queue](feedback-review-queue.md) | `outputs/feedback_export/` (git-ignored; `python -m scripts.export_feedback`) |
+| Reviewer page at `/ui/` | [Reviewer UI](reviewer-ui.md) | Not yet seen rendered in a browser or used by a real reviewer |
 | Setup, tests, lint and CI | [Development](development.md) | |
 
 All reported candidate metrics use contract-level splits and leave `data/cuad/test.json`

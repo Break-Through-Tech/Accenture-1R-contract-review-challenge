@@ -175,6 +175,7 @@ Exposes the pipeline's stored outputs, chunks, predictions, evidence, and scores
 **Tech stack:**
 - FastAPI for the backend. Pydantic-native schemas, auto OpenAPI docs, and Gradio can be mounted in the same process with `gr.mount_gradio_app`.
 - Scoring a contract takes seconds, so FastAPI `BackgroundTasks` plus a status endpoint is enough.
+- **Implemented** in `src/api/` (`docs/api.md`): handlers are thin over `ClauseTriageService`, and job status lives in an `api_jobs` table in the same SQLite file.
 
 ### Reviewer UI
 Presents triage scores & supporting evidence to the end user in an interface (initially implemented as a lightweight Gradio POC). This is the layer that makes the pipeline usable by a non-technical professional, the core user base of a triage tool.  
@@ -183,6 +184,7 @@ Presents triage scores & supporting evidence to the end user in an interface (in
 - Gradio first, mounted inside FastAPI. Contracts are selected from the dataset.
 - Editable weights panel (dataframe or sliders) with a "preview ranking" action that reruns scoring against cached probabilities without saving.
 - Custom React only if time remains. The API contract means no backend rework.
+- **Implemented** in `src/ui/reviewer.py` (`docs/reviewer-ui.md`): contracts come from the dataset and from uploads, and weights are edited as a form plus a severity table, with preview and save-as-new-version.
 
 ### Clause Register Export
 Produces a JSON or CSV file of the full clause-level register for a given contract (risk scored clause registers are specified as a distinct deliverable in the brief).
@@ -215,6 +217,7 @@ Captures clauses that the NLP pipeline/evidence extraction could not ground, in 
 **Tech stack:**
 - A `feedback` table (`chunk_id`, `class`, `model_version`, `verdict` accept/reject/missing, `reviewer`, `ts`), plus a review queue in the UI for ungrounded cases.
 - Feedback is exportable as extra training data.
+- **Implemented** in `src/review/` (`docs/feedback-review-queue.md`): the queue also lists reviewer conflicts, `reject` also answers a reviewer's claimed miss, and the export only includes contracts on a training allowlist.
 - **Stretch:** uncertainty sampling (chunks with probability near the threshold) feeding the queue, which covers the active learning goal.
 
 ## Repo and Tooling
