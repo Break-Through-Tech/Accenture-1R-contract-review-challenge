@@ -26,6 +26,7 @@ from clausetriage.chunking.token_chunker import TOKENIZER_NAME, TOKENIZER_REVISI
 from clausetriage.labels.categories import CATEGORIES
 from clausetriage.labels.loader import load_cuad
 from clausetriage.labels.splits import split_by_contract
+from clausetriage.legacy import load_joblib
 from clausetriage.metrics import compute_aupr, compute_base_metrics
 from clausetriage.models.encoder.contract_dataset import ContractChunkDataset, collate_contract_sequences
 from clausetriage.models.encoder.contract_graph import ContractGraph, ContractGraphClassifier, build_contract_graphs
@@ -119,7 +120,7 @@ def _load_checkpoint(path, device):
     result = model.load_state_dict(head, strict=False)
     if result.unexpected_keys or any(not key.startswith("encoder.") for key in result.missing_keys):
         raise ValueError(f"checkpoint head mismatch: {result}")
-    return model.to(device).eval(), joblib.load(path / "graph_vectorizer.joblib"), config
+    return model.to(device).eval(), load_joblib(path / "graph_vectorizer.joblib"), config
 
 
 def main():

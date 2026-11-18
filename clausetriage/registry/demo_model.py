@@ -13,7 +13,9 @@ The released file was built by build_demo_bundle() with the scikit-learn/NumPy/S
 in requirements.txt. A bundle is a joblib (pickle) file and loading one can run code, so a
 downloaded file is only kept when its hash matches BUNDLE_SHA256. A file you built yourself is
 trusted as is. To publish a new model, upload it to a new release, then update RELEASE_TAG and
-BUNDLE_SHA256 together.
+BUNDLE_SHA256 together. The released file was pickled when the package was still named `src`, so it
+names `src.registry.*` classes; every bundle is loaded through clausetriage.legacy.load_joblib, which
+resolves those names to clausetriage's, and the file itself is never re-saved.
 """
 import hashlib
 import json
@@ -26,6 +28,7 @@ from typing import Callable
 import joblib
 from sklearn.exceptions import InconsistentVersionWarning
 
+from clausetriage.legacy import load_joblib
 from clausetriage.registry.bundle import ClauseModelBundle
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -130,7 +133,7 @@ def load_or_build_bundle(path: Path = BUNDLE_PATH, url: str = RELEASE_URL, sha25
         # A pickle from other scikit-learn versions may load but predict wrongly, so treat it as a failure
         with warnings.catch_warnings():
             warnings.simplefilter("error", InconsistentVersionWarning)
-            return joblib.load(bundle_file)
+            return load_joblib(bundle_file)
     except Exception as error:  # offline, hash mismatch, or unloadable here: the file can always be rebuilt
         print(f"Couldn't use the released model ({error}).\nBuilding it locally instead (a few minutes)...")
         return build(path)
@@ -144,4 +147,4 @@ def load_demo_bundle(path: Path | None = None, registry_version: str | None = No
     if registry_version is not None:
         from clausetriage.registry.mlflow_registry import load_bundle  # MLflow is only needed for this route
         return load_bundle(REGISTRY_NAME, registry_version, tracking_uri=TRACKING_URI)
-    return joblib.load(path) if path is not None else load_or_build_bundle()
+    return load_joblib(path) if path is not None else load_or_build_bundle()

@@ -29,7 +29,6 @@ import warnings
 from collections import defaultdict
 from pathlib import Path
 
-import joblib
 import numpy as np
 import pandas as pd
 from sklearn.exceptions import InconsistentVersionWarning
@@ -45,6 +44,7 @@ from clausetriage.holdout_metrics import (
 )
 from clausetriage.holdout_report import bucket_frame, jsonable, per_category_frame, render_summary
 from clausetriage.inference import ContractInferencePipeline
+from clausetriage.legacy import load_joblib
 from clausetriage.labels.categories import CATEGORIES, CATEGORY_TO_INDEX
 from clausetriage.labels.loader import Contract, load_cuad
 from clausetriage.labels.projection import spans_overlap
@@ -140,7 +140,7 @@ def load_frozen_bundle(path: Path = BUNDLE_PATH) -> ClauseModelBundle:
         raise IntegrityError(f"{path} has SHA-256 {actual}, the protocol pins {BUNDLE_SHA256}")
     with warnings.catch_warnings():
         warnings.simplefilter("error", InconsistentVersionWarning)
-        bundle = joblib.load(path)
+        bundle = load_joblib(path)
     expected_config = {"split_seed": SPLIT_SEED, "max_tokens": MAX_TOKENS, "overlap_tokens": OVERLAP_TOKENS,
                        "tokenizer": TOKENIZER_NAME, "tokenizer_revision": TOKENIZER_REVISION, "c": 1.0}
     problems = [key for key, value in expected_config.items() if bundle.config.get(key) != value]

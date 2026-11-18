@@ -10,6 +10,7 @@ from typing import Any
 import mlflow
 from mlflow import MlflowClient
 
+from clausetriage.legacy import load_joblib
 from clausetriage.registry.bundle import ClauseModelBundle
 
 
@@ -129,8 +130,7 @@ def load_bundle(
     if selected is None:
         raise FileNotFoundError(f"No version {version!r} for model {registry_name!r}")
     local_dir = client.download_artifacts(selected.run_id, "model")
-    import joblib
-    return joblib.load(Path(local_dir) / "bundle.joblib")
+    return load_joblib(Path(local_dir) / "bundle.joblib")
 
 
 def _schema_hash(categories: list[str]) -> str:

@@ -27,6 +27,7 @@ from clausetriage.chunking.token_chunker import TOKENIZER_NAME, TOKENIZER_REVISI
 from clausetriage.labels.categories import CATEGORIES
 from clausetriage.labels.loader import load_cuad
 from clausetriage.labels.splits import split_by_contract
+from clausetriage.legacy import load_joblib
 from clausetriage.metrics import compute_aupr, compute_base_metrics
 from clausetriage.models.encoder.category_descriptions import load_category_descriptions
 from clausetriage.models.encoder.experiment_utils import (
@@ -147,7 +148,7 @@ def _load_checkpoint(path, device):
     model = PairCrossEncoder(encoder, dropout=config["dropout"])
     head = torch.load(path / "cross_encoder_head.pt", map_location="cpu", weights_only=True)
     model.classifier.load_state_dict(head)
-    retriever_bundle = joblib.load(path / "retriever.joblib")
+    retriever_bundle = load_joblib(path / "retriever.joblib")
     model.to(device).eval()
     return model, tokenizer, retriever_bundle["features"], retriever_bundle["classifier"], config
 

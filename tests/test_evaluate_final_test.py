@@ -332,3 +332,11 @@ def test_load_frozen_bundle_refuses_a_file_with_another_hash(tmp_path):
     path.write_bytes(b"not the release")
     with pytest.raises(final.IntegrityError, match="pins"):
         final.load_frozen_bundle(path)
+
+
+@pytest.mark.skipif(not demo_model.BUNDLE_PATH.exists(), reason="the released model file is not in models/ (git-ignored)")
+def test_load_frozen_bundle_accepts_the_released_file_pickled_before_the_rename():
+    """The frozen bundle, which names the old `src.` module paths, passes every check and keeps its hash."""
+    bundle = final.load_frozen_bundle(demo_model.BUNDLE_PATH)
+    assert type(bundle) is ClauseModelBundle and bundle.model_name == "word_char_tfidf"
+    assert demo_model.file_sha256(demo_model.BUNDLE_PATH) == demo_model.BUNDLE_SHA256

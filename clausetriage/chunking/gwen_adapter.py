@@ -8,6 +8,7 @@ from typing import Callable
 
 from clausetriage.chunking.chunk import Chunk
 from clausetriage.labels.loader import Contract
+from clausetriage.legacy import legacy_src_imports
 
 GWEN_COMMIT = "94d6d3d8b332de91338625bde100259a1717728b"
 GWEN_SOURCE_PATH = "experiments/token_chunking.py"
@@ -19,15 +20,18 @@ def load_gwen_prototype() -> tuple[Callable[..., list[Chunk]], str]:
     """Load the byte-pinned PR #48 source snapshot and return its callable and SHA-256.
 
     The archived source is unchanged from the PR commit, but runs against current main's
-    shared Chunk type. This avoids requiring the closed PR branch or its Git object at
-    evaluation time. The comparison tests audit source coverage and schema compatibility.
+    shared Chunk type: the snapshot imports `src.chunking.chunk`, the package's name before the
+    rename, which legacy_src_imports() resolves to clausetriage.chunking.chunk. This avoids requiring
+    the closed PR branch or its Git object at evaluation time. The comparison tests audit source
+    coverage and schema compatibility.
     """
     source = GWEN_SNAPSHOT_PATH.read_bytes()
     digest = hashlib.sha256(source).hexdigest()
     if digest != GWEN_SOURCE_SHA256:
         raise ValueError("Archived PR #48 prototype does not match its pinned source hash")
     module = ModuleType("gwen_pr48_pinned")
-    exec(compile(source, f"archive:{GWEN_COMMIT}:{GWEN_SOURCE_PATH}", "exec"), module.__dict__)
+    with legacy_src_imports():
+        exec(compile(source, f"archive:{GWEN_COMMIT}:{GWEN_SOURCE_PATH}", "exec"), module.__dict__)
     return module.token_chunk_contract, digest
 
 
