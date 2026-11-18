@@ -164,5 +164,4 @@ The CUAD dataset has its own license, [CC BY 4.0](https://creativecommons.org/li
 
 - Accenture, which hosted this challenge, and Gopinath Kolluru, the challenge advisor.
 - Break Through Tech AI Studio and Parth Dali, the team's AI Studio coach.
-- Hari Raghavan, who created this repository with the challenge brief and the CUAD data files.
 - The Atticus Project, for the Contract Understanding Atticus Dataset (CUAD).
