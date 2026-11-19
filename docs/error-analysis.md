@@ -45,8 +45,8 @@ AUPR 0.049 when the real value is 0.870.
 | Support bucket (avg. eval positives) | Categories | TF-IDF F1 | Reranker F1 | Avg. F1 std across seeds |
 |---|---:|---:|---:|---:|
 | Common (30+) | 19 | 0.65 | 0.68 | ~0.05 |
-| Uncommon (10–29) | 13 | 0.48 | 0.47 | ~0.11 |
-| Rare (<10) | 9 | 0.24 | 0.29 | ~0.14–0.16 |
+| Uncommon (10 to 29) | 13 | 0.48 | 0.47 | ~0.11 |
+| Rare (<10) | 9 | 0.24 | 0.29 | ~0.14 to 0.16 |
 
 The common categories (Governing Law, Parties, Insurance, Anti-Assignment, License Grant) are
 already usable. The rare categories (Affiliate License-Licensor, Unlimited/All-You-Can-Eat
@@ -59,7 +59,7 @@ exactly the clauses that matter for risk scoring.
 
 `threshold_gap` is the best F1 any cutoff could reach on the evaluation contracts minus the F1
 at the calibration-fit cutoff. It is an upper bound, not a result. For TF-IDF it averages
-**0.20 on rare categories** and 0.04 on common ones. With only 4–9 calibration positives, the
+**0.20 on rare categories** and 0.04 on common ones. With only 4 to 9 calibration positives, the
 F1-optimal cutoff is fit on a handful of chunks and does not transfer.
 
 The clearest case is **Source Code Escrow**: AUPR 0.70 but F1 0.29. The scores rank well, but
@@ -72,7 +72,7 @@ cross-fitted calibration folds. Any of these must be chosen on calibration data 
 
 ### 3. Most false positives are confusions with a related clause, not boilerplate
 
-61–66% of false positives land on chunks that carry a *different* gold label
+61 to 66% of false positives land on chunks that carry a *different* gold label
 (`results/error_analysis/false_positive_sources.csv`). The largest patterns:
 
 | Predicted | Chunk's actual label | Model | Count | Share of that category's FPs |
@@ -104,7 +104,7 @@ model per category on calibration data. Both still need the untouched-holdout ga
 
 ### 5. Per-category numbers for rare categories are not reliable at this size
 
-For rare categories, F1 swings by 0.3–0.4 between seeds. Third Party Beneficiary ranges from
+For rare categories, F1 swings by 0.3 to 0.4 between seeds. Third Party Beneficiary ranges from
 0.00 to 0.43 for TF-IDF, and Price Restrictions from 0.00 to 0.43. Any per-category comparison
 on those rows needs a contract-bootstrap interval, or should be reported as "insufficient
 support". The F1 spread per category is in `category_summary.csv` (`std_f1`, `min_f1`, `max_f1`).
