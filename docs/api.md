@@ -232,7 +232,9 @@ endpoints and service methods), `test_api_limits.py`, `test_api_jobs.py`, `test_
   contract score. This was exercised with about ten contracts, not hundreds.
 - **Real OCR** (scanned PDFs) has not been run through the API; it needs optional packages
   (see [document-ingestion.md](document-ingestion.md)).
-- **Browsers other than the test client and curl.** The reviewer page was driven through
-  `gradio_client`, never rendered in a browser (see [reviewer-ui.md](reviewer-ui.md)).
+- **The reviewer page in a browser.** It was loaded once in headless Chrome with ten stored
+  contracts: it rendered, its tabs opened and both register downloads worked. Its other controls
+  were driven only through `gradio_client`, not clicked in a browser (see
+  [reviewer-ui.md](reviewer-ui.md)).
 - **Hostile clients beyond input handling:** there is no authentication, rate limiting, CORS policy or
   TLS. Keep it on `127.0.0.1`.

@@ -4,9 +4,10 @@ Guides for the pipeline stages and the reproducible experiments:
 
 | Topic | Guide | Results |
 |---|---|---|
+| Final report: results, limitations, estimated reviewer time saved | [Final report](final-report.md) | Draws on `results/final_test_evaluation/`, `results/encoder_vs_tfidf/` and `results/contract_triage/` |
 | Word + character TF-IDF baseline | [Alternative architecture experiment](alternative-architecture-experiment.md) | `results/word_char_tfidf_nested/` |
 | Sparse model alternatives | [Architecture suite](architecture-suite.md) | `results/architecture_suite_seed{7,17,23,42}/` |
-| Pretrained encoder comparison | [Encoder comparison](encoder-comparison.md) | `results/encoder_nested_seed{42,7,17,23,101}/`, `results/encoder_vs_tfidf/` (not yet run; needs a GPU) |
+| Pretrained encoder comparison | [Encoder comparison](encoder-comparison.md) | `results/encoder_nested_seed{42,7,17,23,101}/`, `results/encoder_vs_tfidf/` (run on a Colab T4 on 2026-11-17; verdict `does_not_beat`) |
 | Contract-wide Transformer | [Long-context architecture](long-context-architecture.md) | `results/long_context_transformer_seed42/` |
 | Category-query evidence model | [Category-query architecture](category-query-architecture.md) | `results/category_query_seed42/` |
 | MLflow registry and SQLite predictions | [Registry and artifact store](model-registry-and-artifact-store.md) | Local databases and model weights under ignored `outputs/` |
